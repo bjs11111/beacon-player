@@ -33,7 +33,7 @@ bleScannerObj.devices = {};
 bleScannerObj.stopScan = function() {
 	//$().debug('stopScan', {});
 
-	//evothings.ble.stopScan();
+	evothings.ble.stopScan();
 	bleScannerObj.settings.scanStatus = false;
 	//$().debug('stopScan end');
 };
@@ -50,7 +50,7 @@ bleScannerObj.startScan = function() {
 
 	//var callbackFun = bleScannerObj.onDeviceScanned || bleScannerObj.settings.onDeviceScannedFunction;
 	
-	/*evothings.ble.startScan(function(device) {
+	evothings.ble.startScan(function(device) {
 		//$().debug('found device');
 		// @TODO check if this filter is always good
 		// Report success. Sometimes an RSSI of +127 is reported.
@@ -63,7 +63,7 @@ bleScannerObj.startScan = function() {
 		// Report error.
 		//$().debug('Error');
 		bleScannerObj.onDeviceScanned(null, errorCode);
-	});*/
+	});
 
 	bleScannerObj.settings.scanStatus = true;
 	//$().debug('startScan end');
@@ -126,7 +126,7 @@ bleScannerObj.appendDevice = function(device) {
 	device['minRange'] = -95;
 	device['maxRange'] = 4;
 	device['possibleRange'] = device.maxRange - device.minRange;
-	device['trigger'] = -50;
+	device['trigger'] = -65;
 
 	//device['triggerTimeStamp'] = 0;
 	//device['vibrationTriggered'] = false;
@@ -145,7 +145,7 @@ bleScannerObj.updateDevice = function(device) {
 	device['minRange'] = -95;
 	device['maxRange'] = 4;
 	device['possibleRange'] = device.maxRange - device.minRange;
-	device['trigger'] = -50;
+	device['trigger'] = -65;
 	device['triggerTimeStamp'] = bleScannerObj.devices[device.address]['triggerTimeStamp'];
 	device['vibrationTriggered'] = bleScannerObj.devices[device.address]['vibrationTriggered'];
 	

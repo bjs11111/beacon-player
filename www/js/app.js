@@ -24,17 +24,20 @@ app.ui = null;
 // Init function
 app.initialize = function() {
 	
-	//app.diagnostic = diagnostic;
+	app.diagnostic = diagnostic;
 	/*diagnostic checks*/
-	//if ( !diagnostic.isConnected() ) { alert("Please check your internet connectivity and try again");  } 
+	if ( !diagnostic.isConnected() ) { alert("Please check your internet connectivity and try again");  } 
 	//else { alert("Internet connectivity ready!"); }
 	
 	//@TODO!!!!!!!
 	//if ( !app.featureCheck.ble() ) { alert("Please turn on Bluetooth LE and try again");  } 
 	//else { alert("Bluetooth LE activated!"); }
 		
+	
 	app.initBle()
 	app.initUI(); 
+	
+
 	
 //	$('.content').on('click', app.onContentClick());
 	
@@ -120,28 +123,29 @@ app.view.availableContent = {};
 app.view.isIabHidden = false;
 
 // name it app.cache and store all cached values in it
-app.view.contentMap = {
+app.view.contentMap = {	
+	
 	//token 1 => EM4237 long range RFID contact less tag IC
 	//test
-	'0C:F3:EE:53:40:65' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E1/45',
+	//'0C:F3:EE:53:40:65' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E1/45',
 	//messe
-	'0C:F3:EE:53:0A:42' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E1/45',
-	'0C:F3:EE:53:2D:6B' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E1/45',
+	//'0C:F3:EE:53:2D:6B' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E1/45',
 	'0C:F3:EE:53:3B:69' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E1/45',
+	
 	//token 2 => emBeacon Coin in weatherproof housing
 	//test
-	'0C:F3:EE:53:32:19' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E1/45',
+	//'0C:F3:EE:53:32:19' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E2/45',
 	//messe
-	'0C:F3:EE:53:32:19' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E2/45',
+	//'0C:F3:EE:53:23:68' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E2/45',
 	'0C:F3:EE:53:23:68' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E2/45',
-	'0C:F3:EE:53:40:66' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E2/45',
+	
 	//token 3 => EM9209 2.4GHz Long Distance Data Communication IC
 	//test
-	'0C:F3:EE:53:21:65' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E1/45',
+	//'0C:F3:EE:53:21:65' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E3/45',
 	//messe
-	'0C:F3:EE:53:25:6D' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E3/45',
-	'0C:F3:EE:53:37:27' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E3/45',
-	'0C:F3:EE:53:37:64' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E3/45'
+	//'0C:F3:EE:53:37:27' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E3/45',
+	'0C:F3:EE:53:25:6D' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E3/45'
+	
 }
 
 function getContentUlr(device) {
