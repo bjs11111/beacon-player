@@ -1,23 +1,23 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.starnberger.em-beacon-expert" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.starnberger.beaconplayer" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <preference name="loglevel" value="DEBUG" />
     <preference name="AndroidLaunchMode" value="singleTop" />
     <feature name="App">
         <param name="android-package" value="org.apache.cordova.App" />
     </feature>
-    <feature name="BLE">
-        <param name="android-package" value="com.evothings.BLE" />
-    </feature>
-    <feature name="InAppBrowser">
-        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
+    <feature name="Vibration">
+        <param name="android-package" value="org.apache.cordova.vibration.Vibration" />
     </feature>
     <feature name="NetworkStatus">
         <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
     </feature>
-    <feature name="Vibration">
-        <param name="android-package" value="org.apache.cordova.vibration.Vibration" />
+    <feature name="InAppBrowser">
+        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
     </feature>
-    <name>em-beacon-expert</name>
+    <feature name="BLE">
+        <param name="android-package" value="com.evothings.BLE" />
+    </feature>
+    <name>BeaconPlayer</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
     </description>

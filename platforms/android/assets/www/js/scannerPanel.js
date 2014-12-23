@@ -333,13 +333,43 @@ bleScannerPanelObj.deviceList.appendDevice = function(device) {
 			+ device.name
 			+ '</div>'
 			+
-
+			/*
 			'<div class="beacon-uuid">'
 			+ '<span class="lable">'
 			+ 'UUID:'
 			+ '</span>'
 			+ '<span class="value">'
 			+ device.address
+			+ '</span>'
+			+ '</div>'
+			+
+			*/
+			'<div class="beacon-formated-uuid">'
+			+ '<span class="lable">'
+			+ 'UUID:'
+			+ '</span>'
+			+ '<span class="value">'
+			+ device.formatedUuid
+			+ '</span>'
+			+ '</div>'
+			+
+			
+			'<div class="beacon-major">'
+			+ '<span class="lable">'
+			+ 'Major:'
+			+ '</span>'
+			+ '<span class="value">'
+			+ device.major
+			+ '</span>'
+			+ '</div>'
+			+
+			
+			'<div class="beacon-minor">'
+			+ '<span class="lable">'
+			+ 'Minor:'
+			+ '</span>'
+			+ '<span class="value">'
+			+ device.minor
 			+ '</span>'
 			+ '</div>'
 			+
@@ -424,7 +454,10 @@ bleScannerPanelObj.deviceList.updateDevice = function(device) {
 
 function getDeviceSelector(device) {
 	// @TODO prevent wrong params
-	return '#' 	+ bleScannerPanelObj.settings.deviceSelectorPrefix+'-'+ device.address.split(':').join('-');
+
+	var selector =  '#' + bleScannerPanelObj.settings.deviceSelectorPrefix+'-'+ device.address.split(".").join('-');
+
+	return selector;
 }
 
 function getRssiWidth(device) {
