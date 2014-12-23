@@ -9,11 +9,7 @@
                 "parents": {
                     "/*": [
                         {
-                            "xml": "<feature name=\"Vibration\"><param name=\"android-package\" value=\"org.apache.cordova.vibration.Vibration\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"NetworkStatus\"><param name=\"android-package\" value=\"org.apache.cordova.networkinformation.NetworkManager\" /></feature>",
+                            "xml": "<feature name=\"BLE\"><param name=\"android-package\" value=\"com.evothings.BLE\" /></feature>",
                             "count": 1
                         },
                         {
@@ -21,7 +17,11 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"BLE\"><param name=\"android-package\" value=\"com.evothings.BLE\" /></feature>",
+                            "xml": "<feature name=\"NetworkStatus\"><param name=\"android-package\" value=\"org.apache.cordova.networkinformation.NetworkManager\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Vibration\"><param name=\"android-package\" value=\"org.apache.cordova.vibration.Vibration\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -31,15 +31,15 @@
                 "parents": {
                     "/manifest": [
                         {
-                            "xml": "<uses-permission android:name=\"android.permission.VIBRATE\" />",
-                            "count": 1
-                        },
-                        {
                             "xml": "<uses-permission android:name=\"android.permission.BLUETOOTH\" />",
                             "count": 1
                         },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.BLUETOOTH_ADMIN\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.VIBRATE\" />",
                             "count": 1
                         }
                     ],
@@ -54,16 +54,16 @@
         }
     },
     "installed_plugins": {
-        "org.apache.cordova.vibration": {
-            "PACKAGE_NAME": "com.starnberger.beaconplayer"
-        },
-        "org.apache.cordova.network-information": {
+        "com.evothings.ble": {
             "PACKAGE_NAME": "com.starnberger.beaconplayer"
         },
         "org.apache.cordova.inappbrowser": {
             "PACKAGE_NAME": "com.starnberger.beaconplayer"
         },
-        "com.evothings.ble": {
+        "org.apache.cordova.network-information": {
+            "PACKAGE_NAME": "com.starnberger.beaconplayer"
+        },
+        "org.apache.cordova.vibration": {
             "PACKAGE_NAME": "com.starnberger.beaconplayer"
         }
     },
