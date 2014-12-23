@@ -4,7 +4,7 @@
     <description>
 	Beacon Player application that reacts to known beacons and opens the associated content
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
+    <author email="kontakt@starnberger.at" href="http://www.starnberger.at/">
         Starnberger Innovation and Technology GesmbH
     </author>
     <content src="index.html" />
