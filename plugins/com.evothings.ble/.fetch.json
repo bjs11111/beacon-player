@@ -1,1 +1,1 @@
-{"source":{"type":"local","path":"C:\\Users\\Michael\\.plugman\\cache\\com.evothings.ble\\0.0.1\\package"}}
+{"source":{"type":"git","url":"https://github.com/evothings/cordova-ble","subdir":"."}}

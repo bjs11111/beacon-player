@@ -115,7 +115,7 @@ module.exports = {
      */
     cancelVibration: function() {
         exec(null, null, "Vibration", "cancelVibration", []);
-    },
+    }
 };
 
 });

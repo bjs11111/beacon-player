@@ -212,8 +212,6 @@ jQuery(document).ready(function($) {
 		
 	});*/
 	
-	
-	
 	/*====================================================THES CHANGE URL WORKFLOW START====================================================*/
 	/*
 	app.view.isIabHidden = false;
@@ -252,10 +250,8 @@ jQuery(document).ready(function($) {
 		console.log('open2 pressed');
 		app.view.iabChangeUrl(url2, true);
 	});
-	
-	
+
 	app.view.iabChangeUrl = function(url, openSameUrl) {
-		
 		
 		//try change url
 		if (app.view.activeUrl != url) {
@@ -278,13 +274,11 @@ jQuery(document).ready(function($) {
 				app.view.inAppBrowser= window.open(app.view.activeUrl, '_blank','location=yes');
 			}
 			
-			
 		} 	
 		
 		//do nothing
 		else {
-			
-			
+
 			 //* i guess this would be dot a good idea to use this else if without openSameUrl param in the app, because it would reopen browser emediately after coles it with back button on phone
 			// * terefore we list all opened urls in the app html => availabelContentList
 			//
@@ -301,11 +295,6 @@ jQuery(document).ready(function($) {
 	} ;
 	*/
 	/*====================================================THES CHANGE URL WORKFLOW END====================================================*/
-	
-	
-	
-	
-	
 	/*
 	
 	if (app.view.activeUrl != getContentUlr(device)) {

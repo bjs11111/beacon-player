@@ -65,9 +65,9 @@ o
 
 #### iOS rarezas
 
-*   **tiempo**: ignora el tiempo especificado y vibra durante un tiempo preestablecido.
+*   **time**: ignora el tiempo especificado y vibra por un tiempo preestablecido.
     
-    Navigator.Vibrate(3000); 3000 se omite
+    navigator.vibrate(3000); // 3000 is ignored
 
 #### Windows y rarezas de Blackberry
 
@@ -130,7 +130,7 @@ Vibra el dispositivo para una cantidad dada de tiempo.
 
 ### iOS rarezas
 
-*   **tiempo**: ignora el tiempo especificado y vibra durante un tiempo preestablecido.
+*   **time**: ignora el tiempo especificado y vibra por un tiempo preestablecido.
     
         navigator.notification.vibrate();
         navigator.notification.vibrate(2500);   // 2500 is ignored

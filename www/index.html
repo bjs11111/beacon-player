@@ -18,6 +18,7 @@ initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
 	}
 </script>
 
+
 <script type="text/javascript" charset="utf-8" src="js/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
@@ -75,19 +76,16 @@ initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
 	
 	<!-- start content -->
 	<section id="app-content" class="col-xs-12">
-		<h1 class="page-header">WELCOME TO EM MICROELECTRONIC </h1>
+		<h1 class="page-header">Please turn on BLE and approach a beacon to trigger action!</h1>
 		<div id="page-content">
-			<h2>Please approach an EM-Beacon to trigger action!</h2>
-			
+			<h2></h2>
+			<div id="inet-connectivity" class="alert alert-danger hidden"> 
+				Turn on your internet connectivity and restart the app.
+			</div>
 			<hr>
 			<ul id="beacon-contents" class="list-unstyled container-table">
 			
-			</ul>
-			<hr>
-			<p>This is a demonstration to show different use cases for Bluetooth 4.0 beacons. For more information please visit:
-			</p>
-			<a class="btn btn-xs btn-primary" href="http://bcms.starnberger.at/content/about-em-microelectronic">About Em Microelectronic</a> 
-			<a class="btn btn-xs btn-primary" href="http://bcms.starnberger.at/content/get-more-information">Request Infos per E-Mail</a>
+			</ul>	
 		</div>
 	</section>
 	
@@ -98,7 +96,7 @@ initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
 		</div>
 	</div>		
 	
-	<script type="text/javascript" charset="utf-8" src="_js/debugger.js"></script>
-	<script type="text/javascript" charset="utf-8" src="js/desktopTesting.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/debugger.js"></script>
+	<script type="text/javascript" charset="utf-8" src="_js/desktopTesting.js"></script>
 </body>
 </html>

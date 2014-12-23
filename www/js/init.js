@@ -6,12 +6,36 @@ jQuery(document).ready(function($) {
 	// Wait for Cordova to load
     //
     document.addEventListener("deviceready", onDeviceReady, false);
-
+    	 
     // Cordova is ready
     //
-    app.initialize();
     function onDeviceReady() {
-    	app.initialize(); 
+    	var inetError = $('#inet-connectivity');
+    		scannerPanel = $('#ble-scanner-panel');
+
+    	/*diagnostic checks*/
+    	if ( !diagnostic.isConnected() ) { 
+    		inetError.toggleClass('hidden');
+    		scannerPanel.toggleClass('hidden');
+    	} 
+    	else { 
+    		$.ajax({
+	  	   	  url:"http://www.starnberger.at/em-sales-tool/get-all-beacons",
+	  	   	  type:"GET",
+	  	   	  contentType:"application/json; charset=utf-8",
+	  	   	  dataType:"json",
+	  	   	  success: function(data){
+	  	   		app.view.contentMap = data; 
+	  	   		
+	  	   		app.initialize();
+	  	      },
+	  	   	  error: function (data) {	   		
+	  	   		app.view.contentMap = false; 
+	  		  }
+	  	   	});	
+	    	
+    	}
+    
     }
 	
 });

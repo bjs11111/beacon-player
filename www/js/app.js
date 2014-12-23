@@ -7,8 +7,9 @@ app.aDefaults = {
 	contentListSelector : '#beacon-contents',
 	msAfterAvailableContentIsOld : 1000 * 60,
 	contentSelectorPrefix : "content",
-	contentProvider : 'http://bcms.starnberger.at/',
-	contentPath : 'b-a-i/',
+	contentProvider : 'http://www.starnberger.at/em-sales-tool/',
+	contentPath : 'b-i/',
+	requestParams : '?ajax=1',
 	onContentIsOldFunction :  function() {	this.animate( { height : '0',	opacity : 0 , 'margin-top':'0px','margin-bottom':'0px', 'padding-top':'0px','padding-bottom':'0px' }, 1000, function() { $(this).remove(); });	},
 };
 
@@ -24,17 +25,16 @@ app.ui = null;
 // Init function
 app.initialize = function() {
 	
-	//app.diagnostic = diagnostic;
-	/*diagnostic checks*/
-	//if ( !diagnostic.isConnected() ) { alert("Please check your internet connectivity and try again");  } 
-	//else { alert("Internet connectivity ready!"); }
 	
 	//@TODO!!!!!!!
 	//if ( !app.featureCheck.ble() ) { alert("Please turn on Bluetooth LE and try again");  } 
 	//else { alert("Bluetooth LE activated!"); }
 		
+	
 	app.initBle()
 	app.initUI(); 
+	
+
 	
 //	$('.content').on('click', app.onContentClick());
 	
@@ -98,11 +98,11 @@ app.onDeviceRangeTriggered = function(event, device, data) {
 	//$().debug('onDeviceRangeTriggered'); 
 
 	//restrict to our three beacons
-	if(app.view.contentMap[device.address] != null) {
+	//if(app.view.contentMap[device.address] != null) {
 		app.view.contentView.appendContent(device);
 		app.vibrateForNewContent(device); 
 		app.view.changeIabUrl(getContentUlr(device));
-	}
+	//}
 }
 
 
@@ -120,37 +120,25 @@ app.view.availableContent = {};
 app.view.isIabHidden = false;
 
 // name it app.cache and store all cached values in it
-app.view.contentMap = {
-	//token 1 => EM4237 long range RFID contact less tag IC
-	//test
-	'0C:F3:EE:53:40:65' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E1/45',
-	//messe
-	'0C:F3:EE:53:0A:42' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E1/45',
-	'0C:F3:EE:53:2D:6B' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E1/45',
-	'0C:F3:EE:53:3B:69' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E1/45',
-	//token 2 => emBeacon Coin in weatherproof housing
-	//test
-	'0C:F3:EE:53:32:19' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E1/45',
-	//messe
-	'0C:F3:EE:53:32:19' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E2/45',
+app.view.contentMap = {	};
+/*	
+ * '0C:F3:EE:53:3B:69' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E1/45',
 	'0C:F3:EE:53:23:68' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E2/45',
-	'0C:F3:EE:53:40:66' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E2/45',
-	//token 3 => EM9209 2.4GHz Long Distance Data Communication IC
-	//test
-	'0C:F3:EE:53:21:65' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E1/45',
-	//messe
-	'0C:F3:EE:53:25:6D' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E3/45',
-	'0C:F3:EE:53:37:27' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E3/45',
-	'0C:F3:EE:53:37:64' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E3/45'
-}
+	'0C:F3:EE:53:25:6D' : app.settings.contentProvider+app.settings.contentPath+'E6C56DB5DFFB48D2B060D0F5A71496E3/45'
+}*/
 
 function getContentUlr(device) {
-	return (app.view.contentMap[device.address]) ? app.view.contentMap[device.address]:  app.settings.contentProvider;
+	var iBeaconUuid_major_minor = device.formatedUuid + '.'  + device.major + '.' + device.minor ,
+		cmsPath = app.settings.contentProvider + app.settings.contentPath;
+		//if(app.view.contentMap[iBeaconUuid_major_minor]) {
+		return cmsPath + iBeaconUuid_major_minor + app.settings.requestParams;
+	//} else {
+	//	return app.settings.contentProvider;
+	//}
 }
 
 /*
 app.view.changeIabUrl = function(beaconUrl, openSameUrl) {
-
 
 	var canOpenNew=true;
 
@@ -174,7 +162,7 @@ app.view.changeIabUrl = function(beaconUrl, openSameUrl) {
 	
 	
 	
-	app.view.changeIabUrl = function(beaconUrl, openSameUrl) {
+app.view.changeIabUrl = function(beaconUrl, openSameUrl) {
 	
 	var tmp = null;
 	
@@ -187,7 +175,6 @@ app.view.changeIabUrl = function(beaconUrl, openSameUrl) {
 		} 
 		//iab closed => open again
 		else {
-			
 				app.view.inAppBrowser = window.open(beaconUrl, '_blank','location=no');
 				app.view.inAppBrowser.addEventListener(	"exit", 
 														function(beaconUrl) { 
@@ -198,9 +185,7 @@ app.view.changeIabUrl = function(beaconUrl, openSameUrl) {
 														true
 				);
 				app.view.activeUrl = beaconUrl;
-		
 		}
-		
 	} 
 	/*
 	*/
@@ -210,9 +195,9 @@ app.view.changeIabUrl = function(beaconUrl, openSameUrl) {
 
 
 
-app.view._changeIabUrl = function(url, openSameUrl) {
+/*app.view._changeIabUrl = function(url, openSameUrl) {
 	
-	/*try change url*/
+	//try change url
 	if (app.view.activeUrl != url) {
 		
 		//console.log('app.view.activeUrl != url => i try to change url');
@@ -230,11 +215,11 @@ app.view._changeIabUrl = function(url, openSameUrl) {
 	} 	
 	//or
 	else {
-		/*
-		 * reopen ame url again
-		 * i guess this would be dot a good idea to use this if without openSameUrl param, because it would reopen browser immediately after close it with back button on phone
-		 * therefore we list all recently opened url's in the app html => availabelContentList. and on klick fire app.view.iabChangeUr() with the sameUrl param on true
-		 */
+		//
+		// reopen ame url again
+		// i guess this would be dot a good idea to use this if without openSameUrl param, because it would reopen browser immediately after close it with back button on phone
+		// therefore we list all recently opened url's in the app html => availabelContentList. and on klick fire app.view.iabChangeUr() with the sameUrl param on true
+		//
 		if( openSameUrl === true ) {
 			//var msg = 'app.view.activeUrl == url && app.view.isIabHidden === true && openSameUrl === true'+
 			//		  ' => you want me to reopen current opened url, so i reopen it';
@@ -242,14 +227,14 @@ app.view._changeIabUrl = function(url, openSameUrl) {
 			
 			app.view.setIabUrl(app.view.activeUrl); 
 		} 
-		/*do nothing */
+		//do nothing 
 		else {
 			//console.log('app.view.activeUrl == url &&  (app.view.isIabHidden != true || openSameUrl != true) => i do nothing when same url is triggered again!');
 		}
 	}
 	
 };
-
+*/
 app.view.setIabUrl = function(url) {
 	app.view.inAppBrowser = window.open(app.view.activeUrl, '_blank','location=no');
 	//navigator.app.loadUrl(url, { openExternal:true });
@@ -282,7 +267,7 @@ function getContentSelector(device) {
 	// @TODO prevent wrong params
 	//if(device) { return false; } 
 	
-	return '#' + app.settings.contentSelectorPrefix+ '-' + device.address.split(':').join('-');
+	return '#' + app.settings.contentSelectorPrefix+ '-' + device.address.split('.').join('-');
 }
 
 app.view.contentView.updateContent = function(device) {
