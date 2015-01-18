@@ -39,13 +39,11 @@ $ cordova plugin add org.apache.cordova.network-information
 $ cordova plugins add org.apache.cordova.vibration
 $ cordova plugin add org.apache.cordova.inappbrowser
 $ cordova plugin add com.evothings.ble
-$ cordova plugin add org.apache.cordova.camera
 1.3 check plugins
 $ cordova plugin list
 should result in a list of above plugins plus some ionic default plugins:
 com.evothings.ble 0.0.1 "Evothings BLE API"
 com.ionic.keyboard 1.0.3 "Keyboard"
-org.apache.cordova.camera 0.3.4 "Camera"
 org.apache.cordova.console 0.2.11 "Console"
 org.apache.cordova.device 0.2.12 "Device"
 org.apache.cordova.inappbrowser 0.5.4 "InAppBrowser"
@@ -66,6 +64,9 @@ Platform Specifics icons and splashscreens:
 path: resources/android/
 path: resources/ios
 
+
+##app
+native state checks like inet or bluetooth are done initialy in the app-controller as well as pn app resume and app open
 ## Issues
 
 ###eclipse

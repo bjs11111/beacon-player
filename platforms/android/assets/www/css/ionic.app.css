@@ -3,7 +3,8 @@ To customize the look and feel of Ionic, you can override the variables
 in ionic's _variables.scss file.
 
 For example, you might change some of the default colors:
-
+*/
+/*
 $light:                           #fff !default;
 $stable:                          #f8f8f8 !default;
 $positive:                        #387ef5 !default;
@@ -7014,3 +7015,39 @@ a.button {
   opacity: 0;
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
+
+button#main-back-button span.back-text {
+  display: none !important;
+  color: #f00 !important; }
+
+/*
+ble state directive
+*/
+button.ble-disabled {
+  color: #ccc !important; }
+
+button.ble-paused {
+  color: #444; }
+
+button.ble-scanning {
+  color: #0c63ee !important; }
+
+/*
+components
+*/
+.icon.rssi.stable {
+  color: #ccc; }
+
+/*
+custom components
+*/
+.gigant {
+  margin-top: 60px;
+  text-align: center;
+  text-shadow: 0 -3px 6px rgba(0, 0, 0, 0.176); }
+
+div.gigant i.icon {
+  font-size: 190px !important; }
+
+i#start-icon {
+  font-size: 20px; }

@@ -1,0 +1,43 @@
+<ion-view>
+	
+	<ion-nav-title>
+      Scanning:{{headerTitle}}
+    </ion-nav-title>
+ 
+	<ion-nav-buttons side="left">
+		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+	</ion-nav-buttons>
+  
+  	<ion-content class="has-header">
+	<!-- example for start scanning ble pacages-->
+	{{trigger}}
+	<h2 class="text-center positive padding-vertical" ng-show="knownBleDevices.length == 0">nothing found...</h2>
+ 	
+ 	<ion-list ng-show="knownBleDevices.length != 0" show-delete="data.showDelete" > 
+ 	
+ 
+		 <label class="item item-input">
+		    <i class="icon ion-search placeholder-icon"></i>
+		    <input ng-model="all"  type="text" placeholder="Search...">
+		  </label>
+	
+ 	 	
+		  <!-- Filters should be applied to the expression, before specifying a tracking expression
+		  	   https://docs.angularjs.org/api/ng/directive/ngRepeat
+		  	   rangeFilter:filtersSettings.triggerRange:'rssi' |
+		  	   | filter:all | orderBy:orderProp
+		   -->
+		<ion-item angular-ripple class="item-icon-left item-icon-right"
+        		  ng-repeat="device in knownBleDevices | filter:all track by device.address"
+                  href="#" 
+                  class="item-remove-animate"> 
+ 			<ng-ble-item ng-model="device"></ng-ble-item>
+ 		</ion-item>
+ 	</ion-list>
+ 	
+ 	
+
+  </ion-content>
+  
+  
+</ion-view>

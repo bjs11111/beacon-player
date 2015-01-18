@@ -8,6 +8,18 @@
     <feature name="Device">
         <param name="android-package" value="org.apache.cordova.device.Device" />
     </feature>
+    <feature name="NetworkStatus">
+        <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
+    </feature>
+    <feature name="Vibration">
+        <param name="android-package" value="org.apache.cordova.vibration.Vibration" />
+    </feature>
+    <feature name="InAppBrowser">
+        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
+    </feature>
+    <feature name="BLE">
+        <param name="android-package" value="com.evothings.BLE" />
+    </feature>
     <icon density="ldpi" src="resources\android\icon\drawable-ldpi-icon.png" />
     <icon density="mdpi" src="resources\android\icon\drawable-mdpi-icon.png" />
     <icon density="hdpi" src="resources\android\icon\drawable-hdpi-icon.png" />
@@ -17,11 +29,11 @@
     <splash density="port-ldpi" src="resources\android\splash\drawable-port-ldpi-screen.png" />
     <name>ionic_beaconPlayer_v2-3</name>
     <description>
-        An Ionic Framework and Cordova project.
-    </description>
+		An Ionic Framework and Cordova project.
+	</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">
-      Ionic Framework Team
-    </author>
+		Ionic Framework Team
+	</author>
     <content src="index.html" />
     <access origin="*" />
     <preference name="webviewbounce" value="false" />
