@@ -70,6 +70,9 @@ appControllers.controller('AppCtrl',
 		
 		$scope.headerTitle = 'Title from AppCtrl';
 		
+		$scope.allreadyNotifiedNoInte = false;
+		
+		$scope.bleDisabledState = false;
 		
 		//ensureInetConnection(false);
 		//@TODO remove when publish and decomment above function
@@ -102,11 +105,6 @@ appControllers.controller('AppCtrl',
 		$ionicPlatform.on('resume', function(){
 			$scope.allreadyNotifiedNoInte = false;
 		});
-		
-		$scope.allreadyNotifiedNoInte = false;
-		
-		$scope.bleDisabledState = false;
-		//console.log('app bleDisabledState: '+ $rootScope.bleDisabledState); 
 		
 		//@TODO check if there is a better place for that
 		//for now i go with following:

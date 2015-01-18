@@ -49,9 +49,11 @@ org.apache.cordova.device 0.2.12 "Device"
 org.apache.cordova.inappbrowser 0.5.4 "InAppBrowser"
 org.apache.cordova.network-information 0.2.14 "Network Information"
 org.apache.cordova.vibration 0.3.12 "Vibration"
-1.4 install ngCordova
+1.4 install other libs
 $ bower install ngCordova
 
+$ bower install localforage
+$ bower install angular-localforage
 
 2. add icon and splashscreen images into the recources folder named icon and splash .png,.psd,.ai
 2.1 run following commands
@@ -63,7 +65,6 @@ $ ionic resources --splash
 Platform Specifics icons and splashscreens:
 path: resources/android/
 path: resources/ios
-
 
 ##app
 native state checks like inet or bluetooth are done initialy in the app-controller as well as pn app resume and app open

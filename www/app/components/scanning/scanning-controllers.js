@@ -1,6 +1,6 @@
 /* Controllers of start component */
 //______________________________________________________________________________________
-var scanningControllers = angular.module('scanning.controllers', ['angularRipple']);
+var scanningControllers = angular.module('scanning.controllers', []);
 /* Scanning Controllers */
 scanningControllers.controller('BluespaceCtrl', 
 		['$scope',

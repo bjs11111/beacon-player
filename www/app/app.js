@@ -5,17 +5,28 @@
 var beaconPlayerApp = angular.module('beaconPlayerApp', [ 'ionic',
                                                           //main controller
                                                           'app.controllers', 
-                                                          //components direvtives filters, services, constants... 
+                                                          //global modules
+                                                          'LocalForageModule',
+                                                          //custom general components (direvtives filters, services, constants)... 
                                                          'bleDirectives', 'bleServices', 'utilsDirectives',
                                                           //components sites
                                                          'start.controllers', 'scanning.controllers']);
 
 beaconPlayerApp.config(
-			[ '$stateProvider', '$urlRouterProvider',   '$ionicConfigProvider',   
-	  function($stateProvider,   $urlRouterProvider,     $ionicConfigProvider, $stateParams ) {
+			[ '$stateProvider', '$urlRouterProvider',   '$ionicConfigProvider', '$localForageProvider',   
+	  function($stateProvider,   $urlRouterProvider,     $ionicConfigProvider ,  $localForageProvider) {
 	 
 	// config ionic app
 	$ionicConfigProvider.tabs.position('bottom');
+	
+	//localForage Storage (Offline storage, improved.)
+	//$localForageProvider.config({
+        //driver      : 'localStorageWrapper', // if you want to force a driver
+     //   name        : 'beaconPlayer', // name of the database and prefix for your data, it is "lf" by default
+        //version     : 1.0, // version of the database, you shouldn't have to use this
+        //storeName   : 'beacon_content_map', // name of the table
+        //description : 'This is a key vlue store for beacon and its content.'
+   // });
 
 	  // Ionic uses AngularUI Router which uses the concept of states
 	
