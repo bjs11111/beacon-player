@@ -19,9 +19,8 @@ appControllers.controller('AppCtrl',
 	
 	//@TODO check if there is a better place for that
 	//for now i go with following:
-	//this code decides for every child view the scanner state, 
-	//so it is a general business logic and so it goes in the parent controller
-	
+	//this code decides for every child view the actual scanner state, 
+	//so it is a general business logic and so it goes in this controller
 	$scope.setBleDisabledState = function(value) {
 		wantToDisable = (value === true)?true:false;
 		//if we wand to disable the scanner
@@ -32,23 +31,17 @@ appControllers.controller('AppCtrl',
 	};
 	
 	$scope.$on('$stateChangeStart', 
-		function(event, toState, toParams, fromState, fromParams){ 
-			
-		//console.log(toState.name.indexOf("app.profile")); 
-			if(		toState.name.indexOf("app.start") != -1
-				||	toState.name.indexOf("app.profile") != -1 ) 
+		function(event, toState, toParams, fromState, fromParams){ 	
+			if(		toState.name.indexOf("app.start") != -1) 
 			{
 				console.log("app.profile"); 
 				$scope.setBleDisabledState(true);
 			}
 			
-			if(		toState.name.indexOf("app.bluespace") != -1
-				||	toState.name.indexOf("app.settings") != -1 ) 
+			if(		toState.name.indexOf("app.bluespace") != -1) 
 			{
 				$scope.setBleDisabledState(false);
 			}
-			
-			//console.log('AppCtrl $stateChangeStart  $rootScope.bleDisabledState: '+ $scope.bleDisabledState); 
 		});
 	
 	
@@ -59,7 +52,7 @@ appControllers.controller('AppCtrl',
 	 * */						
 	var ensureFakeInetConnection = function() {
 		//set to flase to prevent alert popup
-		var demoIsOfline = false;
+		var demoIsOfline = true;
 		
 		$ionicPlatform.ready(function() {
 			
