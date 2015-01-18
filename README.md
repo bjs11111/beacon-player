@@ -1,8 +1,73 @@
-beacon-player
-=============
+#beacon-player
+The beacon player app is the client app for the great BCMS platform of [tokencube](http://www.tokencube.com). 
+Tokencube is one of the [netidee]( www.netidee.at) projects of 2014.
+[netidee](https://www.netidee.at/fileadmin/www.netidee.at/template/main/images/logo_start.gif "www.netidee.at")
 
-Visit http://www.tokencube.com for more information
+Both, the platform source and the app source are completely open source. We also provide free access to [tokencube](http://www.tokencube.com) and the basic account has the full number of available features.
+Visit [www.tokencube.com](http://www.tokencube.com) for more information.
 
-The beacon player app is a demo to do demonstrate the Bluetooth 4.0 Beacon Technology.
+##Features
+We heavily use the new Bluetooth 4.0 Beacon Technology to create a point of interaction to share local based or item based information.
 
-![Alt text](https://www.netidee.at/fileadmin/www.netidee.at/template/main/images/logo_start.gif "www.netidee.at")
+##Setup the Project
+We are working with eclipse so some parts are eclipse specific. But sourly use the IDE of your needs. :-)
+
+###Installig envirement 
+
+
+
+
+We recommend using the [Ionic CLI](https://github.com/driftyco/ionic-cli) to create new Ionic projects and work with them. Also a good advice is to read the [IONIC CLI FAQ](http://ionicframework.com/docs/ionic-cli-faq).
+
+1.`ionic` utility
+
+...make sure the `ionic` utility and all other dependencies are installed. Read about in the [IONIC GETTING STARTED GUIDE](http://ionicframework.com/getting-started/)
+...run following on you console:
+
+```bash
+$ npm install -g ionic
+```
+1.1 setup project
+on the console:
+$ ionic start ionic_beaconPlayer_v2-2 blank
+$ cd ionic_beaconPlayer_v2-2
+$ ionic setup sass
+$ ionic platform add android
+1.2 install plugins
+on the console:
+$ cordova plugin add org.apache.cordova.network-information
+$ cordova plugins add org.apache.cordova.vibration
+$ cordova plugin add org.apache.cordova.inappbrowser
+$ cordova plugin add com.evothings.ble
+$ cordova plugin add org.apache.cordova.camera
+1.3 check plugins
+$ cordova plugin list
+should result in a list of above plugins plus some ionic default plugins:
+com.evothings.ble 0.0.1 "Evothings BLE API"
+com.ionic.keyboard 1.0.3 "Keyboard"
+org.apache.cordova.camera 0.3.4 "Camera"
+org.apache.cordova.console 0.2.11 "Console"
+org.apache.cordova.device 0.2.12 "Device"
+org.apache.cordova.inappbrowser 0.5.4 "InAppBrowser"
+org.apache.cordova.network-information 0.2.14 "Network Information"
+org.apache.cordova.vibration 0.3.12 "Vibration"
+1.4 install ngCordova
+$ bower install ngCordova
+
+
+2. add icon and splashscreen images into the recources folder named icon and splash .png,.psd,.ai
+2.1 run following commands
+$ ionic resources
+2.1.1 advanced settings
+If you only need to update one of the resources use following flags:
+$ ionic resources --icon
+$ ionic resources --splash
+Platform Specifics icons and splashscreens:
+path: resources/android/
+path: resources/ios
+
+## Issues
+
+###eclipse
+- An internal error occurred during: "Building workspace". GC overhead limit exceeded 
+  This is because you need more memory. Edit your eclipse.ini file. 	https://docs.oseems.com/general/application/eclipse/fix-gc-overhead-limit-exceeded
