@@ -42,8 +42,8 @@ appControllers.controller('AppCtrl',
 	/*show alert with information to check inet connection
 	 * set closeOnOffline to true closes app after press alert button 
 	 * */	
-	var ensureInetConnection = function(closeOnOffline) {
-			
+	var alertEnsureInetConnection = function(closeOnOffline) {
+			console.log('ensureInetConnection'); 
 		if (!$scope.allreadyNotifiedNoInte) {
 				$scope.allreadyNotifiedNoInte = true;
 		
@@ -61,7 +61,6 @@ appControllers.controller('AppCtrl',
 									if(closeOnOffline) 
 									{ ionic.Platform.exitApp(); }
 								});
-				
 			}
 		
 	}
@@ -73,13 +72,29 @@ appControllers.controller('AppCtrl',
 		$scope.allreadyNotifiedNoInte = false;
 		
 		$scope.bleDisabledState = false;
-		
-		//ensureInetConnection(false);
-		//@TODO remove when publish and decomment above function
-		//ensureFakeInetConnection();
-		
+
+		//on app offline
+		//http://ionicframework.com/docs/api/service/$ionicPlatform/
+		//https://cordova.apache.org/docs/en/edge/cordova_events_events.md.html#Events
 		$ionicPlatform.on('offline', function(){ 
-			ensureInetConnection();
+			console.log('on offlien allreadyNotifiedNoInte ' + $scope.allreadyNotifiedNoInte); 
+			alertEnsureInetConnection();
+		});
+		
+		//on app resume
+		//http://ionicframework.com/docs/api/service/$ionicPlatform/
+		//https://cordova.apache.org/docs/en/edge/cordova_events_events.md.html#Events
+		$ionicPlatform.on('resume', function(){
+			console.log('on resume'); 
+			$ionicPlatform.ready(function() {
+				if($cordovaNetwork.isOffline()) {
+					console.log('on resume isOffline');
+					$scope.allreadyNotifiedNoInte = false;
+					alertEnsureInetConnection();
+				}
+				console.log('on resume isNoline');
+			});
+			
 		});
 		
 		//on view changes
@@ -88,6 +103,7 @@ appControllers.controller('AppCtrl',
 							
 					//enure inet on app start
 					$scope.allreadyNotifiedNoInte = false;
+					
 					/*
 					// Disable ble scanner in specific view
 					if(		toState.name.indexOf("app.start") != -1) 
@@ -99,12 +115,7 @@ appControllers.controller('AppCtrl',
 				});
 		
 		
-		//on app resume
-		//http://ionicframework.com/docs/api/service/$ionicPlatform/
-		//https://cordova.apache.org/docs/en/edge/cordova_events_events.md.html#Events
-		$ionicPlatform.on('resume', function(){
-			$scope.allreadyNotifiedNoInte = false;
-		});
+		
 		
 		//@TODO check if there is a better place for that
 		//for now i go with following:
