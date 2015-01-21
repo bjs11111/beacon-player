@@ -10,7 +10,7 @@ Visit [www.tokencube.com](http://www.tokencube.com) for more information.
 We heavily use the new Bluetooth 4.0 Beacon Technology to create a point of interaction to share local based or item based information.
 
 ##Setup the Project
-We are working with eclipse so some parts are eclipse specific. But sourly use the IDE of your needs. :-)
+We are working with eclipse so some parts are eclipse specific. But you use the IDE of your needs. :-)
 
 ###Installig envirement 
 
