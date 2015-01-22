@@ -145,14 +145,15 @@ bleFilters
     	major 		= tmp[1];
     	
     	//check valid major 
-    	if (!(major > 0)) {
+    	if (!(major >= 0)) {
+    		console.log(major);
     		console.log( 'major is no int.' );
     		return false;
     	}
     	
 		minor 		= tmp[2];
 		//check valid minor 
-		if (!(minor > 0)) {
+		if (!(minor >= 0)) {
     		console.log( 'minor is no int.' );
     		return false;
     	}

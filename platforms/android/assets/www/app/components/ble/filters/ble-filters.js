@@ -55,9 +55,7 @@ bleFilters
 	    	secondPair=input.substring(2,4);
 	    	out = secondPair + firstPair;
 	    }
-	    
-	    console.log(input, out); 
-	     
+	  
 	    return out;
 	  };
 	})
@@ -106,7 +104,7 @@ bleFilters
     	
  		//chech if every character is hex value
     	if(invalidChars.length !== 0) {
-    		console.log('hexToIBeaconUuid returns false because characters "'+invalidChars.join(',')+'" are no valid hex values!');
+    		console.log( 'hexToIBeaconUuid returns false because characters "' + invalidChars.join(',') + '" are no valid hex values!' );
     		return false;
     	}
     	
@@ -114,6 +112,57 @@ bleFilters
 	};
 	
 })
+
+/*
+ * returns valid hex string or false
+ */	
+.filter('cmsBeaconKeyToObj', ['$filter', function($filter) {
+	var tmp = undefined,
+		iBeaconUuid 		= undefined,
+		major 				= undefined,
+		minor 				= undefined;
+	    iBeaconUuidToHex 	= undefined;
+	
+	return function(value) {
+		
+		tmp = value.split('.');
+		
+ 		//check . seperation 
+    	if(tmp.length != 3) {
+    		console.log( 'Ivalid seperation. cmsBeaconKey has to be seperated in 3 groups with "." between.' );
+    		return false;
+    	}
+    	
+    	iBeaconUuid = tmp[0];
+    	iBeaconUuidToHex = $filter('iBeaconUuidToHex');
+    	
+    	//check valid iBeaconUUid 
+    	if(iBeaconUuidToHex(iBeaconUuid) === false) {
+    		console.log( 'Ivalid iBeaconUUid.' );
+    		return false;
+    	}
+    	    
+    	major 		= tmp[1];
+    	
+    	//check valid major 
+    	if (!(major >= 0)) {
+    		console.log(major);
+    		console.log( 'major is no int.' );
+    		return false;
+    	}
+    	
+		minor 		= tmp[2];
+		//check valid minor 
+		if (!(minor >= 0)) {
+    		console.log( 'minor is no int.' );
+    		return false;
+    	}
+
+    	return value; 
+	};
+	
+}])
+
 
 /*
  *  returns a 36 char long string of iBeacon format or false

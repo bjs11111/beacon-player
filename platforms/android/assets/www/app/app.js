@@ -6,11 +6,11 @@ var beaconPlayerApp = angular.module('beaconPlayerApp', [ 'ionic',
                                                           //main controller
                                                           'app.controllers', 
                                                           //global modules
-                                                          'LocalForageModule',
+
                                                           //custom general components (direvtives filters, services, constants)... 
-                                                         'bleDirectives', 'bleServices', 'utilsDirectives',
+                                              
                                                           //components sites
-                                                         'start.controllers', 'scanning.controllers']);
+                                                         'help.controllers', 'scanning.controllers']);
 
 beaconPlayerApp.config(
 			[ '$stateProvider', '$urlRouterProvider',   '$ionicConfigProvider', '$localForageProvider',   
@@ -21,12 +21,12 @@ beaconPlayerApp.config(
 	
 	//localForage Storage (Offline storage, improved.)
 	$localForageProvider.config( { 
-        //driver      : 'localStorageWrapper', // if you want to force a driver
-        name        : 'beaconPlayer', // name of the database and prefix for your data, it is "lf" by default
-        //version     : 1.0, // version of the database, you shouldn't have to use this
-        //storeName   : 'localstoreag', // name of the table
-        description : 'This is a key vlue store for beacon and its content.'
-    } );
+        //driver      	: 'localStorageWrapper', // if you want to force a driver
+        //name        	: 'beaconPlayer', // name of the database and prefix for your data, it is "lf" by default
+        //version     	: 1.0, // version of the database, you shouldn't have to use this
+        //storeName   	: 'localstoreag', // name of the table
+        description 	: 'This is a key vlue store for beacon and its content.'
+    });
 
 	  // Ionic uses AngularUI Router which uses the concept of states
 	
@@ -53,8 +53,8 @@ beaconPlayerApp.config(
 	    url: '/help',
 	    views: {
 	      'mainContent': {
-	        templateUrl: 'app/components/start/start.html',
-	        controller: 'StartCtrl' 
+	        templateUrl: 'app/components/help/help.html',
+	        controller: 'HelpCtrl' 
 	      }
 	    }
 	  })

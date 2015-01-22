@@ -1,6 +1,7 @@
-var appControllers = angular.module('app.controllers', ['ngCordova']);
+var appControllers = angular.module('app.controllers', [ 'ngCordova', 'bleDirectives', 'bcmsServices']);
 
-/* App Controllers 
+/* 
+ * App Controllers 
  * This controller holds general logic for all app.* controlers
  * 
  * Docs:
@@ -11,9 +12,16 @@ var appControllers = angular.module('app.controllers', ['ngCordova']);
  * */
 
 
-appControllers.controller('AppCtrl', 
-							['$scope', 'ngBleStateConfig', '$cordovaNetwork', '$ionicPlatform', '$ionicPopup', '$cordovaEvothingsBLE',
-                     function($scope,   ngBleStateConfig,   $cordovaNetwork,   $ionicPlatform,   $ionicPopup,   $cordovaEvothingsBLE) {
+appControllers
+
+.constant("BackgroundProcessConfig", {
+	//refreshBeaconListInterval		: ms
+	refreshBeaconListInterval 	: 1000 * 1 * 5,
+})
+
+.controller('AppCtrl', 
+							['$scope', 'BackgroundProcessConfig', 'ngBleStateConfig', '$cordovaNetwork', '$ionicPlatform', '$ionicPopup', '$cordovaEvothingsBLE', 'bcmsAjaxService', '$interval', 
+                     function($scope,   BackgroundProcessConfig,   ngBleStateConfig,   $cordovaNetwork,   $ionicPlatform,   $ionicPopup,   $cordovaEvothingsBLE,   bcmsAjaxService,  $interval) {
 
 	/*show alert with information to check inet connection
 	 * set closeOnOffline to true closes app after press alert button 
@@ -37,8 +45,22 @@ appControllers.controller('AppCtrl',
 									if(closeOnOffline) 
 									{ ionic.Platform.exitApp(); }
 								});
-			}
+				}
 		
+	}
+	
+	var startRefreshingLoop = function () {
+		
+		$scope.isRefreshingBeaconList = $interval( 
+					function() { bcmsAjaxService.refreshBeaconList(); }, 
+					BackgroundProcessConfig.refreshBeaconListInterval
+		);
+		
+	}
+	
+	var stopRefreshingLoop = function () {
+		 $interval.cancel($scope.isRefreshingBeaconList);
+		 $scope.isRefreshingBeaconList = false;
 	}
 	
 	var init = function () {
@@ -48,12 +70,16 @@ appControllers.controller('AppCtrl',
 		$scope.allreadyNotifiedNoInte = false;
 		
 		$scope.bleDisabledState = false;
+		//list of all beacons in cms
+		$scope.beaconList = {};
 
-		//on app offline
+		//on inet offline
 		//http://ionicframework.com/docs/api/service/$ionicPlatform/
 		//https://cordova.apache.org/docs/en/edge/cordova_events_events.md.html#Events
 		$ionicPlatform.on('offline', function(){ 
 			alertEnsureInetConnection();
+			//stop refreshbeaconlistloop
+			stopRefreshingLoop();
 		});
 		
 		//on app resume
@@ -71,13 +97,16 @@ appControllers.controller('AppCtrl',
 				}
 			});
 			
-			//stop scanning if ble scanner is scanning
+			//start scanning if ble scanner is not scanning
 			if( !$cordovaEvothingsBLE.getBleScannerState() ) {
 				$cordovaEvothingsBLE.startScanning();
 			} 
 			
+			//start refreshbeaconlistloop
+			startRefreshingLoop();
 		});
 		
+		//on app paused
 		$ionicPlatform.on('pause', function(){
 			
 			//stop scanning if ble scanner is scanning
@@ -85,13 +114,19 @@ appControllers.controller('AppCtrl',
 				$cordovaEvothingsBLE.stopScanning();
 			} 
 			
+			//@TODO stop refreshbeaconlistloop
+			stopRefreshingLoop();
 		});
 		
 		//on view changes
 		$scope.$on('$stateChangeStart', 
-				function(event, toState, toParams, fromState, fromParams){ 		
+				function(event, toState, toParams, fromState, fromParams) { 		
 				
 		});
+		
+		//start refreshbeaconlistloop
+		bcmsAjaxService.refreshBeaconList();
+		startRefreshingLoop();
 		
 		//@TODO check if there is a better place for that
 		//for now i go with following:
@@ -105,6 +140,7 @@ appControllers.controller('AppCtrl',
 			} 
 			$scope.bleDisabledState = value;
 		};
+		
 	};
 	
 	init();					

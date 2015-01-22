@@ -180,10 +180,6 @@ bleDirectives.directive('ngBleItem', function() {
     	}
     	    	
     	var init = function() {
-    		console.log($scope.ngModel); 
-    		
-    		
-    		
     		//$scope.itemTypeIcon 		=  ngBleItemConfig.type.beacon.icon;
     		//$scope.cmsStateColor 		= getCmsStateColor();
     		//$scope.contentTypeIcon 	= getContentTypeIcon(); 

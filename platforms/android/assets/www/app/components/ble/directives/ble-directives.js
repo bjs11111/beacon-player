@@ -1,98 +1,3 @@
-var utilsDirectives = angular.module('utilsDirectives', []);
-
-utilsDirectives
-/*Constants for the utilsDirectives*/
-.constant("ngOrderToggleConfig", {
-		iconAscClass 	: 'ion-arrow-up-c',
-		iconDescClass 	: 'ion-arrow-down-c',
-		iconNoneClass 	: 'ion-plus-circled',
-})
-
-.directive('ngOrderToggle',  function() {
-         	
-         	  return {
-         	    restrict: 'EA',
-         	    require: '^ngModel',
-         	    scope: {
-         	    	ngModel		: '=',
-           	      	ngTitle		: '@',    
-           	      	orderProp	: '@',
-           	      	states		: '@',
-           	      	initState	: '@'
-         	    },
-         	    template:'<button class="button icon-left" ng-click="toggleOrder()" class="button icon-right"><i class="{{stateIconClass}}"></i> {{ngTitle}}</button>',
-         	    controller: ['$scope','ngOrderToggleConfig',
-         	         function($scope, ngOrderToggleConfig) {
-         	    		
-         	    	var init = function() {
-         	    		if ($scope.initState === undefined) {$scope.initState = 0;}
-         	    		
-         	    		if($scope.states == 3) {
-	         	    		if($scope.initState == 0) {
-	         	    			$scope.stateIconClass=ngOrderToggleConfig.iconNoneClass;
-	         	    		}
-	         	    		if($scope.initState == 1) {
-	         	    			$scope.toggleOrder();
-	         	    		}
-	         	    		if($scope.initState == 2) {
-	         	    			$scope.stateIconClass=ngOrderToggleConfig.iconDescClass;
-	         	    			$scope.ngModel.push('-'+$scope.orderProp); 
-	         	    		}
-         	    		}
-         	    		else {
-         	    			
-         	    		}
-	         	    	}
-         	    	
-	         	    	$scope.toggleOrder = function() {
-	         	    		
-	         				var isNew = true;
-	         				
-	         				for( var i =0; i<$scope.ngModel.length; i++ ) {
-	         					
-	         					if( $scope.ngModel[i] === $scope.orderProp ) {
-	         						
-	         						isNew = false;
-	         						$scope.ngModel[i] = '-' + $scope.ngModel[i];
-	         						$scope.stateIconClass=ngOrderToggleConfig.iconDescClass;
-	         						
-	         					} else if ( $scope.ngModel[i].toString().substring(1) === $scope.orderProp ) {
-	         						
-	         						isNew = false;
-	         						
-	         						if( $scope.states == 3 ) {
-	         							console.log($scope.orderProp); 
-	         							$scope.ngModel.splice(i);
-	         							$scope.stateIconClass=ngOrderToggleConfig.iconNoneClass;
-	         						} else {
-	         							$scope.ngModel[i] = $scope.ngModel[i].toString().substring(1);
-	         							$scope.stateIconClass=ngOrderToggleConfig.iconAscClass;
-	         						}
-	      
-	         					} 
-	         					
-	         				}
-	         				
-	         				if(isNew) { 
-	         					$scope.ngModel.push($scope.orderProp); 
-	         					$scope.stateIconClass=ngOrderToggleConfig.iconAscClass;
-	         				}
-	         				
-	         				console.log($scope.ngModel); 
-	         			}
-	         	    	init();
-
-         	    }],
-         	    link: function (scope, element, attrs) {
-         	    	
-         	    	
-                 }
-         	  
-         	  }
-         });
-
-
-
 /*@TODO write documantation*/
 var bleDirectives = angular.module('bleDirectives', [])
 
@@ -200,7 +105,7 @@ bleDirectives.directive('ngBleState', [ '$cordovaEvothingsBLE',
 	     	
 	     	//provide stateClas in view
 	    	$scope.getStateClass = function() {
-	    		return $scope.bleDisabledState ? ngBleStateConfig.bleDisabledClass : ($scope.state?ngBleStateConfig.bleScanningClass:ngBleStateConfig.blePausedClass);
+	    		return $scope.bleDisabledState ? ngBleStateConfig.bleDisabledClass : ( $scope.state?ngBleStateConfig.bleScanningClass : ngBleStateConfig.blePausedClass );
 	    	}
 
 	    	$scope.toggleState = function() {	
@@ -232,10 +137,10 @@ bleDirectives.directive('ngBleItem', function() {
     templateUrl: 'app/components/ble/directives/templates/ble-item.html',
     controller: ['$scope', 'ngBleItemConfig',
     	         function($scope, ngBleItemConfig) {
-    	
-    	
+    	    	
     	var getCmsStateColor = function() {
-    		if($scope.ngModel.cmsContent) {
+    		 
+    		if($scope.ngModel.cmsContent != undefined) {
         		return ngBleItemConfig.cmsState.connected.color;
         	}
         	else if($scope.ngModel.cmsBeacon) {
@@ -266,19 +171,19 @@ bleDirectives.directive('ngBleItem', function() {
     		
     		if( $scope.ngModel.scanData.rssi >= -65 ) {
     			color = ngBleItemConfig.rssiState.activeRange.color;
-    		} else if($scope.ngModel.scanData.rssi < -65) {
+    		} 
+    		else if( $scope.ngModel.scanData.rssi < -65 ) {
     			color = ngBleItemConfig.rssiState.inRange.color;
     		}
     		
     		return color;
     	}
-    	
-    	
+    	    	
     	var init = function() {
-    		$scope.itemTypeIcon =  ngBleItemConfig.type.beacon.icon;
-    		$scope.cmsStateColor = getCmsStateColor();
-    		$scope.contentTypeIcon = getContentTypeIcon(); 
-    		$scope.rssiStateColor = getRssiStateColor(); 
+    		//$scope.itemTypeIcon 		=  ngBleItemConfig.type.beacon.icon;
+    		//$scope.cmsStateColor 		= getCmsStateColor();
+    		//$scope.contentTypeIcon 	= getContentTypeIcon(); 
+    		//$scope.rssiStateColor 	= getRssiStateColor(); 
     	};
     	
     	init(); 
