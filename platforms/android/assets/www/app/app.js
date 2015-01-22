@@ -31,7 +31,7 @@ beaconPlayerApp.config(
 	  // Ionic uses AngularUI Router which uses the concept of states
 	
 	  // if none of the above states are matched, use this as the fallback
-	  $urlRouterProvider.otherwise('/app/start');
+	  $urlRouterProvider.otherwise('/app/scanning');
 	
 	  // Learn more here: https://github.com/angular-ui/ui-router or look in the readme.md in the projects root folder
 	  // Set up the various states which the app can be in.
@@ -49,8 +49,8 @@ beaconPlayerApp.config(
 	  
 	   //States for the start page
 	  //______________________________________________
-	  .state('app.start', {
-	    url: '/start',
+	  .state('app.help', {
+	    url: '/help',
 	    views: {
 	      'mainContent': {
 	        templateUrl: 'app/components/start/start.html',

@@ -1,7 +1,8 @@
-<div  id="{{ngModel.scanData.address}}" class="device" ng-click="isOpen = !isOpen">
+
+<div  id="{{ngModel.address}}" class="device" ng-click="isOpen = !isOpen">
 <i class="icon {{itemTypeIcon}} {{cmsStateColor}}"></i>      
-device Type: <b>{{ngModel.scanData.typeName}}</b><br>
-Last Scan: <b><span am-time-ago="ngModel.scanData.lastScan"></span><b><br>
+Title: <b>{{ngModel.bcmsBeacon.content_title}}</b><br>
+Last Scan: <b>{{ngModel.scanData.lastScan}}<b><br>
 <div ng-init="isOpen = false" ng-show="isOpen" class="details">
 Major:{{ngModel.scanData.major}}<br>
 Minor: {{ngModel.scanData.minor}}<br>

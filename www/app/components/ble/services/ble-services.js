@@ -1,5 +1,5 @@
 /* Services */
-var bleServices = angular.module('bleServices', [ 'bleFilters']);
+var bleServices = angular.module('bleServices', [ 'bleFilters', 'bcmsServices', 'LocalForageModule']);
 
 bleServices
 //http://codingsmackdown.tv/blog/2013/04/29/hailing-all-frequencies-communicating-in-angularjs-with-the-pubsub-design-pattern/
@@ -47,8 +47,8 @@ bleServices
    // subscribe to knownDevices updated notification
    var onKnownDevicesUpdated = function ($scope, handler) {
        $scope.$on(_KNOWN_DEVICES_UPDATED_, function (event, agrs) {
-    	 //console.log('in on onKnownDevicesUpdated:' + JSON.stringify(args) );
-    	   handler(agrs.updatedDate );
+    	   //console.log('in on onKnownDevicesUpdated:' + JSON.stringify(args) );
+    	   handler( agrs.updatedDate );
        });
    };
        
@@ -103,6 +103,7 @@ bleServices
 			//console.log('do publish found'); 
 			bleNotificationChannel.publishFoundDevice(foundedDeviceDummy7_1 ); }}, 100);
 	};
+	
 	var stopDummyDeviceFoundLoopWith$interval = function () {
 		
 		if(intervalPromise) {$interval.cancel(intervalPromise);intervalPromise = undefined;}
@@ -113,22 +114,21 @@ bleServices
 			interval = setInterval(
 					function() {
 							bleNotificationChannel.publishFoundDevice( foundedDeviceDummy7_1 ); 
-							bleNotificationChannel.publishFoundDevice( foundedDeviceDummy143_3 ); 
+							bleNotificationChannel.publishFoundDevice( foundedDeviceDummy7_2 ); 
 							
 			}
 		,1000);
-		
-		
-			setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy7_2 )}, 2000);
-			setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy7_3 )}, 5000);
+			setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy7_1 )}, 1000);	
+			setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy7_2 )}, 1000);
+			setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy143_3 )}, 1000);
 	
-			setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy143_1 )}, 1000);
-			setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy143_2 )}, 2000);
-			setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy143_3 )}, 3000);
-			setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy143_4 )}, 4000);
-			setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy143_5 )}, 5000);
-			setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy143_6 )}, 6000);
-			setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy143_7 )}, 7000);
+			//setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy143_1 )}, 1000);
+			//setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy143_2 )}, 2000);
+			//setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy143_3 )}, 3000);
+			//setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy143_4 )}, 4000);
+			//setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy143_5 )}, 5000);
+			//setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy143_6 )}, 6000);
+			//setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy143_7 )}, 7000);
 		}	
 		
 	};
@@ -238,7 +238,7 @@ bleServices
 }])
 
 /*Constants for the bleDeviceService*/
-.constant("bleDeviceServiceConfig", {
+.constant( "bleDeviceServiceConfig", {
 		_UNKNOWN_DEVICE_ 	: 'Unknown Device',
 		
 		_UNKNOWN_TYPE_ 		: 'Unknown Type',
@@ -247,30 +247,24 @@ bleServices
 		
 })
    
-.factory('bleDeviceService', [ '$rootScope',  'bleDeviceServiceConfig',  '$filter', 'bleNotificationChannel', 'bleCompanyIdentifierService', 
-                        function( $rootScope,  bleDeviceServiceConfig,	  $filter,   bleNotificationChannel,   bleCompanyIdentifierService){
+.factory('bleDeviceService', [ '$rootScope',  'bleDeviceServiceConfig',  '$filter', 'bleNotificationChannel', 'bleCompanyIdentifierService', 'bcmsNotificationChannel', 'bcmsAjaxService', '$localForage',       
+                      function( $rootScope,    bleDeviceServiceConfig,	  $filter,   bleNotificationChannel,   bleCompanyIdentifierService,   bcmsNotificationChannel,   bcmsAjaxService,   $localForage ){
 	  //needed to use the $on method in the bleNotoficationChannel
 	  //http://stackoverflow.com/questions/16477123/how-do-i-use-on-in-a-service-in-angular
 	  var scope = $rootScope.$new();  // or $new(true) if you want an isolate scope
 
-	  //list of all devices [ address => device, ]
-	  var knownDevices = [];
-	  
-	  var init = function() {
-		  bleNotificationChannel.onFoundBleDevice(scope, onFoundBleDeviceHandler);  
-	  };
-
-	  var onFoundBleDeviceHandler = function(rawDevice)  {
-		  //console.log('in on foundBleDevice handler'); 
-		  prepareDeviceData(rawDevice);
-		  tryAppendBleDeviceToKnownDevices(rawDevice); 
-	  };
-	 
+	  //list of all scanned devices [ address => device, ]
+	  var knownDevices = {};
+	
+	  //
+	  var cmsBeaconKeyToObj  = $filter('cmsBeaconKeyToObj');
+	  	  	 
 	  //decode scanRecond of device and extract data
 	  var prepareDeviceData =  function (device) {
 		  
 			 var hexToIBeaconUuid 	= $filter('hexToIBeaconUuid'),
 			 	 base64DecToArr 	= $filter('base64DecToArr'),
+			 				 	 
 				 srArr = base64DecToArr(device.scanRecord),
 				 str = '';
 
@@ -304,21 +298,25 @@ bleServices
 			device.minor	= parseInt(str.substr(54,4), 16);
 			//This is out beacon address in the cms if you want to see its content (UUID.Major.Minor) 
 			//device.address = device.mfUuid + '.' + device.major + '.' + device.minor;
-			console.log(device.address); 
+			
 			//This is the UUID as iBeacon-UUID format
 			device.iBeaconUuid	= hexToIBeaconUuid(device.mfUuid);
+			
+			device.address = device.iBeaconUuid;
 			//set lastScan to now
 			device.lastScan = Date.now();
 			
 			//if no name is given set to default
 			device.name = (device.name)?device.name:bleDeviceServiceConfig._UNKNOWN_DEVICE_;
+			
 			//@TODO this cvalue should came form cms
 			device.trigger = -50;
 			device.triggerState = true;
-
+			
 			return device;
 	  };
-	    	  	  
+	  
+	 	    	  	  
       // removes the device from the array and sends a notification that knownDevices has been updated
       /*var removeFormKnownDevices = function(device) {
     	  var updatedDate = [];
@@ -347,6 +345,7 @@ bleServices
       //receaved an array of address => true
       // returns the array of knownDevices
       var getKnownDevices = function(addresses) {
+    	   
     	  var requestedDevices = [];
     	  //@TODO overwork and think this!!!
     	  //check if json
@@ -366,18 +365,13 @@ bleServices
     	  return requestedDevices; 
       };
       
+      var mapScannedDevicesWithRegisteredDevices = function() {
+    	  //@TODO hold all device depending data in one list and make sub sets of data (cms, scanner)
+      }
+      
       var updateBleDevice = function (preparedDevice) {
-    	  var updatedDate = [];
-    	  //console.log('updateBleDevice'); 
-    	  var index = -1;
-  		
-    	  angular.forEach(knownDevices, function(obj, i){
-	    	    if (obj.address === preparedDevice.address) {
-	    	    	index = i;
-	    	    	return;
-	    	    };
-    	  });
-  		  knownDevices[index].scanData = angular.extend({}, knownDevices[index].scanData, preparedDevice);
+    	  
+  		  knownDevices[preparedDevice.address].scanData = angular.extend({}, knownDevices[preparedDevice.address].scanData, preparedDevice);
   		  
   		  updatedDate.push( {'address' : preparedDevice.address} );
   		  bleNotificationChannel.publishKnownDevicesUpdated(updatedDate);
@@ -388,25 +382,68 @@ bleServices
     	  
     	  //detect device CompanyIdentifier
     	  device.typeName = bleCompanyIdentifierService.getCompanyName(device.mfId);
+    	  
     	  var newdevice = { 'address' : device.address, 
 		  					//@TODO remove testin vars and implement logic
-    			  			'scanData' : device,
-		  					'cmsBeacon' : { 'nid' : 23, 'title' : 'beacon titel dummy'},
-    			  			'cmsContent': { 'nid' : 43, 'type' : 'audio', 'title' : 'content titel dummy'}
-    			  		
+    			  			'scanData' : device
 		  		};
-    	  knownDevices.push(newdevice);
+    	  
+    	  knownDevices[device.address] = newdevice;
+    	  
     	  //updatedDate.push({'address' : device.address});
     	  bleNotificationChannel.publishKnownDevicesUpdated([{'address' : newdevice.address}]);  	  
       };
       
+      
+	  var onBeaconListUpdatedHandler = function()  {
+			bcmsAjaxService.getBeaconList().then(function(data) {
+				mapScannedDevicesWithRegisteredDevices(data); 
+	        });
+	  };
+      
       var tryAppendBleDeviceToKnownDevices = function (preparedDevice) {
     	//console.log('tryAppendBleDeviceToKnownDevices'); 
 		//add device
-		if( $filter('filter')(knownDevices, {'address':preparedDevice.address}).length === 0) { addBleDevice(preparedDevice); } 
+    	  
+		if( knownDevices[preparedDevice.address] ) { addBleDevice(preparedDevice); } 
 	    //update    
 		else { updateBleDevice(preparedDevice); }
+		
 	  }
+      
+	  var onFoundBleDeviceHandler = function(rawDevice)  {
+		  //console.log('in on foundBleDevice handler'); 
+		  prepareDeviceData(rawDevice);
+		  var isNewDevice = true;
+		  
+		  //$localForage.clear();
+		  
+		  $localForage.iterate( function(value, key) {
+				if( cmsBeaconKeyToObj(key) != false ) {
+					if(key === rawDevice.iBeaconUuid+'.'+rawDevice.major+'.'+rawDevice.minor) {
+						value.scanData = rawDevice;
+						value.address =  rawDevice.iBeaconUuid, 
+						$localForage.setItem( key, value );
+						isNewDevice = false;
+					} 
+				};
+		  });
+		  
+		  if(isNewDevice) {
+			  $localForage.setItem( rawDevice.iBeaconUuid+'.'+rawDevice.major+'.'+rawDevice.minor, rawDevice );
+		  }
+		  
+		  
+		  //tryAppendBleDeviceToKnownDevices(rawDevice); 
+	  };
+	  
+	  var init = function() {
+		  
+		  bleNotificationChannel.onFoundBleDevice(scope, onFoundBleDeviceHandler); 
+		  
+		  bcmsNotificationChannel.onBeaconListUpdated(scope, onBeaconListUpdatedHandler);
+		  
+	  };
       
       //do initialisation
       init();

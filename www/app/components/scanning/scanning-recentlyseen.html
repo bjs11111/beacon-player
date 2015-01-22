@@ -9,13 +9,14 @@
 	</ion-nav-buttons>
   
   	<ion-content class="has-header">
+  	 <code><pre>{{list}}</pre></code>
 	<!-- example for start scanning ble pacages-->
-	{{trigger}}
 	<h2 class="text-center positive padding-vertical" ng-show="knownBleDevices.length == 0">nothing found...</h2>
- 	
+ 	 	{{list.length}}
+   
+    
  	<ion-list ng-show="knownBleDevices.length != 0" show-delete="data.showDelete" > 
- 	
- 
+
 		 <label class="item item-input">
 		    <i class="icon ion-search placeholder-icon"></i>
 		    <input ng-model="all"  type="text" placeholder="Search...">
@@ -26,12 +27,16 @@
 		  	   https://docs.angularjs.org/api/ng/directive/ngRepeat
 		  	   rangeFilter:filtersSettings.triggerRange:'rssi' |
 		  	   | filter:all | orderBy:orderProp
+		  	   
+		  	   track by device.address
+		  	   
 		   -->
-		<ion-item angular-ripple class="item-icon-left item-icon-right"
-        		  ng-repeat="device in knownBleDevices | filter:all track by device.address"
+		
+		<ion-item class="item-icon-left item-icon-right"
+        		  ng-repeat="(key, device) in list | filter:all"
                   href="#" 
                   class="item-remove-animate"> 
- 			<ng-ble-item ng-model="device"></ng-ble-item>
+ 					<ng-ble-item ng-model="device"></ng-ble-item>
  		</ion-item>
  	</ion-list>
  	

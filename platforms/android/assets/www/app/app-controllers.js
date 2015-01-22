@@ -14,31 +14,7 @@ var appControllers = angular.module('app.controllers', ['ngCordova']);
 appControllers.controller('AppCtrl', 
 							['$scope', 'ngBleStateConfig', '$cordovaNetwork', '$ionicPlatform', '$ionicPopup', '$cordovaEvothingsBLE',
                      function($scope,   ngBleStateConfig,   $cordovaNetwork,   $ionicPlatform,   $ionicPopup,   $cordovaEvothingsBLE) {
-	/*
-	 * @TODO remove when publish
-	 * Testing function
-	 * */						
-	var ensureFakeInetConnection = function(closeOnOffline) {
-		//set to flase to prevent alert popup
-		var demoIsOfline = false;
-		
-		$ionicPlatform.ready(function() {
-			
-			if(demoIsOfline === true) {
-				var noInetAlert =	$ionicPopup.alert({
-					   title	: 'No internet tesing message',
-					   template	: 'Edit the demoNetworkState var in the ensureFakeInetConnection function to true to avoid this alert',
-					   okType	: 'button-energized'
-					 });
-					
-					noInetAlert.then(function(result) {
-					noInetAlert.close();
-					});
-			}
-		});
-	}	
-	
-	
+
 	/*show alert with information to check inet connection
 	 * set closeOnOffline to true closes app after press alert button 
 	 * */	
@@ -77,7 +53,6 @@ appControllers.controller('AppCtrl',
 		//http://ionicframework.com/docs/api/service/$ionicPlatform/
 		//https://cordova.apache.org/docs/en/edge/cordova_events_events.md.html#Events
 		$ionicPlatform.on('offline', function(){ 
-			console.log('on offlien allreadyNotifiedNoInte ' + $scope.allreadyNotifiedNoInte); 
 			alertEnsureInetConnection();
 		});
 		
@@ -85,37 +60,38 @@ appControllers.controller('AppCtrl',
 		//http://ionicframework.com/docs/api/service/$ionicPlatform/
 		//https://cordova.apache.org/docs/en/edge/cordova_events_events.md.html#Events
 		$ionicPlatform.on('resume', function(){
-			console.log('on resume'); 
+			
+			//check inet manualy
 			$ionicPlatform.ready(function() {
 				if($cordovaNetwork.isOffline()) {
-					console.log('on resume isOffline');
+					//to be shure the alert opens set allreadyNotifiedNoInte to false
 					$scope.allreadyNotifiedNoInte = false;
+					
 					alertEnsureInetConnection();
 				}
-				console.log('on resume isNoline');
 			});
+			
+			//stop scanning if ble scanner is scanning
+			if( !$cordovaEvothingsBLE.getBleScannerState() ) {
+				$cordovaEvothingsBLE.startScanning();
+			} 
+			
+		});
+		
+		$ionicPlatform.on('pause', function(){
+			
+			//stop scanning if ble scanner is scanning
+			if( $cordovaEvothingsBLE.getBleScannerState() ) {
+				$cordovaEvothingsBLE.stopScanning();
+			} 
 			
 		});
 		
 		//on view changes
 		$scope.$on('$stateChangeStart', 
-				function(event, toState, toParams, fromState, fromParams){ 	
-							
-					//enure inet on app start
-					$scope.allreadyNotifiedNoInte = false;
-					
-					/*
-					// Disable ble scanner in specific view
-					if(		toState.name.indexOf("app.start") != -1) 
-					{
-						$scope.setBleDisabledState(true);
-					} else {
-						$scope.setBleDisabledState(false);
-					}*/
-				});
-		
-		
-		
+				function(event, toState, toParams, fromState, fromParams){ 		
+				
+		});
 		
 		//@TODO check if there is a better place for that
 		//for now i go with following:
