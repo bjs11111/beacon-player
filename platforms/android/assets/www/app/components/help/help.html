@@ -1,0 +1,22 @@
+<ion-view>
+    
+    <ion-nav-title>
+      {{headerTitle || 'Start'}}
+  	</ion-nav-title>
+  	
+  	<ion-content class="has-header">
+  	
+	    <div class="gigant">
+	    	<h1 class="positive">discover your environment for beacons</h1>
+	    	<i class=" icon icon ion-radio-waves" ng-click="goAndStartScanning()"></i>
+	    </div>
+	    local value: {{localValue}}<br/>
+	    new local value: {{newlocalVal}}
+		<input ng-model="newlocalVal" />
+		<button ng-click="loadLocalValue()">load</button>
+		<button ng-click="setLocalValue(newlocalVal)">set</button>
+		
+	    
+  	</ion-content>
+
+</ion-view>
