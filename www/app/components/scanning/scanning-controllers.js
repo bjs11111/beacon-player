@@ -22,8 +22,8 @@ scanningControllers
 
 	  var defaultOptions = {
 	    location: 'yes',
-	    clearcache: 'no',
-	    toolbar: 'no'
+	    clearcache: 'yes',
+	    toolbar: 'yes'
 	  };
 
 	  //document.addEventListener(function () {
