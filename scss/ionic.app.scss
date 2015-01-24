@@ -46,9 +46,23 @@ button.ble-scanning {
 /*
 components
 */
+.content-img {
+border-radius:5px !important;
+}
+
+.icon.beacon {
+	left:17px;
+	font-size: 40px;
+}
+
 .icon.rssi.stable {
 color:#ccc;
 }
+
+.item-complex.item-icon-left .item-content {
+padding-left: 72px;
+}
+
 
 
 /*

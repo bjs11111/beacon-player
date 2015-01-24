@@ -4,20 +4,20 @@ var bleServices = angular.module('bleServices', [ 'bleFilters', 'bcmsServices', 
 bleServices
 //http://codingsmackdown.tv/blog/2013/04/29/hailing-all-frequencies-communicating-in-angularjs-with-the-pubsub-design-pattern/
 .factory('bleNotificationChannel', ['$rootScope', function ($rootScope) {
-    // private notification messages
+    
+	// private notification messages
 	var _BLE_SCANNER_STATE_UPDATED_ 	= '_BLE_SCANNER_STATE_UPDATED_';
     var _FOUND_BLE_DEVICE_ 				= '_FOUND_BLE_DEVICE_';
     var _KNOWN_DEVICES_UPDATED_ 		= '_KNOWN_DEVICES_UPDATED_';
+    var _DEVICES_TRIGGERED_ 			= '_DEVICES_TRIGGERED_';
+    var _BLE_START_SCANN_ERROR_			= '_BLE_START_SCANN_ERROR_';
 
     // publish bleScannerState updated notification
     var publishBleScannerStateUpdated = function (state) {
-    	//console.log('in publish bleScannerState updated: ' + state );
         $rootScope.$broadcast(_BLE_SCANNER_STATE_UPDATED_, {state: state});
     };
-    
     //subscribe to found device notification
     var onBleScannerStateUpdated = function($scope, handler) {
-    	//console.log('in on bleScannerState updated: ' + JSON.stringify(args) );
     	$scope.$on(_BLE_SCANNER_STATE_UPDATED_, function(event, args) {
 	    handler(args.state);
 	   });	
@@ -25,64 +25,92 @@ bleServices
     
     // publish found device notification
     var publishFoundDevice = function (rawDevice) {
-    	//console.log('in publish found' + JSON.stringify(rawDevice) );
         $rootScope.$broadcast(_FOUND_BLE_DEVICE_, {rawDevice: rawDevice});
     };
-
     //subscribe to found device notification
     var onFoundBleDevice = function($scope, handler) {
+    	
     	$scope.$on(_FOUND_BLE_DEVICE_, function(event, args) {
-    		//console.log('in on foundBleDevice:' + JSON.stringify(args) );
     		handler(args.rawDevice);
 	   });
-       	
     };
        
    // publish knownDevices updated notification
    // updateDate is an array of  device.address => true
    var publishKnownDevicesUpdated = function (updatedDate) {
-	   //console.log('in publish knownDevices updated' );
+	 
        $rootScope.$broadcast(_KNOWN_DEVICES_UPDATED_, {updatedDate: updatedDate});
    };
    // subscribe to knownDevices updated notification
    var onKnownDevicesUpdated = function ($scope, handler) {
        $scope.$on(_KNOWN_DEVICES_UPDATED_, function (event, agrs) {
-    	   //console.log('in on onKnownDevicesUpdated:' + JSON.stringify(args) );
     	   handler( agrs.updatedDate );
        });
    };
-       
+   
+   // publish deviceTriggered  notification
+   var publishDeviceTriggered = function (bcmsBeaconKey) {
+       $rootScope.$broadcast(_DEVICES_TRIGGERED_, {bcmsBeaconKey: bcmsBeaconKey});
+   };
+   // subscribe to deviceTriggered notification
+   var onDeviceTriggered = function ($scope, handler) {
+       $scope.$on(_DEVICES_TRIGGERED_, function (event, agrs) {
+    	   handler( agrs.bcmsBeaconKey );
+       });
+   };
+   
+   // publish bleStartScanError  notification
+   var publishBleStartScanError = function () {
+       $rootScope.$broadcast(_DEVICES_TRIGGERED_);
+   };
+   // subscribe to bleStartScanError notification
+   var onBleStartScanError = function ($scope, handler) {
+       $scope.$on(_DEVICES_TRIGGERED_, function (event) {
+    	   handler();
+       });
+   };
+
    // return the publicly accessible methods
    return {
-	   publishBleScannerStateUpdated : publishBleScannerStateUpdated,
-	   onBleScannerStateUpdated: onBleScannerStateUpdated,
-	   publishFoundDevice: publishFoundDevice,
-	   onFoundBleDevice : onFoundBleDevice,
-	   publishKnownDevicesUpdated: publishKnownDevicesUpdated,
-	   onKnownDevicesUpdated: onKnownDevicesUpdated
+	   
+	   publishBleStartScanError 		: publishBleStartScanError,
+	   onBleStartScanError				: onBleStartScanError,
+	   
+	   publishBleScannerStateUpdated 	: publishBleScannerStateUpdated,
+	   onBleScannerStateUpdated			: onBleScannerStateUpdated,
+	   
+	   publishFoundDevice				: publishFoundDevice,
+	   onFoundBleDevice 				: onFoundBleDevice,
+	   
+	   onKnownDevicesUpdated 			: onKnownDevicesUpdated,
+	   publishKnownDevicesUpdated		: publishKnownDevicesUpdated,
+	   
+	   publishDeviceTriggered 			: publishDeviceTriggered,
+	   onDeviceTriggered 				: onDeviceTriggered,
+	   
    	};
 }])
    
 
 
 .factory('$cordovaEvothingsBLE', [ '$q', '$filter', 'bleNotificationChannel', '$interval', '$ionicPlatform', 
-                         function ( $q,   $filter,   bleNotificationChannel,   $interval, $ionicPlatform ) {
-	//TESTING START
+                         function ( $q,   $filter,   bleNotificationChannel,   $interval,   $ionicPlatform ) {
+	//TESTING START==========================================================================================================
 	var interval 			= undefined;
 	var intervalPromise  	= undefined;
 	//NOTICE: addresses maybe not in right order 
-	var foundedDeviceDummy7_1 	= {  'rssi':-50, 'address' : '0E:FA:EF:0C:22:39', 'scanRecord'	: 'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gAHAAGzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
-	var foundedDeviceDummy7_2 	= {  'rssi':-60, 'address' : '0E:FA:EF:0C:22:40', 'scanRecord'	: 'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gAHAAK/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
-	var foundedDeviceDummy7_3	= {  'rssi':-70, 'address' : '0E:FA:EF:0C:22:41', 'scanRecord'	: 'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gAHAAPFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
+	var foundedDeviceDummy7_1 	= {  'rssi':-90, 'address' : '0E:FA:EF:0C:22:39', 'scanRecord'	: 'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gAHAAGzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
+	var foundedDeviceDummy7_2 	= {  'rssi':-90, 'address' : '0E:FA:EF:0C:22:40', 'scanRecord'	: 'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gAHAAK/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
+	var foundedDeviceDummy7_3	= {  'rssi':-50, 'address' : '0E:FA:EF:0C:22:41', 'scanRecord'	: 'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gAHAAPFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
 	//
-	var foundedDeviceDummy143_1	= {  'address' : '0C:F3:EE:53:43:64', 'scanRecord'	: 'BwlUQzE0MwAO/1oAAAAV5RgAAAAGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
-	var foundedDeviceDummy143_2	= {  'address' : '0C:F3:EE:53:43:64', 'scanRecord'	: 'BwlUQzE0MwAO/1oAAAAW2hcAAAAqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
-	var foundedDeviceDummy143_3	= {  'address' : '0C:F3:EE:53:43:64', 'scanRecord'	: 'BwlUQzE0MwAO/1oAAAAWAxcAAAArAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
-	var foundedDeviceDummy143_4	= {  'address' : '0C:F3:EE:53:43:64', 'scanRecord'	: 'BwlUQzE0MwAO/1oAAAAWAxcAAAAsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
-	var foundedDeviceDummy143_5	= {  'address' : '0C:F3:EE:53:43:64', 'scanRecord'	: 'BwlUQzE0MwAO/1oAAAAWQRcAAAAtAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
-	var foundedDeviceDummy143_6	= {  'address' : '0C:F3:EE:53:43:64', 'scanRecord'	: 'BwlUQzE0MwAO/1oAAAAWQRcAAAAuAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
-	var foundedDeviceDummy143_7	= {  'address' : '0C:F3:EE:53:43:64', 'scanRecord'	: 'BwlUQzE0MwAO/1oAAAAWIhcAAAAvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
-	var foundedDeviceDummy143_8	= {  'address' : '0C:F3:EE:53:43:64', 'scanRecord'	: 'BwlUQzE0MwAO/1oAAAAW2hcAAAApAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
+	var foundedDeviceDummy143_1	= {  'address' : '0C:F3:EE:53:43:64', 'scanRecord' : 'BwlUQzE0MwAO/1oAAAAV5RgAAAAGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' };
+	var foundedDeviceDummy143_2	= {  'address' : '0C:F3:EE:53:43:64', 'scanRecord' : 'BwlUQzE0MwAO/1oAAAAW2hcAAAAqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' };
+	var foundedDeviceDummy143_3	= {  'address' : '0C:F3:EE:53:43:64', 'scanRecord' : 'BwlUQzE0MwAO/1oAAAAWAxcAAAArAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' };
+	var foundedDeviceDummy143_4	= {  'address' : '0C:F3:EE:53:43:64', 'scanRecord' : 'BwlUQzE0MwAO/1oAAAAWAxcAAAAsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' };
+	var foundedDeviceDummy143_5	= {  'address' : '0C:F3:EE:53:43:64', 'scanRecord' : 'BwlUQzE0MwAO/1oAAAAWQRcAAAAtAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' };
+	var foundedDeviceDummy143_6	= {  'address' : '0C:F3:EE:53:43:64', 'scanRecord' : 'BwlUQzE0MwAO/1oAAAAWQRcAAAAuAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' };
+	var foundedDeviceDummy143_7	= {  'address' : '0C:F3:EE:53:43:64', 'scanRecord' : 'BwlUQzE0MwAO/1oAAAAWIhcAAAAvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' };
+	var foundedDeviceDummy143_8	= {  'address' : '0C:F3:EE:53:43:64', 'scanRecord' : 'BwlUQzE0MwAO/1oAAAAW2hcAAAApAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' };
 	
 	/* ScanResult{
 		 mDevice=0E:FA:EF:0C:22:39, 
@@ -112,15 +140,28 @@ bleServices
 	var startDummyDeviceFoundLoopWithSetInterval = function () {	
 		if(!interval) { 
 			interval = setInterval(
-					function() {
-							bleNotificationChannel.publishFoundDevice( foundedDeviceDummy7_1 ); 
-							bleNotificationChannel.publishFoundDevice( foundedDeviceDummy7_2 ); 
-							
-			}
-		,1000);
-			setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy7_1 )}, 1000);	
-			setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy7_2 )}, 1000);
-			setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy143_3 )}, 1000);
+				function() {
+						
+						bleNotificationChannel.publishFoundDevice( foundedDeviceDummy7_1 ); 
+						bleNotificationChannel.publishFoundDevice( foundedDeviceDummy7_2 );
+						bleNotificationChannel.publishFoundDevice( foundedDeviceDummy7_3 );
+						
+				}
+				,5000);
+
+			//setTimeout(function() {foundedDeviceDummy7_3.rssi =-80;}, 3000);	
+			//setTimeout(function() {foundedDeviceDummy7_3.rssi =-70;}, 6000);
+			//setTimeout(function() {foundedDeviceDummy7_3.rssi =-60;}, 9000);
+			//setTimeout(function() {foundedDeviceDummy7_3.rssi =-50;}, 12000);
+			
+			//setTimeout(function() {foundedDeviceDummy7_2.rssi =-80;}, 3000);	
+			//setTimeout(function() {foundedDeviceDummy7_2.rssi =-70;}, 6000);
+			//setTimeout(function() {foundedDeviceDummy7_2.rssi =-60;}, 9000);
+			//setTimeout(function() {foundedDeviceDummy7_2.rssi =-50; clearInterval(interval);interval = undefined;}, 12000);
+			//setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy7_1 )}, 1000);	
+			//setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy7_2 )}, 1000);
+			//setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy7_3 )}, 2500);
+			//setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy143_3 )}, 1000);
 	
 			//setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy143_1 )}, 1000);
 			//setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy143_2 )}, 2000);
@@ -135,9 +176,8 @@ bleServices
 	var stopDummyDeviceFoundLoopWithSetInterval = function () {
 		if(interval) { clearInterval(interval);interval = undefined; }
 	};
-	//TESTING END
-	
-	
+	//TESTING END===================================================================================================================================
+		
 	//holds state of ble scanner
 	var bleScannerState = false;
 	
@@ -147,7 +187,6 @@ bleServices
 	//check
 	var isBleDefined = function() {
 		if(typeof evothings == 'undefined'){
-			console.log('ble is not defined'); 
 			return false;
 		}
 		return true;
@@ -173,37 +212,40 @@ bleServices
 	//start scanning for ble devices
 	var startScanning = function() {
 		
-		if(getBleScannerState()) {
-			return;
-		}
-		//set bleScannerState to true
-		setBleScannerState(true);
-	
+		//scip if scanner already scanns
+		if(getBleScannerState()) {return;}
+		
+		
+		
 		//just for testing
-		startDummyDeviceFoundLoopWithSetInterval(); 
+		//startDummyDeviceFoundLoopWithSetInterval(); 
+		if(!isBleDefined()) { return; };
+		
+		
 		
 		//start scanning
 		setBleScannerState(true);	
 		
-		if(!isBleDefined()) { return; };
-		
 		$ionicPlatform.ready(function() {
+			
 		evothings.ble.startScan(
 			function(rawDevice) {
 				//console.log('BLE startScan found device uuid: ' + rawDevice.address);
 				if (toIsBrokenRawDevice(rawDevice)) { 
 					//console.log('do publish found');
-					console.log(rawDevice.scanRecord); 
-					bleNotificationChannel.publishFoundDevice(rawDevice)
+					bleNotificationChannel.publishFoundDevice(rawDevice);
 				}
 			},
 			function(error) {
-			//set bleScannerState to false
-			setBleScannerState(false);
-			//console.log('BLE startScanning error: ' + error);
+				//set bleScannerState to false
+				setBleScannerState(false);
+				bleNotificationChannel.publishBleStartScanError();
+				//console.log('BLE startScanning error: ' + error);
 			}
 		);
 		});
+		
+		
 	};
 	//start scanning for ble devices
 	var stopScanning = function() {	
@@ -212,11 +254,10 @@ bleServices
 		setBleScannerState(false);
 		
 		//just for testing 
-		stopDummyDeviceFoundLoopWithSetInterval(); 
-		
+		//stopDummyDeviceFoundLoopWithSetInterval(); 
 		
 		if(!isBleDefined()) { return; };
-		evothings.ble.stopScan(
+			evothings.ble.stopScan(
 				function(result) {
 					//set bleScannerState to false
 					setBleScannerState(false);
@@ -225,7 +266,7 @@ bleServices
 					//do nothing
 					//console.log('BLE stopScanning error: ' + error);
 				}
-		);
+			);
 	};
 
 	// return the publicly accessible methods
@@ -245,16 +286,18 @@ bleServices
 		_I_BEACON_			: 'iBeacon',
 		_ESTIMOTE_			: 'Estimote',
 		
+		mapTypeRawDevice	: 'scanData',
+		mapTypeBcmsDevice	: 'bcmsBeacon',
+		
 })
    
-.factory('bleDeviceService', [ '$rootScope',  'bleDeviceServiceConfig',  '$filter', 'bleNotificationChannel', 'bleCompanyIdentifierService', 'bcmsNotificationChannel', 'bcmsAjaxService', '$localForage',       
-                      function( $rootScope,    bleDeviceServiceConfig,	  $filter,   bleNotificationChannel,   bleCompanyIdentifierService,   bcmsNotificationChannel,   bcmsAjaxService,   $localForage ){
+.factory('bleDeviceService', [ '$rootScope',  'bleDeviceServiceConfig',  '$filter', 'bleNotificationChannel', 'bleCompanyIdentifierService', 'bcmsNotificationChannel',  '$localForage',       
+                      function( $rootScope,    bleDeviceServiceConfig,	  $filter,   bleNotificationChannel,   bleCompanyIdentifierService,   bcmsNotificationChannel,    $localForage ){
 	  //needed to use the $on method in the bleNotoficationChannel
 	  //http://stackoverflow.com/questions/16477123/how-do-i-use-on-in-a-service-in-angular
 	  var scope = $rootScope.$new();  // or $new(true) if you want an isolate scope
 
 	  //list of all scanned devices [ address => device, ]
-	  var knownDevices = {};
 	
 	  //
 	  var cmsBeaconKeyToObj  = $filter('cmsBeaconKeyToObj');
@@ -315,134 +358,89 @@ bleServices
 			
 			return device;
 	  };
-	  
-	 	    	  	  
-      // removes the device from the array and sends a notification that knownDevices has been updated
-      /*var removeFormKnownDevices = function(device) {
-    	  var updatedDate = [];
-          for(var i = 0; i < knownDevices.length; i++) {
-              if(knownDevices[device.address]) {
-            	  knownDevices.splice(i, 1);
-            	  updatedDate[device.address] = true;
-                  bleNotificationChannel.publishKnownDevicesUpdated(updatedDate);
-                  return;
-              }
-          };
-      };*/
-
-	// returns a specific device with the given address
-      var getKnownDevice = function(addressvalue) {
-    	  	var device = undefined;
-    	  	angular.forEach(knownDevices, function(obj, i){
-    	  		if(obj.address == addressvalue) {
-    	  			device = obj;
-                }
-    	  	})
-    	  		
-            return device;
-      };
-	  
+		  
       //receaved an array of address => true
       // returns the array of knownDevices
-      var getKnownDevices = function(addresses) {
-    	   
-    	  var requestedDevices = [];
-    	  //@TODO overwork and think this!!!
-    	  //check if json
-    	  addresses = (addresses)?addresses:undefined;
-    	  if(addresses === undefined) {
-    		  requestedDevices = knownDevices;
-    	  } else {
-    		  //filter updatedDevices
-    		  angular.forEach(addresses, function(obj, i){
-    			  var updatedDevice = getKnownDevice(obj.address);
-    			  if(updatedDevice !== undefined) {
-    				  requestedDevices.push(updatedDevice);
-    			  }
-        	  }); 
-    	  }
+      var getKnownDevices = function() {
+    	  var requestedDevices = {};
+    	  $localForage.iterate(function(value, key) {
+  			if(cmsBeaconKeyToObj(key) != false) {
+  				if(value.scanData && value.bcmsBeacon ) {
+  					return  value;
+  				}
+  			};
 
-    	  return requestedDevices; 
+  		}).then(function(data) {});
+    	
+    	return requestedDevices; 
+    	 
       };
       
-      var mapScannedDevicesWithRegisteredDevices = function() {
-    	  //@TODO hold all device depending data in one list and make sub sets of data (cms, scanner)
+      //this function holds all logic for updateing and interperting data form scanner and server
+      var mapBeaconDataToLocalStorage = function(deviceData, type) {
+    	  type = (type)?type:false;
+    	  
+    	  var 	bcmsBeaconKey 	= undefined,
+    	  		inTriggerRange  = false;
+    
+    	  if(type != false) {
+	    	  //rawDeviceData
+	    	  if(type == bleDeviceServiceConfig.mapTypeRawDevice) {
+	    		  bcmsBeaconKey = deviceData.iBeaconUuid+'.'+deviceData.major+'.'+deviceData.minor;
+	    	  } 
+	    	  //bcmsData
+	    	  else if (bleDeviceServiceConfig.mapTypeBcmsDevice) {
+	    		  bcmsBeaconKey = deviceData.uuid+'.'+deviceData.major+'.'+deviceData.minor;
+	    	  }
+	      } 
+    	  //no data type prefered
+    	  else {
+    		  //gues what it is
+    		  console.log('no type given!'); 
+    	  }
+    	 
+    	  $localForage.getItem(bcmsBeaconKey).then(
+    			  function(data) {
+    				  //add
+    				  if(data == undefined) {
+    					  data = {};
+    					  data.address = bcmsBeaconKey;
+    				  }
+    				 
+    				  //
+    				  if(type == bleDeviceServiceConfig.mapTypeRawDevice) {
+    					  data.scanData = deviceData;
+    					
+    					  if( data.scanData.rssi > -65 &&  data.bcmsBeacon) {
+    						  inTriggerRange  = true;
+    					  }
+    		    	  } 
+    				  
+    		    	  //bcmsData
+    		    	  else if (bleDeviceServiceConfig.mapTypeBcmsDevice) {
+    		    		  data.bcmsBeacon = deviceData;
+    		    	  }
+    				  
+    				  //
+    				  $localForage.setItem(bcmsBeaconKey, data).then(
+    					  function () {
+    						  bleNotificationChannel.publishKnownDevicesUpdated(null);
+    						  if(inTriggerRange) {
+   							   	bleNotificationChannel.publishDeviceTriggered(bcmsBeaconKey);
+   							   	inTriggerRange  = false;
+    						  }
+    				  });
+    			  }
+    	  );
       }
       
-      var updateBleDevice = function (preparedDevice) {
-    	  
-  		  knownDevices[preparedDevice.address].scanData = angular.extend({}, knownDevices[preparedDevice.address].scanData, preparedDevice);
-  		  
-  		  updatedDate.push( {'address' : preparedDevice.address} );
-  		  bleNotificationChannel.publishKnownDevicesUpdated(updatedDate);
-      };
-      
-      var addBleDevice = function (device) {
-    	  //var updatedDate = [];
-    	  
-    	  //detect device CompanyIdentifier
-    	  device.typeName = bleCompanyIdentifierService.getCompanyName(device.mfId);
-    	  
-    	  var newdevice = { 'address' : device.address, 
-		  					//@TODO remove testin vars and implement logic
-    			  			'scanData' : device
-		  		};
-    	  
-    	  knownDevices[device.address] = newdevice;
-    	  
-    	  //updatedDate.push({'address' : device.address});
-    	  bleNotificationChannel.publishKnownDevicesUpdated([{'address' : newdevice.address}]);  	  
-      };
-      
-      
-	  var onBeaconListUpdatedHandler = function()  {
-			bcmsAjaxService.getBeaconList().then(function(data) {
-				mapScannedDevicesWithRegisteredDevices(data); 
-	        });
-	  };
-      
-      var tryAppendBleDeviceToKnownDevices = function (preparedDevice) {
-    	//console.log('tryAppendBleDeviceToKnownDevices'); 
-		//add device
-    	  
-		if( knownDevices[preparedDevice.address] ) { addBleDevice(preparedDevice); } 
-	    //update    
-		else { updateBleDevice(preparedDevice); }
-		
-	  }
-      
 	  var onFoundBleDeviceHandler = function(rawDevice)  {
-		  //console.log('in on foundBleDevice handler'); 
 		  prepareDeviceData(rawDevice);
-		  var isNewDevice = true;
-		  
-		  //$localForage.clear();
-		  
-		  $localForage.iterate( function(value, key) {
-				if( cmsBeaconKeyToObj(key) != false ) {
-					if(key === rawDevice.iBeaconUuid+'.'+rawDevice.major+'.'+rawDevice.minor) {
-						value.scanData = rawDevice;
-						value.address =  rawDevice.iBeaconUuid, 
-						$localForage.setItem( key, value );
-						isNewDevice = false;
-					} 
-				};
-		  });
-		  
-		  if(isNewDevice) {
-			  $localForage.setItem( rawDevice.iBeaconUuid+'.'+rawDevice.major+'.'+rawDevice.minor, rawDevice );
-		  }
-		  
-		  
-		  //tryAppendBleDeviceToKnownDevices(rawDevice); 
+		  mapBeaconDataToLocalStorage(rawDevice, bleDeviceServiceConfig.mapTypeRawDevice); 
 	  };
 	  
 	  var init = function() {
-		  
 		  bleNotificationChannel.onFoundBleDevice(scope, onFoundBleDeviceHandler); 
-		  
-		  bcmsNotificationChannel.onBeaconListUpdated(scope, onBeaconListUpdatedHandler);
-		  
 	  };
       
       //do initialisation
@@ -450,10 +448,8 @@ bleServices
       
       // return the publicly accessible methods
       return {
-    	  getKnownDevices			: getKnownDevices,
-    	  getKnownDevice			: getKnownDevice,
-    	  tryAppendBleDevice 		: tryAppendBleDeviceToKnownDevices,
-    	  //removeFormKnownDevices	: removeFormKnownDevices
+    	  getKnownDevices				: getKnownDevices,
+    	  mapBeaconDataToLocalStorage	: mapBeaconDataToLocalStorage
       };
       
    }])
@@ -483,8 +479,8 @@ bleServices
 			  }).success(function(data) {
 				  companyIdentifiers = data;
 			  }).error(function(data) {
-				  console.log('error while loading app/data/companyIdentifier.json');
-				  console.log(data); 
+				  //console.log('error while loading app/data/companyIdentifier.json');
+				  //console.log(data); 
 			  });
 	  };
 	  

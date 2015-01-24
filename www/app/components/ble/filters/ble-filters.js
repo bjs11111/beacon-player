@@ -216,10 +216,11 @@ bleFilters
 		var toHexString = $filter('toHexString');
 		
 		 	//string.length have to be 36 => 32 chars hexvalue + 4 chars "-"
-		     if(value.length != 32+4) { 
-		    	 console.log('IBeaconUuidToHex returns false because the stringlength is not 36');
+		     if(value.length != 32+4) {  
+		    	 console.log('IBeaconUuidToHex returns false because the stringlength of "'+value+'" is not 36');
 		    	 return false; 
 		     }
+		     
 		    //clean string from seperator
 		     var hexarray = value.split("-");
 		     var hexstring = hexarray.join('');

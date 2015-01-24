@@ -18,6 +18,12 @@ C:\Users\Michael\git\beacon-player\platforms\android\ant-build\classes\com\ionic
 C:\Users\Michael\git\beacon-player\platforms\android\ant-build\classes\com\ionicframework\ionicbeaconplayerv23454890\R$string.class \
 C:\Users\Michael\git\beacon-player\platforms\android\ant-build\classes\com\ionicframework\ionicbeaconplayerv23454890\R$xml.class \
 C:\Users\Michael\git\beacon-player\platforms\android\ant-build\classes\com\ionicframework\ionicbeaconplayerv23454890\R.class \
+C:\Users\Michael\git\beacon-player\platforms\android\ant-build\classes\com\megster\cordova\ble\central\BLECentralPlugin$1.class \
+C:\Users\Michael\git\beacon-player\platforms\android\ant-build\classes\com\megster\cordova\ble\central\BLECentralPlugin.class \
+C:\Users\Michael\git\beacon-player\platforms\android\ant-build\classes\com\megster\cordova\ble\central\BLECommand.class \
+C:\Users\Michael\git\beacon-player\platforms\android\ant-build\classes\com\megster\cordova\ble\central\Helper.class \
+C:\Users\Michael\git\beacon-player\platforms\android\ant-build\classes\com\megster\cordova\ble\central\Peripheral.class \
+C:\Users\Michael\git\beacon-player\platforms\android\ant-build\classes\com\megster\cordova\ble\central\UUIDHelper.class \
 C:\Users\Michael\git\beacon-player\platforms\android\ant-build\classes\org\apache\cordova\device\Device.class \
 C:\Users\Michael\git\beacon-player\platforms\android\ant-build\classes\org\apache\cordova\inappbrowser\InAppBrowser$1.class \
 C:\Users\Michael\git\beacon-player\platforms\android\ant-build\classes\org\apache\cordova\inappbrowser\InAppBrowser$2.class \

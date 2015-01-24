@@ -14,9 +14,6 @@ We are working with eclipse so some parts are eclipse specific. But you use the 
 
 ###Installig envirement 
 
-
-
-
 We recommend using the [Ionic CLI](https://github.com/driftyco/ionic-cli) to create new Ionic projects and work with them. Also a good advice is to read the [IONIC CLI FAQ](http://ionicframework.com/docs/ionic-cli-faq).
 
 1.`ionic` utility
@@ -50,10 +47,13 @@ org.apache.cordova.inappbrowser 0.5.4 "InAppBrowser"
 org.apache.cordova.network-information 0.2.14 "Network Information"
 org.apache.cordova.vibration 0.3.12 "Vibration"
 1.4 install other libs
-$ bower install ngCordova
+copy bower.json into your project and run:
+$ bower update
 
-$ bower install localforage
+or install new with
+$ bower install ngCordova
 $ bower install angular-localforage
+$ bower install angular-moment
 
 2. add icon and splashscreen images into the recources folder named icon and splash .png,.psd,.ai
 2.1 run following commands

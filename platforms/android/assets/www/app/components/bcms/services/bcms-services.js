@@ -1,17 +1,22 @@
 /* Services */
-var bcmsServices = angular.module('bcmsServices', ['LocalForageModule']);
+var bcmsServices = angular.module('bcmsServices', ['LocalForageModule', 'bleServices']);
 
 bcmsServices
 
 //Constants for the bleDeviceService
+//rename to general settings
 .constant("bcmsAjaxServiceConfig", {
 	//Events
 	_BEACON_LIST_UPDATED_ 	: '_BEACON_LIST_UPDATED_',
+	_TRY_IAB_OPEN_EVENT_ 	: '_TRY_IAB_OPEN_EVENT_',
 	//path vars
 	basePath 				: 'http://www.starnberger.at/dev-bcms',
 	getBeaconsListPath		: 'get-all-beacons',
+	iabView 				: 'b-i',
+	
 	//localForge keys
 	beaconListKey 			: 'beacon_list',
+	
 })
 
 //bcmsNotifatation Channel
@@ -31,49 +36,42 @@ bcmsServices
     	   handler(agrs.updatedDate );
        });
    };
-       
+   
+// publish knownDevices updated notification
+   // updateDate is an array of  device.address => true
+   var publishTryOpenIAB = function (bcmsBeaconKey) {
+	   //console.log('in publishTryOpenIAB' + bcmsBeaconKey );
+       $rootScope.$broadcast(bcmsAjaxServiceConfig._TRY_IAB_OPEN_EVENT_, {bcmsBeaconKey: bcmsBeaconKey});
+   };
+   // subscribe to knownDevices updated notification
+   var onTryOpenIAB = function ($scope, handler) {
+       $scope.$on(bcmsAjaxServiceConfig._TRY_IAB_OPEN_EVENT_, function (event, agrs) {
+    	   handler(agrs.bcmsBeaconKey);
+       });
+   };
+   
    // return the publicly accessible methods
    return {
 	   publishBeaconListUpdated	: publishBeaconListUpdated,
-	   onBeaconListUpdated		: onBeaconListUpdated
+	   onBeaconListUpdated		: onBeaconListUpdated,
+	   publishTryOpenIAB		: publishTryOpenIAB,
+	   onTryOpenIAB				: onTryOpenIAB
    	};
 }])
 
 //ajax calls
-.factory( 'bcmsAjaxService', ['$http', '$localForage', 'bcmsAjaxServiceConfig', 'bcmsNotificationChannel', 
-                      function($http,   $localForage,   bcmsAjaxServiceConfig,   bcmsNotificationChannel ) {
+.factory( 'bcmsAjaxService', ['$http', 'bcmsAjaxServiceConfig', 'bleDeviceServiceConfig', 'bleDeviceService',
+                      function($http,   bcmsAjaxServiceConfig,   bleDeviceServiceConfig,   bleDeviceService) {
 
-	 
-	
 	var refreshBeaconList = function() {
 		
 		var path = bcmsAjaxServiceConfig.basePath + '/' + bcmsAjaxServiceConfig.getBeaconsListPath;
 		var oldData = undefined;
 		var result =  $http.post(path)			
 		.success(function (data, status, headers, config) { 
-			
 				angular.forEach(data, function(value, key) {
-					
-					//$localForage.clear();
-					$localForage.getItem(key).then(function(oldData) {
-							//oldData['bcmsBeacon'] = value;
-							 
-							//obj is new
-							if(oldData === undefined) {
-								oldData = {};
-							} 
-							oldData.bcmsBeacon = value;
-							oldData.address = value.uuid + '.' + value.major + '.' + value.minor;
-							
-							$localForage.setItem( key, oldData ); 
-				    });
-					
-				});
-				
-				//publish data BeaconListUpdated event
-				bcmsNotificationChannel.publishBeaconListUpdated();
-				 
-						
+					bleDeviceService.mapBeaconDataToLocalStorage(value, bleDeviceServiceConfig.mapTypeBcmsDevice); 
+				});		
         })
         .error(function (data, status, headers, config) {
             return {error : "Error occurred.  Status:" + status};

@@ -54,7 +54,7 @@ beaconPlayerApp.config(
 	    views: {
 	      'mainContent': {
 	        templateUrl: 'app/components/help/help.html',
-	        controller: 'HelpCtrl' 
+	        controller: 'helpCtrl' 
 	      }
 	    }
 	  })

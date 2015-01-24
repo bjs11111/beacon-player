@@ -10,13 +10,7 @@
 	    	<h1 class="positive">discover your environment for beacons</h1>
 	    	<i class=" icon icon ion-radio-waves" ng-click="goAndStartScanning()"></i>
 	    </div>
-	    local value: {{localValue}}<br/>
-	    new local value: {{newlocalVal}}
-		<input ng-model="newlocalVal" />
-		<button ng-click="loadLocalValue()">load</button>
-		<button ng-click="setLocalValue(newlocalVal)">set</button>
-		
-	    
+	    <button class="button button-block" ng-click="clearLocalStorage()">clear</button>
   	</ion-content>
 
 </ion-view>

@@ -9,35 +9,35 @@
 	</ion-nav-buttons>
   
   	<ion-content class="has-header">
-  	 <code><pre>{{list}}</pre></code>
+  	
 	<!-- example for start scanning ble pacages-->
-	<h2 class="text-center positive padding-vertical" ng-show="knownBleDevices.length == 0">nothing found...</h2>
- 	 	{{list.length}}
-   
-    
- 	<ion-list ng-show="knownBleDevices.length != 0" show-delete="data.showDelete" > 
-
-		 <label class="item item-input">
-		    <i class="icon ion-search placeholder-icon"></i>
-		    <input ng-model="all"  type="text" placeholder="Search...">
-		  </label>
-	
- 	 	
+	<h2 class="text-center positive padding-vertical" ng-show="getListLength() == 0" ng-click="set()">nothing found...</h2>
+{{iabIsOpen?1:0}}
+ 	<ion-list 	ng-show="knownBleDevices.length != 0" 
+		 		show-delete="false"
+		        show-reorder="false"
+		        can-swipe="true"
+ 	> 
 		  <!-- Filters should be applied to the expression, before specifying a tracking expression
 		  	   https://docs.angularjs.org/api/ng/directive/ngRepeat
 		  	   rangeFilter:filtersSettings.triggerRange:'rssi' |
 		  	   | filter:all | orderBy:orderProp
 		  	   
-		  	   track by device.address
-		  	   
+		  	   track by device.address  
 		   -->
-		
-		<ion-item class="item-icon-left item-icon-right"
-        		  ng-repeat="(key, device) in list | filter:all"
+	
+		<ion-item ng-repeat="(key, device) in list track by device.address"
                   href="#" 
-                  class="item-remove-animate"> 
+                  class=" item-icon-right "
+                  ng-class="device.bcmsBeacon.content_thumnail_url?'item-avatar':'item-icon-left'"> 
+                  
+                  <img class="content-img" ng-show="device.bcmsBeacon.content_title" ng-src="{{device.bcmsBeacon.content_thumnail_url?device.bcmsBeacon.content_thumnail_url:''}}">
+				   <!-- <h2>{{device.bcmsBeacon.content_title}}</h2>
+				    <p>Zuletzt gesehen: {{device.scanData.lastScan}}></span></p>
+				    -->
  					<ng-ble-item ng-model="device"></ng-ble-item>
  		</ion-item>
+ 		
  	</ion-list>
  	
  	

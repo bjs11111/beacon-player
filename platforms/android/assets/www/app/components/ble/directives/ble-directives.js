@@ -1,5 +1,5 @@
 /*@TODO write documantation*/
-var bleDirectives = angular.module('bleDirectives', [])
+var bleDirectives = angular.module('bleDirectives', ['bcmsServices', 'angularMoment'])
 
 /*Constants for the bleDirectives*/
 bleDirectives.constant("ngBleStateConfig", {
@@ -76,6 +76,7 @@ bleDirectives.constant("ngBleItemConfig", {
 	}
 
 })
+
 /* BleState Directive 
  * The element is located in the apps navigation header in main.sidemenu.html
  * it handles the dis- and enabling of the bleScanner options and 
@@ -88,35 +89,35 @@ bleDirectives.directive('ngBleState', [ '$cordovaEvothingsBLE',
 	    restrict: 'EA',
 	    template:'<button class="button button-icon ion-radio-waves" ng-click="toggleState()" ng-class="getStateClass()"></button>',
 	    controller: ['$scope', 'ngBleStateConfig', 'bleNotificationChannel', 
-	         function($scope,   ngBleStateConfig, bleNotificationChannel) {
+	        function($scope,   ngBleStateConfig, bleNotificationChannel) {
 	    		 
-	    	var init = function() {
-		    	$scope.state = $cordovaEvothingsBLE.getBleScannerState();
-		    	//subscribe for onBleScannerStateUpdated on bleNotificationChannel 
-	     		bleNotificationChannel.onBleScannerStateUpdated($scope, onBleScannerStateUpdatedHandler);
-	    	};
-     	
-	     	var onBleScannerStateUpdatedHandler = function(newState) {
-	     		//request new state only if newState is different form actual
-	     		if(newState != $scope.bleScannerState) {
-	     			$scope.state = $cordovaEvothingsBLE.getBleScannerState();
-	     		} 
-	     	};
+		    	var init = function() {
+			    	$scope.state = $cordovaEvothingsBLE.getBleScannerState();
+			    	//subscribe for onBleScannerStateUpdated on bleNotificationChannel 
+		     		bleNotificationChannel.onBleScannerStateUpdated($scope, onBleScannerStateUpdatedHandler);
+		    	};
 	     	
-	     	//provide stateClas in view
-	    	$scope.getStateClass = function() {
-	    		return $scope.bleDisabledState ? ngBleStateConfig.bleDisabledClass : ( $scope.state?ngBleStateConfig.bleScanningClass : ngBleStateConfig.blePausedClass );
-	    	}
-
-	    	$scope.toggleState = function() {	
-	    		//if bleDisabledState is disabled (set in AppCtrl) then scip
-	    		if($scope.bleDisabledState) {return;}
-	    		
-	    		if(!$cordovaEvothingsBLE.getBleScannerState()){ $cordovaEvothingsBLE.startScanning(); }
-	    		else { $cordovaEvothingsBLE.stopScanning(); }
-	        };
-	        
-	        init();
+		     	var onBleScannerStateUpdatedHandler = function(newState) {
+		     		//request new state only if newState is different form actual
+		     		if(newState != $scope.bleScannerState) {
+		     			$scope.state = $cordovaEvothingsBLE.getBleScannerState();
+		     		} 
+		     	};
+		     	
+		     	//provide stateClas in view
+		    	$scope.getStateClass = function() {
+		    		return $scope.bleDisabledState ? ngBleStateConfig.bleDisabledClass : ( $scope.state?ngBleStateConfig.bleScanningClass : ngBleStateConfig.blePausedClass );
+		    	}
+	
+		    	$scope.toggleState = function() {	
+		    		//if bleDisabledState is disabled (set in AppCtrl) then scip
+		    		if($scope.bleDisabledState) {return;}
+		    		
+		    		if(!$cordovaEvothingsBLE.getBleScannerState()){ $cordovaEvothingsBLE.startScanning(); }
+		    		else { $cordovaEvothingsBLE.stopScanning(); }
+		        };
+		        
+		        init();
 
 	    }],
 	    link: function (scope, element, attrs) {
@@ -127,7 +128,7 @@ bleDirectives.directive('ngBleState', [ '$cordovaEvothingsBLE',
 }])
 
 /**/
-bleDirectives.directive('ngBleItem', function() {
+bleDirectives.directive('ngBleItem', [ 'bcmsNotificationChannel', function(bcmsNotificationChannel) {
   return {
     restrict: 'EA',
     require: '^ngModel',
@@ -136,11 +137,12 @@ bleDirectives.directive('ngBleItem', function() {
     },
     templateUrl: 'app/components/ble/directives/templates/ble-item.html',
     controller: ['$scope', 'ngBleItemConfig',
-    	         function($scope, ngBleItemConfig) {
+    	 function($scope,   ngBleItemConfig) {
     	    	
-    	var getCmsStateColor = function() {
-    		 
-    		if($scope.ngModel.cmsContent != undefined) {
+    	$scope.getCmsStateColor = function(cmsBeacon) {
+    		cmsBeacon = (cmsBeacon)?cmsBeacon:$scope.ngModel.bcmsBeacon;
+    		
+    		if($scope.ngModel.bcmsBeacon != undefined) {
         		return ngBleItemConfig.cmsState.connected.color;
         	}
         	else if($scope.ngModel.cmsBeacon) {
@@ -151,45 +153,49 @@ bleDirectives.directive('ngBleItem', function() {
         	}
     	};
     	
-    	var getContentTypeIcon = function() {
+    	$scope.getContentTypeIcon = function() {
     		var icon = ngBleItemConfig.contentType.unknown.icon;
-    		
-    		if($scope.ngModel.cmsContent) {
-    			angular.forEach(ngBleItemConfig.contentType, function(obj, i) {
-    				if(obj.name ===  $scope.ngModel.cmsContent.type) {
-    					icon = obj.icon;
-    				}
-    			});
-        	}
-        	
     		return icon;
-        	
     	};
     	
-    	var getRssiStateColor = function() {
+    	$scope.getRssiStateColor = function(rssi) {
+    		//rssi = (rssi)?rssi:$scope.ngModel.scanData.rssi;
     		var color = ngBleItemConfig.rssiState.notInRange.color;
     		
-    		if( $scope.ngModel.scanData.rssi >= -65 ) {
+    		if( rssi >= -65 ) {
     			color = ngBleItemConfig.rssiState.activeRange.color;
     		} 
-    		else if( $scope.ngModel.scanData.rssi < -65 ) {
+    		else if( rssi < -65 ) {
     			color = ngBleItemConfig.rssiState.inRange.color;
     		}
-    		
     		return color;
     	}
-    	    	
+    	
+    	$scope.show = function (bcmsBeaconKey) {
+    		bcmsNotificationChannel.publishTryOpenIAB(bcmsBeaconKey);
+    	}
+    	
+    	//@TODO enhanch the bcms data mapping now on every bcms load all items causes watch 
+    	$scope.$watch('ngModel.bcmsBeacon', function(newValue, oldValue) {
+    		//console.log('watch bcms'); 
+    		$scope.cmsStateColor = $scope.getCmsStateColor(newValue);
+    	});
+    	$scope.$watch('ngModel.scanData.rssi', function(newValue, oldValue) {
+    		//console.log('watch rssi'); 
+    		$scope.rssiStateColor = $scope.getRssiStateColor(newValue);
+    	});
+     	    	
     	var init = function() {
-    		//$scope.itemTypeIcon 		=  ngBleItemConfig.type.beacon.icon;
-    		//$scope.cmsStateColor 		= getCmsStateColor();
-    		//$scope.contentTypeIcon 	= getContentTypeIcon(); 
-    		//$scope.rssiStateColor 	= getRssiStateColor(); 
+    		$scope.itemTypeIcon 		=  ngBleItemConfig.type.beacon.icon;
+    		$scope.cmsStateColor 		=  $scope.getCmsStateColor();
+    		$scope.contentTypeIcon 		=  $scope.getContentTypeIcon(); 
+    		$scope.rssiStateColor 		=  $scope.getRssiStateColor(); 
     	};
     	
     	init(); 
     }]
   	}
-});
+}]);
 
 
 /*@TODO write documantation + use link*/
