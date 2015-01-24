@@ -91,6 +91,43 @@ bleServices
    	};
 }])
    
+/*
+
+.factory('$cordovaBLECustom', [ '$cordovaBLE', 'bleNotificationChannel', '$interval', '$ionicPlatform', 
+                     function (  $cordovaBLE,   bleNotificationChannel,   $interval,   $ionicPlatform ) {
+	var bleConnectionWatchingPromise  	= undefined;
+	//@TODO try to move in run or other place to start loop on loud
+	var startBleConnectionWatching = function () {
+		if(!bleConnectionWatchingPromise) {
+			bleConnectionWatchingPromise = $interval( 
+				function() { 
+					if(true) {
+						bleNotificationChannel.publishBleOff(); 
+					}
+					else {
+						bleNotificationChannel.publishBleOn(); 
+					}
+				}, 
+				500
+			);
+		}
+	};
+	
+	var stopBleConnectionWatching = function () {
+		if(bleConnectionWatchingPromise) {
+			$interval.cancel(intervalPromise);
+			bleConnectionWatchingPromise = undefined;
+		}
+	};
+	
+	return {
+		startBleConnectionWatching	: startBleConnectionWatching,
+		stopBleConnectionWatching	: stopBleConnectionWatching,
+		isEnabled 					: $cordovaBLE.isEnabled,
+	};
+	
+}])
+*/
 
 
 .factory('$cordovaEvothingsBLE', [ '$q', '$filter', 'bleNotificationChannel', '$interval', '$ionicPlatform', 
@@ -186,7 +223,9 @@ bleServices
 
 	//check
 	var isBleDefined = function() {
-		if(typeof evothings == 'undefined'){
+		//this means you have to load the cordova plugin into your project
+		//or you are debugging on desctop
+		if(typeof evothings == 'undefined') {
 			return false;
 		}
 		return true;
@@ -211,17 +250,15 @@ bleServices
 	
 	//start scanning for ble devices
 	var startScanning = function() {
+		//@TODO check ble is on or off
 		
-		//scip if scanner already scanns
+		//skip if scanner already scanns
 		if(getBleScannerState()) {return;}
-		
-		
-		
+	
 		//just for testing
 		//startDummyDeviceFoundLoopWithSetInterval(); 
 		if(!isBleDefined()) { return; };
-		
-		
+
 		
 		//start scanning
 		setBleScannerState(true);	

@@ -443,8 +443,6 @@ angular.module('ngCordova.plugins.batteryStatus', [])
 angular.module('ngCordova.plugins.ble', [])
 
   .factory('$cordovaBLE', ['$q', function ($q) {
-	 // ble = cordova.plugins.ble;
-	 // .notification
     return {
       scan: function (services, seconds) {
         var q = $q.defer();

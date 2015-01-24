@@ -34,8 +34,8 @@ scanningControllers
 /* Scanning Controllers */
 
 scanningControllers.controller( 'ScanningRecentlyseenCtrl', 
-				['$rootScope', '$scope', '$filter', 'scanningControllersConfig', '$cordovaEvothingsBLE', 'bcmsNotificationChannel', 'bleNotificationChannel',  '$localForage', 'bcmsAjaxServiceConfig', '$ionicPlatform', '$cordovaBLE', '$cordovaInAppBrowser', '$cordovaVibration',
-         function($rootScope ,  $scope,   $filter,   scanningControllersConfig,   $cordovaEvothingsBLE,   bcmsNotificationChannel,   bleNotificationChannel,    $localForage,   bcmsAjaxServiceConfig,   $ionicPlatform,   $cordovaBLE,   $cordovaInAppBrowser,   $cordovaVibration) {
+				['$rootScope', '$scope', '$filter', 'scanningControllersConfig', '$cordovaEvothingsBLE', 'bcmsNotificationChannel', 'bleNotificationChannel',  '$localForage', 'bcmsAjaxServiceConfig', '$ionicPlatform', '$cordovaBLE', '$cordovaNetwork', '$cordovaInAppBrowser', '$cordovaVibration',
+         function($rootScope ,  $scope,   $filter,   scanningControllersConfig,   $cordovaEvothingsBLE,   bcmsNotificationChannel,   bleNotificationChannel,    $localForage,   bcmsAjaxServiceConfig,   $ionicPlatform,   $cordovaBLE,   $cordovaNetwork,   $cordovaInAppBrowser,   $cordovaVibration) {
 		
 		//beacon removes after 5 minutes
 		var cmsBeaconKeyToObj = null;
@@ -72,10 +72,14 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     		if($scope.list[bcmsBeaconKey]) {
     			if($scope.list[bcmsBeaconKey].bcmsBeacon) {
     				if(!$scope.list[bcmsBeaconKey].bcmsBeacon.content_title) {
-    					return;
+    						return;
     				}
     			}
     		}
+    		
+    		if($cordovaNetwork.isOffline()) {
+				return;
+			}
     		
     		if(!$scope.iabAlreadyTriggered) {
         		 bcmsNotificationChannel.publishTryOpenIAB(bcmsBeaconKey);
@@ -93,58 +97,54 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
 			bcmsNotificationChannel.onTryOpenIAB($scope, function(bcmsBeaconKey) { openIAB(bcmsBeaconKey); }); 
 			onKnownDevicesUpdatedHandler();
       	}
-      	 $ionicPlatform.ready(function() { 
-	      	$cordovaBLE.isEnabled().then(
-	      			function(state) {
-			      		console.log('success:' + value ); 
-			  		},
-			  		function(error) {
-			      		console.log('error:' + error); 
-			  		});
-      	 });
-      	
+
     	var openIAB = function(bcmsBeaconKey) {
-    		 
-    		 var pathToBcms = bcmsAjaxServiceConfig.basePath +'/'+ bcmsAjaxServiceConfig.iabView +'/'+ bcmsBeaconKey+'?ajax=1';
-    		 //console.log('oiaf path2: '+pathToBcms);  
-    		 //return;
-    		 
+    		
     		 $ionicPlatform.ready(function() { 
     			 
-    			$scope.iabAlreadyTriggered = true;
-    		
+    			 //@TODO think about moveing this into isOnline
+    			 $scope.iabAlreadyTriggered = true;
     			
-    			//stop all loops
-	    		$scope.stopBleScanning('openIAB')
-				$scope.stopRefreshingLoop('openIAB');
-	    		$rootScope.iabIsOpen = 1;
-	    		$rootScope.$apply();
-	    		
-	    		
-	    		//vibrate for content
-    			$cordovaVibration.cancelVibration();
-    			$cordovaVibration.vibrateWithPattern(scanningControllersConfig.iabOpenVibratePattern);
-	    		
-	    		//open iab with beacon content url
-    			$cordovaInAppBrowser
-    			    .open(pathToBcms, '_blank', scanningControllersConfig.iabDefaultSettings)
-    			    .then(function(event) {
-    			    		// success
-    			    		console.log('APPTEST: on $cordovaInAppBrowser:open'); 
-    			    		
-	    			    }, function(event) {
-	    			    	// error
-	    			    	//start all loops
-	    		    		$scope.startBleScanning('openIAB error');
-	    					$scope.startRefreshingLoop('openIAB error');
-	    					
-	    					$rootScope.iabIsOpen = 0;
-	    					
-	    			    });
-    		 });
+    			 if($cordovaNetwork.isOnline()) {
+    				var pathToBcms = bcmsAjaxServiceConfig.basePath +'/'+ bcmsAjaxServiceConfig.iabView +'/'+ bcmsBeaconKey+'?ajax=1';
+    				
+    				//stop all loops
+    				$scope.stopBleScanning('openIAB')
+					$scope.stopRefreshingLoop('openIAB');
+		    		$rootScope.iabIsOpen = 1;
+		    		//check if this is necessary
+		    		$rootScope.$apply();
+		    		
+		    		//vibrate for content
+	    			//$cordovaVibration.cancelVibration();
+	    			$cordovaVibration.vibrateWithPattern(scanningControllersConfig.iabOpenVibratePattern);
+		    		
+		    		//open iab with beacon content url
+	    			$cordovaInAppBrowser
+	    			    .open(pathToBcms, '_blank', scanningControllersConfig.iabDefaultSettings)
+	    			    .then(function(event) {
+	    			    		// success
+	    			    		console.log('APPTEST: on $cordovaInAppBrowser:open'); 
+	    			    		
+		    			    }, function(event) {
+		    			    	// error
+		    			    	//start all loops
+		    		    		$scope.startBleScanning('openIAB error');
+		    					$scope.startRefreshingLoop('openIAB error');
+		    					
+		    					$rootScope.iabIsOpen = 0;
+		    					
+		    			    });
+    		 	}
+    			//if offline
+    			else {
+    				$scope.alertEnsureInetConnection(true);
+    			}
+    			 
+    		});
     	 }
     	
-    	//@TODO on iab exit start scanning
+    	
     	$rootScope.$on('$cordovaInAppBrowser:exit', function(e, event){
     		console.log('APPTEST: on $cordovaInAppBrowser:exit'); 
     		$rootScope.iabIsOpen = 0;

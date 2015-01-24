@@ -76,6 +76,7 @@ C:\Users\Michael\git\beacon-player\platforms\android\assets\www\app\components\b
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\app\components\ble\directives\templates\navbar-ble-State.html \
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\app\components\ble\filters\ble-filters.js \
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\app\components\ble\services\ble-services.js \
+C:\Users\Michael\git\beacon-player\platforms\android\assets\www\app\components\ble\services\other-ble-scanner-tests.js \
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\app\components\help\help-controllers.js \
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\app\components\help\help.html \
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\app\components\help\img \
@@ -370,12 +371,14 @@ C:\Users\Michael\git\beacon-player\platforms\android\assets\www\lib\ngCordova\di
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\lib\ngCordova\dist\ng-cordova-mocks.min.js \
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\lib\ngCordova\dist\ng-cordova.js \
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\lib\ngCordova\dist\ng-cordova.min.js \
+C:\Users\Michael\git\beacon-player\platforms\android\assets\www\plugins\com.evothings.ble \
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\plugins\com.ionic.keyboard \
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\plugins\com.megster.cordova.ble \
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\plugins\org.apache.cordova.device \
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\plugins\org.apache.cordova.inappbrowser \
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\plugins\org.apache.cordova.network-information \
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\plugins\org.apache.cordova.vibration \
+C:\Users\Michael\git\beacon-player\platforms\android\assets\www\plugins\com.evothings.ble\ble.js \
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\plugins\com.ionic.keyboard\www \
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\plugins\com.ionic.keyboard\www\keyboard.js \
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\plugins\com.megster.cordova.ble\www \

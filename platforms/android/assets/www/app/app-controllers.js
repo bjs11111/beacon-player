@@ -16,18 +16,24 @@ var appControllers = angular.module('app.controllers', [ 'ngCordova', 'bleDirect
 appControllers
 .constant("BackgroundProcessConfig", {
 	//refreshBeaconListInterval		: ms
-	refreshBeaconListInterval 	: 1000 * 5,
+	refreshBeaconListInterval 	: 1000 * 60 * 5,
 })
 
 .controller('AppCtrl', 
-							['$scope', '$rootScope', 'BackgroundProcessConfig', 'ngBleStateConfig', 'bleNotificationChannel', '$cordovaNetwork', '$ionicPlatform', '$ionicPopup', '$cordovaEvothingsBLE', 'bcmsAjaxService', '$interval', 
-                     function($scope,   $rootScope,   BackgroundProcessConfig,   ngBleStateConfig,   bleNotificationChannel,   $cordovaNetwork,   $ionicPlatform,   $ionicPopup,   $cordovaEvothingsBLE,   bcmsAjaxService,   $interval) {
+							['$scope', '$rootScope', 'BackgroundProcessConfig', 'ngBleStateConfig', 'bleNotificationChannel',  '$ionicPlatform', '$ionicPopup', '$cordovaBLE', '$cordovaEvothingsBLE', 'bcmsAjaxService', '$interval', 
+                     function($scope,   $rootScope,   BackgroundProcessConfig,   ngBleStateConfig,   bleNotificationChannel,    $ionicPlatform,   $ionicPopup,   $cordovaBLE,   $cordovaEvothingsBLE,   bcmsAjaxService,   $interval) {
 
 	/*show alert with information to check inet connection
 	 * set closeOnOffline to true closes app after press alert button 
 	 * */	
-	var alertEnsureInetConnection = function(closeOnOffline) {
-		if (!$scope.allreadyNotifiedNoInte) {
+	$scope.alertEnsureInetConnection = function( forceOpen, forceCloseApp ) {
+		
+		forceOpen = (forceOpen)?true:false;
+		forceCloseApp = (forceCloseApp)?true:false;
+		
+		console.log(forceOpen, forceCloseApp); 
+		if (!$scope.allreadyNotifiedNoInte || forceOpen) {
+				
 				$scope.allreadyNotifiedNoInte = true;
 		
 				//let alert pop up with given settings
@@ -41,7 +47,7 @@ appControllers
 				noInetAlert.then( function(result) {
 									noInetAlert.close();
 									
-									if(closeOnOffline) 
+									if(forceCloseApp) 
 									{ ionic.Platform.exitApp(); }
 								});
 				}
@@ -50,7 +56,7 @@ appControllers
 	/*show alert with information to check ble connection
 	 * set closeOnOffline to true closes app after press alert button 
 	 * */
-	var alertEnsureBleConnection = function(closeOnOffline) {
+	$scope.alertEnsureBleConnection = function(closeOnOffline) {
 		if (!$scope.allreadyNotifiedNoBle) {
 			
 			$scope.allreadyNotifiedNoBle = true;
@@ -94,21 +100,21 @@ appControllers
 	
 	//start scanning if ble scanner is not scanning
 	$scope.startBleScanning = function(triggeredFrom) {
-		if( !$cordovaEvothingsBLE.getBleScannerState() ) {
-			$ionicPlatform.ready(function() {
-				console.log('APPTEST: on startBleScanning triggered from '+triggeredFrom);
-				$cordovaEvothingsBLE.startScanning();
-			});
-		} 
+		
+		$ionicPlatform.ready(function() {
+			console.log('APPTEST: on startBleScanning triggered from '+triggeredFrom);
+			$cordovaEvothingsBLE.startScanning();
+		});
+		
 	};
 	//stop scanning if ble scanner is scanning
 	$scope.stopBleScanning = function(triggeredFrom) {
-		if( $cordovaEvothingsBLE.getBleScannerState() ) {
+		
 			$ionicPlatform.ready(function() {
 				console.log('APPTEST: on stopBleScanning triggered from '+triggeredFrom);
 				$cordovaEvothingsBLE.stopScanning();
 			});
-		} 
+
 	};
 	
 	// dis or enabel ble start stop button
@@ -145,25 +151,24 @@ appControllers
 		$ionicPlatform.on('offline', function(){ 
 			console.log('APPTEST: on offline');
 			//alert inet offline
-			alertEnsureInetConnection();
+			$scope.alertEnsureInetConnection();
 			//stop refreshbeaconlistloop
-			$scope.stopRefreshingLoop();
+			$scope.stopRefreshingLoop('offline');
 		});
 		
 		//on inet online
-		//@TODO check why this event is not fired
+		//NOTICE this event fires only on "resume online" so we have to init server loop manually in inti()
 		$ionicPlatform.on('online', function(){ 
 			console.log('APPTEST: on online');
-			//stop refreshbeaconlistloop
-			$scope.startRefreshingLoop();
+			
+			//start server loading loops
+			$scope.startRefreshingLoop('online');
 		});
 		
-		//on ble off or error
-		//bleNotificationChannel.onBleStartScanError($scope, function () { alertEnsureBleConnection(); }); 
+		//@TODO on ble off or error
+		//bleNotificationChannel.onBleStartScanError($scope, function () { $scope.alertEnsureBleConnection(); }); 
 		
 		//on app resume
-		//http://ionicframework.com/docs/api/service/$ionicPlatform/
-		//https://cordova.apache.org/docs/en/edge/cordova_events_events.md.html#Events
 		$ionicPlatform.on('resume', function(){
 			console.log('APPTEST: on resume');
 			$scope.allreadyNotifiedNoInte = false;
@@ -172,6 +177,7 @@ appControllers
 			//start all loops
 			console.log('APPTEST:$rootScope.iabIsOpen: '+$rootScope.iabIsOpen);
 			if(!$rootScope.iabIsOpen) {
+				//start all loops
 				$scope.startBleScanning('onResume');
 				$scope.startRefreshingLoop('onResume');
 			} 
@@ -189,8 +195,7 @@ appControllers
 		//start all loops
 		$scope.startBleScanning('onInit');
 		$scope.startRefreshingLoop('onInit');
-		
-		 
+
 	};
 	
 	init();					

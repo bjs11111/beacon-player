@@ -50,6 +50,13 @@ module.exports = [
         "clobbers": [
             "ble"
         ]
+    },
+    {
+        "file": "plugins/com.evothings.ble/ble.js",
+        "id": "com.evothings.ble.BLE",
+        "clobbers": [
+            "evothings.ble"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -61,7 +68,8 @@ module.exports.metadata =
     "org.apache.cordova.network-information": "0.2.14",
     "org.apache.cordova.vibration": "0.3.12",
     "org.apache.cordova.inappbrowser": "0.5.4",
-    "com.megster.cordova.ble": "0.1.2"
+    "com.megster.cordova.ble": "0.1.2",
+    "com.evothings.ble": "0.0.1"
 }
 // BOTTOM OF METADATA
 });
