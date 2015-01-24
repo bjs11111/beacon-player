@@ -1,3 +1,8 @@
+ ____   __   ____   __    ___  __   __ _  ____  __     __   _  _  ____  ____ 
+(  _ \ / _\ (  __) / _\  / __)/  \ (  ( \(  _ \(  )   / _\ ( \/ )(  __)(  _ \
+ ) _ (/    \ ) _) /    \( (__(  O )/    / ) __// (_/\/    \ )  /  ) _)  )   /
+(____/\_/\_/(____)\_/\_/ \___)\__/ \_)__)(__)  \____/\_/\_/(__/  (____)(__\_)
+ 
 #beacon-player
 The beacon player app is the client app for the great BCMS platform of [tokencube](http://www.tokencube.com). 
 Tokencube is one of the [netidee]( www.netidee.at) projects of 2014.
