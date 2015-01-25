@@ -50,7 +50,9 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     		//console.log('oiaf path1: '+bcmsBeaconKey); 
     		//ignor trigger of beacon with no content
     		
+    		
     		//@TODO fattening the  pyramide!
+    		//if device has cms and scan data
     		if($scope.list[bcmsBeaconKey]) {
     			if($scope.list[bcmsBeaconKey].bcmsBeacon) {
     				if(!$scope.list[bcmsBeaconKey].bcmsBeacon.content_title) {

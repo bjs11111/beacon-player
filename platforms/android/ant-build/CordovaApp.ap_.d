@@ -76,7 +76,6 @@ C:\Users\Michael\git\beacon-player\platforms\android\assets\www\app\components\b
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\app\components\ble\directives\templates\navbar-ble-State.html \
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\app\components\ble\filters\ble-filters.js \
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\app\components\ble\services\ble-services.js \
-C:\Users\Michael\git\beacon-player\platforms\android\assets\www\app\components\ble\services\other-ble-scanner-tests.js \
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\app\components\help\help-controllers.js \
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\app\components\help\help.html \
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\app\components\help\img \
