@@ -149,7 +149,7 @@ bleServices
 	var foundedDeviceDummy143_7	= {  'address' : '0C:F3:EE:53:43:64', 'scanRecord' : 'BwlUQzE0MwAO/1oAAAAWIhcAAAAvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' };
 	var foundedDeviceDummy143_8	= {  'address' : '0C:F3:EE:53:43:64', 'scanRecord' : 'BwlUQzE0MwAO/1oAAAAW2hcAAAApAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' };
 	
-	/* ScanResult{
+	/*ScanResult{
 		 mDevice=0E:FA:EF:0C:22:39, 
 		 mScanRecord=ScanRecord [
 		                         mAdvertiseFlags=4, 
@@ -178,18 +178,16 @@ bleServices
 		if(!interval) { 
 			interval = setInterval(
 				function() {
-						
-						bleNotificationChannel.publishFoundDevice( foundedDeviceDummy7_1 ); 
-						bleNotificationChannel.publishFoundDevice( foundedDeviceDummy7_2 );
-						bleNotificationChannel.publishFoundDevice( foundedDeviceDummy7_3 );
-						
+						//bleNotificationChannel.publishFoundDevice( foundedDeviceDummy7_1 ); 
+						//bleNotificationChannel.publishFoundDevice( foundedDeviceDummy7_2 );
+						//bleNotificationChannel.publishFoundDevice( foundedDeviceDummy7_3 );
 				}
-				,5000);
+				,300);
 
-			//setTimeout(function() {foundedDeviceDummy7_3.rssi =-80;}, 3000);	
-			//setTimeout(function() {foundedDeviceDummy7_3.rssi =-70;}, 6000);
-			//setTimeout(function() {foundedDeviceDummy7_3.rssi =-60;}, 9000);
-			//setTimeout(function() {foundedDeviceDummy7_3.rssi =-50;}, 12000);
+			setTimeout(function() {foundedDeviceDummy7_3.rssi =-80; bleNotificationChannel.publishFoundDevice( foundedDeviceDummy7_3 ); }, 1000);	
+			setTimeout(function() {foundedDeviceDummy7_3.rssi =-70; bleNotificationChannel.publishFoundDevice( foundedDeviceDummy7_3 ); }, 9000);
+			setTimeout(function() {foundedDeviceDummy7_3.rssi =-60; bleNotificationChannel.publishFoundDevice( foundedDeviceDummy7_3 ); }, 17000);
+			setTimeout(function() {foundedDeviceDummy7_3.rssi =-50; bleNotificationChannel.publishFoundDevice( foundedDeviceDummy7_3 ); }, 23000);
 			
 			//setTimeout(function() {foundedDeviceDummy7_2.rssi =-80;}, 3000);	
 			//setTimeout(function() {foundedDeviceDummy7_2.rssi =-70;}, 6000);
@@ -207,9 +205,11 @@ bleServices
 			//setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy143_5 )}, 5000);
 			//setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy143_6 )}, 6000);
 			//setTimeout(function() {bleNotificationChannel.publishFoundDevice( foundedDeviceDummy143_7 )}, 7000);
+			
 		}	
 		
 	};
+	
 	var stopDummyDeviceFoundLoopWithSetInterval = function () {
 		if(interval) { clearInterval(interval);interval = undefined; }
 	};
@@ -250,15 +250,14 @@ bleServices
 	
 	//start scanning for ble devices
 	var startScanning = function() {
-		//@TODO check ble is on or off
+		//just for testing
+		//startDummyDeviceFoundLoopWithSetInterval(); 
+		if(isBleDefined() == false){ return; } 
 		
 		//skip if scanner already scanns
 		if(getBleScannerState()) {return;}
-	
-		//just for testing
-		//startDummyDeviceFoundLoopWithSetInterval(); 
-		if(!isBleDefined()) { return; };
 
+		//@TODO check ble is on or off
 		
 		//start scanning
 		setBleScannerState(true);	
@@ -286,13 +285,13 @@ bleServices
 	};
 	//start scanning for ble devices
 	var stopScanning = function() {	
+		//just for testing 
+		//stopDummyDeviceFoundLoopWithSetInterval();
+		if(isBleDefined() == false){ return; } 
 		
 		if(!getBleScannerState()) {return;}
 		setBleScannerState(false);
-		
-		//just for testing 
-		//stopDummyDeviceFoundLoopWithSetInterval(); 
-		
+
 		if(!isBleDefined()) { return; };
 			evothings.ble.stopScan(
 				function(result) {
@@ -461,7 +460,7 @@ bleServices
     				  //
     				  $localForage.setItem(bcmsBeaconKey, data).then(
     					  function () {
-    						  bleNotificationChannel.publishKnownDevicesUpdated(null);
+    						  bleNotificationChannel.publishKnownDevicesUpdated();
     						  if(inTriggerRange) {
    							   	bleNotificationChannel.publishDeviceTriggered(bcmsBeaconKey);
    							   	inTriggerRange  = false;

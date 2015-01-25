@@ -1,7 +1,7 @@
 <ion-view>
 	
 	<ion-nav-title>
-      Scanning:{{headerTitle}}
+      Scanning View
     </ion-nav-title>
  
 	<ion-nav-buttons side="left">
@@ -10,9 +10,8 @@
   
   	<ion-content class="has-header">
   	
-	<!-- example for start scanning ble pacages-->
-	<h2 class="text-center positive padding-vertical" ng-show="getListLength() == 0" ng-click="set()">nothing found...</h2>
- 	<ion-list 	ng-show="knownBleDevices.length != 0" 
+	<h2 class="text-center positive padding-vertical" ng-show="listLength == 0" ng-click="set()">nothing found...</h2>
+ 	<ion-list 	ng-show="listLength != 0" 
 		 		show-delete="false"
 		        show-reorder="false"
 		        can-swipe="true"
@@ -22,10 +21,10 @@
 		  	   rangeFilter:filtersSettings.triggerRange:'rssi' |
 		  	   | filter:all | orderBy:orderProp
 		  	   
-		  	   track by device.address  
+		  	   track by device.address 
 		   -->
 	
-		<ion-item ng-repeat="(key, device) in list track by device.address"
+		<ion-item ng-repeat="(key, device) in list | oldDevicesFilter:msBeforeBeaconIsOld track by device.address"
                   href="#" 
                   class=" item-icon-right "
                   ng-class="device.bcmsBeacon.content_thumnail_url?'item-avatar':'item-icon-left'"> 

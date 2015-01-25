@@ -8,7 +8,7 @@ var scanningControllers = angular.module('scanning.controllers', ['bleServices',
 scanningControllers
 /**/
 .constant("scanningControllersConfig", {
-	msBeforeBeaconIsOld : 1000 * 10,
+	msBeforeBeaconIsOld : 1000 * 60 * 2 + 5,
 	iabOpenVibratePattern : [100, 100, 100],
 	iabDefaultSettings :  {
 		      location: 'no',
@@ -17,22 +17,7 @@ scanningControllers
 		    }
 })
 
-/*configs*/
-.config(function($cordovaInAppBrowserProvider) {
-
-	  var defaultOptions = {
-	    location: 'yes',
-	    clearcache: 'yes',
-	    toolbar: 'yes'
-	  };
-
-	  //document.addEventListener(function () {
-	  //  $cordovaInAppBrowserProvider.setDefaultOptions(options)
-	  //}, false);
-	  
-	});
 /* Scanning Controllers */
-
 scanningControllers.controller( 'ScanningRecentlyseenCtrl', 
 				['$rootScope', '$scope', '$filter', 'scanningControllersConfig', '$cordovaEvothingsBLE', 'bcmsNotificationChannel', 'bleNotificationChannel',  '$localForage', 'bcmsAjaxServiceConfig', '$ionicPlatform', '$cordovaBLE', '$cordovaNetwork', '$cordovaInAppBrowser', '$cordovaVibration',
          function($rootScope ,  $scope,   $filter,   scanningControllersConfig,   $cordovaEvothingsBLE,   bcmsNotificationChannel,   bleNotificationChannel,    $localForage,   bcmsAjaxServiceConfig,   $ionicPlatform,   $cordovaBLE,   $cordovaNetwork,   $cordovaInAppBrowser,   $cordovaVibration) {
@@ -41,34 +26,33 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
 		var cmsBeaconKeyToObj = null;
       	//prevent multiple iab openings
 		$scope.iabAlreadyTriggered = false;
-		
+		$scope.msBeforeBeaconIsOld = scanningControllersConfig.msBeforeBeaconIsOld
 		//this keeps the device list up to date      	
     	var onKnownDevicesUpdatedHandler = function()  {
-    		var count = 0;
+    		//var count = 0;
+    		//@TODO try to publish key with event onKnownDevicesUpdated or create event for a single device updated and provete boj key in event params
+    		//than make a get on the specific key instead of the iteration
     		$localForage.iterate(function(value, key) {
     			if(cmsBeaconKeyToObj(key) != false) { 
-    				
-    				delete $scope.list[key];
-    				//@TODO remove item that lastScan is more than 5 min ago
     				if(value.scanData && value.bcmsBeacon ) {
-    			
-    					if(value.scanData.lastScan > Date.now()-scanningControllersConfig.msBeforeBeaconIsOld) {
-    						$scope.list[key] = value;
-    						count++;
-    					}
+    					//remove item that lastScan is more than 5 min ago
+    					$scope.list[key] = value;
+    					$scope.updateListLength();
        				}
     			};
-    		})
-    		.then(function(data) {});
-			
+    		});
 		};
 		
+		//@TODO refresh loop for cleaning old devices in stead of to it with update list length
+	
 		//      	
     	var onDeviceTriggeredHandler = function(bcmsBeaconKey)  {
     		//console.log('oiaf path1: '+bcmsBeaconKey); 
     		//ignor trigger of beacon with no content
     		
+    		
     		//@TODO fattening the  pyramide!
+    		//if device has cms and scan data
     		if($scope.list[bcmsBeaconKey]) {
     			if($scope.list[bcmsBeaconKey].bcmsBeacon) {
     				if(!$scope.list[bcmsBeaconKey].bcmsBeacon.content_title) {
@@ -112,11 +96,9 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     				$scope.stopBleScanning('openIAB')
 					$scope.stopRefreshingLoop('openIAB');
 		    		$rootScope.iabIsOpen = 1;
-		    		//check if this is necessary
-		    		$rootScope.$apply();
-		    		
+
 		    		//vibrate for content
-	    			//$cordovaVibration.cancelVibration();
+	    			$cordovaVibration.cancelVibration();
 	    			$cordovaVibration.vibrateWithPattern(scanningControllersConfig.iabOpenVibratePattern);
 		    		
 		    		//open iab with beacon content url
@@ -142,8 +124,7 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     			}
     			 
     		});
-    	 }
-    	
+    	}
     	
     	$rootScope.$on('$cordovaInAppBrowser:exit', function(e, event){
     		console.log('APPTEST: on $cordovaInAppBrowser:exit'); 
@@ -153,13 +134,15 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     		$scope.startBleScanning('$cordovaInAppBrowser:exit');
 			$scope.startRefreshingLoop('$cordovaInAppBrowser:exit');
 			
-    	  });
+    	});
     	
-    	
-   		$scope.getListLength = function() {
+    	$scope.listLength = 0;
+   		$scope.updateListLength = function() {
 			var i = 0;
-			angular.forEach($scope.list, function(value, key) { i++; });
-			return i;
+			angular.forEach($scope.list, function(value, key) { i++; console.log(); });
+			//used in view
+			$scope.listLength = i;
+			$scope.$apply();
 		};
     	
 		init(); 

@@ -16,7 +16,7 @@ var appControllers = angular.module('app.controllers', [ 'ngCordova', 'bleDirect
 appControllers
 .constant("BackgroundProcessConfig", {
 	//refreshBeaconListInterval		: ms
-	refreshBeaconListInterval 	: 1000 * 60 * 5,
+	refreshBeaconListInterval 	: 1000 * 30,
 })
 
 .controller('AppCtrl', 
@@ -52,7 +52,6 @@ appControllers
 								});
 				}
 	};
-	
 	/*show alert with information to check ble connection
 	 * set closeOnOffline to true closes app after press alert button 
 	 * */
@@ -63,7 +62,7 @@ appControllers
 	
 			//let alert pop up with given settings
 			var noBleAlert =	$ionicPopup.alert({
-				   title	: 'No Bluetooth enabled',
+				   title	: 'No bluetooth',
 				   template	: 'Pleas turn on your bluethooth and try again!',
 				   okType	: 'button-energized'
 				 });

@@ -1,9 +1,16 @@
+/*
+ * Docs
+ * http://toddmotto.com/everything-about-custom-filters-in-angular-js/
+ * 
+ */
+
 var rangeFilters = angular.module('rangeFilters', []);
 rangeFilters
 .filter('rangeFilter', function() {// register new filter
 
    return function( items, rangeInfo, key ) {// filter arguments
-        if(rangeInfo.state == false) {
+        
+	   if(rangeInfo.state == false) {
         	return items;
         }
 	    var filtered = [];
@@ -26,17 +33,17 @@ rangeFilters
 var bleFilters = angular.module('bleFilters', []);
 
 bleFilters
-.filter('ago', function() {
-	  return function(input) {
-	    m = moment(input)
-	    if (m.isValid()){
-	      return m.fromNow();
-	    } else {
-	      return input;
-	    }
+.filter('oldDevicesFilter', function () {// register new filter => oldDevicesFilter 
+	return function (items, msBehidNow) {// filter arguments => basicOperation:itme.time
+		  angular.forEach(items, function(item, i) {
+			  if( item.scanData.lastScan < Date.now()-msBehidNow) {
+		        		delete items[i];
+		      }	
+		  });
+		  return items;
 	  };
-	})
-	
+});
+
 bleFilters
 .filter('reverseMId', function() {
 	  return function(input, pairs) {
