@@ -1,5 +1,5 @@
 
-<div  id="{{ngModel.address}}" class="device" ng-click="isOpen = !isOpen">
+<div  id="{{ngModel.address}}" class="device" ng-click="show(ngModel.address)">
 	
 	<i ng-show="!ngModel.bcmsBeacon.content_title"  class="icon beacon {{itemTypeIcon}} {{cmsStateColor}}" ></i>      
 	
@@ -8,15 +8,15 @@
 	<p am-time-ago="ngModel.scanData.lastScan"></p>
 	
 	<p ng-init="isOpen = false" ng-show="isOpen" class="details">
-		<span>Major: {{ngModel.scanData.iBeaconUuid}}</span><br>
+		<span>Uuid: {{ngModel.scanData.iBeaconUuid}}</span><br>
 		<span>Major: {{ngModel.scanData.major}}</span><br>
 		<span>Minor: {{ngModel.scanData.minor}}</span> <br>
 		<span>RSSI: {{ngModel.scanData.rssi}}</span><br>
 	</p>
 	<i class="icon {{contentTypeIcon}} {{rssiStateColor}} rssi"></i>
 	
-	<ion-option-button  ng-show="ngModel.bcmsBeacon.content_title"  class="button-calm" ng-click="show(ngModel.address)">
-	show
+	<ion-option-button  ng-show="ngModel.bcmsBeacon.content_title"  class="button-calm" ng-click="isOpen = !isOpen">
+	show details
 	</ion-option-button>
 	
 </div>

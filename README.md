@@ -1,8 +1,3 @@
- ____   __   ____   __    ___  __   __ _  ____  __     __   _  _  ____  ____ 
-(  _ \ / _\ (  __) / _\  / __)/  \ (  ( \(  _ \(  )   / _\ ( \/ )(  __)(  _ \
- ) _ (/    \ ) _) /    \( (__(  O )/    / ) __// (_/\/    \ )  /  ) _)  )   /
-(____/\_/\_/(____)\_/\_/ \___)\__/ \_)__)(__)  \____/\_/\_/(__/  (____)(__\_)
- 
 #beacon-player
 The beacon player app is the client app for the great BCMS platform of [tokencube](http://www.tokencube.com). 
 Tokencube is one of the [netidee]( www.netidee.at) projects of 2014.
@@ -16,6 +11,13 @@ We heavily use the new Bluetooth 4.0 Beacon Technology to create a point of inte
 
 ##Setup the Project
 We are working with eclipse so some parts are eclipse specific. But you use the IDE of your needs. :-)
+
+building and signing the app
+to build the app run 
+$ cordova build android --releas
+and be shure th have the right properties set in the /platforms/android/ant.properties
+read more about in this link under method 2
+http://ilee.co.uk/Sign-Releases-with-Cordova-Android/
 
 ###Installig envirement 
 
