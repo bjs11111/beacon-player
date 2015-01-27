@@ -79,6 +79,7 @@ appControllers
 	
 	//start refreshes serverdata every x ms
 	$scope.startRefreshingLoop = function (triggeredFrom) {
+		return;
 		if($scope.isRefreshingBeaconList === false) {
 			console.log('APPTEST: on startRefreshingLoop triggered from '+triggeredFrom);
 			bcmsAjaxService.refreshBeaconList(); 
@@ -90,6 +91,7 @@ appControllers
 	};
 	//stop refreshing serverdata
 	$scope.stopRefreshingLoop = function (triggeredFrom) {
+		return;
 		if($scope.isRefreshingBeaconList !== false) {
 			console.log('APPTEST: on stopRefreshingLoop triggered from '+triggeredFrom);
 			$interval.cancel($scope.isRefreshingBeaconList);

@@ -33,13 +33,13 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     		//@TODO try to publish key with event onKnownDevicesUpdated or create event for a single device updated and provete boj key in event params
     		//than make a get on the specific key instead of the iteration
     		$localForage.iterate(function(value, key) {
-    			if(cmsBeaconKeyToObj(key) != false) { 
-    				if(value.scanData && value.bcmsBeacon ) {
+    			/*if(cmsBeaconKeyToObj(key) != false) { */
+    				//if(value.scanData && value.bcmsBeacon ) {
     					//remove item that lastScan is more than 5 min ago
     					$scope.list[key] = value;
     					$scope.updateListLength();
-       				}
-    			};
+       				//}
+    			//};
     		});
 		};
 		

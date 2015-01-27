@@ -24,7 +24,19 @@
 		  	   track by device.address 
 		   -->
 	
-		<ion-item ng-repeat="(key, device) in list | oldDevicesFilter:msBeforeBeaconIsOld track by device.address"
+	
+		<ion-item ng-repeat="(key, device) in list" 
+                  href="#" 
+                  class="">
+        	<pre>
+        		<code>
+					{{device}}
+				</code>
+			</pre>
+		</ion-item>
+	
+	<!-- 
+		<ion-item ng-repeat="(key, device) in list | oldDevicesFilter:msBeforeBeaconIsOld track by device.address" 
                   href="#" 
                   class=" item-icon-right "
                   ng-class="device.bcmsBeacon.content_thumnail_url?'item-avatar':'item-icon-left'"> 
@@ -33,9 +45,10 @@
 				   <!-- <h2>{{device.bcmsBeacon.content_title}}</h2>
 				    <p>Zuletzt gesehen: {{device.scanData.lastScan}}></span></p>
 				    -->
- 					<ng-ble-item ng-model="device"></ng-ble-item>
+				    {{device}}
+ 					<!-- <ng-ble-item ng-model="device"></ng-ble-item>  
  		</ion-item>
- 		
+ 		-->
  	</ion-list>
  	
  	
