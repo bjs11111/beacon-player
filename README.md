@@ -53,19 +53,12 @@ $ cordova plugin add com.evothings.ble
 $ cordova plugin list
 ```
 should result in a list of above plugins plus some ionic default plugins:
-
 com.evothings.ble 0.0.1 "Evothings BLE API"
-
 com.ionic.keyboard 1.0.3 "Keyboard"
-
 org.apache.cordova.console 0.2.11 "Console"
-
 org.apache.cordova.device 0.2.12 "Device"
-
 org.apache.cordova.inappbrowser 0.5.4 "InAppBrowser"
-
 org.apache.cordova.network-information 0.2.14 "Network Information"
-
 org.apache.cordova.vibration 0.3.12 "Vibration"
 
 1.4 install other libs
