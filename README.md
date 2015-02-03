@@ -31,44 +31,66 @@ We recommend using the [Ionic CLI](https://github.com/driftyco/ionic-cli) to cre
 ```bash
 $ npm install -g ionic
 ```
+
 1.1 setup project
 on the console:
+```bash
 $ ionic start ionic_beaconPlayer_v2-2 blank
 $ cd ionic_beaconPlayer_v2-2
 $ ionic setup sass
 $ ionic platform add android
+```
 1.2 install plugins
 on the console:
+```bash
 $ cordova plugin add org.apache.cordova.network-information
 $ cordova plugins add org.apache.cordova.vibration
 $ cordova plugin add org.apache.cordova.inappbrowser
 $ cordova plugin add com.evothings.ble
+```
 1.3 check plugins
+```bash
 $ cordova plugin list
+```
 should result in a list of above plugins plus some ionic default plugins:
+
 com.evothings.ble 0.0.1 "Evothings BLE API"
+
 com.ionic.keyboard 1.0.3 "Keyboard"
+
 org.apache.cordova.console 0.2.11 "Console"
+
 org.apache.cordova.device 0.2.12 "Device"
+
 org.apache.cordova.inappbrowser 0.5.4 "InAppBrowser"
+
 org.apache.cordova.network-information 0.2.14 "Network Information"
+
 org.apache.cordova.vibration 0.3.12 "Vibration"
+
 1.4 install other libs
 copy bower.json into your project and run:
+```bash
 $ bower update
-
+```
 or install new with
+```bash
 $ bower install ngCordova
 $ bower install angular-localforage
 $ bower install angular-moment
+```
 
 2. add icon and splashscreen images into the recources folder named icon and splash .png,.psd,.ai
 2.1 run following commands
+```bash
 $ ionic resources
+```
 2.1.1 advanced settings
 If you only need to update one of the resources use following flags:
+```bash
 $ ionic resources --icon
 $ ionic resources --splash
+```
 Platform Specifics icons and splashscreens:
 path: resources/android/
 path: resources/ios
