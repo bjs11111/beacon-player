@@ -10,11 +10,12 @@ Visit [www.tokencube.com](http://www.tokencube.com) for more information.
 We heavily use the new Bluetooth 4.0 Beacon Technology to create a point of interaction to share local based or item based information.
 
 ##Setup the Project
-We are working with eclipse so some parts are eclipse specific. But you use the IDE of your needs. :-)
 
 building and signing the app
 to build the app run 
+```bash
 $ cordova build android --releas
+```
 and be shure th have the right properties set in the /platforms/android/ant.properties
 read more about in this link under method 2
 http://ilee.co.uk/Sign-Releases-with-Cordova-Android/
@@ -53,12 +54,19 @@ $ cordova plugin add com.evothings.ble
 $ cordova plugin list
 ```
 should result in a list of above plugins plus some ionic default plugins:
+
 com.evothings.ble 0.0.1 "Evothings BLE API"
+
 com.ionic.keyboard 1.0.3 "Keyboard"
+
 org.apache.cordova.console 0.2.11 "Console"
+
 org.apache.cordova.device 0.2.12 "Device"
+
 org.apache.cordova.inappbrowser 0.5.4 "InAppBrowser"
+
 org.apache.cordova.network-information 0.2.14 "Network Information"
+
 org.apache.cordova.vibration 0.3.12 "Vibration"
 
 1.4 install other libs
