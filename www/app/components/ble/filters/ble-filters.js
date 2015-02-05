@@ -76,7 +76,7 @@ bleFilters
 			console.log('toIsBrokenRawDevice returns false because the device is not a valis json object!');
 			return false;
         }
-		
+		//@TODO rethink value
 		if (!(device.rssi <= 0)) {
 			console.log('toIsBrokenRawDevice returns false because the device.rssi is not <= 0!');
 			return false;

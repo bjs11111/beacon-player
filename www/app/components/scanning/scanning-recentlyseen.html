@@ -16,25 +16,25 @@
 		        show-reorder="false"
 		        can-swipe="true"
  	> 
-		  <!-- Filters should be applied to the expression, before specifying a tracking expression
-		  	   https://docs.angularjs.org/api/ng/directive/ngRepeat
-		  	   rangeFilter:filtersSettings.triggerRange:'rssi' |
-		  	   | filter:all | orderBy:orderProp
-		  	   
-		  	   track by device.address 
-		   -->
-	
-	
+	  <!-- Filters should be applied to the expression, before specifying a tracking expression
+	  	   https://docs.angularjs.org/api/ng/directive/ngRepeat
+	  	   rangeFilter:filtersSettings.triggerRange:'rssi' |
+	  	   | filter:all | orderBy:orderProp
+	  	   
+	  	   track by device.address 
+	  	   <ion-toggle ng-model="isJustIBeacons" toggle-class="toggle-calm">just IBeacons</ion-toggle>
+	   -->
+		
 		<ion-item ng-repeat="(key, device) in list" 
                   href="#" 
                   class="">
+                  total: {{listLength}}
         	<pre>
         		<code>
 					{{device}}
 				</code>
 			</pre>
 		</ion-item>
-	
 	<!-- 
 		<ion-item ng-repeat="(key, device) in list | oldDevicesFilter:msBeforeBeaconIsOld track by device.address" 
                   href="#" 

@@ -339,6 +339,7 @@ bleServices
 	  var cmsBeaconKeyToObj  = $filter('cmsBeaconKeyToObj');
 	  	  	 
 	  //decode scanRecond of device and extract data
+	  //returns false or the device
 	  var prepareDeviceData =  function (device) {
 		  
 			 var hexToIBeaconUuid 	= $filter('hexToIBeaconUuid'),
@@ -369,6 +370,9 @@ bleServices
 			device.d1 = str.substr(14,2);
 			//?
 			device.d2 = str.substr(16,2);
+			
+			if( d1 == '01' && d2 == '15' ) { return false; }
+			
 			//This is the Universally Unique Identifier [UUID] in the Manufacture-Data (length = 32)
 			device.mfUuid	= str.substr(18,32); 
 			//This is the Major value
@@ -412,7 +416,7 @@ bleServices
     	 
       };
       
-      //this function holds all logic for updateing and interperting data form scanner and server
+      //this function holds all logic for updating and interperting data form scanner and server
       var mapBeaconDataToLocalStorage = function(deviceData, type) {
     	  type = (type)?type:false;
     	  
@@ -426,7 +430,7 @@ bleServices
 	    	  } 
 	    	  //bcmsData
 	    	  else if (bleDeviceServiceConfig.mapTypeBcmsDevice) {
-	    		  bcmsBeaconKey = deviceData.uuid+'.'+deviceData.major+'.'+deviceData.minor;
+	    		 //cmsBeaconKey = deviceData.uuid+'.'+deviceData.major+'.'+deviceData.minor;
 	    	  }
 	      } 
     	  //no data type prefered
@@ -472,7 +476,11 @@ bleServices
       
 	  var onFoundBleDeviceHandler = function(rawDevice)  {
 		  prepareDeviceData(rawDevice);
-		  mapBeaconDataToLocalStorage(rawDevice, bleDeviceServiceConfig.mapTypeRawDevice); 
+		  
+		  //if(rawDevice.d1 == "02" && rawDevice.d2 == "15") {
+			  mapBeaconDataToLocalStorage(rawDevice, bleDeviceServiceConfig.mapTypeRawDevice);
+		  //}
+		  
 	  };
 	  
 	  var init = function() {
@@ -482,9 +490,10 @@ bleServices
       //do initialisation
       init();
       
-      // return the publicly accessible methods
+      // return the public accessible methods
       return {
     	  getKnownDevices				: getKnownDevices,
+    	  //getKnownDevice				: getKnownDevice,
     	  mapBeaconDataToLocalStorage	: mapBeaconDataToLocalStorage
       };
       
@@ -496,7 +505,7 @@ bleServices
 })
    
 .factory('bleCompanyIdentifierService', [ '$http', '$filter', 'bleCompanyIdentifierConfig', 
-                                  function($http,   $filter,   bleCompanyIdentifierConfig){
+                                  function($http,   $filter,   bleCompanyIdentifierConfig) {
 	 var companyIdentifiers = {};
 	 var reverseMIdFilter = $filter('reverseMId');
 	

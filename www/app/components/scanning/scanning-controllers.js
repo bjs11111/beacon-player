@@ -104,18 +104,18 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
 		    		//open iab with beacon content url
 	    			$cordovaInAppBrowser
 	    			    .open(pathToBcms, '_blank', scanningControllersConfig.iabDefaultSettings)
-	    			    .then(function(event) {
-	    			    		// success
+	    			    .then(
+	    			    	// success	
+	    			    	function(event) {
 	    			    		console.log('APPTEST: on $cordovaInAppBrowser:open'); 
-	    			    		
-		    			    }, function(event) {
-		    			    	// error
+		    			    }, 
+		    			    // error
+		    			    function(event) {
 		    			    	//start all loops
 		    		    		$scope.startBleScanning('openIAB error');
 		    					$scope.startRefreshingLoop('openIAB error');
 		    					
 		    					$rootScope.iabIsOpen = 0;
-		    					
 		    			    });
     		 	}
     			//if offline

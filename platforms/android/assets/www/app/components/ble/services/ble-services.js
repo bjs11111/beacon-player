@@ -472,7 +472,11 @@ bleServices
       
 	  var onFoundBleDeviceHandler = function(rawDevice)  {
 		  prepareDeviceData(rawDevice);
-		  mapBeaconDataToLocalStorage(rawDevice, bleDeviceServiceConfig.mapTypeRawDevice); 
+		  
+		  //if(rawDevice.d1 == "02" && rawDevice.d2 == "15") {
+			  mapBeaconDataToLocalStorage(rawDevice, bleDeviceServiceConfig.mapTypeRawDevice);
+		  //}
+		  
 	  };
 	  
 	  var init = function() {

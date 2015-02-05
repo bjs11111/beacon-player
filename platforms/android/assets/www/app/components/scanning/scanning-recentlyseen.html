@@ -23,18 +23,16 @@
 		  	   
 		  	   track by device.address 
 		   -->
-	
-	
 		<ion-item ng-repeat="(key, device) in list" 
                   href="#" 
                   class="">
+                  total: {{listLength}}
         	<pre>
         		<code>
 					{{device}}
 				</code>
 			</pre>
 		</ion-item>
-	
 	<!-- 
 		<ion-item ng-repeat="(key, device) in list | oldDevicesFilter:msBeforeBeaconIsOld track by device.address" 
                   href="#" 
