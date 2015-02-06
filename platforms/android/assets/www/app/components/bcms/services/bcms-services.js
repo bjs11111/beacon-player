@@ -39,12 +39,12 @@ bcmsServices
    
 // publish knownDevices updated notification
    // updateDate is an array of  device.address => true
-   var publishTryOpenIAB = function (bcmsBeaconKey) {
+   var publishManualOpenIAB = function (bcmsBeaconKey) {
 	   //console.log('in publishTryOpenIAB' + bcmsBeaconKey );
        $rootScope.$broadcast(bcmsAjaxServiceConfig._TRY_IAB_OPEN_EVENT_, {bcmsBeaconKey: bcmsBeaconKey});
    };
    // subscribe to knownDevices updated notification
-   var onTryOpenIAB = function ($scope, handler) {
+   var onManualOpenIAB = function ($scope, handler) {
        $scope.$on(bcmsAjaxServiceConfig._TRY_IAB_OPEN_EVENT_, function (event, agrs) {
     	   handler(agrs.bcmsBeaconKey);
        });
@@ -54,8 +54,8 @@ bcmsServices
    return {
 	   publishBeaconListUpdated	: publishBeaconListUpdated,
 	   onBeaconListUpdated		: onBeaconListUpdated,
-	   publishTryOpenIAB		: publishTryOpenIAB,
-	   onTryOpenIAB				: onTryOpenIAB
+	   publishManualOpenIAB		: publishManualOpenIAB,
+	   onManualOpenIAB			: onManualOpenIAB
    	};
 }])
 
@@ -67,11 +67,12 @@ bcmsServices
 		
 		var path = bcmsAjaxServiceConfig.basePath + '/' + bcmsAjaxServiceConfig.getBeaconsListPath;
 		var oldData = undefined;
-		var result =  $http.post(path)			
+		return  $http.post(path)			
 		.success(function (data, status, headers, config) { 
 				angular.forEach(data, function(value, key) {
-					bleDeviceService.mapBeaconDataToLocalStorage(value, bleDeviceServiceConfig.mapTypeBcmsDevice); 
-				});		
+					bleDeviceService.mapBeaconDataToKnownDevices(value, bleDeviceServiceConfig.mapTypeBcmsDevice); 
+				});	
+				return true;
         })
         .error(function (data, status, headers, config) {
             return {error : "Error occurred.  Status:" + status};

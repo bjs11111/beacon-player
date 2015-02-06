@@ -1,7 +1,7 @@
 <ion-view>
 	
 	<ion-nav-title>
-      Scanning View
+      Scanning View {{listLength}} IAB {{iabIsOpen}}
     </ion-nav-title>
  
 	<ion-nav-buttons side="left">
@@ -10,20 +10,47 @@
   
   	<ion-content class="has-header">
   	
-	<h2 class="text-center positive padding-vertical" ng-show="listLength == 0" ng-click="set()">nothing found...</h2>
+  	<button class="button"  ng-click="nearInOut()">nearInOut</button>
+  	<button class="button"  ng-click="intermediateInOut()">intermediateInOut</button>
+  	<button class="button"  ng-click="farInOut()">farInOut</button>
+  	
+  	<button class="button" ng-click="allInOut()">allInOut</button>
+  	
+  	<button class="button button-balanced" ng-click="startDummyScanning()">startDummyScanning</button>
+  	<button class="button button-energized"  ng-click="stopDummyScanning()">stopDummyScanning</button>
+
+  	
+  	
+  	
+	<h2 class="text-center positive padding-vertical" ng-show="listLength == 0">nothing found...</h2>
+ 	
+ 	<ion-refresher on-refresh="refreshServerData('pullToRefresh')"></ion-refresher>
+ 	
  	<ion-list 	ng-show="listLength != 0" 
 		 		show-delete="false"
 		        show-reorder="false"
-		        can-swipe="true"
+		        can-swipe="true" 
  	> 
-		  <!-- Filters should be applied to the expression, before specifying a tracking expression
-		  	   https://docs.angularjs.org/api/ng/directive/ngRepeat
-		  	   rangeFilter:filtersSettings.triggerRange:'rssi' |
-		  	   | filter:all | orderBy:orderProp
-		  	   
-		  	   track by device.address 
-		   -->
-		<ion-item ng-repeat="(key, device) in list" 
+	  <!-- Filters should be applied to the expression, before specifying a tracking expression
+	  	   https://docs.angularjs.org/api/ng/directive/ngRepeat
+	  	   rangeFilter:filtersSettings.triggerRange:'rssi' |
+	  	   | filter:all | orderBy:orderProp
+	  	   
+	  	   track by device.address 
+	  	   <ion-toggle ng-model="isJustIBeacons" toggle-class="toggle-calm">just IBeacons</ion-toggle>
+	  
+		
+			<div ng-repeat="device in receivedDevicesList">
+        		<pre>
+        			<code>
+					{{device.bcmsBeaconKey}}
+					{{device.scanData}}
+					{{device.bcmsBeacon}}
+					</code>
+				</pre>
+			</div>
+	
+		<ion-item ng-repeat="device in receivedDevicesList track by device.address" 
                   href="#" 
                   class="">
                   total: {{listLength}}
@@ -33,20 +60,19 @@
 				</code>
 			</pre>
 		</ion-item>
-	<!-- 
-		<ion-item ng-repeat="(key, device) in list | oldDevicesFilter:msBeforeBeaconIsOld track by device.address" 
+	 -->
+		<ion-item ng-repeat="device in receivedDevicesList track by device.bcmsBeaconKey" 
                   href="#" 
                   class=" item-icon-right "
-                  ng-class="device.bcmsBeacon.content_thumnail_url?'item-avatar':'item-icon-left'"> 
+                  ng-class="device.bcmsBeacon.contentThumnailUrl?'item-avatar':'item-icon-left'"> 
                   
-                  <img class="content-img" ng-show="device.bcmsBeacon.content_title" ng-src="{{device.bcmsBeacon.content_thumnail_url?device.bcmsBeacon.content_thumnail_url:''}}">
-				   <!-- <h2>{{device.bcmsBeacon.content_title}}</h2>
-				    <p>Zuletzt gesehen: {{device.scanData.lastScan}}></span></p>
-				    -->
-				    {{device}}
- 					<!-- <ng-ble-item ng-model="device"></ng-ble-item>  
+                  <img class="content-img" ng-show="device.bcmsBeacon.contentTitle" ng-src="{{device.bcmsBeacon.contentThumnailUrl?device.bcmsBeacon.contentThumnailUrl:''}}">
+				  <h2>{{device.bcmsBeacon.content_title}}</h2>
+				   
+				   
+ 					<ng-ble-item ng-model="device"></ng-ble-item>  
  		</ion-item>
- 		-->
+ 		
  	</ion-list>
  	
  	

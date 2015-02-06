@@ -1,13 +1,74 @@
 
-<div  id="{{ngModel.address}}" class="device" ng-click="show(ngModel.address)">
+<div  id="{{ngModel.address}}" class="device" ng-click="show(ngModel.bcmsBeaconKey)">
 	
-	<i ng-show="!ngModel.bcmsBeacon.content_title"  class="icon beacon {{itemTypeIcon}} {{cmsStateColor}}" ></i>      
+	<i ng-show="!ngModel.bcmsBeacon.contentTitle"  class="icon beacon {{itemTypeIcon}} {{cmsStateColor}}" ></i>      
 	
-	<h2 ng-show="ngModel.bcmsBeacon.content_title">{{ngModel.bcmsBeacon.content_title}}</h2>
-	<h2 ng-show="!(ngModel.bcmsBeacon.content_title)">Kein Inhalt zugewiesen</h2>
+	<h2 ng-show="ngModel.bcmsBeacon.contentTitle">{{ngModel.bcmsBeacon.contentTitle}}</h2>
+	<h2 ng-show="!(ngModel.bcmsBeacon.contentTitle)">Kein Inhalt zugewiesen</h2>
 	<p am-time-ago="ngModel.scanData.lastScan"></p>
 	
+<div class="row">
+  <div class="col-33">
+    Entry: 	
+  </div>
+  <div class="col-33">
+    RSSI:
+  </div>
+  <div class="col-33">
+    Exit:
+  </div>
+</div>
+<p class="row">
+  <span class="col-33">
+    <span ng-show="ngModel.bcmsBeacon.triggerZone == 'Near'">{{ngModel.scanData.estimatedDistance + 20}}</span><br ng-show="ngModel.bcmsBeacon.triggerZone == 'Near'">
+	<span ng-show="ngModel.bcmsBeacon.triggerZone == 'Intermediate'">{{ngModel.scanData.estimatedDistance + 10}}</span><br ng-show="ngModel.bcmsBeacon.triggerZone == 'Intermediate'">
+	<span ng-show="ngModel.bcmsBeacon.triggerZone == 'Far'">{{ngModel.scanData.estimatedDistance - 10}}</span>
+  </span>
+  <span class="col-33 {{rssiStateColor}}-bg" >
+     {{ngModel.scanData.rssi}}
+  </span>
+   <span class="col-33">
+    <span ng-show="ngModel.bcmsBeacon.triggerZone == 'Near'">{{ngModel.scanData.estimatedDistance + 10}}</span><br ng-show="ngModel.bcmsBeacon.triggerZone == 'Near'">
+	<span ng-show="ngModel.bcmsBeacon.triggerZone == 'Intermediate'">{{ngModel.scanData.estimatedDistance - 10}}</span><br ng-show="ngModel.bcmsBeacon.triggerZone == 'Intermediate'">
+	<span ng-show="ngModel.bcmsBeacon.triggerZone == 'Far'">{{ngModel.scanData.estimatedDistance - 40}}</span>
+  </span>
+</p>
+
+<div class="row">
+  <div class="col-33">
+    lastArea: 	
+  </div>
+  <div class="col-33">
+    actualArea:
+  </div>
+  <div class="col-33">
+    alreadyTriggered:
+  </div>
+</div>
+<p class="row">
+  <span class="col-33">
+    <span>{{ngModel.scanData.lastTriggerArea}}</span>
+  </span>
+  <span class="col-33 {{rssiStateColor}}-bg" >
+     {{ngModel.scanData.actualTriggerArea}}
+  </span>
+   <span class="col-33">
+    <span>{{ngModel.scanData.alreadyTriggered}}</span>
+  </span>
+</p>
+
+		
+	
 	<p ng-init="isOpen = false" ng-show="isOpen" class="details">
+		<span>lastScan: {{ngModel.scanData.lastScan}}</span><br>
+		<span>calibrationValue: {{ngModel.scanData.calibrationValue}}</span><br>
+		<span>estimatedDistance: {{ngModel.scanData.estimatedDistance}}</span><br>
+		
+		<span>triggerZone: {{ngModel.bcmsBeacon.triggerZone}}</span><br>
+		
+		
+		<span>triggerArea: {{ngModel.scanData.lastTriggerArea}}</span><br>
+		
 		<span>Uuid: {{ngModel.scanData.iBeaconUuid}}</span><br>
 		<span>Major: {{ngModel.scanData.major}}</span><br>
 		<span>Minor: {{ngModel.scanData.minor}}</span> <br>
@@ -15,7 +76,7 @@
 	</p>
 	<i class="icon {{contentTypeIcon}} {{rssiStateColor}} rssi"></i>
 	
-	<ion-option-button  ng-show="ngModel.bcmsBeacon.content_title"  class="button-calm" ng-click="isOpen = !isOpen">
+	<ion-option-button class="button-calm" ng-click="isOpen = !isOpen">
 	show details
 	</ion-option-button>
 	

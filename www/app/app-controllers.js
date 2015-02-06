@@ -17,6 +17,7 @@ appControllers
 .constant("BackgroundProcessConfig", {
 	//refreshBeaconListInterval		: ms
 	refreshBeaconListInterval 	: 1000 * 30,
+	msBeforeBeaconIsOld : 1000 * 10,
 })
 
 .controller('AppCtrl', 
@@ -78,26 +79,20 @@ appControllers
 	};
 	
 	//start refreshes serverdata every x ms
-	$scope.startRefreshingLoop = function (triggeredFrom) {
-		return;
-		if($scope.isRefreshingBeaconList === false) {
-			console.log('APPTEST: on startRefreshingLoop triggered from '+triggeredFrom);
-			bcmsAjaxService.refreshBeaconList(); 
-			$scope.isRefreshingBeaconList = $interval( 
-					function() { bcmsAjaxService.refreshBeaconList(); console.log('APPTEST: on refreshBeaconList'); }, 
-					BackgroundProcessConfig.refreshBeaconListInterval
-			);
-		}
+	$scope.refreshServerData = function (triggeredFrom) {
+			console.log('APPTEST: on refreshServerData triggered from '+triggeredFrom);
+			 $scope.stopBleScanning('refreshServerData');
+			//add then to do something on finieh
+			bcmsAjaxService.refreshBeaconList().then(function () {
+				//Stop the ion-refresher from spinning
+				//console.log('refreshServerData'); 
+			    $scope.$broadcast('scroll.refreshComplete');
+			    $scope.startBleScanning('refreshServerData');
+			}, function() {
+				 $scope.$broadcast('scroll.refreshComplete');
+			}); 
 	};
-	//stop refreshing serverdata
-	$scope.stopRefreshingLoop = function (triggeredFrom) {
-		return;
-		if($scope.isRefreshingBeaconList !== false) {
-			console.log('APPTEST: on stopRefreshingLoop triggered from '+triggeredFrom);
-			$interval.cancel($scope.isRefreshingBeaconList);
-		 	$scope.isRefreshingBeaconList = false;
-		}
-	};
+	
 	
 	//start scanning if ble scanner is not scanning
 	$scope.startBleScanning = function(triggeredFrom) {
@@ -105,17 +100,45 @@ appControllers
 		$ionicPlatform.ready(function() {
 			console.log('APPTEST: on startBleScanning triggered from '+triggeredFrom);
 			$cordovaEvothingsBLE.startScanning();
+			$scope.startcleaningOldDevicesinterval(BackgroundProcessConfig.msBeforeBeaconIsOld);
 		});
 		
 	};
 	//stop scanning if ble scanner is scanning
 	$scope.stopBleScanning = function(triggeredFrom) {
-		
 			$ionicPlatform.ready(function() {
 				console.log('APPTEST: on stopBleScanning triggered from '+triggeredFrom);
+				$scope.stopcleaningOldDevicesinterval();
 				$cordovaEvothingsBLE.stopScanning();
 			});
-
+	};
+	
+	$scope.updateListLength = function() {
+		var i = 0;
+		for (key in $scope.receivedDevicesList) {
+			i++; 
+		}
+		//used in view
+		$scope.listLength = i;
+	};
+	
+	//start interval for cleaning old devices
+	$scope.startcleaningOldDevicesinterval = function (interval) {
+		if(!$scope.cleaningOldDevicesintervalPromise) cleaningOldDevicesintervalPromise = $interval(function() {
+				for (key in $scope.receivedDevicesList) {
+					if($scope.receivedDevicesList[key].scanData.lastScan < Date.now() -  interval) {
+						delete $scope.receivedDevicesList[key];
+					} 
+				}
+				$scope.updateListLength();
+			}, interval);
+	};
+	//stopt interval for cleaning old devices
+	$scope.stopcleaningOldDevicesinterval = function () {
+		if($scope.cleaningOldDevicesintervalPromise) {
+			$interval.cancel(intervalPromise);
+			$scope.cleaningOldDevicesintervalPromise = undefined;
+		}
 	};
 	
 	// dis or enabel ble start stop button
@@ -140,21 +163,22 @@ appControllers
 		//scannerbutton state
 		$scope.bleDisabledState = false;
 		
-		//loops
-		$scope.isRefreshingBeaconList = false;
 		
-		//list of all beacons in cms
-		$scope.beaconList = {};
+		$scope.receivedDevicesList = {};
+		$scope.listLength = 0;
+		//for interval
+		$scope.cleaningOldDevicesintervalPromise = undefined;
+	
+		
+		
 		//iabState
-		$rootScope.iabIsOpen = 0;
+		$rootScope.iabIsOpen = false;
 				
 		//on inet offline
 		$ionicPlatform.on('offline', function(){ 
 			console.log('APPTEST: on offline');
 			//alert inet offline
 			$scope.alertEnsureInetConnection();
-			//stop refreshbeaconlistloop
-			$scope.stopRefreshingLoop('offline');
 		});
 		
 		//on inet online
@@ -163,7 +187,7 @@ appControllers
 			console.log('APPTEST: on online');
 			
 			//start server loading loops
-			$scope.startRefreshingLoop('online');
+			$scope.refreshServerData('online');
 		});
 		
 		//@TODO on ble off or error
@@ -180,22 +204,19 @@ appControllers
 			if(!$rootScope.iabIsOpen) {
 				//start all loops
 				$scope.startBleScanning('onResume');
-				$scope.startRefreshingLoop('onResume');
+				$scope.refreshServerData('onResume');
 			} 
 		});
 		
 		//on app paused
 		$ionicPlatform.on('pause', function(){
 			console.log('APPTEST: on pause'); 
-			//stop all loops
+			//stop scanning
 			$scope.stopBleScanning('onPause')
-			$scope.stopRefreshingLoop('onPause');
-	
 		});
 				
-		//start all loops
-		$scope.startBleScanning('onInit');
-		$scope.startRefreshingLoop('onInit');
+		//init data and start scanning
+		$scope.refreshServerData('onInit');
 
 	};
 	

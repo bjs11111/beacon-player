@@ -158,38 +158,35 @@ bleDirectives.directive('ngBleItem', [ 'bcmsNotificationChannel', function(bcmsN
     		return icon;
     	};
     	
-    	$scope.getRssiStateColor = function(rssi) {
-    		//rssi = (rssi)?rssi:$scope.ngModel.scanData.rssi;
+    	$scope.getRssiStateColor = function(actualTriggerArea) {
     		var color = ngBleItemConfig.rssiState.notInRange.color;
-    		
-    		if( rssi >= -65 ) {
+    		//@TODO 
+    		if( actualTriggerArea == 'Positive' ) {
     			color = ngBleItemConfig.rssiState.activeRange.color;
     		} 
-    		else if( rssi < -65 ) {
+    		else if( actualTriggerArea == 'Negative' ) {
     			color = ngBleItemConfig.rssiState.inRange.color;
     		}
     		return color;
     	}
     	
     	$scope.show = function (bcmsBeaconKey) {
-    		bcmsNotificationChannel.publishTryOpenIAB(bcmsBeaconKey);
+    		bcmsNotificationChannel.publishManualOpenIAB(bcmsBeaconKey);
     	}
     	
     	//@TODO enhanch the bcms data mapping now on every bcms load all items causes watch 
     	$scope.$watch('ngModel.bcmsBeacon', function(newValue, oldValue) {
-    		//console.log('watch bcms'); 
     		$scope.cmsStateColor = $scope.getCmsStateColor(newValue);
     	});
-    	$scope.$watch('ngModel.scanData.rssi', function(newValue, oldValue) {
-    		//console.log('watch rssi'); 
-    		$scope.rssiStateColor = $scope.getRssiStateColor(newValue);
+    	$scope.$watch('ngModel.scanData.actualTriggerArea', function(actualTriggerArea, oldValue) {
+    		$scope.rssiStateColor = $scope.getRssiStateColor(actualTriggerArea);
     	});
      	    	
     	var init = function() {
     		$scope.itemTypeIcon 		=  ngBleItemConfig.type.beacon.icon;
     		$scope.cmsStateColor 		=  $scope.getCmsStateColor();
     		$scope.contentTypeIcon 		=  $scope.getContentTypeIcon(); 
-    		$scope.rssiStateColor 		=  $scope.getRssiStateColor(); 
+    		$scope.rssiStateColor 		=  ngBleItemConfig.rssiState.notInRange.color; 
     	};
     	
     	init(); 
