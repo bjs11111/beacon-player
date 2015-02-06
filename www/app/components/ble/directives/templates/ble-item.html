@@ -1,8 +1,6 @@
 
-<div  id="{{ngModel.address}}" class="device" ng-click="show(ngModel.bcmsBeaconKey)">
-	
+<div  id="{{ngModel.address}}" class="device" >
 	<i ng-show="!ngModel.bcmsBeacon.contentTitle"  class="icon beacon {{itemTypeIcon}} {{cmsStateColor}}" ></i>      
-	
 	<h2 ng-show="ngModel.bcmsBeacon.contentTitle">{{ngModel.bcmsBeacon.contentTitle}}</h2>
 	<h2 ng-show="!(ngModel.bcmsBeacon.contentTitle)">Kein Inhalt zugewiesen</h2>
 	<p am-time-ago="ngModel.scanData.lastScan"></p>
@@ -20,17 +18,17 @@
 </div>
 <p class="row">
   <span class="col-33">
-    <span ng-show="ngModel.bcmsBeacon.triggerZone == 'Near'">{{ngModel.scanData.estimatedDistance + 20}}</span><br ng-show="ngModel.bcmsBeacon.triggerZone == 'Near'">
-	<span ng-show="ngModel.bcmsBeacon.triggerZone == 'Intermediate'">{{ngModel.scanData.estimatedDistance + 10}}</span><br ng-show="ngModel.bcmsBeacon.triggerZone == 'Intermediate'">
-	<span ng-show="ngModel.bcmsBeacon.triggerZone == 'Far'">{{ngModel.scanData.estimatedDistance - 10}}</span>
+    <span ng-show="ngModel.bcmsBeacon.triggerZone == 'Near'">&gt;= {{ngModel.scanData.rssiOneMeterDistance  + 20}}</span><br ng-show="ngModel.bcmsBeacon.triggerZone == 'Near'">
+	<span ng-show="ngModel.bcmsBeacon.triggerZone == 'Intermediate'">&gt;= {{ngModel.scanData.rssiOneMeterDistance  + 10}}</span><br ng-show="ngModel.bcmsBeacon.triggerZone == 'Intermediate'">
+	<span ng-show="ngModel.bcmsBeacon.triggerZone == 'Far'">&gt;= {{ngModel.scanData.rssiOneMeterDistance  - 10}}</span>
   </span>
   <span class="col-33 {{rssiStateColor}}-bg" >
      {{ngModel.scanData.rssi}}
   </span>
    <span class="col-33">
-    <span ng-show="ngModel.bcmsBeacon.triggerZone == 'Near'">{{ngModel.scanData.estimatedDistance + 10}}</span><br ng-show="ngModel.bcmsBeacon.triggerZone == 'Near'">
-	<span ng-show="ngModel.bcmsBeacon.triggerZone == 'Intermediate'">{{ngModel.scanData.estimatedDistance - 10}}</span><br ng-show="ngModel.bcmsBeacon.triggerZone == 'Intermediate'">
-	<span ng-show="ngModel.bcmsBeacon.triggerZone == 'Far'">{{ngModel.scanData.estimatedDistance - 40}}</span>
+    <span ng-show="ngModel.bcmsBeacon.triggerZone == 'Near'">&lt; {{ngModel.scanData.rssiOneMeterDistance  + 10}}</span><br ng-show="ngModel.bcmsBeacon.triggerZone == 'Near'">
+	<span ng-show="ngModel.bcmsBeacon.triggerZone == 'Intermediate'">&lt; {{ngModel.scanData.rssiOneMeterDistance  - 10}}</span><br ng-show="ngModel.bcmsBeacon.triggerZone == 'Intermediate'">
+	<span ng-show="ngModel.bcmsBeacon.triggerZone == 'Far'">&lt; {{ngModel.scanData.rssiOneMeterDistance  - 40}}</span>
   </span>
 </p>
 
@@ -57,12 +55,10 @@
   </span>
 </p>
 
-		
-	
 	<p ng-init="isOpen = false" ng-show="isOpen" class="details">
 		<span>lastScan: {{ngModel.scanData.lastScan}}</span><br>
 		<span>calibrationValue: {{ngModel.scanData.calibrationValue}}</span><br>
-		<span>estimatedDistance: {{ngModel.scanData.estimatedDistance}}</span><br>
+		<span>rssiOneMeterDistance : {{ngModel.scanData.rssiOneMeterDistance }}</span><br>
 		
 		<span>triggerZone: {{ngModel.bcmsBeacon.triggerZone}}</span><br>
 		

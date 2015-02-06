@@ -1,7 +1,7 @@
 <ion-view>
 	
 	<ion-nav-title>
-      Scanning View {{listLength}} IAB {{iabIsOpen}}
+      Scanning View {{listLength}}
     </ion-nav-title>
  
 	<ion-nav-buttons side="left">
@@ -9,19 +9,33 @@
 	</ion-nav-buttons>
   
   	<ion-content class="has-header">
+
+
+  	<div class="list">
+  <label class="item item-input item-stacked-label">
+    <span class="input-label">StepBreak</span>
+    <input type="number" min="1" ng-model="stepBreak" placeholder="break between steps">
+  </label>
+  <label class="item item-input item-stacked-label">
+    <span class="input-label">Delay</span>
+    <input type="text" min="1" ng-model="delay" placeholder="Delay for beginnign action">
+  </label>
+  <label class="item item-input item-stacked-label">
+    <span class="input-label">Offset</span>
+    <input type="text" min="1" ng-model="offset" placeholder="ms to offset multiple beacons">
+  </label>
+</div>
   	
-  	<button class="button"  ng-click="nearInOut()">nearInOut</button>
-  	<button class="button"  ng-click="intermediateInOut()">intermediateInOut</button>
-  	<button class="button"  ng-click="farInOut()">farInOut</button>
+  	<button class="button"  ng-click="nearPositiveInOut(delay,stepBreak)">nearPositiveInOut</button>
+  	<button class="button"  ng-click="nearInOut(delay,stepBreak)">nearInOut</button>
+  	<button class="button"  ng-click="intermediateInOut(delay,stepBreak)">intermediateInOut</button>
+  	<button class="button"  ng-click="farInOut(delay,stepBreak)">farInOut</button>
   	
-  	<button class="button" ng-click="allInOut()">allInOut</button>
+  	<button class="button" ng-click="allInOut(offset,delay,stepBreak)">allInOut</button>
   	
   	<button class="button button-balanced" ng-click="startDummyScanning()">startDummyScanning</button>
   	<button class="button button-energized"  ng-click="stopDummyScanning()">stopDummyScanning</button>
 
-  	
-  	
-  	
 	<h2 class="text-center positive padding-vertical" ng-show="listLength == 0">nothing found...</h2>
  	
  	<ion-refresher on-refresh="refreshServerData('pullToRefresh')"></ion-refresher>
@@ -70,7 +84,7 @@
 				  <h2>{{device.bcmsBeacon.content_title}}</h2>
 				   
 				   
- 					<ng-ble-item ng-model="device"></ng-ble-item>  
+ 					<ng-ble-item ng-model="device" ng-click="openIAB(device.bcmsBeaconKey)"></ng-ble-item>  
  		</ion-item>
  		
  	</ion-list>

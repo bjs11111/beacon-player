@@ -84,6 +84,8 @@ C:\Users\Michael\git\beacon-player\platforms\android\assets\www\app\components\s
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\app\components\scanning\scanning-recentlyseen.html \
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\app\components\utils\utils-services.js \
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\app\data\companyIdentifier.json \
+C:\Users\Michael\git\beacon-player\platforms\android\assets\www\app\data\log.txt \
+C:\Users\Michael\git\beacon-player\platforms\android\assets\www\app\data\logdata.txt \
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\app\data\urllog.txt \
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\app\templates\main-sidemenu.html \
 C:\Users\Michael\git\beacon-player\platforms\android\assets\www\css\ionic.app.css \

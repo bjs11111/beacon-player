@@ -128,7 +128,7 @@ bleDirectives.directive('ngBleState', [ '$cordovaEvothingsBLE',
 }])
 
 /**/
-bleDirectives.directive('ngBleItem', [ 'bcmsNotificationChannel', function(bcmsNotificationChannel) {
+bleDirectives.directive('ngBleItem', function() {
   return {
     restrict: 'EA',
     require: '^ngModel',
@@ -170,10 +170,6 @@ bleDirectives.directive('ngBleItem', [ 'bcmsNotificationChannel', function(bcmsN
     		return color;
     	}
     	
-    	$scope.show = function (bcmsBeaconKey) {
-    		bcmsNotificationChannel.publishManualOpenIAB(bcmsBeaconKey);
-    	}
-    	
     	//@TODO enhanch the bcms data mapping now on every bcms load all items causes watch 
     	$scope.$watch('ngModel.bcmsBeacon', function(newValue, oldValue) {
     		$scope.cmsStateColor = $scope.getCmsStateColor(newValue);
@@ -192,7 +188,7 @@ bleDirectives.directive('ngBleItem', [ 'bcmsNotificationChannel', function(bcmsN
     	init(); 
     }]
   	}
-}]);
+});
 
 
 /*@TODO write documantation + use link*/

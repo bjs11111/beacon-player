@@ -155,9 +155,9 @@ bleServices
 	var interval 			= undefined,
 		intervalPromise  	= undefined;
 	
-	var break2s = 1;
+	var break2s = 2000;
 
-	//NOTICE: addresses maybe not in right order 
+	//beacons of basic test user
 	var beacon7_1 	= {  'rssi':-100, 'address' : '0E:FA:EF:0C:22:39', 'scanRecord'	: 'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gAHAAGzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
 	var beacon7_2 	= {  'rssi':-100, 'address' : '0E:FA:EF:0C:22:40', 'scanRecord'	: 'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gAHAAK/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
 	var beacon7_3	= {  'rssi':-100, 'address' : '0E:FA:EF:0C:22:41', 'scanRecord'	: 'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gAHAAPFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
@@ -166,111 +166,141 @@ bleServices
 	var beacon2_2 	= {  'rssi':-100, 'address' : '0E:FA:EF:0C:22:25', 'scanRecord'	: 'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gACAAK/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
 	var beacon2_3	= {  'rssi':-100, 'address' : '0E:FA:EF:0C:22:24', 'scanRecord'	: 'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gACAAPFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
 	//
-	var beacon143_1	= {  'address' : '0C:F3:EE:53:43:64', 'scanRecord' : 'BwlUQzE0MwAO/1oAAAAV5RgAAAAGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' };
-	var beacon143_2	= {  'address' : '0C:F3:EE:53:43:64', 'scanRecord' : 'BwlUQzE0MwAO/1oAAAAW2hcAAAAqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' };
-	var beacon143_3	= {  'address' : '0C:F3:EE:53:43:64', 'scanRecord' : 'BwlUQzE0MwAO/1oAAAAWAxcAAAArAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' };
-	var beacon143_4	= {  'address' : '0C:F3:EE:53:43:64', 'scanRecord' : 'BwlUQzE0MwAO/1oAAAAWAxcAAAAsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' };
-	var beacon143_5	= {  'address' : '0C:F3:EE:53:43:64', 'scanRecord' : 'BwlUQzE0MwAO/1oAAAAWQRcAAAAtAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' };
-	var beacon143_6	= {  'address' : '0C:F3:EE:53:43:64', 'scanRecord' : 'BwlUQzE0MwAO/1oAAAAWQRcAAAAuAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' };
-	var beacon143_7	= {  'address' : '0C:F3:EE:53:43:64', 'scanRecord' : 'BwlUQzE0MwAO/1oAAAAWIhcAAAAvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' };
-	var beacon143_8	= {  'address' : '0C:F3:EE:53:43:64', 'scanRecord' : 'BwlUQzE0MwAO/1oAAAAW2hcAAAApAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' };
+	var beacon1_3 	= {  'rssi':-100, 'address' : '0E:FA:EF:0C:22:23', 	'scanRecord' : 'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gABAAPFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
+	//
+	var beacon90_3373	 	= {  'rssi':-100, 'address' : '0E:F3:EE:5A:0D:2D', 	'scanRecord' : 'AgEEGv9MAAIVaZ68gOHzEeOaDwzz7jvAEgBaDS2zAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
+	var beacon90_3380	 	= {  'rssi':-100, 'address' : '0E:F3:EE:5A:0D:34', 	'scanRecord' : 'AgEEGv9MAAIVaZ68gOHzEeOaDwzz7jvAEgBaDTSzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
+	//estimote
+	var beacon32199_23063 	= {  'rssi':-100, 'address' : 'C3:9C:5A:17:7D:C7', 	'scanRecord' : 'AgEGGv9MAAIVuUB/MPX4Rm6v+SVVa1f+bX3HWhe2CQllc3RpbW90ZQ4WChjHfRdanMO2x30XWgAAAAAAAAA='};
 	
-	/*ScanResult{
-		 mDevice=0E:FA:EF:0C:22:39, 
-		 mScanRecord=ScanRecord [
-		                         mAdvertiseFlags=4, 
-		                         mServiceUuids=null, 
-		                         mManufacturerSpecificData={76=[2, 21, -26, -59, 109, -75, -33, -5, 72, -46, -80, -120, 64, -11, -88, 20, -106, -18, 0, 7, 0, 1, -77]}, 
-		                         mServiceData={}, 
-		                         mTxPowerLevel=-2147483648, 
-		                         mDeviceName=null
-		                        ],
-		                        mRssi=-59,
-		                        mTimestampNanos=697368315587888
-	 }*/
+	//
+	var beacon143_1	= { 'rssi':-100, 'address' : '0C:F3:EE:53:43:64', 'scanRecord' : 'BwlUQzE0MwAO/1oAAAAV5RgAAAAGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
+	var beacon143_2	= { 'rssi':-100, 'address' : '0C:F3:EE:53:43:64', 'scanRecord' : 'BwlUQzE0MwAO/1oAAAAW2hcAAAAqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
+	var beacon143_3	= { 'rssi':-100, 'address' : '0C:F3:EE:53:43:64', 'scanRecord' : 'BwlUQzE0MwAO/1oAAAAWAxcAAAArAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
+	var beacon143_4	= { 'rssi':-100, 'address' : '0C:F3:EE:53:43:64', 'scanRecord' : 'BwlUQzE0MwAO/1oAAAAWAxcAAAAsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
+	var beacon143_5	= { 'rssi':-100, 'address' : '0C:F3:EE:53:43:64', 'scanRecord' : 'BwlUQzE0MwAO/1oAAAAWQRcAAAAtAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
+	var beacon143_6	= { 'rssi':-100, 'address' : '0C:F3:EE:53:43:64', 'scanRecord' : 'BwlUQzE0MwAO/1oAAAAWQRcAAAAuAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
+	var beacon143_7	= { 'rssi':-100, 'address' : '0C:F3:EE:53:43:64', 'scanRecord' : 'BwlUQzE0MwAO/1oAAAAWIhcAAAAvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
+	var beacon143_8	= { 'rssi':-100, 'address' : '0C:F3:EE:53:43:64', 'scanRecord' : 'BwlUQzE0MwAO/1oAAAAW2hcAAAApAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
 	
-	var nearBeaconEntersAndExiteOneTime = function(delay) {
+	
+	var nearBeaconEntersPositiveAndExit = function(delay, stepBreak) {
 		delay = (delay)?delay:1000;
+		stepBreak = (stepBreak)?stepBreak:break2s;
 		var i = 0;
+		console.log(delay, stepBreak); 
+		//entry at -57dBm 
+		setTimeout(function() {beacon7_1.rssi =-57; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+stepBreak*i++);
+		setTimeout(function() {beacon7_1.rssi =-57; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+stepBreak*i++);
+		//stay
+		setTimeout(function() {beacon7_1.rssi =-56; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+stepBreak*i++);
+		setTimeout(function() {beacon7_1.rssi =-58; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+stepBreak*i++);	
+		setTimeout(function() {beacon7_1.rssi =-54; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+stepBreak*i++);
+		setTimeout(function() {beacon7_1.rssi =-60; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+stepBreak*i++);
+		setTimeout(function() {beacon7_1.rssi =-67; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+stepBreak*i++);
+		//exti at -67dBm
+		setTimeout(function() {beacon7_1.rssi =-68; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+stepBreak*i++);
+		setTimeout(function() {beacon7_1.rssi =-58; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+stepBreak*i++);
+		setTimeout(function() {beacon7_1.rssi =-70; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+stepBreak*i++);
+		i = 0;
+	}
+	
+	var nearBeaconEntersNagativeAndExiteOneTime = function(delay, stepBreak) {
+		delay = (delay)?delay:1000;
+		stepBreak = (stepBreak)?stepBreak:break2s;
+		var i = 0;
+		console.log(delay, stepBreak); 
 		//near beacon 
 		//rssiCalibration value = B3=>179
-		//estimatedDistance = -77
-		setTimeout(function() {beacon7_1.rssi =-70; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+break2s*i++);	
-		setTimeout(function() {beacon7_1.rssi =-58; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+break2s*i++);
+		//rssiOneMeterDistance  = -77
+		setTimeout(function() {beacon7_1.rssi =-70; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+stepBreak*i++);	
+		setTimeout(function() {beacon7_1.rssi =-58; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+stepBreak*i++);
 		//entry at -57dBm 
-		setTimeout(function() {beacon7_1.rssi =-57; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+break2s*i++);
+		setTimeout(function() {beacon7_1.rssi =-57; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+stepBreak*i++);
 		//stay
-		setTimeout(function() {beacon7_1.rssi =-56; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+break2s*i++);
-		setTimeout(function() {beacon7_1.rssi =-58; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+break2s*i++);	
-		setTimeout(function() {beacon7_1.rssi =-54; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+break2s*i++);
-		setTimeout(function() {beacon7_1.rssi =-60; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+break2s*i++);
-		setTimeout(function() {beacon7_1.rssi =-66; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+break2s*i++);
+		setTimeout(function() {beacon7_1.rssi =-56; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+stepBreak*i++);
+		setTimeout(function() {beacon7_1.rssi =-58; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+stepBreak*i++);	
+		setTimeout(function() {beacon7_1.rssi =-54; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+stepBreak*i++);
+		setTimeout(function() {beacon7_1.rssi =-60; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+stepBreak*i++);
+		setTimeout(function() {beacon7_1.rssi =-67; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+stepBreak*i++);
 		//exti at -67dBm
-		setTimeout(function() {beacon7_1.rssi =-67; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+break2s*i++);
-		setTimeout(function() {beacon7_1.rssi =-58; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+break2s*i++);
-		setTimeout(function() {beacon7_1.rssi =-70; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+break2s*i++);
+		setTimeout(function() {beacon7_1.rssi =-68; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+stepBreak*i++);
+		setTimeout(function() {beacon7_1.rssi =-58; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+stepBreak*i++);
+		setTimeout(function() {beacon7_1.rssi =-70; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+stepBreak*i++);
 		i = 0;
 	}
 	
-	var intermediateBeaconEntersAndExiteOneTime = function(delay) {
+	var intermediateBeaconEntersNagativeAndExiteOneTime = function(delay, stepBreak) {
 		delay = (delay)?delay:1000;
+		stepBreak = (stepBreak)?stepBreak:break2s;
 		var i = 0;
+		console.log(delay, stepBreak); 
 		//intermediate beacon enters and exite time one
 		//rssiCalibration value = BF=>191
-		//estimatedDistance = -65
-		setTimeout(function() {beacon7_2.rssi =-60; bleNotificationChannel.publishFoundDevice( beacon7_2 ); },  delay+break2s*i++);	
+		//rssiOneMeterDistance  = -65
+		setTimeout(function() {beacon7_2.rssi =-60; bleNotificationChannel.publishFoundDevice( beacon7_2 ); },  delay+stepBreak*i++);	
 		
-		setTimeout(function() {beacon7_2.rssi =-56; bleNotificationChannel.publishFoundDevice( beacon7_2 ); },  delay+break2s*i++);
+		setTimeout(function() {beacon7_2.rssi =-56; bleNotificationChannel.publishFoundDevice( beacon7_2 ); },  delay+stepBreak*i++);
 		//entrys at -55dBm 
-		setTimeout(function() {beacon7_2.rssi =-55; bleNotificationChannel.publishFoundDevice( beacon7_2 ); }, delay+break2s*i++);
+		setTimeout(function() {beacon7_2.rssi =-55; bleNotificationChannel.publishFoundDevice( beacon7_2 ); }, delay+stepBreak*i++);
 		//stays 
-		setTimeout(function() {beacon7_2.rssi =-54; bleNotificationChannel.publishFoundDevice( beacon7_2 ); },  delay+break2s*i++)
-		setTimeout(function() {beacon7_2.rssi =-50; bleNotificationChannel.publishFoundDevice( beacon7_2 ); },  delay+break2s*i++);	
-		setTimeout(function() {beacon7_2.rssi =-60; bleNotificationChannel.publishFoundDevice( beacon7_2 ); },  delay+break2s*i++);
-		setTimeout(function() {beacon7_2.rssi =-70; bleNotificationChannel.publishFoundDevice( beacon7_2 ); },  delay+break2s*i++);
-		setTimeout(function() {beacon7_2.rssi =-74; bleNotificationChannel.publishFoundDevice( beacon7_2 ); },  delay+break2s*i++);
+		setTimeout(function() {beacon7_2.rssi =-54; bleNotificationChannel.publishFoundDevice( beacon7_2 ); },  delay+stepBreak*i++)
+		setTimeout(function() {beacon7_2.rssi =-50; bleNotificationChannel.publishFoundDevice( beacon7_2 ); },  delay+stepBreak*i++);	
+		setTimeout(function() {beacon7_2.rssi =-60; bleNotificationChannel.publishFoundDevice( beacon7_2 ); },  delay+stepBreak*i++);
+		setTimeout(function() {beacon7_2.rssi =-70; bleNotificationChannel.publishFoundDevice( beacon7_2 ); },  delay+stepBreak*i++);
+		setTimeout(function() {beacon7_2.rssi =-75; bleNotificationChannel.publishFoundDevice( beacon7_2 ); },  delay+stepBreak*i++);
 		//exti at -75dBm
-		setTimeout(function() {beacon7_2.rssi =-75; bleNotificationChannel.publishFoundDevice( beacon7_2 ); },  delay+break2s*i++);
-		setTimeout(function() {beacon7_2.rssi =-76; bleNotificationChannel.publishFoundDevice( beacon7_2 ); },  delay+break2s*i++);
-		setTimeout(function() {beacon7_2.rssi =-80; bleNotificationChannel.publishFoundDevice( beacon7_2 ); },  delay+break2s*i++);
+		setTimeout(function() {beacon7_2.rssi =-76; bleNotificationChannel.publishFoundDevice( beacon7_2 ); },  delay+stepBreak*i++);
+		setTimeout(function() {beacon7_2.rssi =-79; bleNotificationChannel.publishFoundDevice( beacon7_2 ); },  delay+stepBreak*i++);
+		setTimeout(function() {beacon7_2.rssi =-80; bleNotificationChannel.publishFoundDevice( beacon7_2 ); },  delay+stepBreak*i++);
 		i = 0;
 	}
 	
-	var farBeaconEntersAndExiteOneTime = function(delay) {
+	var farBeaconEntersNagativeAndExiteOneTime = function(delay, stepBreak) {
 		delay = (delay)?delay:0;
+		stepBreak = (stepBreak)?stepBreak:break2s;
 		var i = 0;
+		console.log(delay, stepBreak); 
 		//far beacon 
 		//rssiCalibration value = C5=>197
-		//estimatedDistance = -59
-		setTimeout(function() {beacon7_3.rssi =-80; bleNotificationChannel.publishFoundDevice( beacon7_3 ); }, delay+break2s*i++);	
-		setTimeout(function() {beacon7_3.rssi =-70; bleNotificationChannel.publishFoundDevice( beacon7_3 ); }, delay+break2s*i++);
+		//rssiOneMeterDistance  = -59
+		setTimeout(function() {beacon7_3.rssi =-80; bleNotificationChannel.publishFoundDevice( beacon7_3 ); }, delay+stepBreak*i++);	
+		setTimeout(function() {beacon7_3.rssi =-70; bleNotificationChannel.publishFoundDevice( beacon7_3 ); }, delay+stepBreak*i++);
 		//entrys at -69dBm 
-		setTimeout(function() {beacon7_3.rssi =-69; bleNotificationChannel.publishFoundDevice( beacon7_3 ); }, delay+break2s*i++);
+		setTimeout(function() {beacon7_3.rssi =-69; bleNotificationChannel.publishFoundDevice( beacon7_3 ); }, delay+stepBreak*i++);
 		//stays 
-		setTimeout(function() {beacon7_3.rssi =-68; bleNotificationChannel.publishFoundDevice( beacon7_3 ); }, delay+break2s*i++);
-		setTimeout(function() {beacon7_3.rssi =-60; bleNotificationChannel.publishFoundDevice( beacon7_3 ); }, delay+break2s*i++);	
-		setTimeout(function() {beacon7_3.rssi =-70; bleNotificationChannel.publishFoundDevice( beacon7_3 ); }, delay+break2s*i++);
-		setTimeout(function() {beacon7_3.rssi =-90; bleNotificationChannel.publishFoundDevice( beacon7_3 ); }, delay+break2s*i++);
-		setTimeout(function() {beacon7_3.rssi =-98; bleNotificationChannel.publishFoundDevice( beacon7_3 ); }, delay+break2s*i++);
+		setTimeout(function() {beacon7_3.rssi =-68; bleNotificationChannel.publishFoundDevice( beacon7_3 ); }, delay+stepBreak*i++);
+		setTimeout(function() {beacon7_3.rssi =-60; bleNotificationChannel.publishFoundDevice( beacon7_3 ); }, delay+stepBreak*i++);	
+		setTimeout(function() {beacon7_3.rssi =-70; bleNotificationChannel.publishFoundDevice( beacon7_3 ); }, delay+stepBreak*i++);
+		setTimeout(function() {beacon7_3.rssi =-90; bleNotificationChannel.publishFoundDevice( beacon7_3 ); }, delay+stepBreak*i++);
+		setTimeout(function() {beacon7_3.rssi =-99; bleNotificationChannel.publishFoundDevice( beacon7_3 ); }, delay+stepBreak*i++);
 		//exti at -99dBm
-		setTimeout(function() {beacon7_3.rssi =-99; bleNotificationChannel.publishFoundDevice( beacon7_3 ); }, delay+break2s*i++);
-		setTimeout(function() {beacon7_3.rssi =-96; bleNotificationChannel.publishFoundDevice( beacon7_3 ); }, delay+break2s*i++);
-		setTimeout(function() {beacon7_3.rssi =-100; bleNotificationChannel.publishFoundDevice( beacon7_3 ); }, delay+break2s*i++);
+		setTimeout(function() {beacon7_3.rssi =-100; bleNotificationChannel.publishFoundDevice( beacon7_3 ); }, delay+stepBreak*i++);
+		setTimeout(function() {beacon7_3.rssi =-96; bleNotificationChannel.publishFoundDevice( beacon7_3 ); }, delay+stepBreak*i++);
+		setTimeout(function() {beacon7_3.rssi =-100; bleNotificationChannel.publishFoundDevice( beacon7_3 ); }, delay+stepBreak*i++);
 		i = 0;
 	}
 	
-	
-	
-	var nearFarIntermediateBeaconEntersAndExiteAlleOneTime = function() {
+	var nearFarIntermediateBeaconEntersNagativeAndExiteAlleOneTime = function(offset, delay, stepBreak) {
+		offset = (offset)?offset:0;
+		delay = (delay)?delay:0;
+		stepBreak = (stepBreak)?stepBreak:break2s;
+		var i = 0;
+		
+		console.log(offset, delay, stepBreak); 
 		//near beacon 
-		nearBeaconEntersAndExiteOneTime(1000);					
+		nearBeaconEntersNagativeAndExiteOneTime((offset*i++)+delay, stepBreak);					
 		//intermediate beacon 
-		intermediateBeaconEntersAndExiteOneTime(3000);
+		intermediateBeaconEntersNagativeAndExiteOneTime((offset*i++)+delay, stepBreak);
 		//far beacon
-		farBeaconEntersAndExiteOneTime(6000);
+		farBeaconEntersNagativeAndExiteOneTime((offset*i++)+delay, stepBreak);
 	}
 	
-	var invalidBeaconDoStuff = function () {
+	var invalidBeaconDoStuff = function (delay, stepBreak) {
+		delay = (delay)?delay:0;
+		stepBreak = (stepBreak)?stepBreak:break2s;
+		
+		
 		setTimeout(function() {bleNotificationChannel.publishFoundDevice( beacon143_1 )}, 1000);
 		setTimeout(function() {bleNotificationChannel.publishFoundDevice( beacon143_2 )}, 2000);
 		setTimeout(function() {bleNotificationChannel.publishFoundDevice( beacon143_3 )}, 3000);
@@ -290,6 +320,13 @@ bleServices
 		if(intervalPromise) {$interval.cancel(intervalPromise);intervalPromise = undefined;}
 	};	
 	
+	var randomRssi = function() {
+		var M = -100,
+			N = 0;
+		// num is random integer from M to N
+		return Math.floor(M + (1+N-M)*Math.random())   
+	}
+	
 	var startDummyDeviceFoundLoopWithSetInterval = function () {
 		
 		//skip if scanner already scanns
@@ -302,9 +339,10 @@ bleServices
 			console.log('interval started'); 
 			interval = setInterval(
 				function() {
-						bleNotificationChannel.publishFoundDevice( beacon7_1 ); 
-						bleNotificationChannel.publishFoundDevice( beacon7_2 );
-						bleNotificationChannel.publishFoundDevice( beacon7_3 );
+					
+					beacon7_1.rssi = randomRssi(); bleNotificationChannel.publishFoundDevice( beacon7_1 )
+					beacon7_2.rssi = randomRssi(); bleNotificationChannel.publishFoundDevice( beacon7_2 )
+					beacon7_3.rssi = randomRssi(); bleNotificationChannel.publishFoundDevice( beacon7_3 )
 				}
 				,1000);
 
@@ -341,10 +379,15 @@ bleServices
 		
 		invalidBeaconDoStuff : invalidBeaconDoStuff,
 		
-		nearFarIntermediateBeaconEntersAndExiteAlleOneTime : nearFarIntermediateBeaconEntersAndExiteAlleOneTime,
-		nearBeaconEntersAndExiteOneTime : nearBeaconEntersAndExiteOneTime,
-		intermediateBeaconEntersAndExiteOneTime : intermediateBeaconEntersAndExiteOneTime,
-		farBeaconEntersAndExiteOneTime : farBeaconEntersAndExiteOneTime
+		
+		nearBeaconEntersPositiveAndExit		: nearBeaconEntersPositiveAndExit,
+		nearBeaconEntersNagativeAndExiteOneTime : nearBeaconEntersNagativeAndExiteOneTime,
+		
+		intermediateBeaconEntersNagativeAndExiteOneTime : intermediateBeaconEntersNagativeAndExiteOneTime,
+		
+		farBeaconEntersNagativeAndExiteOneTime : farBeaconEntersNagativeAndExiteOneTime,
+		
+		nearFarIntermediateBeaconEntersNagativeAndExiteAlleOneTime : nearFarIntermediateBeaconEntersNagativeAndExiteAlleOneTime,
 	}
 	
 	//TESTING END===================================================================================================================================
@@ -450,8 +493,8 @@ bleServices
 					
 }])
 
-/*Constants for the bleDeviceService*/
 .constant( "bleDeviceServiceConfig", {
+		
 		_UNKNOWN_DEVICE_ 	: 'Unknown Device',
 		
 		_UNKNOWN_TYPE_ 		: 'Unknown Type',
@@ -460,6 +503,27 @@ bleServices
 		
 		mapTypeRawDevice	: 'scanData',
 		mapTypeBcmsDevice	: 'bcmsBeacon',
+		
+		triggerAreas : {
+			positive 		: 'Positive', 
+			negative 		: 'Negative', 
+			outOfRange 		: 'OutOfRange'
+		},
+		triggerZones: {
+			//Notice Name is same as in bcmsBeaconData
+			near 			: { name :	'Near',
+								entryThresholdOffset 	: 20,
+								exitThresholdOffset 	: 10
+							  },
+			intermediate 	: { name :	'Intermediate',
+								entryThresholdOffset 	: 10,
+								exitThresholdOffset 	: -10
+							  },
+			far 			: { name :	'Far',
+								entryThresholdOffset 	: -10,
+								exitThresholdOffset 	: -40
+							  },
+		},
 		
 })
    
@@ -472,7 +536,7 @@ bleServices
 	  //list of all scanned devices [ iBeaconUuid.Major.Minor => deviceData, ]
 	  var knownDevicesList = [];
 	  //
-	  var cmsBeaconKeyToObj  = $filter('cmsBeaconKeyToObj');
+	  var bcmsBeaconKeyToObj  = $filter('bcmsBeaconKeyToObj');
 	  	  	 
 	  //decode scanRecond of device and extract data
 	  //returns false or the device
@@ -508,7 +572,7 @@ bleServices
 			device.b1 = str.substr(16,2);
 		
 			//check iBeacon advertisement indicator
-			if( device.b0 != '02' && device.b1 != '15' ) { return false; }
+			if( device.b0 != '02' || device.b1 != '15' ) { return false; }
 			
 			//This is the Universally Unique Identifier [UUID] in the Manufacture-Data (length = 32)
 			device.mfUuid	= str.substr(18,32); 
@@ -521,11 +585,9 @@ bleServices
 			
 			//This is the RSSI value measured in 1m distancece from the iBeacon and is used for calibration the distance estimation. 
 			//signet integer 8 bit
-			//255 = -1
-			//254 = -2
 			device.calibrationValue = parseInt(str.substr(58,2), 16);
 			//
-			device.estimatedDistance = device.calibrationValue - 256;
+			device.rssiOneMeterDistance  = device.calibrationValue - 256;
 			//This is the UUID as iBeacon-UUID format
 			device.iBeaconUuid	= hexToIBeaconUuid(device.mfUuid);
 			
@@ -539,6 +601,43 @@ bleServices
 					
 			return device;
 	  };
+	  
+	  var calculateActualTriggerArea = function(deviceData) {
+			var ThresholdOffset = undefined;
+			var willEntry = undefined;
+			
+			//detect willEntry value
+			//will entry or stay
+			if(		deviceData.scanData.lastTriggerArea === bleDeviceServiceConfig.triggerAreas.negative
+				||	deviceData.scanData.lastTriggerArea === bleDeviceServiceConfig.triggerAreas.outOfRange ) 
+			{ willEntry = true; }
+			//will exit or stay
+			else if( deviceData.scanData.lastTriggerArea === bleDeviceServiceConfig.triggerAreas.positive ) 
+			{ willEntry = false; } 
+			
+			if(willEntry === undefined) { console.log('SCANTEST: willEntry is undefined: ' + deviceData.scanData.lastTriggerArea + '=>' + deviceData.scanData.actualTriggerArea); }
+			
+			switch(deviceData.bcmsBeacon.triggerZone) {
+				case bleDeviceServiceConfig.triggerZones.near.name:
+					ThresholdOffset = (willEntry)?bleDeviceServiceConfig.triggerZones.near.entryThresholdOffset:bleDeviceServiceConfig.triggerZones.near.exitThresholdOffset;
+				break;
+				case bleDeviceServiceConfig.triggerZones.intermediate.name:
+					ThresholdOffset = (willEntry)?bleDeviceServiceConfig.triggerZones.intermediate.entryThresholdOffset:bleDeviceServiceConfig.triggerZones.intermediate.exitThresholdOffset;
+				break;
+				case bleDeviceServiceConfig.triggerZones.far.name:
+					ThresholdOffset = (willEntry)?bleDeviceServiceConfig.triggerZones.far.entryThresholdOffset:bleDeviceServiceConfig.triggerZones.far.exitThresholdOffset;
+				break;	
+			}
+			
+			if(ThresholdOffset === undefined) { console.log('ThresholdOffset is undefined'); return; }
+			
+	
+			if(deviceData.scanData.rssi >= deviceData.scanData.rssiOneMeterDistance  + ThresholdOffset) 
+			{ return bleDeviceServiceConfig.triggerAreas.positive;}
+			//stay
+			else {return bleDeviceServiceConfig.triggerAreas.negative;}	
+
+		};
 		  
       //receaved an array of address => true
       // returns the array of knownDevices
@@ -548,9 +647,7 @@ bleServices
       
       var getKnownDevice = function(cmsBeaconKey) {
     	  var searchedDevice = knownDevicesList[cmsBeaconKey];
-    	
     	  if(searchedDevice) { return searchedDevice; }
-    	
     	  return false; 
       };
       
@@ -567,24 +664,18 @@ bleServices
     	  if(!data) {
     		  data = {};
 			  data.bcmsBeaconKey = bcmsBeaconKey;
-    	  }  
-			  
+    	  }   
     	  //scanData
 		  if ( type == bleDeviceServiceConfig.mapTypeRawDevice ) {
 			  data.scanData = deviceData;
 			  knownDevicesList[bcmsBeaconKey] = data;
 			  bleNotificationChannel.publishKnownDeviceUpdated(bcmsBeaconKey);
-			 
     	  } 
     	  //bcmsData
     	  else if ( bleDeviceServiceConfig.mapTypeBcmsDevice ) {
     		  data.bcmsBeacon = deviceData;
     		  knownDevicesList[bcmsBeaconKey] = data;
     	  }
-
-    	  
-    	 
-
       }
       
 	  var onFoundBleDeviceHandler = function(rawDevice)  {
@@ -611,7 +702,8 @@ bleServices
       return {
     	  getKnownDevices				: getKnownDevices,
     	  getKnownDevice				: getKnownDevice,
-    	  mapBeaconDataToKnownDevices	: mapBeaconDataToKnownDevices
+    	  mapBeaconDataToKnownDevices	: mapBeaconDataToKnownDevices,
+    	  calculateActualTriggerArea	: calculateActualTriggerArea
       };
       
    }])

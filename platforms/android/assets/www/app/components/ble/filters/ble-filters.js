@@ -123,7 +123,7 @@ bleFilters
 /*
  * returns valid hex string or false
  */	
-.filter('cmsBeaconKeyToObj', ['$filter', function($filter) {
+.filter('bcmsBeaconKeyToObj', ['$filter', function($filter) {
 	var tmp = undefined,
 		iBeaconUuid 		= undefined,
 		major 				= undefined,
