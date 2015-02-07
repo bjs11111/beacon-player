@@ -17,7 +17,7 @@ to build the app run
 ```bash
 $ cordova build android --releas
 ```
-and be shure th have the right properties set in the /platforms/android/ant.properties
+and be shure to have the right properties set in the /platforms/android/ant.properties
 read more about in this link under method 2
 http://ilee.co.uk/Sign-Releases-with-Cordova-Android/
 
