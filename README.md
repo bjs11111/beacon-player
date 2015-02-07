@@ -12,6 +12,7 @@ We heavily use the new Bluetooth 4.0 Beacon Technology to create a point of inte
 ##Setup the Project
 
 building and signing the app
+
 to build the app run 
 ```bash
 $ cordova build android --releas
