@@ -11,16 +11,6 @@ We heavily use the new Bluetooth 4.0 Beacon Technology to create a point of inte
 
 ##Setup the Project
 
-building and signing the app
-
-to build the app run 
-```bash
-$ cordova build android --releas
-```
-and be shure to have the right properties set in the /platforms/android/ant.properties
-read more about in this link under method 2
-http://ilee.co.uk/Sign-Releases-with-Cordova-Android/
-
 ###Installig envirement 
 
 We recommend using the [Ionic CLI](https://github.com/driftyco/ionic-cli) to create new Ionic projects and work with them. Also a good advice is to read the [IONIC CLI FAQ](http://ionicframework.com/docs/ionic-cli-faq).
@@ -35,6 +25,8 @@ $ npm install -g ionic
 ```
 
 1.1 setup project
+We host just the plattform unspecific stuff on github not the whole ionic project. To get it running on your mashine follow the prozess above. 
+
 on the console:
 ```bash
 $ ionic start ionic_beaconPlayer_v2-2 blank
@@ -96,6 +88,19 @@ $ ionic resources --splash
 Platform Specifics icons and splashscreens:
 path: resources/android/
 path: resources/ios
+
+###building and signing the app
+
+to build the app run 
+```bash
+$ cordova build android --releas
+```
+and be shure to have the right properties set in the /platforms/android/ant.properties
+read more about in this link under method 2
+http://ilee.co.uk/Sign-Releases-with-Cordova-Android/
+
+Alos the great ionic framework has really good documentation about this process
+http://ionicframework.com/docs/guide/publishing.html
 
 ##app
 native state checks like inet or bluetooth are done initialy in the app-controller as well as pn app resume and app open

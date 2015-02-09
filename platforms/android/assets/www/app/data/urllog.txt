@@ -1,3 +1,0 @@
-01-23 11:45:31.829: D/audio_hw_primary(23005): disable_audio_route: reset and update mixer path: audio-record
-01-23 11:45:34.681: D/CordovaLog(5858): file:///android_asset/www/app/components/scanning/scanning-controllers.js: Line 98 : path: http://www.starnberger.at/dev-bcms/b-i/E6C56DB5-DFFB-48D2-B088-40F5A81496EE.7.1?ajax=1
-01-23 11:45:34.681: I/chromium(5858): [INFO:CONSOLE(98)] "path: http://www.starnberger.at/dev-bcms/b-i/E6C56DB5-DFFB-48D2-B088-40F5A81496EE.7.1?ajax=1", source: file:///android_asset/www/app/components/scanning/scanning-controllers.js (98)
