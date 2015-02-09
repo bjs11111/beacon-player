@@ -7045,6 +7045,16 @@ components
 .icon.rssi.stable {
   color: #ccc; }
 
+.triggerZone {
+  top: 0;
+  right: 51px;
+  display: flex;
+  position: absolute;
+  align-items: center;
+  height: 100%;
+  padding: 0;
+  margin: 0; }
+
 .item-complex.item-icon-left .item-content {
   padding-left: 72px; }
 

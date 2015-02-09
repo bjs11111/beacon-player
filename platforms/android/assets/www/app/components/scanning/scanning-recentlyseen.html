@@ -1,7 +1,7 @@
 <ion-view>
 	
-	<ion-nav-title>
-      Scanning View {{listLength}}
+	<ion-nav-title >
+      Scanning Beacons {{isOpen}} {{listLength}}
     </ion-nav-title>
  
 	<ion-nav-buttons side="left">
@@ -9,32 +9,49 @@
 	</ion-nav-buttons>
   
   	<ion-content class="has-header">
-
-
-  	<div class="list">
-  <label class="item item-input item-stacked-label">
-    <span class="input-label">StepBreak</span>
-    <input type="number" min="1" ng-model="stepBreak" placeholder="break between steps">
-  </label>
-  <label class="item item-input item-stacked-label">
-    <span class="input-label">Delay</span>
-    <input type="text" min="1" ng-model="delay" placeholder="Delay for beginnign action">
-  </label>
-  <label class="item item-input item-stacked-label">
-    <span class="input-label">Offset</span>
-    <input type="text" min="1" ng-model="offset" placeholder="ms to offset multiple beacons">
-  </label>
+ 
+  	<button class="button" ng-click="isOpen = !isOpen">DEBUG</button>
+  
+<div  ng-show="isOpen">
+  <div class="list">
+  	<div class="row">
+	  <div class="col">
+			  <label class="item item-input item-stacked-label">
+		    <span class="input-label">StepBreak</span>
+		    <input type="number" min="1" ng-model="stepBreak" placeholder="break between steps">
+		  </label>
+	  </div>
+	  <div class="col">
+	  	<label class="item item-input item-stacked-label">
+		    <span class="input-label">Delay</span>
+		    <input type="text" min="1" ng-model="delay" placeholder="Delay for beginnign action">
+  		</label>
+	  </div>
+	  <div class="col">
+	   	<label class="item item-input item-stacked-label">
+	    	<span class="input-label">Offset</span>
+	    	<input type="text" min="1" ng-model="offset" placeholder="ms to offset multiple beacons">
+	  	</label>
+	  </div>
+  </div>
 </div>
   	
-  	<button class="button"  ng-click="nearPositiveInOut(delay,stepBreak)">nearPositiveInOut</button>
+  	<button class="button"  ng-click="nearPositiveInOut(delay,stepBreak)">nearPosInOut</button>
   	<button class="button"  ng-click="nearInOut(delay,stepBreak)">nearInOut</button>
-  	<button class="button"  ng-click="intermediateInOut(delay,stepBreak)">intermediateInOut</button>
+  	<button class="button"  ng-click="intermediateInOut(delay,stepBreak)">intermInOut</button>
   	<button class="button"  ng-click="farInOut(delay,stepBreak)">farInOut</button>
   	
   	<button class="button" ng-click="allInOut(offset,delay,stepBreak)">allInOut</button>
-  	
-  	<button class="button button-balanced" ng-click="startDummyScanning()">startDummyScanning</button>
-  	<button class="button button-energized"  ng-click="stopDummyScanning()">stopDummyScanning</button>
+  	<div class="row">
+	  <div class="col">
+	  <button class="button button-balanced" ng-click="startDummyScanning()">startDummyScanning</button>
+	  </div>
+	    <div class="col">
+	    <button class="button button-energized"  ng-click="stopDummyScanning()">stopDummyScanning</button>
+	  </div>
+  	</div>
+</div>
+   <!-- 		 --> 
 
 	<h2 class="text-center positive padding-vertical" ng-show="listLength == 0">nothing found...</h2>
  	
@@ -45,36 +62,6 @@
 		        show-reorder="false"
 		        can-swipe="true" 
  	> 
-	  <!-- Filters should be applied to the expression, before specifying a tracking expression
-	  	   https://docs.angularjs.org/api/ng/directive/ngRepeat
-	  	   rangeFilter:filtersSettings.triggerRange:'rssi' |
-	  	   | filter:all | orderBy:orderProp
-	  	   
-	  	   track by device.address 
-	  	   <ion-toggle ng-model="isJustIBeacons" toggle-class="toggle-calm">just IBeacons</ion-toggle>
-	  
-		
-			<div ng-repeat="device in receivedDevicesList">
-        		<pre>
-        			<code>
-					{{device.bcmsBeaconKey}}
-					{{device.scanData}}
-					{{device.bcmsBeacon}}
-					</code>
-				</pre>
-			</div>
-	
-		<ion-item ng-repeat="device in receivedDevicesList track by device.address" 
-                  href="#" 
-                  class="">
-                  total: {{listLength}}
-        	<pre>
-        		<code>
-					{{device}}
-				</code>
-			</pre>
-		</ion-item>
-	 -->
 		<ion-item ng-repeat="device in receivedDevicesList track by device.bcmsBeaconKey" 
                   href="#" 
                   class=" item-icon-right "
@@ -82,9 +69,7 @@
                   
                   <img class="content-img" ng-show="device.bcmsBeacon.contentTitle" ng-src="{{device.bcmsBeacon.contentThumnailUrl?device.bcmsBeacon.contentThumnailUrl:''}}">
 				  <h2>{{device.bcmsBeacon.content_title}}</h2>
-				   
-				   
- 					<ng-ble-item ng-model="device" ng-click="openIAB(device.bcmsBeaconKey)"></ng-ble-item>  
+ 				  <ng-ble-item ng-model="device" ng-click="openIAB(device.bcmsBeaconKey)"></ng-ble-item>  
  		</ion-item>
  		
  	</ion-list>

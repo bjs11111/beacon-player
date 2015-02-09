@@ -62,45 +62,8 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
 
 		//filter to validate the cmsBeaconKey
 	    var bcmsBeaconKeyToObj = null;
-		//move into deviceService
-		var calculateActualTriggerArea = function(deviceData) {
-			var ThresholdOffset = undefined;
-			var willEntry = undefined;
-			
-			//detect willEntry value
-			//will entry or stay
-			if(		deviceData.scanData.lastTriggerArea === bleDeviceServiceConfig.triggerAreas.negative
-				||	deviceData.scanData.lastTriggerArea === bleDeviceServiceConfig.triggerAreas.outOfRange ) 
-			{ willEntry = true; }
-			//will exit or stay
-			else if( deviceData.scanData.lastTriggerArea === bleDeviceServiceConfig.triggerAreas.positive ) 
-			{ willEntry = false; } 
-			
-			if(willEntry === undefined) { console.log('SCANTEST: willEntry is undefined: ' + deviceData.scanData.lastTriggerArea + '=>' + deviceData.scanData.actualTriggerArea); }
-			
-			switch(deviceData.bcmsBeacon.triggerZone) {
-				case bleDeviceServiceConfig.triggerZones.near.name:
-					ThresholdOffset = (willEntry)?bleDeviceServiceConfig.triggerZones.near.entryThresholdOffset:bleDeviceServiceConfig.triggerZones.near.exitThresholdOffset;
-				break;
-				case bleDeviceServiceConfig.triggerZones.intermediate.name:
-					ThresholdOffset = (willEntry)?bleDeviceServiceConfig.triggerZones.intermediate.entryThresholdOffset:bleDeviceServiceConfig.triggerZones.intermediate.exitThresholdOffset;
-				break;
-				case bleDeviceServiceConfig.triggerZones.far.name:
-					ThresholdOffset = (willEntry)?bleDeviceServiceConfig.triggerZones.far.entryThresholdOffset:bleDeviceServiceConfig.triggerZones.far.exitThresholdOffset;
-				break;	
-			}
-			
-			if(ThresholdOffset === undefined) { console.log('ThresholdOffset is undefined'); return; }
-			
-	
-			if(deviceData.scanData.rssi >= deviceData.scanData.rssiOneMeterDistance  + ThresholdOffset) 
-			{ return bleDeviceServiceConfig.triggerAreas.positive;}
-			//stay
-			else {return bleDeviceServiceConfig.triggerAreas.negative;}	
-			
-			
-
-		};
+		
+	    
 		
 		var handleSituation = function(deviceData) {
 			console.log('SCANTEST: handleSituation');
@@ -182,7 +145,7 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     					//add triggerhandling values
     					updatedItem.scanData.alreadyTriggered 	= false;
     					updatedItem.scanData.lastTriggerArea 	= bleDeviceServiceConfig.triggerAreas.outOfRange;
-    					updatedItem.scanData.actualTriggerArea 	= calculateActualTriggerArea(updatedItem);	
+    					updatedItem.scanData.actualTriggerArea 	= bleDeviceService.calculateActualTriggerArea(updatedItem);	
     					updatedItem.scanData.lastRssiValue		= -100;
     					
     					$scope.receivedDevicesList[key] 		= updatedItem;
@@ -196,7 +159,7 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
    				 
 				 updatedItem.scanData.alreadyTriggered 		= currentItem.scanData.alreadyTriggered;
 				 updatedItem.scanData.lastTriggerArea 		= currentItem.scanData.actualTriggerArea;
-   				 updatedItem.scanData.actualTriggerArea 	= calculateActualTriggerArea(updatedItem); 
+   				 updatedItem.scanData.actualTriggerArea 	= bleDeviceService.calculateActualTriggerArea(updatedItem); 
    				 updatedItem.scanData.lastRssiValue			= updatedItem.scanData.rssi;
    				 
    				 $scope.receivedDevicesList[key] 			= updatedItem; 

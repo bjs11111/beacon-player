@@ -601,6 +601,43 @@ bleServices
 					
 			return device;
 	  };
+	  
+	  var calculateActualTriggerArea = function(deviceData) {
+			var ThresholdOffset = undefined;
+			var willEntry = undefined;
+			
+			//detect willEntry value
+			//will entry or stay
+			if(		deviceData.scanData.lastTriggerArea === bleDeviceServiceConfig.triggerAreas.negative
+				||	deviceData.scanData.lastTriggerArea === bleDeviceServiceConfig.triggerAreas.outOfRange ) 
+			{ willEntry = true; }
+			//will exit or stay
+			else if( deviceData.scanData.lastTriggerArea === bleDeviceServiceConfig.triggerAreas.positive ) 
+			{ willEntry = false; } 
+			
+			if(willEntry === undefined) { console.log('SCANTEST: willEntry is undefined: ' + deviceData.scanData.lastTriggerArea + '=>' + deviceData.scanData.actualTriggerArea); }
+			
+			switch(deviceData.bcmsBeacon.triggerZone) {
+				case bleDeviceServiceConfig.triggerZones.near.name:
+					ThresholdOffset = (willEntry)?bleDeviceServiceConfig.triggerZones.near.entryThresholdOffset:bleDeviceServiceConfig.triggerZones.near.exitThresholdOffset;
+				break;
+				case bleDeviceServiceConfig.triggerZones.intermediate.name:
+					ThresholdOffset = (willEntry)?bleDeviceServiceConfig.triggerZones.intermediate.entryThresholdOffset:bleDeviceServiceConfig.triggerZones.intermediate.exitThresholdOffset;
+				break;
+				case bleDeviceServiceConfig.triggerZones.far.name:
+					ThresholdOffset = (willEntry)?bleDeviceServiceConfig.triggerZones.far.entryThresholdOffset:bleDeviceServiceConfig.triggerZones.far.exitThresholdOffset;
+				break;	
+			}
+			
+			if(ThresholdOffset === undefined) { console.log('ThresholdOffset is undefined'); return; }
+			
+	
+			if(deviceData.scanData.rssi >= deviceData.scanData.rssiOneMeterDistance  + ThresholdOffset) 
+			{ return bleDeviceServiceConfig.triggerAreas.positive;}
+			//stay
+			else {return bleDeviceServiceConfig.triggerAreas.negative;}	
+
+		};
 		  
       //receaved an array of address => true
       // returns the array of knownDevices
@@ -610,9 +647,7 @@ bleServices
       
       var getKnownDevice = function(cmsBeaconKey) {
     	  var searchedDevice = knownDevicesList[cmsBeaconKey];
-    	
     	  if(searchedDevice) { return searchedDevice; }
-    	
     	  return false; 
       };
       
@@ -629,24 +664,18 @@ bleServices
     	  if(!data) {
     		  data = {};
 			  data.bcmsBeaconKey = bcmsBeaconKey;
-    	  }  
-			  
+    	  }   
     	  //scanData
 		  if ( type == bleDeviceServiceConfig.mapTypeRawDevice ) {
 			  data.scanData = deviceData;
 			  knownDevicesList[bcmsBeaconKey] = data;
 			  bleNotificationChannel.publishKnownDeviceUpdated(bcmsBeaconKey);
-			 
     	  } 
     	  //bcmsData
     	  else if ( bleDeviceServiceConfig.mapTypeBcmsDevice ) {
     		  data.bcmsBeacon = deviceData;
     		  knownDevicesList[bcmsBeaconKey] = data;
     	  }
-
-    	  
-    	 
-
       }
       
 	  var onFoundBleDeviceHandler = function(rawDevice)  {
@@ -673,7 +702,8 @@ bleServices
       return {
     	  getKnownDevices				: getKnownDevices,
     	  getKnownDevice				: getKnownDevice,
-    	  mapBeaconDataToKnownDevices	: mapBeaconDataToKnownDevices
+    	  mapBeaconDataToKnownDevices	: mapBeaconDataToKnownDevices,
+    	  calculateActualTriggerArea	: calculateActualTriggerArea
       };
       
    }])

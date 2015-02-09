@@ -9,10 +9,10 @@
 	</ion-nav-buttons>
   
   	<ion-content class="has-header">
-  	
+    <!-- 
   	<button class="button" ng-click="isOpen = !isOpen">DEBUG</button>
-  	
-<div  ng-show="isOpen"  >
+  
+<div  ng-show="isOpen">
   <div class="list">
   	<div class="row">
 	  <div class="col">
@@ -51,7 +51,7 @@
 	  </div>
   	</div>
 </div>
-  	
+		 --> 
 
 	<h2 class="text-center positive padding-vertical" ng-show="listLength == 0">nothing found...</h2>
  	
@@ -62,36 +62,6 @@
 		        show-reorder="false"
 		        can-swipe="true" 
  	> 
-	  <!-- Filters should be applied to the expression, before specifying a tracking expression
-	  	   https://docs.angularjs.org/api/ng/directive/ngRepeat
-	  	   rangeFilter:filtersSettings.triggerRange:'rssi' |
-	  	   | filter:all | orderBy:orderProp
-	  	   
-	  	   track by device.address 
-	  	   <ion-toggle ng-model="isJustIBeacons" toggle-class="toggle-calm">just IBeacons</ion-toggle>
-	  
-		
-			<div ng-repeat="device in receivedDevicesList">
-        		<pre>
-        			<code>
-					{{device.bcmsBeaconKey}}
-					{{device.scanData}}
-					{{device.bcmsBeacon}}
-					</code>
-				</pre>
-			</div>
-	
-		<ion-item ng-repeat="device in receivedDevicesList track by device.address" 
-                  href="#" 
-                  class="">
-                  total: {{listLength}}
-        	<pre>
-        		<code>
-					{{device}}
-				</code>
-			</pre>
-		</ion-item>
-	 -->
 		<ion-item ng-repeat="device in receivedDevicesList track by device.bcmsBeaconKey" 
                   href="#" 
                   class=" item-icon-right "
@@ -99,9 +69,7 @@
                   
                   <img class="content-img" ng-show="device.bcmsBeacon.contentTitle" ng-src="{{device.bcmsBeacon.contentThumnailUrl?device.bcmsBeacon.contentThumnailUrl:''}}">
 				  <h2>{{device.bcmsBeacon.content_title}}</h2>
-				   
-				   
- 					<ng-ble-item ng-model="device" ng-click="openIAB(device.bcmsBeaconKey)"></ng-ble-item>  
+ 				  <ng-ble-item ng-model="device" ng-click="openIAB(device.bcmsBeaconKey)"></ng-ble-item>  
  		</ion-item>
  		
  	</ion-list>
