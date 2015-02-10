@@ -1,7 +1,7 @@
 <ion-view>
 	
 	<ion-nav-title >
-      Scanning Beacons {{isOpen}} {{listLength}}
+      Scanning {{listLength}} Beacon<span ng-show="listLength == 0 || listLength > 1">s</span> 
     </ion-nav-title>
  
 	<ion-nav-buttons side="left">
