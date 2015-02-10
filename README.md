@@ -25,15 +25,18 @@ $ npm install -g ionic
 ```
 
 1.1 setup project
-We host just the plattform unspecific stuff on github not the whole ionic project. To get it running on your mashine follow the prozess above. 
+We provide just the platform unspecific code on github not the whole ionic project. To get it running on your mashine follow the prozess above. 
+
+Check out the project from git as usual. Then create other project to get the full ionic project folder structure. We need this to copy all the folders and files form it that are not on git.
 
 on the console:
 ```bash
-$ ionic start ionic_beaconPlayer_v2-2 blank
-$ cd ionic_beaconPlayer_v2-2
+$ ionic start dummyApp blank
+$ cd dummyApp
 $ ionic setup sass
 $ ionic platform add android
 ```
+
 1.2 install plugins
 on the console:
 ```bash
@@ -42,6 +45,12 @@ $ cordova plugins add org.apache.cordova.vibration
 $ cordova plugin add org.apache.cordova.inappbrowser
 $ cordova plugin add com.evothings.ble
 ```
+you alos coud do it in a singel line like 
+```bash
+$ cordova plugin add org.apache.cordova.network-information org.apache.cordova.vibration org.apache.cordova.inappbrowser com.evothings.ble
+```
+but seperated lines are more readable.
+
 1.3 check plugins
 ```bash
 $ cordova plugin list
@@ -62,7 +71,14 @@ org.apache.cordova.network-information 0.2.14 "Network Information"
 
 org.apache.cordova.vibration 0.3.12 "Vibration"
 
-1.4 install other libs
+1.4
+copy all but:
+- recources 
+- scss
+- www
+- bower.json
+
+1.5 install other libs
 copy bower.json into your project and run:
 ```bash
 $ bower update
@@ -70,7 +86,6 @@ $ bower update
 or install new with
 ```bash
 $ bower install ngCordova
-$ bower install angular-localforage
 $ bower install angular-moment
 ```
 
