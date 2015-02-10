@@ -234,7 +234,6 @@ bleServices
 		delay = (delay)?delay:1000;
 		stepBreak = (stepBreak)?stepBreak:break2s;
 		var i = 0;
-		console.log(delay, stepBreak); 
 		//intermediate beacon enters and exite time one
 		//rssiCalibration value = BF=>191
 		//rssiOneMeterDistance  = -65
@@ -260,7 +259,6 @@ bleServices
 		delay = (delay)?delay:0;
 		stepBreak = (stepBreak)?stepBreak:break2s;
 		var i = 0;
-		console.log(delay, stepBreak); 
 		//far beacon 
 		//rssiCalibration value = C5=>197
 		//rssiOneMeterDistance  = -59
@@ -286,8 +284,6 @@ bleServices
 		delay = (delay)?delay:0;
 		stepBreak = (stepBreak)?stepBreak:break2s;
 		var i = 0;
-		
-		console.log(offset, delay, stepBreak); 
 		//near beacon 
 		nearBeaconEntersNagativeAndExiteOneTime((offset*i++)+delay, stepBreak);					
 		//intermediate beacon 
@@ -330,13 +326,15 @@ bleServices
 	var startDummyDeviceFoundLoopWithSetInterval = function () {
 		
 		//skip if scanner already scanns
-		if(getDummyBleScannerState() == true) {console.log('getBleScannerState == true'); return;}
+		if(getDummyBleScannerState() == true) {
+			//console.log('getBleScannerState == true'); 
+			return;
+		}
 	
 		//start scanning
 		setDummyBleScannerState(true);	
 		
 		if(!interval) { 
-			console.log('interval started'); 
 			interval = setInterval(
 				function() {
 					
@@ -351,7 +349,7 @@ bleServices
 	};
 
 	var stopDummyDeviceFoundLoopWithSetInterval = function () {
-		if(interval) { clearInterval(interval); interval = undefined; console.log('interval stoped'); 
+		if(interval) { clearInterval(interval); interval = undefined; 
 		setDummyBleScannerState(false);	}
 	};
 	
@@ -433,10 +431,10 @@ bleServices
 	
 	//start scanning for ble devices
 	var startScanning = function() {
-		if(isBleDefined() == false){ console.log('isBleDefined == false'); return; } 
+		if(isBleDefined() == false){ return; } 
 		
 		//skip if scanner already scanns
-		if(getBleScannerState()) {  console.log('getBleScannerState == true'); return;}
+		if(getBleScannerState()) { return;}
 
 		//@TODO check ble is on or off
 		
@@ -479,7 +477,7 @@ bleServices
 				}, 
 				function(error) {
 					//do nothing
-					console.log('BLE stopScanning error: ' + error);
+					//console.log('BLE stopScanning error: ' + error);
 				}
 			);
 	};
@@ -615,7 +613,10 @@ bleServices
 			else if( deviceData.scanData.lastTriggerArea === bleDeviceServiceConfig.triggerAreas.positive ) 
 			{ willEntry = false; } 
 			
-			if(willEntry === undefined) { console.log('SCANTEST: willEntry is undefined: ' + deviceData.scanData.lastTriggerArea + '=>' + deviceData.scanData.actualTriggerArea); }
+			if(willEntry === undefined) { 
+				//console.log('SCANTEST: willEntry is undefined: ' + deviceData.scanData.lastTriggerArea + '=>' + deviceData.scanData.actualTriggerArea); 
+				return; 
+			}
 			
 			switch(deviceData.bcmsBeacon.triggerZone) {
 				case bleDeviceServiceConfig.triggerZones.near.name:
@@ -629,7 +630,10 @@ bleServices
 				break;	
 			}
 			
-			if(ThresholdOffset === undefined) { console.log('ThresholdOffset is undefined'); return; }
+			if(ThresholdOffset === undefined) { 
+				//console.log('ThresholdOffset is undefined'); 
+				return; 
+			}
 			
 	
 			if(deviceData.scanData.rssi >= deviceData.scanData.rssiOneMeterDistance  + ThresholdOffset) 

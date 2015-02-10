@@ -66,7 +66,7 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
 	    
 		
 		var handleSituation = function(deviceData) {
-			console.log('SCANTEST: handleSituation');
+			//console.log('SCANTEST: handleSituation');
 			deviceData = (deviceData)?deviceData:false;
 			if(!deviceData)return;
 			//console.log('SCANTEST: deviceData= ' + JSON.stringify(deviceData) );
@@ -78,7 +78,7 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
 				|| 	deviceData.scanData.lastTriggerArea 	=== bleDeviceServiceConfig.triggerAreas.negative
 				&&	deviceData.scanData.actualTriggerArea 	=== bleDeviceServiceConfig.triggerAreas.positive  ) 
 			{ 
-				console.log('SCANTEST: will enter'); 
+				//console.log('SCANTEST: will enter'); 
 				if (deviceData.scanData.alreadyTriggered === false) {
 					
 					if($rootScope.iabIsOpen === false) {
@@ -86,7 +86,7 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
 						$scope.openIAB(deviceData.bcmsBeaconKey);
 					}
 					else {
-						console.log('SCANTEST: IAB is open. Do not open again!'); 
+						//console.log('SCANTEST: IAB is open. Do not open again!'); 
 					}
 				}
 			}
@@ -94,7 +94,7 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
 			else if( 	deviceData.scanData.lastTriggerArea 	=== bleDeviceServiceConfig.triggerAreas.positive
 					&&	deviceData.scanData.actualTriggerArea 	=== bleDeviceServiceConfig.triggerAreas.negative  ) 
 			{ 
-				console.log('SCANTEST: will exit'); 
+				//console.log('SCANTEST: will exit'); 
 				deviceData.scanData.alreadyTriggered = false;
 			}
 			//device go into positive when IAB was open
@@ -108,12 +108,12 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
 							$scope.openIAB(deviceData.bcmsBeaconKey);
 						}
 						else {
-							console.log('SCANTEST: IAB is open. Do not open again!'); 
+							//console.log('SCANTEST: IAB is open. Do not open again!'); 
 						}
 					}
 			}
 			else {
-				console.log('SCANTEST: no situation to handle: ' + deviceData.scanData.lastTriggerArea + '=>' + deviceData.scanData.actualTriggerArea ); 
+				//console.log('SCANTEST: no situation to handle: ' + deviceData.scanData.lastTriggerArea + '=>' + deviceData.scanData.actualTriggerArea ); 
 			}
 
 		}
@@ -174,15 +174,6 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
 
 		};
 		
-		var onKnownDevicesUpdatedHandler = function()  {
-			console.log('in onKnownDevicesUpdatedHandler'); 
-			//angular.forEach($scope.receivedDevicesList, function(obj, i){
-				 	//consoel.log(obj.bcmsBeaconKey); 
-					 //var newItem = bleDeviceService.getKnownDevice(obj.bcmsBeaconKey); 
-					// $scope.receivedDevicesList[key] = value;
-	    	//}); 
-		};
-		
       	//initial stuff 
       	var init = function () {
       		//console.log('init'); 
@@ -190,11 +181,10 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
       		
     		$scope.msBeforeBeaconIsOld = scanningControllersConfig.msBeforeBeaconIsOld
       		
-			bleNotificationChannel.onKnownDeviceUpdated($scope, onKnownDeviceUpdatedHandler ); 
-	        bleNotificationChannel.onKnownDevicesUpdated($scope, onKnownDevicesUpdatedHandler); 
+			bleNotificationChannel.onKnownDeviceUpdated($scope, onKnownDeviceUpdatedHandler );
 	        
 	        $rootScope.$on('$cordovaInAppBrowser:exit', function(e, event){
-	    		console.log('APPTEST: on $cordovaInAppBrowser:exit'); 
+	    		//console.log('APPTEST: on $cordovaInAppBrowser:exit'); 
 	    		$rootScope.iabIsOpen  = false;
 	    		
 	    		//start all loops
@@ -206,13 +196,13 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
       	}
       	
     	$scope.openIAB = function(bcmsBeaconKey) {
-    		console.log('APPTEST: openIab with: ' + bcmsBeaconKey); 
+    		//console.log('APPTEST: openIab with: ' + bcmsBeaconKey); 
     		var device = $scope.receivedDevicesList[bcmsBeaconKey];
     		
     		if(device) {
     			if(device.bcmsBeacon) {
     				if(device.bcmsBeacon.contentTitle == false) {
-    					console.log('APPTEST: no connected content given'); 
+    					//console.log('APPTEST: no connected content given'); 
     					return;
     				}
     			}
@@ -247,7 +237,7 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     			    .then(
     			    	// success	
     			    	function(event) {
-    			    		console.log('APPTEST: on $cordovaInAppBrowser:open'); 
+    			    		//console.log('APPTEST: on $cordovaInAppBrowser:open'); 
 	    			    }, 
 	    			    // error
 	    			    function(event) {

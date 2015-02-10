@@ -54,34 +54,9 @@ appControllers
 				}
 	};
 	
-	/*show alert with information to check ble connection
-	 * set closeOnOffline to true closes app after press alert button 
-	 * 
-	$scope.alertEnsureBleConnection = function(closeOnOffline) {
-		if (!$scope.allreadyNotifiedNoBle) {
-			
-			$scope.allreadyNotifiedNoBle = true;
-	
-			//let alert pop up with given settings
-			var noBleAlert =	$ionicPopup.alert({
-				   title	: 'No bluetooth',
-				   template	: 'Pleas turn on your bluethooth and try again!',
-				   okType	: 'button-energized'
-				 });
-			
-			//actions after press okButton
-			noBleAlert.then( function(result) {
-								noBleAlert.close();
-								
-								if(closeOnOffline) 
-								{ ionic.Platform.exitApp(); }
-							});
-			}
-	};*/
-	
 	//start refreshes serverdata every x ms
 	$scope.refreshServerData = function (triggeredFrom) {
-			console.log('APPTEST: on refreshServerData triggered from '+triggeredFrom);
+			//console.log('APPTEST: on refreshServerData triggered from '+triggeredFrom);
 			//add then to do something on finieh
 			bcmsAjaxService.refreshBeaconList().then(function () {
 				//Stop the ion-refresher from spinning
@@ -98,7 +73,7 @@ appControllers
 	$scope.startBleScanning = function(triggeredFrom) {
 		
 		$ionicPlatform.ready(function() {
-			console.log('APPTEST: on startBleScanning triggered from '+triggeredFrom);
+			//console.log('APPTEST: on startBleScanning triggered from '+triggeredFrom);
 			$cordovaEvothingsBLE.startScanning();
 		});
 		
@@ -106,7 +81,7 @@ appControllers
 	//stop scanning if ble scanner is scanning
 	$scope.stopBleScanning = function(triggeredFrom) {
 			$ionicPlatform.ready(function() {
-				console.log('APPTEST: on stopBleScanning triggered from '+triggeredFrom);
+				//console.log('APPTEST: on stopBleScanning triggered from '+triggeredFrom);
 				$cordovaEvothingsBLE.stopScanning();
 			});
 	};
@@ -122,7 +97,7 @@ appControllers
 	
 	//start interval for cleaning old devices
 	$scope.startcleaningOldDevicesinterval = function (interval) {
-		console.log('APPTEST: on startcleaningOldDevicesinterval');
+		//console.log('APPTEST: on startcleaningOldDevicesinterval');
 		if(!$scope.cleaningOldDevicesintervalPromise) cleaningOldDevicesintervalPromise = $interval(function() {
 				for (key in $scope.receivedDevicesList) {
 					if($scope.receivedDevicesList[key].scanData.lastScan < Date.now() -  interval) {
@@ -142,7 +117,7 @@ appControllers
 	
 	// dis or enabel ble start stop button
 	$scope.setBleDisabledState = function(value) {
-		console.log('APPTEST: on setBleDisabledState');
+		//console.log('APPTEST: on setBleDisabledState');
 		wantToDisable = (value === true)?true:false;
 		//if we wand to disable the scanner
 		if(wantToDisable) {
@@ -154,7 +129,6 @@ appControllers
 	//intial 
 	var init = function () {
 		//
-		$scope.headerTitle = 'Title from AppCtrl';
 		
 		//notifacation states
 		$scope.allreadyNotifiedNoInte = false;
@@ -198,7 +172,7 @@ appControllers
 			
 			$scope.refreshServerData('onInit');
 			//start all loops
-			console.log('APPTEST:$rootScope.iabIsOpen: '+$rootScope.iabIsOpen);
+			//console.log('APPTEST:$rootScope.iabIsOpen: '+$rootScope.iabIsOpen);
 			if(!$rootScope.iabIsOpen) {
 				//start all loops
 				$scope.startBleScanning('onResume');
