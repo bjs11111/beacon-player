@@ -122,6 +122,9 @@ native state checks like inet or bluetooth are done initialy in the app-controll
 
 ## Issues
 
+###general
+-cant sign my app with key. Letters not visible 
+
 ###eclipse
 - An internal error occurred during: "Building workspace". GC overhead limit exceeded 
   This is because you need more memory. Edit your eclipse.ini file. 	https://docs.oseems.com/general/application/eclipse/fix-gc-overhead-limit-exceeded
