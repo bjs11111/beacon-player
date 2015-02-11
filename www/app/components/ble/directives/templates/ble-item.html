@@ -1,21 +1,21 @@
 
 <div  id="{{ngModel.address}}" class="device" >
-	<i ng-show="!ngModel.bcmsBeacon.contentTitle"  class="icon beacon {{itemTypeIcon}} {{cmsStateColor}}" ></i>      
+	<i ng-show="!ngModel.bcmsBeacon.contentThumbnailUrl"  class="icon beacon {{itemTypeIcon}} {{cmsStateColor}}" ></i>      
 	<h2 ng-show="ngModel.bcmsBeacon.contentTitle">{{ngModel.bcmsBeacon.contentTitle}}</h2>
 	<h2 ng-show="!(ngModel.bcmsBeacon.contentTitle)">Kein Inhalt zugewiesen</h2>
 	<p am-time-ago="ngModel.scanData.lastScan"></p>
-	
-	<span ng-init="isOpen = false" ng-show="isOpen" class="details">
+	{{ngModel.bcmsBeacon.contentThumbnailUrl}}
+	<p ng-init="isOpen = false" ng-show="isOpen" class="details">
 		
 		<span class="row">
 		  <span class="col-33">
-		    Entry: 	
+		    <b>Entry:</b>	
 		  </span>
 		  <span class="col-33">
-		    RSSI:
+		    <b>RSSI:</b>	
 		  </span>
 		  <span class="col-33">
-		    Exit:
+		    <b>Exit:</b>	
 		  </span>
 		</span>
 		
@@ -35,13 +35,13 @@
 		  </span>
 		</span>
 		
-		<span>Uuid: {{ngModel.scanData.iBeaconUuid}}</span><br>
-		<span>Major: {{ngModel.scanData.major}}</span><br>
-		<span>Minor: {{ngModel.scanData.minor}}</span> <br>
-		<span>triggerZone: {{ngModel.bcmsBeacon.triggerZone}}</span><br>
-		<span>rssiOneMeterDistance: {{ngModel.scanData.rssiOneMeterDistance}}</span>
+		<span><b>Uuid:</b><br>{{ngModel.scanData.iBeaconUuid}}</span><br>
+		<span><b>Major:</b> {{ngModel.scanData.major}}</span><br>
+		<span><b>Minor:</b> {{ngModel.scanData.minor}}</span> <br>
+		<span><b>triggerZone:</b> {{ngModel.bcmsBeacon.triggerZone}}</span><br>
+		<span><b>rssiOneMeterDistance:</b> {{ngModel.scanData.rssiOneMeterDistance}}</span>
 		
-	</span>
+	</p>
 	<span class="triggerZone" ">{{ngModel.bcmsBeacon.triggerZone.substr(0,1)}}</span>
 	<i class="icon {{contentTypeIcon}} {{rssiStateColor}} rssi"></i>
 	

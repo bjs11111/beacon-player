@@ -9,7 +9,7 @@
 	</ion-nav-buttons>
   
   	<ion-content class="has-header">
-    <!-- 
+   	<!-- 
   	<button class="button" ng-click="isOpen = !isOpen">DEBUG</button>
   
 <div  ng-show="isOpen">
@@ -51,7 +51,7 @@
 	  </div>
   	</div>
 </div>
-		 --> 
+	 --> 
 
 	<h2 class="text-center positive padding-vertical" ng-show="listLength == 0">nothing found...</h2>
  	
@@ -65,9 +65,10 @@
 		<ion-item ng-repeat="device in receivedDevicesList track by device.bcmsBeaconKey" 
                   href="#" 
                   class=" item-icon-right "
-                  ng-class="device.bcmsBeacon.contentThumnailUrl?'item-avatar':'item-icon-left'"> 
+                  ng-class="device.bcmsBeacon.contentThumbnailUrl?'item-avatar':'item-icon-left'"> 
                   
-                  <img class="content-img" ng-show="device.bcmsBeacon.contentTitle" ng-src="{{device.bcmsBeacon.contentThumnailUrl?device.bcmsBeacon.contentThumnailUrl:''}}">
+                  <img class="content-img" ng-show="device.bcmsBeacon.contentThumbnailUrl" ng-src="{{device.bcmsBeacon.contentThumbnailUrl}}">
+                 
 				  <h2>{{device.bcmsBeacon.content_title}}</h2>
  				  <ng-ble-item ng-model="device" ng-click="openIAB(device.bcmsBeaconKey)"></ng-ble-item>  
  		</ion-item>

@@ -7045,6 +7045,9 @@ components
 .icon.rssi.stable {
   color: #ccc; }
 
+.details {
+  margin-left: -57px; }
+
 .triggerZone {
   top: 0;
   right: 51px;

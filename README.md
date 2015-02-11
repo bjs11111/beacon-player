@@ -108,7 +108,7 @@ path: resources/ios
 
 to build the app run 
 ```bash
-$ cordova build android --releas
+$ cordova build android --release --signed
 ```
 and be shure to have the right properties set in the /platforms/android/ant.properties
 read more about in this link under method 2

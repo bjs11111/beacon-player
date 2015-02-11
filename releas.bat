@@ -1,1 +1,1 @@
-ionic build android --release --signed
+call cordova build android --release --signed
