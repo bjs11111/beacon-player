@@ -4,7 +4,6 @@
 	<h2 ng-show="ngModel.bcmsBeacon.contentTitle">{{ngModel.bcmsBeacon.contentTitle}}</h2>
 	<h2 ng-show="!(ngModel.bcmsBeacon.contentTitle)">Kein Inhalt zugewiesen</h2>
 	<p am-time-ago="ngModel.scanData.lastScan"></p>
-	{{ngModel.bcmsBeacon.contentThumbnailUrl}}
 	<p ng-init="isOpen = false" ng-show="isOpen" class="details">
 		
 		<span class="row">
@@ -42,7 +41,7 @@
 		<span><b>rssiOneMeterDistance:</b> {{ngModel.scanData.rssiOneMeterDistance}}</span>
 		
 	</p>
-	<span class="triggerZone" ">{{ngModel.bcmsBeacon.triggerZone.substr(0,1)}}</span>
+	
 	<i class="icon {{contentTypeIcon}} {{rssiStateColor}} rssi"></i>
 	
 	<ion-option-button class="button-calm" ng-click="isOpen = !isOpen">
