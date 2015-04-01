@@ -12,11 +12,7 @@ bcmsServices
 	//path vars
 	basePath 				: 'http://www.starnberger.at/dev-bcms',
 	getBeaconsListPath		: 'get-all-beacons',
-	iabView 				: 'b-i',
-	
-	//localForge keys
-	beaconListKey 			: 'beacon_list',
-	
+	iabView 				: 'b-i'
 })
 
 //bcmsNotifatation Channel
@@ -67,6 +63,7 @@ bcmsServices
 		
 		var path = bcmsAjaxServiceConfig.basePath + '/' + bcmsAjaxServiceConfig.getBeaconsListPath;
 		var oldData = undefined;
+		
 		return  $http.post(path)			
 		.success(function (data, status, headers, config) { 
 				angular.forEach(data, function(value, key) {
@@ -80,17 +77,10 @@ bcmsServices
 	
 	}
 	
-	//this function returns a primise of the localeForage module
-	//useage => getBeaconList.then(function(data) { mydata = data });
-	var getBeaconList = function () {
-		return $localForage.getItem(bcmsAjaxServiceConfig.beaconListKey);
-	}
-
 	//notice use only function name without () on the right side
 	return {
 		// fetch beacons form cms and store it with local forge
 		refreshBeaconList 	: refreshBeaconList,
-		getBeaconList 		: getBeaconList,
 	};
 	
 }]);
