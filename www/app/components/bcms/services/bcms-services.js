@@ -56,8 +56,8 @@ bcmsServices
 }])
 
 //ajax calls
-.factory( 'bcmsAjaxService', ['$http', 'bcmsAjaxServiceConfig', 'bleDeviceServiceConfig', 'bleDeviceService',
-                      function($http,   bcmsAjaxServiceConfig,   bleDeviceServiceConfig,   bleDeviceService) {
+.factory( 'bcmsAjaxService', ['$http', 'bcmsAjaxServiceConfig', 'bleDeviceServiceConfig', 'bleDeviceService', '$cordovaEvothingsBLE',
+                      function($http,   bcmsAjaxServiceConfig,   bleDeviceServiceConfig,   bleDeviceService,   $cordovaEvothingsBLE) {
 
 	var refreshBeaconList = function() {
 		
@@ -67,6 +67,9 @@ bcmsServices
 		return  $http.post(path)			
 		.success(function (data, status, headers, config) { 
 				angular.forEach(data, function(value, key) {
+					//add uuid to range
+					$cordovaEvothingsBLE.addIBeaconRange(value.iBeaconUuid);
+					
 					bleDeviceService.mapBeaconDataToKnownDevices(value, bleDeviceServiceConfig.mapTypeBcmsDevice); 
 				});	
 				return true;

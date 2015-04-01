@@ -107,43 +107,7 @@ bleServices
    	};
 }])
    
-/*
 
-.factory('$cordovaBLECustom', [ '$cordovaBLE', 'bleNotificationChannel', '$interval', '$ionicPlatform', 
-                     function (  $cordovaBLE,   bleNotificationChannel,   $interval,   $ionicPlatform ) {
-	var bleConnectionWatchingPromise  	= undefined;
-	//@TODO try to move in run or other place to start loop on loud
-	var startBleConnectionWatching = function () {
-		if(!bleConnectionWatchingPromise) {
-			bleConnectionWatchingPromise = $interval( 
-				function() { 
-					if(true) {
-						bleNotificationChannel.publishBleOff(); 
-					}
-					else {
-						bleNotificationChannel.publishBleOn(); 
-					}
-				}, 
-				500
-			);
-		}
-	};
-	
-	var stopBleConnectionWatching = function () {
-		if(bleConnectionWatchingPromise) {
-			$interval.cancel(intervalPromise);
-			bleConnectionWatchingPromise = undefined;
-		}
-	};
-	
-	return {
-		startBleConnectionWatching	: startBleConnectionWatching,
-		stopBleConnectionWatching	: stopBleConnectionWatching,
-		isEnabled 					: $cordovaBLE.isEnabled,
-	};
-	
-}])
-*/
 .factory('$dummyScanner', [ '$q', '$filter', 'bleNotificationChannel', '$interval', '$ionicPlatform', 
                          function ( $q,   $filter,   bleNotificationChannel,   $interval,   $ionicPlatform ) {
 	//TESTING START==========================================================================================================
@@ -158,9 +122,56 @@ bleServices
 	var break2s = 2000;
 
 	//beacons of basic test user
-	var beacon7_1 	= {  'rssi':-100, 'address' : '0E:FA:EF:0C:22:39', 'scanRecord'	: 'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gAHAAGzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
-	var beacon7_2 	= {  'rssi':-100, 'address' : '0E:FA:EF:0C:22:40', 'scanRecord'	: 'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gAHAAK/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
-	var beacon7_3	= {  'rssi':-100, 'address' : '0E:FA:EF:0C:22:41', 'scanRecord'	: 'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gAHAAPFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
+	var beacon7_1 	= undefined;
+	if(ionic.Platform.isAndroid()) {
+		beacon7_1 	= {  'rssi':-100, 'address' : '0E:FA:EF:0C:22:39', 'scanRecord'	: 'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gAHAAGzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' };
+	}
+	else if(ionic.Platform.isIOS()) {
+		beacon7_1 	= { 
+				rssi : -100,
+				major:7,
+				minor:1,
+				uuid:"E6C56DB5-DFFB-48D2-B088-40F5A81496EE",
+				accuracy:1.66,
+				rssi:-74,
+				proximity:"ProximityNear"
+		};
+	}
+	
+	var beacon7_2 	= undefined
+	if(ionic.Platform.isAndroid()) {
+		beacon7_2 	= {  'rssi':-100, 'address' : '0E:FA:EF:0C:22:40', 'scanRecord'	: 'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gAHAAK/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' };
+	}
+	else if(ionic.Platform.isIOS()) {
+		beacon7_2 	= { 
+				rssi : -100,
+				major:7,
+				minor:2,
+				uuid:"E6C56DB5-DFFB-48D2-B088-40F5A81496EE",
+				accuracy:1.66,
+				rssi:-74,
+				proximity:"ProximityNear" 
+		};
+	}
+	
+	var beacon7_3	= undefined;
+	if(ionic.Platform.isAndroid()) {
+		beacon7_3 	= {  'rssi':-100, 'address' : '0E:FA:EF:0C:22:41', 'scanRecord'	: 'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gAHAAPFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' };
+	}
+	else if(ionic.Platform.isIOS()) {
+		beacon7_3 	= { 
+				rssi : -100,
+				major:7,
+				minor:3,
+				uuid:"E6C56DB5-DFFB-48D2-B088-40F5A81496EE",
+				accuracy:1.66,
+				rssi:-74,
+				proximity:"ProximityNear"
+		};
+		
+	}
+	
+	
 	//
 	var beacon2_1 	= {  'rssi':-100, 'address' : '0E:FA:EF:0C:22:24', 'scanRecord'	: 'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gACAAGzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
 	var beacon2_2 	= {  'rssi':-100, 'address' : '0E:FA:EF:0C:22:25', 'scanRecord'	: 'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gACAAK/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
@@ -395,7 +406,17 @@ bleServices
 .factory('$cordovaEvothingsBLE', [ '$q', '$filter', 'bleNotificationChannel', '$interval', '$ionicPlatform', 
                          function ( $q,   $filter,   bleNotificationChannel,   $interval,   $ionicPlatform ) {
 	
-		
+	//locationManager.Delegate()
+	var delegate = undefined;
+	
+	//array of uuids of bcms
+	var iBeaconRanges = {
+		//Estimote Beacon factory UUID.
+		'B9407F30-F5F8-466E-AFF9-25556B57FE6D' : true
+	};
+	//filter returns false if invalif iiud
+	var iBeaconUuidToHex 	= $filter('iBeaconUuidToHex');
+	
 	//holds state of ble scanner
 	var bleScannerState = false;
 	
@@ -412,6 +433,20 @@ bleServices
 		return true;
 	}
 	
+	
+	var getIBeaconRanges = function() {
+	  return iBeaconRanges; 
+  	};
+  
+    //add uuid to range
+     var addIBeaconRange = function(uuid) {
+		 //
+		 if( iBeaconUuidToHex(uuid) !== false ) {
+	      	iBeaconRanges[uuid] = true;
+	     }
+	
+	}
+		  
 	//returns bleScannerState
 	var getBleScannerState = function() {
 		return bleScannerState;
@@ -428,42 +463,79 @@ bleServices
     	//console.log('do publish found'); 
         bleNotificationChannel.publishFoundDevice(rawDevice);
     };
-	
-	//start scanning for ble devices
-	var startScanning = function() {
+    
+	//start scanning for ble devices on Android
+	var startAndroidScanning = function() {
 		if(isBleDefined() == false){ return; } 
 		
 		//skip if scanner already scanns
 		if(getBleScannerState()) { return;}
-
+		
 		//@TODO check ble is on or off
 		
 		//start scanning
 		setBleScannerState(true);	
 		
 		$ionicPlatform.ready(function() {
-			
-		evothings.ble.startScan(
-			function(rawDevice) {
-				//console.log('BLE startScan found device uuid: ' + rawDevice.address);
-				if (toIsBrokenRawDevice(rawDevice)) { 
-					//console.log('do publish found');
-					bleNotificationChannel.publishFoundDevice(rawDevice);
+			evothings.ble.startScan(
+				function(rawDevice) {
+					//console.log('BLE startScan found device uuid: ' + rawDevice.address);
+					if (toIsBrokenRawDevice(rawDevice)) { 
+						//console.log('do publish found');
+						bleNotificationChannel.publishFoundDevice(rawDevice);
+					}
+				},
+				function(error) {
+					//set bleScannerState to false
+					setBleScannerState(false);
+					bleNotificationChannel.publishBleStartScanError();
+					//console.log('BLE startScanning error: ' + error);
 				}
-			},
-			function(error) {
-				//set bleScannerState to false
-				setBleScannerState(false);
-				bleNotificationChannel.publishBleStartScanError();
-				//console.log('BLE startScanning error: ' + error);
-			}
-		);
+			);
 		});
-		
+	};
+	
+	var startIOSScanning = function() {
+		setBleScannerState(true);	
+		var i = 0;
+		// Start monitoring and ranging beacons.
+		for (var uuid in iBeaconRanges) {
+			i++; console.log(uuid); 
+			/*
+			var beaconRegion = new locationManager.BeaconRegion(i,uuid);
+			// Start ranging.
+			locationManager.startRangingBeaconsInRegion(beaconRegion)
+				.fail(console.error)
+				.done();
+			// Start monitoring.
+			// (Not used in this example, included as a reference.)
+			locationManager.startMonitoringForRegion(beaconRegion)
+				.fail(console.error)
+				.done();
+			*/
+			
+		}
 		
 	};
+	
+	var startScanning = function() {
+
+		//IOS
+		if(ionic.Platform.isIOS()) {
+			startIOSScanning();
+		}
+		//Android
+		else if(ionic.Platform.isAndroid()) {
+			startAndroidScanning();
+		}
+		//WindowsPhone
+		else if(ionic.Platform.isWindowsPhone()) {
+			//@TODO
+		}
+	}
+	
 	//start scanning for ble devices
-	var stopScanning = function() {	
+	var stopAndroidScanning = function() {	
 		if(isBleDefined() == false){ return; } 
 		
 		if(!getBleScannerState()) {return;}
@@ -481,9 +553,75 @@ bleServices
 				}
 			);
 	};
+	
+	//start scanning for ble devices
+	var stopIOSScanning = function() {	
+		setBleScannerState(false);	
+		var i = 0;
+		// Stop monitoring and ranging beacons.
+		for (var uuid in iBeaconRanges) {
+			i++; 
+			/*
+			var beaconRegion = new locationManager.BeaconRegion(i + 1,uuid);
+			cordova.plugins.locationManager.stopRangingBeaconsInRegion(beaconRegion)
+			.fail(console.error)
+			.done();
+			*/
+		}
+		
+	};
+	
+	var stopScanning = function() {
+		//IOS
+		if(ionic.Platform.isIOS()) {
+			stopIOSScanning();
+		}
+		//Android
+		else if(ionic.Platform.isAndroid()) {
+			stopAndroidScanning();
+		}
+		//WindowsPhone
+		else if(ionic.Platform.isWindowsPhone()) {
+			//@TODO
+		}
+	}
+	
+	if(ionic.Platform.isIOS())  {
+		
+		$ionicPlatform.ready(function() {
+			/*
+			// Specify a shortcut for the location manager holding the iBeacon functions.
+			window.locationManager = cordova.plugins.locationManager;
+			
+			// The delegate object holds the iBeacon callback functions
+			// specified below.
+			delegate = new locationManager.Delegate();
+		
+			// Called continuously when ranging beacons.
+			delegate.didRangeBeaconsInRegion = function(pluginResult)
+			{			
+				for (var i in pluginResult.beacons)
+				{
+					// Insert beacon into table of found beacons.
+					var beacon = pluginResult.beacons[i];
+					bleNotificationChannel.publishFoundDevice(beacon);
+					 
+				}
+			};
+			
+			// Set the delegate object to use.
+			locationManager.setDelegate(delegate);
+			// Request permission from user to access location info.
+			// This is needed on iOS 8.
+			locationManager.requestAlwaysAuthorization();
+			*/
+		});
+	}
 
 	// return the publicly accessible methods
 	return {
+		addIBeaconRange		: addIBeaconRange,
+    	getIBeaconRanges	: getIBeaconRanges,
 		getBleScannerState 	: getBleScannerState,
 		startScanning 		: startScanning,
 		stopScanning 		: stopScanning
@@ -535,10 +673,60 @@ bleServices
 	  var knownDevicesList = [];
 	  //
 	  var bcmsBeaconKeyToObj  = $filter('bcmsBeaconKeyToObj');
-	  	  	 
+	  	
+	  
+	  //device should have following keya after prepare
+	  //major	
+	  //minor
+	  //rssiOneMeterDistance
+	  //rssi
+	  //iBeaconUUid
+	  //bcmsBeaconKey = uuid+'.'+major+'.'+minor;
+	  //lastScan
+	  //name
+	  var prepareDeviceData =  function (device) {
+			//IOS
+			if(ionic.Platform.isIOS()) {
+				return prepareIOSDeviceData(device);
+				
+			}
+			//Android
+			else if(ionic.Platform.isAndroid()) {
+				return prepareAndroidDeviceData(device);
+			}
+			//WindowsPhone
+			else if(ionic.Platform.isWindowsPhone()) {
+				//@TODO
+			}
+	  }
+	  
+	  //
+	  var prepareIOSDeviceData =  function (device) {
+		  
+		  //This is the Major value
+			device.major	= device.major;
+			//This is the Minor value
+			device.minor	= device.minor;
+			
+			device.rssiOneMeterDistance  = -56;
+			
+			//device.rssi = device.rssi;
+			
+			device.iBeaconUuid	= device.uuid;
+			
+			device.bcmsBeaconKey = device.uuid+'.'+device.major+'.'+device.minor;
+			//set lastScan to now
+			device.lastScan = Date.now();
+			
+			//if no name is given set to default
+			device.name = bleDeviceServiceConfig._UNKNOWN_DEVICE_;
+
+			return device;
+	  }
+	  
 	  //decode scanRecond of device and extract data
 	  //returns false or the device
-	  var prepareDeviceData =  function (device) {
+	  var prepareAndroidDeviceData =  function (device) {
 		  
 			 var hexToIBeaconUuid 	= $filter('hexToIBeaconUuid'),
 			 	 base64DecToArr 	= $filter('base64DecToArr'),
@@ -634,19 +822,18 @@ bleServices
 				//console.log('ThresholdOffset is undefined'); 
 				return; 
 			}
-			
-	
+				
 			if(deviceData.scanData.rssi >= deviceData.scanData.rssiOneMeterDistance  + ThresholdOffset) 
 			{ return bleDeviceServiceConfig.triggerAreas.positive;}
 			//stay
 			else {return bleDeviceServiceConfig.triggerAreas.negative;}	
 
 		};
-		  
+	
       //receaved an array of address => true
       // returns the array of knownDevices
       var getKnownDevices = function() {
-    	return knownDevicesList; 
+    	  return knownDevicesList; 
       };
       
       var getKnownDevice = function(cmsBeaconKey) {
@@ -659,13 +846,13 @@ bleServices
       var mapBeaconDataToKnownDevices = function(deviceData, type) {
     	  type = (type)?type:false;
     	  
-    	  var 	bcmsBeaconKey 	=  cmsBeaconKey = deviceData.iBeaconUuid+'.'+deviceData.major+'.'+deviceData.minor,
+    	  var 	bcmsBeaconKey  = deviceData.iBeaconUuid+'.'+deviceData.major+'.'+deviceData.minor,
     	  		inTriggerRange  = false;
 
     	  data = knownDevicesList[bcmsBeaconKey];
     	  
     	  //update
-    	  if(!data) {
+    	  if( !data ) {
     		  data = {};
 			  data.bcmsBeaconKey = bcmsBeaconKey;
     	  }   
@@ -683,16 +870,16 @@ bleServices
       }
       
 	  var onFoundBleDeviceHandler = function(rawDevice)  {
+		  console.log(rawDevice); 
 		  rawDevice = prepareDeviceData(rawDevice);
-
+		  console.log(rawDevice); 
 		  //device could not be prepared
 		  if(rawDevice === false) {
 			  //console.log('device could not be prepared'); 
 			  return;
 		  }
- 
-		  mapBeaconDataToKnownDevices(rawDevice, bleDeviceServiceConfig.mapTypeRawDevice);
-		  
+
+		  mapBeaconDataToKnownDevices(rawDevice, bleDeviceServiceConfig.mapTypeRawDevice);  
 	  };
 	  
 	  var init = function() {
@@ -771,7 +958,6 @@ bleServices
     	  }); 
     	  return result; 
       };
-
 
       //do initialisation
       init();

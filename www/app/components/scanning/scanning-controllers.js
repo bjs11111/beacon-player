@@ -210,7 +210,7 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     		
     		$ionicPlatform.ready(function() {
     			//if offline
-    			if($cordovaNetwork.isOffline()) {
+    			if( $cordovaNetwork.isOffline() ) {
     				$scope.alertEnsureInetConnection(true);
     				return;
     			}

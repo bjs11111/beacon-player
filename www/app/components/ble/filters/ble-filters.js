@@ -227,7 +227,7 @@ bleFilters
 		    	 console.log('IBeaconUuidToHex returns false because the stringlength of "'+value+'" is not 36');
 		    	 return false; 
 		     }
-		     
+		  
 		    //clean string from seperator
 		     var hexarray = value.split("-");
 		     var hexstring = hexarray.join('');
