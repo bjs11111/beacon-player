@@ -581,9 +581,9 @@ bleServices
 					// Request permission from user to access location info.
 					// This is needed on iOS 8.
 					locationManager.requestAlwaysAuthorization();
-					*/
+					
 				}
-				
+				*/
 				var i = 0;
 				// Start monitoring and ranging beacons.
 				for (var uuid in iBeaconRanges) {

@@ -44,10 +44,11 @@ $ cordova plugin add org.apache.cordova.network-information
 $ cordova plugins add org.apache.cordova.vibration
 $ cordova plugin add org.apache.cordova.inappbrowser
 $ cordova plugin add com.evothings.ble
+$ cordova plugin add https://github.com/petermetz/cordova-plugin-ibeacon.git
 ```
 you alos coud do it in a singel line like 
 ```bash
-$ cordova plugin add org.apache.cordova.network-information org.apache.cordova.vibration org.apache.cordova.inappbrowser com.evothings.ble
+$ cordova plugin add org.apache.cordova.network-information org.apache.cordova.vibration org.apache.cordova.inappbrowser com.evothings.ble https://github.com/petermetz/cordova-plugin-ibeacon.git
 ```
 but seperated lines are more readable.
 
