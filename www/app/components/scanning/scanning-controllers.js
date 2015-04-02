@@ -229,7 +229,12 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     				return;
     			} 
     			
-				var pathToBcms = bcmsAjaxServiceConfig.basePath +'/'+ bcmsAjaxServiceConfig.iabView +'/'+ bcmsBeaconKey+'?ajax=1';
+    			var pathToContent = bcmsAjaxServiceConfig.basePath +'/'+ bcmsAjaxServiceConfig.iabView +'/'+ bcmsBeaconKey+'?ajax=1';
+    			
+    			if(device.bcmsBeacon.thirdPartyWebsite) {
+    				//pathToContent = device.bcmsBeacon.thirdPartyWebsite;
+    			}
+    	
 				
 				$rootScope.iabIsOpen = true;
 				//stop all loops
@@ -241,7 +246,7 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
 	    		
 	    		//open iab with beacon content url
     			$cordovaInAppBrowser
-    			    .open(pathToBcms, '_blank', scanningControllersConfig.iabDefaultSettings)
+    			    .open(pathToContent, '_blank', scanningControllersConfig.iabDefaultSettings)
     			    .then(
     			    	// success	
     			    	function(event) {
@@ -255,10 +260,89 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
 	    					$rootScope.iabIsOpen = false;
 	    			    });
     		 	});
+    		
+    		$rootScope.$on('$cordovaInAppBrowser:loaderror', function(e, event) {
+    			console.log('APPPTEST: ' + event.url); 
+    			if (event.url.match("/close")) {
+    				$cordovaInAppBrowser.close(); 
+    		    }
+    		});
+    		
+    		$rootScope.$on('$cordovaInAppBrowser:loadstop', function(e, event){
+    		    // insert Javascript via code / file
+    		    $cordovaInAppBrowser.executeScript({
+    		    	code: "var link_buttonText = document.createTextNode('X');\
+    		    		var link_button = document.createElement('a');\
+    		    		link_button.setAttribute('onclick', \"window.close();\");\
+    		    		link_button.setAttribute('href', 'üüüüA?ASF');\
+    			    	link_button.id = 'iba-close-button';\
+    		    		link_button.text = 'close';\
+    		    		link_button.style.fontSize = '14px';\
+    		    		link_button.style.color = '#fff';\
+    		    		link_button.style.lineHeight = '20px';\
+    		    		link_button.style.textAlign	= 'center';\
+    		    		link_button.style.verticalAlign = 'middle';\
+    		    		link_button.style.backgroundColor = '#ef473a';\
+    		    		link_button.style.margin = '0px';\
+    		    		link_button.style.padding = '6px 12px 6px 12px';\
+    		    		link_button.style.display = 'block';\
+    		    		link_button.appendChild(link_buttonText);\
+    		    		var footer = document.createElement('div');\
+    		    		footer.style.position = 'fixed';\
+    		    		footer.style.bottom = 0;\
+    		    		footer.style.left = 0;\
+    		    		footer.style.right = 0;\
+    		    		footer.style.zIndex = 2147483647;\
+    		    		footer.appendChild(link_button);\
+    		    		var body = document.getElementsByTagName('body');\
+    		    		document.body.appendChild(footer);"
+    		    })
+    		    .then(
+    		    	//http://blogs.telerik.com/appbuilder/posts/13-12-23/cross-window-communication-with-cordova%27s-inappbrowser
+    		    	function() { alert("Image Element Successfully Hijacked"); }, 
+    		    	function() {}
+    		    );
+    		  });
+    		
     	}
     	
+
+    	//http://callmenick.com/post/jquery-functions-javascript-equivalents
+    	var getIABFooter = function() {
     	
-    	
+    		var code = 
+    		'var buttonText = document.createTextNode("X");\
+    		var button = document.createElement("button");\
+    		link_button 	button.id = "iba-close-button";\
+    		button.text = "close";\
+    		button.style.fontFamily	= "\"Helvetica Neue",​Helvetica,​Arial,​sans-serif\"";\
+    		button.style.fontSize = "14px";\
+    		button.style.color = "#fff";\
+    		button.style.lineHeight = "20px";\
+    		button.style.textAlign	= "center";\
+    		button.style.verticalAlign = "middle";\
+    		button.style.backgroundColor = "#ef473a";\
+    		button.style.margin = "0px";\
+    		button.style.padding = "6px 12px 6px 12px";\
+    		button.style.display = "block";\
+    		button.appendChild(buttonText);\
+    		var footer = document.createElement("div");\
+    		footer.style.position = "fixed";\
+    		footer.style.bottom = 0;\
+    		footer.style.left = 0;\
+    		footer.style.right = 0;\
+    		footer.style.zIndex = 2147483647;\
+    		footer.appendChild(button);\
+    		var body = document.getElementsByTagName("body");\
+    		document.body.appendChild(footer);\
+	    	var btn=document.querySelector("#iab-close");\
+	    	btn.style.backgroundColor = "red";\
+	    	btn.setAttribute("onclick", "window.close();")';
+
+    		return footer;
+    	}
+    
+    
 		init(); 
 
 }]);

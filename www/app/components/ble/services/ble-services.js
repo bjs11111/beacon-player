@@ -399,7 +399,7 @@ bleServices
 							beacon7_3 	= androidData7_3;
 						}
 					}
-					console.log(beacon7_1);
+					
 					beacon7_1.rssi = randomRssi(); bleNotificationChannel.publishFoundDevice( beacon7_1 )
 					beacon7_2.rssi = randomRssi(); bleNotificationChannel.publishFoundDevice( beacon7_2 )
 					beacon7_3.rssi = randomRssi(); bleNotificationChannel.publishFoundDevice( beacon7_3 )
@@ -943,7 +943,7 @@ bleServices
 	  var onFoundBleDeviceHandler = function(rawDevice)  {
 	
 		  rawDevice = prepareDeviceData(rawDevice);
-		  console.log(JSON.stringify(rawDevice)); 
+		  //console.log(JSON.stringify(rawDevice)); 
 		  //device could not be prepared
 		  if(rawDevice === false) {
 			  //console.log('device could not be prepared'); 
