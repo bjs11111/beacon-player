@@ -467,7 +467,7 @@ bleServices
 	//array of uuids of bcms
 	var iBeaconRanges = {
 		//Estimote Beacon factory UUID.
-		'B9407F30-F5F8-466E-AFF9-25556B57FE6D' : true
+		'B9407F30-F5F8-466E-AFF9-25556B57FE6D' : false
 	};
 	//filter returns false if invalif iiud
 	var iBeaconUuidToHex 	= $filter('iBeaconUuidToHex');
@@ -487,8 +487,7 @@ bleServices
 		}
 		return true;
 	}
-	
-	
+		
 	var getIBeaconRanges = function() {
 	  return iBeaconRanges; 
   	};
@@ -497,9 +496,10 @@ bleServices
      var addIBeaconRange = function(uuid) {
 		 //
 		 if( iBeaconUuidToHex(uuid) !== false ) {
-	      	iBeaconRanges[uuid] = true;
+			 if( iBeaconRanges[uuid] != false || iBeaconRanges[uuid] !== true ) {
+				 iBeaconRanges[uuid] = false;
+			 }
 	     }
-	
 	}
 		  
 	//returns bleScannerState
@@ -587,7 +587,7 @@ bleServices
 				var i = 0;
 				// Start monitoring and ranging beacons.
 				for (var uuid in iBeaconRanges) {
-					i++; console.log(uuid); 
+					i++;  
 					/*
 					var beaconRegion = new locationManager.BeaconRegion(i,uuid);
 					// Start ranging.
@@ -601,6 +601,7 @@ bleServices
 						.done();
 					*/
 					
+					iBeaconRanges[uuid] = true;
 				}
 				
 				setBleScannerState(true);
@@ -665,6 +666,7 @@ bleServices
 			.fail(console.error)
 			.done();
 			*/
+			iBeaconRanges[uuid] = false;
 		}
 		
 	};
@@ -684,8 +686,6 @@ bleServices
 		}
 	}
 	
-
-
 	// return the publicly accessible methods
 	return {
 		addIBeaconRange		: addIBeaconRange,

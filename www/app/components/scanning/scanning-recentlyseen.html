@@ -21,6 +21,13 @@
   	<div class="input-label">Platform:</div>
     <select ng-options="platform.name as platform.name for platform in platforms" ng-model="fakePlatform" ng-change="setPlatform(fakePlatform)"></select>
     </label>
+    	<label class="item item-input item-select">
+  	<div class="input-label">iBeaconRanges:</div>
+    <select>
+     <option ng-repeat=" (value, range) in iBeaconRanges">{{range}}</option>
+    </select>
+    </label>
+    {{iBeaconRanges}}
   </div>
   </div>
   	<div class="row">

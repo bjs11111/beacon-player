@@ -21,8 +21,8 @@ appControllers
 })
 
 .controller('AppCtrl', 
-							['$scope', '$rootScope', 'BackgroundProcessConfig', 'ngBleStateConfig', 'bleNotificationChannel',  '$ionicPlatform', '$ionicPopup', '$cordovaBLE', '$cordovaEvothingsBLE', 'bcmsAjaxService', '$interval', 
-                     function($scope,   $rootScope,   BackgroundProcessConfig,   ngBleStateConfig,   bleNotificationChannel,    $ionicPlatform,   $ionicPopup,   $cordovaBLE,   $cordovaEvothingsBLE,   bcmsAjaxService,   $interval) {
+							['$scope', '$rootScope', '$q', 'BackgroundProcessConfig', 'ngBleStateConfig', 'bleNotificationChannel',  '$ionicPlatform', '$ionicPopup', '$cordovaBLE', '$cordovaEvothingsBLE', 'bcmsAjaxService', '$interval', 
+                     function($scope,   $rootScope,   $q,  BackgroundProcessConfig,   ngBleStateConfig,   bleNotificationChannel,    $ionicPlatform,   $ionicPopup,   $cordovaBLE,   $cordovaEvothingsBLE,   bcmsAjaxService,   $interval) {
 
 	/*show alert with information to check inet connection
 	 * set closeOnOffline to true closes app after press alert button 
@@ -56,16 +56,25 @@ appControllers
 	
 	//start refreshes serverdata every x ms
 	$scope.refreshServerData = function (triggeredFrom) {
+			var defer = $q.defer();
 			//console.log('APPTEST: on refreshServerData triggered from '+triggeredFrom);
 			//add then to do something on finieh
-			bcmsAjaxService.refreshBeaconList().then(function () {
+			bcmsAjaxService.refreshBeaconList().then(
+			//success
+			function () {
 				//Stop the ion-refresher from spinning
 				//console.log('refreshServerData'); 
-			    $scope.$broadcast('scroll.refreshComplete');
-			}, function() {
-				//if request fails close pukll to refresh
-				 $scope.$broadcast('scroll.refreshComplete');
+				$scope.$broadcast('scroll.refreshComplete');
+				defer.resolve(data);
+			}, 
+			//error
+			function() {
+				//if request fails close pull to refresh
+				$scope.$broadcast('scroll.refreshComplete');
+				defer.reject(errors); 
 			}); 
+			
+		return defer.promise;
 	};
 	
 	
@@ -189,8 +198,8 @@ appControllers
 		});
 				
 		//init data and start scanning
-		$scope.refreshServerData('onInit');
-		$scope.startBleScanning('onInit');
+		$scope.refreshServerData('onInit').then(function() {$scope.startBleScanning('onInit');},function() {$scope.startBleScanning('onInit');});
+		
 		$scope.startcleaningOldDevicesinterval(BackgroundProcessConfig.msBeforeBeaconIsOld);
 	};
 	
