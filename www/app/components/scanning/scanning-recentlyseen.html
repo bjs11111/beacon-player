@@ -13,10 +13,19 @@
   	<button class="button" ng-click="isOpen = !isOpen">DEBUG</button>
   
 <div  ng-show="isOpen">
+
   <div class="list">
+  <div class="row">
+	  <div class="col">
+   	<label class="item item-input item-select">
+  	<div class="input-label">Platform:</div>
+    <select ng-options="platform.name as platform.name for platform in platforms" ng-model="fakePlatform" ng-change="setPlatform(fakePlatform)"></select>
+    </label>
+  </div>
+  </div>
   	<div class="row">
 	  <div class="col">
-			  <label class="item item-input item-stacked-label">
+			 <label class="item item-input item-stacked-label">
 		    <span class="input-label">StepBreak</span>
 		    <input type="number" min="1" ng-model="stepBreak" placeholder="break between steps">
 		  </label>
@@ -34,15 +43,16 @@
 	  	</label>
 	  </div>
   </div>
+ 
 </div>
   	
   	<button class="button"  ng-click="nearPositiveInOut(delay,stepBreak)">nearPosInOut</button>
   	<button class="button"  ng-click="nearInOut(delay,stepBreak)">nearInOut</button>
   	<button class="button"  ng-click="intermediateInOut(delay,stepBreak)">intermInOut</button>
   	<button class="button"  ng-click="farInOut(delay,stepBreak)">farInOut</button>
-  	
   	<button class="button" ng-click="allInOut(offset,delay,stepBreak)">allInOut</button>
-  	<div class="row">
+
+  	  	<div class="row">
 	  <div class="col">
 	  <button class="button button-balanced" ng-click="startDummyScanning()">startDummyScanning</button>
 	  </div>

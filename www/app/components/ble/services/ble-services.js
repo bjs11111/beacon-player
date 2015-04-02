@@ -110,8 +110,12 @@ bleServices
 
 .factory('$dummyScanner', [ '$q', '$filter', 'bleNotificationChannel', '$interval', '$ionicPlatform', 
                          function ( $q,   $filter,   bleNotificationChannel,   $interval,   $ionicPlatform ) {
+	
 	//TESTING START==========================================================================================================
 	var bleScannerState = false;
+
+	var platformTypes = [ {name : 'IOS'}, {name : 'Android'}, {name : 'Windows'} ];
+	var fakePlatform = false;
 	
 	//the toIsBrokenRawDevice filter
 	var toIsBrokenRawDevice = $filter('toIsBrokenRawDevice');
@@ -120,14 +124,25 @@ bleServices
 		intervalPromise  	= undefined;
 	
 	var break2s = 2000;
+	
+	var getFakePlatform = function () {
+		return fakePlatform;
+	};
+	
+	var setFakePlatform = function (platform) {
+		for(var i = 0 in platformTypes) {
+			if(platformTypes[i].name == platform) {
+				fakePlatform = platformTypes[i].name;
+			}
+		}
+	};
+	
+	var getPlatformTypes = function () {
+		return platformTypes;
+	};
 
 	//beacons of basic test user
-	var beacon7_1 	= undefined;
-	if(ionic.Platform.isAndroid()) {
-		beacon7_1 	= {  'rssi':-100, 'address' : '0E:FA:EF:0C:22:39', 'scanRecord'	: 'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gAHAAGzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' };
-	}
-	else if(ionic.Platform.isIOS()) {
-		beacon7_1 	= { 
+	var iOSData7_1  = { 
 				rssi : -100,
 				major:7,
 				minor:1,
@@ -135,15 +150,15 @@ bleServices
 				accuracy:1.66,
 				rssi:-74,
 				proximity:"ProximityNear"
-		};
-	}
-	
-	var beacon7_2 	= undefined
-	if(ionic.Platform.isAndroid()) {
-		beacon7_2 	= {  'rssi':-100, 'address' : '0E:FA:EF:0C:22:40', 'scanRecord'	: 'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gAHAAK/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' };
-	}
-	else if(ionic.Platform.isIOS()) {
-		beacon7_2 	= { 
+	};
+	var androidData7_1  = {  
+		rssi		: 	-100, 
+		address 	: 	'0E:FA:EF:0C:22:39', 
+		scanRecord	: 	'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gAHAAGzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' 
+	};
+	var beacon7_1 	= undefined;
+
+	var iOSData7_2  = { 
 				rssi : -100,
 				major:7,
 				minor:2,
@@ -151,26 +166,29 @@ bleServices
 				accuracy:1.66,
 				rssi:-74,
 				proximity:"ProximityNear" 
-		};
-	}
-	
-	var beacon7_3	= undefined;
-	if(ionic.Platform.isAndroid()) {
-		beacon7_3 	= {  'rssi':-100, 'address' : '0E:FA:EF:0C:22:41', 'scanRecord'	: 'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gAHAAPFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' };
-	}
-	else if(ionic.Platform.isIOS()) {
-		beacon7_3 	= { 
+	};
+	var androidData7_2  = {  
+		rssi		:-100, 
+		address 	: '0E:FA:EF:0C:22:40', 
+		scanRecord	: 'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gAHAAK/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' 
+	};
+	var beacon7_2 	= undefined
+
+	var iOSData7_3  = { 
 				rssi : -100,
 				major:7,
 				minor:3,
 				uuid:"E6C56DB5-DFFB-48D2-B088-40F5A81496EE",
 				accuracy:1.66,
 				rssi:-74,
-				proximity:"ProximityNear"
-		};
-		
-	}
-	
+				proximity:"ProximityNear" 
+	};
+	var androidData7_3  = {  
+		rssi		:	-100, 
+		address 	: 	'0E:FA:EF:0C:22:41', 
+		scanRecord	: 	'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gAHAAPFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' 
+	};
+	var beacon7_3	= undefined;
 	
 	//
 	var beacon2_1 	= {  'rssi':-100, 'address' : '0E:FA:EF:0C:22:24', 'scanRecord'	: 'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gACAAGzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='};
@@ -275,7 +293,7 @@ bleServices
 		//rssiOneMeterDistance  = -59
 		setTimeout(function() {beacon7_3.rssi =-80; bleNotificationChannel.publishFoundDevice( beacon7_3 ); }, delay+stepBreak*i++);	
 		setTimeout(function() {beacon7_3.rssi =-70; bleNotificationChannel.publishFoundDevice( beacon7_3 ); }, delay+stepBreak*i++);
-		//entrys at -69dBm 
+		//entrys at -69dBm  
 		setTimeout(function() {beacon7_3.rssi =-69; bleNotificationChannel.publishFoundDevice( beacon7_3 ); }, delay+stepBreak*i++);
 		//stays 
 		setTimeout(function() {beacon7_3.rssi =-68; bleNotificationChannel.publishFoundDevice( beacon7_3 ); }, delay+stepBreak*i++);
@@ -349,6 +367,39 @@ bleServices
 			interval = setInterval(
 				function() {
 					
+					if(fakePlatform === false) {
+						if(ionic.Platform.isAndroid()) {
+							beacon7_1 	= androidData7_1;
+							beacon7_2 	= androidData7_2;
+							beacon7_3 	= androidData7_3;
+						}
+						else if(ionic.Platform.isIOS()) {
+							beacon7_1 	= iOSData7_1;
+							beacon7_2 	= iOSData7_2;
+							beacon7_3 	= iOSData7_3;
+						}  
+						else if(ionic.Platform.isWindowsPhone()) {
+							//@TODO
+						} 
+					}
+					else {
+						if(fakePlatform === 'IOS') {
+							beacon7_1 	= iOSData7_1;
+							beacon7_2 	= iOSData7_2;
+							beacon7_3 	= iOSData7_3;
+						}
+						else if (fakePlatform === 'Android') {
+							beacon7_1 	= androidData7_1;
+							beacon7_2 	= androidData7_2;
+							beacon7_3 	= androidData7_3;
+						}
+						else {
+							beacon7_1 	= androidData7_1;
+							beacon7_2 	= androidData7_2;
+							beacon7_3 	= androidData7_3;
+						}
+					}
+					console.log(beacon7_1);
 					beacon7_1.rssi = randomRssi(); bleNotificationChannel.publishFoundDevice( beacon7_1 )
 					beacon7_2.rssi = randomRssi(); bleNotificationChannel.publishFoundDevice( beacon7_2 )
 					beacon7_3.rssi = randomRssi(); bleNotificationChannel.publishFoundDevice( beacon7_3 )
@@ -374,9 +425,12 @@ bleServices
 		bleScannerState = (state)?true:false;
 		bleNotificationChannel.publishBleScannerStateUpdated(bleScannerState);
 	};
-	
-	
+
 	return {
+		getFakePlatform 	: getFakePlatform,
+		setFakePlatform 	: setFakePlatform,
+		getPlatformTypes 	: getPlatformTypes,
+		
 		getDummyBleScannerState: getDummyBleScannerState,
 		setDummyBleScannerState: setDummyBleScannerState,
 		
@@ -400,6 +454,7 @@ bleServices
 	}
 	
 	//TESTING END===================================================================================================================================
+		
 	
 }])
 
@@ -496,25 +551,68 @@ bleServices
 	};
 	
 	var startIOSScanning = function() {
-		setBleScannerState(true);	
-		var i = 0;
-		// Start monitoring and ranging beacons.
-		for (var uuid in iBeaconRanges) {
-			i++; console.log(uuid); 
-			/*
-			var beaconRegion = new locationManager.BeaconRegion(i,uuid);
-			// Start ranging.
-			locationManager.startRangingBeaconsInRegion(beaconRegion)
-				.fail(console.error)
-				.done();
-			// Start monitoring.
-			// (Not used in this example, included as a reference.)
-			locationManager.startMonitoringForRegion(beaconRegion)
-				.fail(console.error)
-				.done();
-			*/
+		
+		if(ionic.Platform.isIOS())  {
 			
+			$ionicPlatform.ready(function() {
+				/*
+				// Specify a shortcut for the location manager holding the iBeacon functions.
+				window.locationManager = cordova.plugins.locationManager;
+				
+				if (delegate === undefined) {
+					// The delegate object holds the iBeacon callback functions
+					// specified below.
+					delegate = new locationManager.Delegate();
+				
+					// Called continuously when ranging beacons.
+					delegate.didRangeBeaconsInRegion = function(pluginResult)
+					{			
+						for (var i in pluginResult.beacons)
+						{
+							// Insert beacon into table of found beacons.
+							var beacon = pluginResult.beacons[i];
+							bleNotificationChannel.publishFoundDevice(beacon);
+							 
+						}
+					};
+					
+					// Set the delegate object to use.
+					locationManager.setDelegate(delegate);
+					// Request permission from user to access location info.
+					// This is needed on iOS 8.
+					locationManager.requestAlwaysAuthorization();
+					*/
+				}
+				
+				var i = 0;
+				// Start monitoring and ranging beacons.
+				for (var uuid in iBeaconRanges) {
+					i++; console.log(uuid); 
+					/*
+					var beaconRegion = new locationManager.BeaconRegion(i,uuid);
+					// Start ranging.
+					locationManager.startRangingBeaconsInRegion(beaconRegion)
+						.fail(console.error)
+						.done();
+					// Start monitoring.
+					// (Not used in this example, included as a reference.)
+					locationManager.startMonitoringForRegion(beaconRegion)
+						.fail(console.error)
+						.done();
+					*/
+					
+				}
+				
+				setBleScannerState(true);
+				
+			});
 		}
+		
+		else {
+			setBleScannerState(false);
+		}
+		
+	
 		
 	};
 	
@@ -561,7 +659,7 @@ bleServices
 		// Stop monitoring and ranging beacons.
 		for (var uuid in iBeaconRanges) {
 			i++; 
-			/*
+			/* 
 			var beaconRegion = new locationManager.BeaconRegion(i + 1,uuid);
 			cordova.plugins.locationManager.stopRangingBeaconsInRegion(beaconRegion)
 			.fail(console.error)
@@ -586,37 +684,7 @@ bleServices
 		}
 	}
 	
-	if(ionic.Platform.isIOS())  {
-		
-		$ionicPlatform.ready(function() {
-			/*
-			// Specify a shortcut for the location manager holding the iBeacon functions.
-			window.locationManager = cordova.plugins.locationManager;
-			
-			// The delegate object holds the iBeacon callback functions
-			// specified below.
-			delegate = new locationManager.Delegate();
-		
-			// Called continuously when ranging beacons.
-			delegate.didRangeBeaconsInRegion = function(pluginResult)
-			{			
-				for (var i in pluginResult.beacons)
-				{
-					// Insert beacon into table of found beacons.
-					var beacon = pluginResult.beacons[i];
-					bleNotificationChannel.publishFoundDevice(beacon);
-					 
-				}
-			};
-			
-			// Set the delegate object to use.
-			locationManager.setDelegate(delegate);
-			// Request permission from user to access location info.
-			// This is needed on iOS 8.
-			locationManager.requestAlwaysAuthorization();
-			*/
-		});
-	}
+
 
 	// return the publicly accessible methods
 	return {
@@ -687,16 +755,19 @@ bleServices
 	  var prepareDeviceData =  function (device) {
 			//IOS
 			if(ionic.Platform.isIOS()) {
+				console.log('ios'); 
 				return prepareIOSDeviceData(device);
 				
 			}
 			//Android
 			else if(ionic.Platform.isAndroid()) {
+				console.log('android'); 
 				return prepareAndroidDeviceData(device);
 			}
 			//WindowsPhone
 			else if(ionic.Platform.isWindowsPhone()) {
 				//@TODO
+				console.log('windows'); 
 			}
 	  }
 	  
@@ -870,9 +941,9 @@ bleServices
       }
       
 	  var onFoundBleDeviceHandler = function(rawDevice)  {
-		  console.log(rawDevice); 
+	
 		  rawDevice = prepareDeviceData(rawDevice);
-		  console.log(rawDevice); 
+		  console.log(JSON.stringify(rawDevice)); 
 		  //device could not be prepared
 		  if(rawDevice === false) {
 			  //console.log('device could not be prepared'); 

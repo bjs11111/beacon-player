@@ -21,13 +21,21 @@ scanningControllers
 /* Scanning Controllers */
 scanningControllers.controller( 'ScanningRecentlyseenCtrl', 
 				//@TODO check dependncies because if order changes problem occours
-				['$dummyScanner', '$rootScope', '$scope', '$filter', 'scanningControllersConfig', 'bleNotificationChannel', 'bcmsAjaxServiceConfig', 'bleDeviceServiceConfig', 'bleDeviceService', '$ionicPlatform', '$cordovaNetwork', '$cordovaInAppBrowser', '$cordovaVibration',
-         function($dummyScanner,   $rootScope ,  $scope,   $filter,   scanningControllersConfig,   bleNotificationChannel,   bcmsAjaxServiceConfig,   bleDeviceServiceConfig,   bleDeviceService,   $ionicPlatform,   $cordovaNetwork,   $cordovaInAppBrowser,   $cordovaVibration) {
+				['$dummyScanner', '$rootScope', '$scope', '$filter', 'scanningControllersConfig', 'bleNotificationChannel', 'bcmsAjaxServiceConfig', '$cordovaEvothingsBLE', 'bleDeviceServiceConfig', 'bleDeviceService', '$ionicPlatform', '$cordovaNetwork', '$cordovaInAppBrowser', '$cordovaVibration',
+         function($dummyScanner,   $rootScope ,  $scope,   $filter,   scanningControllersConfig,   bleNotificationChannel,   bcmsAjaxServiceConfig,   $cordovaEvothingsBLE,   bleDeviceServiceConfig,   bleDeviceService,   $ionicPlatform,   $cordovaNetwork,   $cordovaInAppBrowser,   $cordovaVibration) {
 		
 					/**/
 					$scope.offset 		= 3000,
 					$scope.delay 		= 1000,
 					$scope.stepBreak 	= 1000;
+					$scope.platforms 	= $dummyScanner.getPlatformTypes();
+					$scope.fakePlatform = 'IOS';
+					
+					$scope.iBeaconRanges = $cordovaEvothingsBLE.getIBeaconRanges();
+					
+					$scope.setPlatform = function(platform) {
+						$dummyScanner.setFakePlatform(platform);
+					}
 					
 					$scope.allInOut = function(offset, delay,stepBreak) {
 						$dummyScanner.nearFarIntermediateBeaconEntersNagativeAndExiteAlleOneTime(offset, delay,stepBreak);
