@@ -24,7 +24,6 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
 				['$dummyScanner', '$rootScope', '$scope', '$filter', 'scanningControllersConfig', 'bleNotificationChannel', 'bcmsAjaxServiceConfig', '$cordovaEvothingsBLE', 'bleDeviceServiceConfig', 'bleDeviceService', '$ionicPlatform', '$cordovaNetwork', '$cordovaInAppBrowser', '$cordovaVibration',
          function($dummyScanner,   $rootScope ,  $scope,   $filter,   scanningControllersConfig,   bleNotificationChannel,   bcmsAjaxServiceConfig,   $cordovaEvothingsBLE,   bleDeviceServiceConfig,   bleDeviceService,   $ionicPlatform,   $cordovaNetwork,   $cordovaInAppBrowser,   $cordovaVibration) {
 		
-					/**/
 					$scope.offset 		= 3000,
 					$scope.delay 		= 1000,
 					$scope.stepBreak 	= 1000;
@@ -66,7 +65,7 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
 					$scope.stopDummyScanning = function() {
 						$dummyScanner.stopDummyDeviceFoundLoopWithSetInterval();
 					};
-
+				
 
 		//filter to validate the cmsBeaconKey
 	    var bcmsBeaconKeyToObj = null;
@@ -125,7 +124,7 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
 			}
 
 		}
-	
+		
 		//this is used to update after serverdata updated   	
     	var onKnownDeviceUpdatedHandler = function(key)  {
 			//console.log('in onKnownDeviceUpdatedHandler');
@@ -173,15 +172,13 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
    				 $scope.receivedDevicesList[key] 			= updatedItem; 
    				 $scope.$apply();
     			}
-    			
-    			
-    			
+
     			handleSituation(updatedItem);
 			
     		};
 
 		};
-		
+	
       	//initial stuff 
       	var init = function () {
       		//console.log('init'); 
@@ -202,7 +199,7 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
 	    	});
 
       	}
-      	
+    	
     	$scope.openIAB = function(bcmsBeaconKey) {
     		//console.log('APPTEST: openIab with: ' + bcmsBeaconKey); 
     		var device = $scope.receivedDevicesList[bcmsBeaconKey];
@@ -259,22 +256,15 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
 	    					
 	    					$rootScope.iabIsOpen = false;
 	    			    });
-    		 	});
-    		
-    		$rootScope.$on('$cordovaInAppBrowser:loaderror', function(e, event) {
-    			console.log('APPPTEST: ' + event.url); 
-    			if (event.url.match("/close")) {
-    				$cordovaInAppBrowser.close(); 
-    		    }
     		});
-    		
+    	   		
     		$rootScope.$on('$cordovaInAppBrowser:loadstop', function(e, event){
     		    // insert Javascript via code / file
     		    $cordovaInAppBrowser.executeScript({
     		    	code: "var link_buttonText = document.createTextNode('X');\
     		    		var link_button = document.createElement('a');\
     		    		link_button.setAttribute('onclick', \"window.close();\");\
-    		    		link_button.setAttribute('href', 'üüüüA?ASF');\
+    		    		link_button.setAttribute('href', '/close-iab');\
     			    	link_button.id = 'iba-close-button';\
     		    		link_button.text = 'close';\
     		    		link_button.style.fontSize = '14px';\
@@ -284,7 +274,7 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     		    		link_button.style.verticalAlign = 'middle';\
     		    		link_button.style.backgroundColor = '#ef473a';\
     		    		link_button.style.margin = '0px';\
-    		    		link_button.style.padding = '6px 12px 6px 12px';\
+    		    		link_button.style.padding = '12px';\
     		    		link_button.style.display = 'block';\
     		    		link_button.appendChild(link_buttonText);\
     		    		var footer = document.createElement('div');\
@@ -304,6 +294,18 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     		    );
     		  });
     		
+    		$rootScope.$on('$cordovaInAppBrowser:loadstart', function(e, event){
+    			
+    			//$cordovaInAppBrowser.close(); 
+    			var url = event.url;
+    			
+    			
+    			 if (url.indexOf("close-iab") != -1) { $cordovaInAppBrowser.close();  } 
+    		
+    		});
+    		
+    		
+    	
     	}
     	
 
@@ -342,8 +344,6 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     		return footer;
     	}
     
-    
 		init(); 
 
 }]);
-
