@@ -229,7 +229,7 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     			var pathToContent = bcmsAjaxServiceConfig.basePath +'/'+ bcmsAjaxServiceConfig.iabView +'/'+ bcmsBeaconKey+'?ajax=1';
     			
     			if(device.bcmsBeacon.thirdPartyWebsite) {
-    				//pathToContent = device.bcmsBeacon.thirdPartyWebsite;
+    				pathToContent = device.bcmsBeacon.thirdPartyWebsite;
     			}
     	
 				
@@ -261,12 +261,11 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     		$rootScope.$on('$cordovaInAppBrowser:loadstop', function(e, event){
     		    // insert Javascript via code / file
     		    $cordovaInAppBrowser.executeScript({
-    		    	code: "var link_buttonText = document.createTextNode('X');\
+    		    	code: "var link_buttonText = document.createTextNode('Close window');\
     		    		var link_button = document.createElement('a');\
     		    		link_button.setAttribute('onclick', \"window.close();\");\
     		    		link_button.setAttribute('href', '/close-iab');\
     			    	link_button.id = 'iba-close-button';\
-    		    		link_button.text = 'close';\
     		    		link_button.style.fontSize = '14px';\
     		    		link_button.style.color = '#fff';\
     		    		link_button.style.lineHeight = '20px';\
@@ -295,28 +294,21 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     		  });
     		
     		$rootScope.$on('$cordovaInAppBrowser:loadstart', function(e, event){
-    			
     			//$cordovaInAppBrowser.close(); 
     			var url = event.url;
-    			
-    			
-    			 if (url.indexOf("close-iab") != -1) { $cordovaInAppBrowser.close();  } 
-    		
+    			if (url.indexOf("close-iab") != -1) { $cordovaInAppBrowser.close();  } 
     		});
-    		
-    		
     	
     	}
     	
-
+    	/*
     	//http://callmenick.com/post/jquery-functions-javascript-equivalents
     	var getIABFooter = function() {
     	
     		var code = 
-    		'var buttonText = document.createTextNode("X");\
+    		'var buttonText = document.createTextNode("Close window");\
     		var button = document.createElement("button");\
     		link_button 	button.id = "iba-close-button";\
-    		button.text = "close";\
     		button.style.fontFamily	= "\"Helvetica Neue",​Helvetica,​Arial,​sans-serif\"";\
     		button.style.fontSize = "14px";\
     		button.style.color = "#fff";\
@@ -342,7 +334,7 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
 	    	btn.setAttribute("onclick", "window.close();")';
 
     		return footer;
-    	}
+    	}*/
     
 		init(); 
 
