@@ -10,7 +10,7 @@ var beaconPlayerApp = angular.module('beaconPlayerApp', [ 'ionic',
                                                           //custom general components (direvtives filters, services, constants)... 
                                               
                                                           //components sites
-                                                         'help.controllers', 'scanning.controllers']);
+                                                         'help.controllers', 'scanning.controllers', 'scanning.ibeacon.controllers']);
 
 beaconPlayerApp.config(
 			[ '$stateProvider', '$urlRouterProvider',   '$ionicConfigProvider', '$localForageProvider',   
@@ -31,7 +31,7 @@ beaconPlayerApp.config(
 	  // Ionic uses AngularUI Router which uses the concept of states
 	
 	  // if none of the above states are matched, use this as the fallback
-	  $urlRouterProvider.otherwise('/app/scanning');
+	  $urlRouterProvider.otherwise('/app/scanning-ibeacon');
 	
 	  // Learn more here: https://github.com/angular-ui/ui-router or look in the readme.md in the projects root folder
 	  // Set up the various states which the app can be in.
@@ -72,6 +72,17 @@ beaconPlayerApp.config(
 	    	}
 	    }
 	  })
+	  
+	   .state('app.scanning-ibeacon', {
+	   url:'/scanning-ibeacon',
+	    views: {
+	    	'mainContent': {
+		  		templateUrl: 'app/components/scanning_ibeacon/scanning-recentlyseen.html',
+	    		controller: 'ScanningIbeaconRecentlyseenCtrl'
+	    	}
+	    }
+	  })
+	  
 	  
 
 	  ;

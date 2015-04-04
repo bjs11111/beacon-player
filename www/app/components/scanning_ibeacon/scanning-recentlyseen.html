@@ -1,0 +1,72 @@
+<ion-view>
+	
+	<ion-nav-title >
+      Scanning {{listLength}} Beacon<span ng-show="listLength!=1">s</span>
+    </ion-nav-title>
+ 
+	<ion-nav-buttons side="left">
+		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+	</ion-nav-buttons>
+  
+  	<ion-content class="has-header">
+   	<!--   --> 
+  	<button class="button" ng-click="isOpen = !isOpen">DEBUG</button>
+  
+<div  ng-show="isOpen">
+  <div class="list">
+  	<div class="row">
+	  <div class="col">
+			  <label class="item item-input item-stacked-label">
+		    <span class="input-label">StepBreak</span>
+		    <input type="number" min="1" ng-model="stepBreak" placeholder="break between steps">
+		  </label>
+	  </div>
+	  <div class="col">
+	  	<label class="item item-input item-stacked-label">
+		    <span class="input-label">Delay</span>
+		    <input type="text" min="1" ng-model="delay" placeholder="Delay for beginnign action">
+  		</label>
+	  </div>
+	  <div class="col">
+	   	<label class="item item-input item-stacked-label">
+	    	<span class="input-label">Offset</span>
+	    	<input type="text" min="1" ng-model="offset" placeholder="ms to offset multiple beacons">
+	  	</label>
+	  </div>
+  </div>
+</div>
+
+  	<div class="row">
+	  <div class="col">
+	  <button class="button button-balanced" ng-click="startDummyScanning()">startDummyScanning</button>
+	  </div>
+	    <div class="col">
+	    <button class="button button-energized"  ng-click="stopDummyScanning()">stopDummyScanning</button>
+	  </div>
+  	</div>
+</div>
+
+<hr/>
+
+Regions:<br/>
+<p ng-repeat="region in regions"> {{region}}</p>
+<hr/> 
+
+LOGS:<br/>
+{{logs}}
+<hr/>
+
+Evo data:<br/>
+<p ng-repeat="(address, device) in iBeacons">
+<span>major: {{device.major}}</span><br/>
+<span>minor: {{device.minor}}</span><br/>
+<span>uuid: {{device.uuid}}</span><br/>
+<span>rssi: {{device.rssi}}</span><br/>
+<span>accuracy: {{device.accuracy}}</span><br/>
+<span>proximity: {{device.proximity}}</span><br/>
+<span>timeStamp: {{device.timeStamp}}</span><br/>
+</p>
+<hr/>
+
+</ion-content>  
+</ion-view>

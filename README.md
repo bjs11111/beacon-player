@@ -35,6 +35,7 @@ $ ionic start dummyApp blank
 $ cd dummyApp
 $ ionic setup sass
 $ ionic platform add android
+$ ionic platform add ios
 ```
 
 1.2 install plugins
@@ -105,7 +106,7 @@ Platform Specifics icons and splashscreens:
 path: resources/android/
 path: resources/ios
 
-###building and signing the app
+###building and signing the app for Android
 
 to build the app run 
 ```bash
