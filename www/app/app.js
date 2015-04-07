@@ -10,7 +10,7 @@ var beaconPlayerApp = angular.module('beaconPlayerApp', [ 'ionic',
                                                           //custom general components (direvtives filters, services, constants)... 
                                               
                                                           //components sites
-                                                         'help.controllers', 'scanning.controllers', 'scanning.ibeacon.controllers']);
+                                                         'help.controllers', 'scanning.controllers', 'scanning.ibeacon.controllers', 'bleServices']);
 
 beaconPlayerApp.config(
 			[ '$stateProvider', '$urlRouterProvider',   '$ionicConfigProvider',    
@@ -66,7 +66,7 @@ beaconPlayerApp.config(
 
 }]);
 	    
-beaconPlayerApp.run(function($ionicPlatform ) {
+beaconPlayerApp.run(['$ionicPlatform', '$cordovaEvothingsBLE',function( $ionicPlatform, $cordovaEvothingsBLE) {
   $ionicPlatform.ready(function() {
 	
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -78,8 +78,17 @@ beaconPlayerApp.run(function($ionicPlatform ) {
       StatusBar.styleDefault();
     }
     
+    // Specify a shortcut for the location manager holding the iBeacon functions.
+	window.locationManager = cordova.plugins.locationManager;
+    $cordovaEvothingsBLE.setDelegate(new locationManager.Delegate());
+    // Set the delegate object to use.
+	locationManager.setDelegate($cordovaEvothingsBLE.getDelegate());
+	
+	// Request permission from user to access location info.
+	// This is needed on iOS 8.
+	locationManager.requestAlwaysAuthorization();
   });
-});
+}]);
 
 
 	    
