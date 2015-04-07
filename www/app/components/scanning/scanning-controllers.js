@@ -260,7 +260,15 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     		});
     	   		
     		$rootScope.$on('$cordovaInAppBrowser:loadstop', function(e, event){
-    		    // insert Javascript via code / file
+    			 // insert CSS via code
+    			$cordovaInAppBrowser.insertCSS({
+    			      code: "body,\
+    			      		body.page-b-i { \
+    			      		padding-bottom: 90px !important;\
+    			      		}"
+    			});
+
+    		    // insert Javascript via code
     		    $cordovaInAppBrowser.executeScript({
     		    	code: 
     		    	   "var link_buttonText = document.createTextNode('Scan for new content');\
@@ -286,7 +294,6 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     		    		footer.style.right = 0;\
     		    		footer.style.zIndex = 2147483647;\
     		    		footer.appendChild(link_button);\
-    		    		document.body.style.paddingBottom = '50px';\
     		    		document.body.appendChild(footer);"
     		    })
     		    .then(
