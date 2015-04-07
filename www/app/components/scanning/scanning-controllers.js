@@ -10,6 +10,7 @@ scanningControllers
 .constant("scanningControllersConfig", {
 	
 	iabOpenVibratePattern : [100, 100, 100],
+	iabOpenVibrateTime : 100,
 
 	iabDefaultSettings 		:  {
 		      location		: 'no',
@@ -238,8 +239,8 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
 				$scope.stopBleScanning('openIAB');
 	    		
 	    		//vibrate for content
-    			$cordovaVibration.cancelVibration();
-    			$cordovaVibration.vibrateWithPattern(scanningControllersConfig.iabOpenVibratePattern);
+    			//$cordovaVibration.cancelVibration();
+    			$cordovaVibration.vibrate(scanningControllersConfig.iabOpenVibrateTime);
 	    		
 	    		//open iab with beacon content url
     			$cordovaInAppBrowser
@@ -261,12 +262,14 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     		$rootScope.$on('$cordovaInAppBrowser:loadstop', function(e, event){
     		    // insert Javascript via code / file
     		    $cordovaInAppBrowser.executeScript({
-    		    	code: "var link_buttonText = document.createTextNode('Scan for new content');\
+    		    	code: 
+    		    	   "var link_buttonText = document.createTextNode('Scan for new content');\
     		    		var link_button = document.createElement('a');\
     		    		link_button.setAttribute('onclick', \"window.close();\");\
     		    		link_button.setAttribute('href', '/close-iab');\
     			    	link_button.id = 'iba-close-button';\
     		    		link_button.style.fontSize = '14px';\
+    		    		link_button.style.textDecoration = 'none';\
     		    		link_button.style.color = '#fff';\
     		    		link_button.style.lineHeight = '20px';\
     		    		link_button.style.textAlign	= 'center';\
@@ -283,7 +286,7 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     		    		footer.style.right = 0;\
     		    		footer.style.zIndex = 2147483647;\
     		    		footer.appendChild(link_button);\
-    		    		var body = document.getElementsByTagName('body');\
+    		    		document.body.style.marginBottom = '45px';\
     		    		document.body.appendChild(footer);"
     		    })
     		    .then(
