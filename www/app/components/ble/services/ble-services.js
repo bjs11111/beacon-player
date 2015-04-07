@@ -600,9 +600,14 @@ bleServices
 			// Set the delegate object to use.
 			locationManager.setDelegate(delegate);
 			
-			// Request permission from user to access location info.
-			// This is needed on iOS 8.
-			locationManager.requestAlwaysAuthorization();
+			var systemVersion = ionic.Platform.version();
+            var versionArray = systemVersion.toString().split('.');
+            if( parseInt(versionArray[0]) >= 8 ) {
+                // Request permission from user to access location info.
+                // This is needed on iOS 8.
+                locationManager.requestAlwaysAuthorization();
+            } 
+			
 			
 			// Start monitoring and ranging beacons.
 			for (var i in iBeaconRanges)
