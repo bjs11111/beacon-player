@@ -286,7 +286,7 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     		    		footer.style.right = 0;\
     		    		footer.style.zIndex = 2147483647;\
     		    		footer.appendChild(link_button);\
-    		    		document.body.style.marginBottom = '45px';\
+    		    		document.body.style.paddingBottom = '50px';\
     		    		document.body.appendChild(footer);"
     		    })
     		    .then(
