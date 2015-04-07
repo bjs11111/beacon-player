@@ -572,11 +572,13 @@ bleServices
 	
 	var startIOSScanning = function() {
 		$ionicPlatform.ready(function() {
-			
+			// Specify a shortcut for the location manager holding the iBeacon functions.
+			window.locationManager = cordova.plugins.locationManager;
 			
 			// The delegate object holds the iBeacon callback functions
 			// specified below.
-			//delegate = new locationManager.Delegate();
+			
+			delegate = new locationManager.Delegate();
 		
 			// Called continuously when ranging beacons.
 			delegate.didRangeBeaconsInRegion = function(pluginResult)
@@ -595,7 +597,12 @@ bleServices
 				}
 			};
 			
+			// Set the delegate object to use.
+			locationManager.setDelegate(delegate);
 			
+			// Request permission from user to access location info.
+			// This is needed on iOS 8.
+			locationManager.requestAlwaysAuthorization();
 			
 			// Start monitoring and ranging beacons.
 			for (var i in iBeaconRanges)
