@@ -563,26 +563,26 @@ bleServices
 	};
 	
 	var startIOSScanning = function() {
-		
-		if(ionic.Platform.isIOS())  {
-			
-			$ionicPlatform.ready(function() {
-				/*
-				// Specify a shortcut for the location manager holding the iBeacon functions.
-				window.locationManager = cordova.plugins.locationManager;
-				
-				if (delegate === undefined) {
+		$ionicPlatform.ready(function() {
+					// Specify a shortcut for the location manager holding the iBeacon functions.
+					window.locationManager = cordova.plugins.locationManager;
+					
 					// The delegate object holds the iBeacon callback functions
 					// specified below.
-					delegate = new locationManager.Delegate();
+					var delegate = new locationManager.Delegate();
 				
 					// Called continuously when ranging beacons.
 					delegate.didRangeBeaconsInRegion = function(pluginResult)
-					{			
+					{
+						
+						
 						for (var i in pluginResult.beacons)
 						{
 							// Insert beacon into table of found beacons.
 							var beacon = pluginResult.beacons[i];
+							//beacon.timeStamp = Date.now();
+							//var key = beacon.uuid + ':' + beacon.major + ':' + beacon.minor;
+							//beacon.
 							bleNotificationChannel.publishFoundDevice(beacon);
 							 
 						}
@@ -590,44 +590,30 @@ bleServices
 					
 					// Set the delegate object to use.
 					locationManager.setDelegate(delegate);
+					
 					// Request permission from user to access location info.
 					// This is needed on iOS 8.
 					locationManager.requestAlwaysAuthorization();
 					
-				}
-				*/
-				console.log(iBeaconRanges); 
-				var i = 0;
-				// Start monitoring and ranging beacons.
-				for (var i in iBeaconRanges) {
+					// Start monitoring and ranging beacons.
+					for (var i in $scope.regions)
+					{
+						var beaconRegion = new locationManager.BeaconRegion(i + 1,$scope.regions[i].uuid);
+						// Start ranging.
+						locationManager.startRangingBeaconsInRegion(beaconRegion)
+							.fail(console.error)
+							.done();
+						// Start monitoring.
+						// (Not used in this example, included as a reference.)
+						locationManager.startMonitoringForRegion(beaconRegion)
+						.fail(console.error)
+						.done();
+					}
 					
-					/*
-					var beaconRegion = new locationManager.BeaconRegion(i+1,iBeaconRanges[i].uuid);
-					// Start ranging.
-					locationManager.startRangingBeaconsInRegion(beaconRegion)
-						.fail(console.error)
-						.done();
-					// Start monitoring.
-					// (Not used in this example, included as a reference.)
-					locationManager.startMonitoringForRegion(beaconRegion)
-						.fail(console.error)
-						.done();
-					*/
-					console.log(iBeaconRanges[i]['registered']); 
-					iBeaconRanges[i]['registered'] = true;
-					i++;  
-				}
-				
-				setBleScannerState(true);
-				
-			});
-		}
+					setBleScannerState(true);
+					
+				});
 		
-		else {
-			setBleScannerState(false);
-		}
-		
-	
 		
 	};
 	
