@@ -261,7 +261,7 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     		$rootScope.$on('$cordovaInAppBrowser:loadstop', function(e, event){
     		    // insert Javascript via code / file
     		    $cordovaInAppBrowser.executeScript({
-    		    	code: "var link_buttonText = document.createTextNode('Close window');\
+    		    	code: "var link_buttonText = document.createTextNode('Scan for new content');\
     		    		var link_button = document.createElement('a');\
     		    		link_button.setAttribute('onclick', \"window.close();\");\
     		    		link_button.setAttribute('href', '/close-iab');\
@@ -287,14 +287,14 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     		    		document.body.appendChild(footer);"
     		    })
     		    .then(
-    		    	//http://blogs.telerik.com/appbuilder/posts/13-12-23/cross-window-communication-with-cordova%27s-inappbrowser
-    		    	function() { alert("Image Element Successfully Hijacked"); }, 
+    		    	//success
+    		    	function() {},
+    		    	//error
     		    	function() {}
     		    );
     		  });
     		
     		$rootScope.$on('$cordovaInAppBrowser:loadstart', function(e, event){
-    			//$cordovaInAppBrowser.close(); 
     			var url = event.url;
     			if (url.indexOf("close-iab") != -1) { $cordovaInAppBrowser.close();  } 
     		});
