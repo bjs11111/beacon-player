@@ -111,6 +111,7 @@ scanningIbeaconControllers.controller( 'ScanningIbeaconRecentlyseenCtrl',
 						// Sample UUIDs for beacons of SIT
 						{uuid:'0235B0B2-B6B5-AD4C-4FBD-C17602C2434C'},
 						{uuid:'699EBC80-E1F3-11E3-9A0F-0CF3EE3BC012'},
+						{uuid:'E6C56DB5-DFFB-48D2-B088-40F5A81496EE'},
 					];
 					// Dictionary of beacons.
 					$scope.iBeacons  = {};
