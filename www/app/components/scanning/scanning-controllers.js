@@ -1,7 +1,7 @@
 /* Controllers of start component */
 //______________________________________________________________________________________
 
-var scanningControllers = angular.module('scanning.controllers', ['bleServices', 'bcmsServices', 'LocalForageModule', 'ngCordova']);
+var scanningControllers = angular.module('scanning.controllers', ['bleServices', 'bcmsServices', 'ngCordova']);
 
 
 

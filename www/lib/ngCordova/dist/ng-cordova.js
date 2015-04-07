@@ -1,6 +1,6 @@
 /*!
  * ngCordova
- * v0.1.11-alpha
+ * v0.1.12-alpha
  * Copyright 2014 Drifty Co. http://drifty.com/
  * See LICENSE in this repository for license information
  */
@@ -133,42 +133,26 @@ angular.module('ngCordova.plugins.appRate', [])
 
   .provider("$cordovaAppRate", [function () {
 
-    this.setAppUrl = function (device, url) {
-      var devices = ['ios', 'android', 'blackberry', 'windows8'];
 
-      if (devices.indexOf(device) !== -1) {
-        AppRate.preferences.storeAppURL[device] = url;
+    this.setPreferences = function (defaults) {
+      if (!defaults || !angular.isObject(defaults)) {
+        return;
       }
-      else {
-        alert("wrong device type");
-      }
+
+      AppRate.preferences.useLanguage = defaults.language || null;
+      AppRate.preferences.displayAppName = defaults.appName || "";
+      AppRate.preferences.promptAgainForEachNewVersion = defaults.promptForNewVersion || true;
+      AppRate.preferences.openStoreInApp = defaults.openStoreInApp || false;
+      AppRate.preferences.usesUntilPrompt = defaults.usesUntilPrompt || 3;
+      AppRate.preferences.useCustomRateDialog = defaults.useCustomRateDialog || false;
+      AppRate.preferences.storeAppURL.ios = defaults.iosURL || null;
+      AppRate.preferences.storeAppURL.android = defaults.androidURL || null;
+      AppRate.preferences.storeAppURL.blackberry = defaults.blackberryURL || null;
+      AppRate.preferences.storeAppURL.windows8 = defaults.windowsURL || null;
     };
 
-    this.useLanguage = function (language) {
-      AppRate.preferences.useLanguage = language;
-    };
 
-    this.displayAppName = function (name) {
-      AppRate.preferences.displayAppName = name;
-    };
-
-    this.promptAgainForEachNewVersion = function (boolean) {
-      AppRate.preferences.promptAgainForEachNewVersion = boolean;
-    };
-
-    this.usesUntilPrompt = function (number) {
-      AppRate.preferences.usesUntilPrompt = number;
-    };
-
-    this.openStoreInApp = function (boolean) {
-      AppRate.preferences.openStoreInApp = boolean;
-    };
-
-    this.useCustomRateDialog = function (boolean) {
-      AppRate.preferences.useCustomRateDialog = boolean;
-    };
-
-    this.customLocale = function (customObj) {
+    this.setCustomLocale = function (customObj) {
       var strings = {
         title: 'Rate %@',
         message: 'If you enjoy using %@, would you mind taking a moment to rate it? It won’t take more than a minute. Thanks for your support!',
@@ -188,6 +172,14 @@ angular.module('ngCordova.plugins.appRate', [])
           var q = $q.defer();
           var prompt = AppRate.promptForRating(immediate);
           q.resolve(prompt);
+
+          return q.promise;
+        },
+
+        navigateToAppStore: function () {
+          var q = $q.defer();
+          var navigate = AppRate.navigateToAppStore();
+          q.resolve(navigate);
 
           return q.promise;
         },
@@ -434,8 +426,8 @@ angular.module('ngCordova.plugins.batteryStatus', [])
     }, false);
     return true;
   }])
-  .run(function ($cordovaBatteryStatus) {
-  });
+  .run(['$cordovaBatteryStatus', function ($cordovaBatteryStatus) {
+  }]);
 
 //  install   :   cordova plugin add https://github.com/don/cordova-plugin-ble-central#:/plugin
 //  link      :   https://github.com/don/cordova-plugin-ble-central
@@ -443,6 +435,7 @@ angular.module('ngCordova.plugins.batteryStatus', [])
 angular.module('ngCordova.plugins.ble', [])
 
   .factory('$cordovaBLE', ['$q', function ($q) {
+
     return {
       scan: function (services, seconds) {
         var q = $q.defer();
@@ -1751,318 +1744,711 @@ angular.module('ngCordova.plugins.facebookAds', [])
 // install   :     cordova plugin add org.apache.cordova.file
 // link      :     https://github.com/apache/cordova-plugin-file/blob/master/doc/index.md
 
-// TODO: add functionality to define storage size in the getFilesystem() -> requestFileSystem() method
-// TODO: add documentation for FileError types
-
 angular.module('ngCordova.plugins.file', [])
 
-  .factory('$cordovaFile', ['$q', '$window', '$log', '$timeout', function ($q, $window, $log, $timeout) {
+  .constant("$cordovaFileError", {
+    1: 'NOT_FOUND_ERR',
+    2: 'SECURITY_ERR',
+    3: 'ABORT_ERR',
+    4: 'NOT_READABLE_ERR',
+    5: 'ENCODING_ERR',
+    6: 'NO_MODIFICATION_ALLOWED_ERR',
+    7: 'INVALID_STATE_ERR',
+    8: 'SYNTAX_ERR',
+    9: 'INVALID_MODIFICATION_ERR',
+    10: 'QUOTA_EXCEEDED_ERR',
+    11: 'TYPE_MISMATCH_ERR',
+    12: 'PATH_EXISTS_ERR'
+  })
 
-    return {
-      checkDir: function (dir) {
-        return getDirectory(dir, {create: false});
-      },
+  .provider('$cordovaFile', [function () {
 
-      createDir: function (dir, replaceBOOL) {
-        return getDirectory(dir, {create: true, exclusive: replaceBOOL});
-      },
+    this.$get = ['$q', '$window', '$cordovaFileError', function ($q, $window, $cordovaFileError) {
 
-      listDir: function (filePath) {
-        var q = $q.defer();
+      return {
 
-        getDirectory(filePath, {create: false}).then(function (parent) {
-          var reader = parent.createReader();
-          reader.readEntries(
-            function (entries) {
-              q.resolve(entries);
-            },
-            function () {
-              q.reject('DIR_READ_ERROR : ' + filePath);
-            });
-        }, function () {
-          q.reject('DIR_NOT_FOUND : ' + filePath);
-        });
+        getFreeDiskSpace: function() {
+            var q = $q.defer();
+            cordova.exec(function(result) {
+                q.resolve(result);
+            }, function(error) {
+                q.reject(error);
+            }, "File", "getFreeDiskSpace", []);
+            return q.promise;
+        },
 
-        return q.promise;
-      },
+        checkDir: function (path, dir) {
+          var q = $q.defer();
 
-      checkFile: function (filePath) {
-        // Backward compatibility for previous function checkFile(dir, file)
-        if (arguments.length == 2) {
-          filePath = '/' + filePath + '/' + arguments[1];
-        }
-
-        return getFileEntry(filePath, {create: false});
-      },
-
-      createFile: function (filePath, replaceBOOL) {
-        // Backward compatibility for previous function createFile(filepath replaceBOOL)
-        if (arguments.length == 3) {
-          filePath = '/' + filePath + '/' + arguments[1];
-          replaceBOOL = arguments[2];
-        }
-
-        return getFileEntry(filePath, {create: true, exclusive: replaceBOOL});
-      },
-
-      removeFile: function (filePath) {
-        var q = $q.defer();
-
-        // Backward compatibility for previous function removeFile(dir, file)
-        if (arguments.length == 2) {
-          filePath = '/' + filePath + '/' + arguments[1];
-        }
-
-        getFileEntry(filePath, {create: false}).then(function (fileEntry) {
-          fileEntry.remove(q.resolve, q.reject);
-        }, q.reject);
-
-        return q.promise;
-      },
-
-      // options is a dict with possible keys :
-      // - append : true/false (if true, append data on EOF)
-      writeFile: function (filePath, data, options) {
-        var q = $q.defer();
-
-        getFileWriter(filePath, {create: true}).then(function (fileWriter) {
-          if (options && options['append'] === true) {
-            // Start write position at EOF.
-            fileWriter.seek(fileWriter.length);
+          if ((/^\//.test(dir))) {
+            q.reject("directory cannot start with \/")
           }
-          fileWriter.onwriteend = function (evt) {
-            if (this.error)
-              q.reject(this.error);
-            else
-              q.resolve(evt);
+
+          try {
+            var directory = path + dir;
+            $window.resolveLocalFileSystemURL(directory, function (fileSystem) {
+              if (fileSystem.isDirectory === true) {
+                q.resolve(fileSystem);
+              } else {
+                q.reject({code: 13, message: "input is not a directory"});
+              }
+            }, function (error) {
+              error.message = $cordovaFileError[error.code];
+              q.reject(error);
+            });
+          } catch (err) {
+            err.message = $cordovaFileError[err.code];
+            q.reject(err);
+          }
+
+          return q.promise;
+        },
+
+
+        checkFile: function (path, file) {
+          var q = $q.defer();
+
+          if ((/^\//.test(file))) {
+            q.reject("directory cannot start with \/")
+          }
+
+          try {
+            var directory = path + file;
+            $window.resolveLocalFileSystemURL(directory, function (fileSystem) {
+              if (fileSystem.isFile === true) {
+                q.resolve(fileSystem);
+              } else {
+                q.reject({code: 13, message: "input is not a file"});
+              }
+            }, function (error) {
+              error.message = $cordovaFileError[error.code];
+              q.reject(error);
+            });
+          } catch (err) {
+            err.message = $cordovaFileError[err.code];
+            q.reject(err);
+          }
+
+          return q.promise;
+        },
+
+        createDir: function (path, dirName, replaceBool) {
+          var q = $q.defer();
+
+          if ((/^\//.test(dirName))) {
+            q.reject("directory cannot start with \/")
+          }
+
+          replaceBool = replaceBool ? false : true;
+
+          var options = {
+            create: true,
+            exclusive: replaceBool
           };
-          fileWriter.write(data);
-        }, q.reject);
 
-        return q.promise;
-      },
+          try {
+            $window.resolveLocalFileSystemURL(path, function (fileSystem) {
+              fileSystem.getDirectory(dirName, options, function (result) {
+                q.resolve(result);
+              }, function (error) {
+                error.message = $cordovaFileError[error.code];
+                q.reject(error);
+              });
+            }, function (err) {
+              err.message = $cordovaFileError[err.code];
+              q.reject(err);
+            });
+          } catch (e) {
+            e.message = $cordovaFileError[e.code];
+            q.reject(e);
+          }
 
-      readFile: function (filePath) {  /// now deprecated in new ng-cordova version
-        $log.log('readFile is now deprecated as of v0.1.4-alpha, use readAsText instead');
-        return this.readAsText(filePath);
-      },
+          return q.promise;
+        },
 
-      readAsText: function (filePath) {
-        var q = $q.defer();
+        createFile: function (path, fileName, replaceBool) {
+          var q = $q.defer();
 
-        // Backward compatibility for previous function readFile(dir, file)
-        if (arguments.length == 2) {
-          filePath = '/' + filePath + '/' + arguments[1];
+          if ((/^\//.test(fileName))) {
+            q.reject("file-name cannot start with \/")
+          }
+
+          replaceBool = replaceBool ? false : true;
+
+          var options = {
+            create: true,
+            exclusive: replaceBool
+          };
+
+          try {
+            $window.resolveLocalFileSystemURL(path, function (fileSystem) {
+              fileSystem.getFile(fileName, options, function (result) {
+                q.resolve(result);
+              }, function (error) {
+                error.message = $cordovaFileError[error.code];
+                q.reject(error);
+              });
+            }, function (err) {
+              err.message = $cordovaFileError[err.code];
+              q.reject(err);
+            });
+          } catch (e) {
+            e.message = $cordovaFileError[e.code];
+            q.reject(e);
+          }
+          return q.promise;
+        },
+
+
+        removeDir: function (path, dirName) {
+          var q = $q.defer();
+
+          if ((/^\//.test(dirName))) {
+            q.reject("file-name cannot start with \/")
+          }
+
+          try {
+            $window.resolveLocalFileSystemURL(path, function (fileSystem) {
+              fileSystem.getDirectory(dirName, {create: false}, function (dirEntry) {
+                dirEntry.remove(function () {
+                  q.resolve({success: true, fileRemoved: dirEntry});
+                }, function (error) {
+                  error.message = $cordovaFileError[error.code];
+                  q.reject(error);
+                });
+              }, function (err) {
+                err.message = $cordovaFileError[err.code];
+                q.reject(err);
+              });
+            }, function (er) {
+              er.message = $cordovaFileError[er.code];
+              q.reject(er);
+            });
+          } catch (e) {
+            e.message = $cordovaFileError[e.code];
+            q.reject(e);
+          }
+          return q.promise;
+        },
+
+        removeFile: function (path, fileName) {
+          var q = $q.defer();
+
+          if ((/^\//.test(fileName))) {
+            q.reject("file-name cannot start with \/");
+          }
+
+          try {
+            $window.resolveLocalFileSystemURL(path, function (fileSystem) {
+              fileSystem.getFile(fileName, {create: false}, function (fileEntry) {
+                fileEntry.remove(function () {
+                  q.resolve({success: true, fileRemoved: fileEntry});
+                }, function (error) {
+                  error.message = $cordovaFileError[error.code];
+                  q.reject(error);
+                });
+              }, function (err) {
+                err.message = $cordovaFileError[err.code];
+                q.reject(err);
+              });
+            }, function (er) {
+              er.message = $cordovaFileError[er.code];
+              q.reject(er);
+            });
+          } catch (e) {
+            e.message = $cordovaFileError[e.code];
+            q.reject(e);
+          }
+          return q.promise;
+        },
+
+        removeRecursively: function (path, dirName) {
+          var q = $q.defer();
+
+          if ((/^\//.test(dirName))) {
+            q.reject("file-name cannot start with \/")
+          }
+
+          try {
+            $window.resolveLocalFileSystemURL(path, function (fileSystem) {
+              fileSystem.getDirectory(dirName, {create: false}, function (dirEntry) {
+                dirEntry.removeRecursively(function () {
+                  q.resolve({success: true, fileRemoved: dirEntry});
+                }, function (error) {
+                  error.message = $cordovaFileError[error.code];
+                  q.reject(error);
+                });
+              }, function (err) {
+                err.message = $cordovaFileError[err.code];
+                q.reject(err);
+              });
+            }, function (er) {
+              er.message = $cordovaFileError[er.code];
+              q.reject(er);
+            });
+          } catch (e) {
+            e.message = $cordovaFileError[e.code];
+            q.reject(e);
+          }
+          return q.promise;
+        },
+
+        writeFile: function (path, fileName, text, replaceBool) {
+          var q = $q.defer();
+
+          if ((/^\//.test(fileName))) {
+            q.reject("file-name cannot start with \/");
+          }
+
+          replaceBool = replaceBool ? false : true;
+
+          var options = {
+            create: true,
+            exclusive: replaceBool
+          };
+
+          try {
+            $window.resolveLocalFileSystemURL(path, function (fileSystem) {
+              fileSystem.getFile(fileName, options, function (fileEntry) {
+                fileEntry.createWriter(function (writer) {
+                  if (options.append === true) {
+                    writer.seek(writer.length);
+                  }
+
+                  if (options.truncate) {
+                    writer.truncate(options.truncate);
+                  }
+
+                  writer.onwriteend = function (evt) {
+                    if (this.error) {
+                      q.reject(this.error);
+                    }
+                    else {
+                      q.resolve(evt);
+                    }
+                  };
+
+                  writer.write(text);
+
+                  q.promise.abort = function () {
+                    writer.abort();
+                  };
+                });
+              }, function (error) {
+                error.message = $cordovaFileError[error.code];
+                q.reject(error);
+              });
+            }, function (err) {
+              err.message = $cordovaFileError[err.code];
+              q.reject(err);
+            });
+          } catch (e) {
+            e.message = $cordovaFileError[e.code];
+            q.reject(e);
+          }
+
+          return q.promise;
+        },
+
+
+        writeExistingFile: function (path, fileName, text) {
+          var q = $q.defer();
+
+          if ((/^\//.test(fileName))) {
+            q.reject("file-name cannot start with \/");
+          }
+
+          try {
+            $window.resolveLocalFileSystemURL(path, function (fileSystem) {
+              fileSystem.getFile(fileName, {create: false}, function (fileEntry) {
+                fileEntry.createWriter(function (writer) {
+                  writer.seek(writer.length);
+
+                  writer.onwriteend = function (evt) {
+                    if (this.error) {
+                      q.reject(this.error);
+                    }
+                    else {
+                      q.resolve(evt);
+                    }
+                  };
+
+                  writer.write(text);
+
+                  q.promise.abort = function () {
+                    writer.abort();
+                  };
+                });
+              }, function (error) {
+                error.message = $cordovaFileError[error.code];
+                q.reject(error);
+              });
+            }, function (err) {
+              err.message = $cordovaFileError[err.code];
+              q.reject(err);
+            });
+          } catch (e) {
+            e.message = $cordovaFileError[e.code];
+            q.reject(e);
+          }
+
+          return q.promise;
+        },
+
+
+        readAsText: function (path, file) {
+          var q = $q.defer();
+
+          if ((/^\//.test(file))) {
+            q.reject("file-name cannot start with \/");
+          }
+
+          try {
+            $window.resolveLocalFileSystemURL(path, function (fileSystem) {
+              fileSystem.getFile(file, {create: false}, function (fileEntry) {
+                fileEntry.file(function (fileData) {
+                  var reader = new FileReader();
+
+                  reader.onloadend = function (evt) {
+                    if (evt.target._result !== undefined || evt.target._result !== null) {
+                      q.resolve(evt.target._result);
+                    }
+                    else if (evt.target._error !== undefined || evt.target._error !== null) {
+                      q.reject(evt.target._error);
+                    }
+                    else {
+                      q.reject({code: null, message: 'READER_ONLOADEND_ERR'});
+                    }
+                  };
+
+                  reader.readAsText(fileData);
+                });
+              }, function (error) {
+                error.message = $cordovaFileError[error.code];
+                q.reject(error);
+              });
+            }, function (err) {
+              err.message = $cordovaFileError[err.code];
+              q.reject(err);
+            });
+          } catch (e) {
+            e.message = $cordovaFileError[e.code];
+            q.reject(e);
+          }
+
+          return q.promise;
+        },
+
+
+        readAsDataURL: function (path, file) {
+          var q = $q.defer();
+
+          if ((/^\//.test(file))) {
+            q.reject("file-name cannot start with \/");
+          }
+
+          try {
+            $window.resolveLocalFileSystemURL(path, function (fileSystem) {
+              fileSystem.getFile(file, {create: false}, function (fileEntry) {
+                fileEntry.file(function (fileData) {
+                  var reader = new FileReader();
+                  reader.onloadend = function (evt) {
+                    if (evt.target._result !== undefined || evt.target._result !== null) {
+                      q.resolve(evt.target._result);
+                    }
+                    else if (evt.target._error !== undefined || evt.target._error !== null) {
+                      q.reject(evt.target._error);
+                    }
+                    else {
+                      q.reject({code: null, message: 'READER_ONLOADEND_ERR'});
+                    }
+                  };
+                  reader.readAsDataURL(fileData);
+                });
+              }, function (error) {
+                error.message = $cordovaFileError[error.code];
+                q.reject(error);
+              });
+            }, function (err) {
+              err.message = $cordovaFileError[err.code];
+              q.reject(err);
+            });
+          } catch (e) {
+            e.message = $cordovaFileError[e.code];
+            q.reject(e);
+          }
+
+          return q.promise;
+        },
+
+        readAsBinaryString: function (path, file) {
+          var q = $q.defer();
+
+          if ((/^\//.test(file))) {
+            q.reject("file-name cannot start with \/");
+          }
+
+          try {
+            $window.resolveLocalFileSystemURL(path, function (fileSystem) {
+              fileSystem.getFile(file, {create: false}, function (fileEntry) {
+                fileEntry.file(function (fileData) {
+                  var reader = new FileReader();
+                  reader.onloadend = function (evt) {
+                    if (evt.target._result !== undefined || evt.target._result !== null) {
+                      q.resolve(evt.target._result);
+                    }
+                    else if (evt.target._error !== undefined || evt.target._error !== null) {
+                      q.reject(evt.target._error);
+                    }
+                    else {
+                      q.reject({code: null, message: 'READER_ONLOADEND_ERR'});
+                    }
+                  };
+                  reader.readAsBinaryString(fileData);
+                });
+              }, function (error) {
+                error.message = $cordovaFileError[error.code];
+                q.reject(error);
+              });
+            }, function (err) {
+              err.message = $cordovaFileError[err.code];
+              q.reject(err);
+            });
+          } catch (e) {
+            e.message = $cordovaFileError[e.code];
+            q.reject(e);
+          }
+
+          return q.promise;
+        },
+
+        readAsArrayBuffer: function (path, file) {
+          var q = $q.defer();
+
+          if ((/^\//.test(file))) {
+            q.reject("file-name cannot start with \/");
+          }
+
+          try {
+            $window.resolveLocalFileSystemURL(path, function (fileSystem) {
+              fileSystem.getFile(file, {create: false}, function (fileEntry) {
+                fileEntry.file(function (fileData) {
+                  var reader = new FileReader();
+                  reader.onloadend = function (evt) {
+                    if (evt.target._result !== undefined || evt.target._result !== null) {
+                      q.resolve(evt.target._result);
+                    }
+                    else if (evt.target._error !== undefined || evt.target._error !== null) {
+                      q.reject(evt.target._error);
+                    }
+                    else {
+                      q.reject({code: null, message: 'READER_ONLOADEND_ERR'});
+                    }
+                  };
+                  reader.readAsArrayBuffer(fileData);
+                });
+              }, function (error) {
+                error.message = $cordovaFileError[error.code];
+                q.reject(error);
+              });
+            }, function (err) {
+              err.message = $cordovaFileError[err.code];
+              q.reject(err);
+            });
+          } catch (e) {
+            e.message = $cordovaFileError[e.code];
+            q.reject(e);
+          }
+
+          return q.promise;
+        },
+
+
+        moveFile: function (path, fileName, newPath, newFileName) {
+          var q = $q.defer();
+
+          newFileName = newFileName || fileName;
+
+          if ((/^\//.test(fileName)) || (/^\//.test(newFileName))) {
+            q.reject("file-name cannot start with \/");
+          }
+
+          try {
+            $window.resolveLocalFileSystemURL(path, function (fileSystem) {
+              fileSystem.getFile(fileName, {create: false}, function (fileEntry) {
+                $window.resolveLocalFileSystemURL(newPath, function (newFileEntry) {
+                  fileEntry.moveTo(newFileEntry, newFileName, function (result) {
+                    q.resolve(result);
+                  }, function (error) {
+                    q.reject(error);
+                  });
+                }, function (err) {
+                  q.reject(err);
+                });
+              }, function (err) {
+                q.reject(err);
+              });
+            }, function (er) {
+              q.reject(er);
+            });
+          } catch (e) {
+            q.reject(e);
+          }
+          return q.promise;
+        },
+
+        moveDir: function (path, dirName, newPath, newDirName) {
+          var q = $q.defer();
+
+          newDirName = newDirName || dirName;
+
+          if (/^\//.test(dirName) || (/^\//.test(newDirName))) {
+            q.reject("file-name cannot start with \/");
+          }
+
+          try {
+            $window.resolveLocalFileSystemURL(path, function (fileSystem) {
+              fileSystem.getDirectory(dirName, {create: false}, function (dirEntry) {
+                $window.resolveLocalFileSystemURL(newPath, function (newDirEntry) {
+                  dirEntry.moveTo(newDirEntry, newDirName, function (result) {
+                    q.resolve(result);
+                  }, function (error) {
+                    q.reject(error);
+                  });
+                }, function (erro) {
+                  q.reject(erro);
+                });
+              }, function (err) {
+                q.reject(err);
+              });
+            }, function (er) {
+              q.reject(er);
+            });
+          } catch (e) {
+            q.reject(e);
+          }
+          return q.promise;
+        },
+
+
+        copyDir: function (path, dirName, newPath, newDirName) {
+          var q = $q.defer();
+
+          newDirName = newDirName || dirName;
+
+          if (/^\//.test(dirName) || (/^\//.test(newDirName))) {
+            q.reject("file-name cannot start with \/");
+          }
+
+          try {
+            $window.resolveLocalFileSystemURL(path, function (fileSystem) {
+              fileSystem.getDirectory(dirName, {create: false, exclusive: false}, function (dirEntry) {
+
+                $window.resolveLocalFileSystemURL(newPath, function (newDirEntry) {
+                  dirEntry.copyTo(newDirEntry, newDirName, function (result) {
+                    q.resolve(result);
+                  }, function (error) {
+                    error.message = $cordovaFileError[error.code];
+                    q.reject(error);
+                  });
+                }, function (erro) {
+                  erro.message = $cordovaFileError[erro.code];
+                  q.reject(erro);
+                });
+              }, function (err) {
+                err.message = $cordovaFileError[err.code];
+                q.reject(err);
+              });
+            }, function (er) {
+              er.message = $cordovaFileError[er.code];
+              q.reject(er);
+            });
+          } catch (e) {
+            e.message = $cordovaFileError[e.code];
+            q.reject(e);
+          }
+          return q.promise;
+        },
+
+        copyFile: function (path, fileName, newPath, newFileName) {
+          var q = $q.defer();
+
+          newFileName = newFileName || fileName;
+
+          if ((/^\//.test(fileName))) {
+            q.reject("file-name cannot start with \/");
+          }
+
+          try {
+            $window.resolveLocalFileSystemURL(path, function (fileSystem) {
+              fileSystem.getFile(fileName, {create: false, exclusive: false}, function (fileEntry) {
+
+                $window.resolveLocalFileSystemURL(newPath, function (newFileEntry) {
+                  fileEntry.copyTo(newFileEntry, newFileName, function (result) {
+                    q.resolve(result);
+                  }, function (error) {
+                    error.message = $cordovaFileError[error.code];
+                    q.reject(error);
+                  });
+                }, function (erro) {
+                  erro.message = $cordovaFileError[erro.code];
+                  q.reject(erro);
+                });
+              }, function (err) {
+                err.message = $cordovaFileError[err.code];
+                q.reject(err);
+              });
+            }, function (er) {
+              er.message = $cordovaFileError[er.code];
+              q.reject(er);
+            });
+          } catch (e) {
+            e.message = $cordovaFileError[e.code];
+            q.reject(e);
+          }
+          return q.promise;
         }
 
-        getFile(filePath, {create: false}).then(function (file) {
-          getPromisedFileReader(q).readAsText(file);
-        }, q.reject);
+        /*
+         listFiles: function (path, dir) {
 
-        return q.promise;
-      },
+         },
 
+         listDir: function (path, dirName) {
+         var q = $q.defer();
 
-      readAsDataURL: function (filePath) {
-        var q = $q.defer();
+         try {
+         $window.resolveLocalFileSystemURL(path, function (fileSystem) {
+         fileSystem.getDirectory(dirName, options, function (parent) {
+         var reader = parent.createReader();
+         reader.readEntries(function (entries) {
+         q.resolve(entries);
+         }, function () {
+         q.reject('DIR_READ_ERROR : ' + path + dirName);
+         });
+         }, function (error) {
+         error.message = $cordovaFileError[error.code];
+         q.reject(error);
+         });
+         }, function (err) {
+         err.message = $cordovaFileError[err.code];
+         q.reject(err);
+         });
+         } catch (e) {
+         e.message = $cordovaFileError[e.code];
+         q.reject(e);
+         }
 
-        // Backward compatibility for previous function readFile(dir, file)
-        if (arguments.length == 2) {
-          filePath = '/' + filePath + '/' + arguments[1];
-        }
+         return q.promise;
+         },
 
-        getFile(filePath, {create: false}).then(function (file) {
-          getPromisedFileReader(q).readAsDataURL(file);
-        }, q.reject);
-
-        return q.promise;
-      },
-
-      readAsBinaryString: function (filePath) {
-        var q = $q.defer();
-
-        // Backward compatibility for previous function readFile(dir, file)
-        if (arguments.length == 2) {
-          filePath = '/' + filePath + '/' + arguments[1];
-        }
-
-        getFile(filePath, {create: false}).then(function (file) {
-          getPromisedFileReader(q).readAsBinaryString(file);
-        }, q.reject);
-
-        return q.promise;
-      },
-
-      readAsArrayBuffer: function (filePath) {
-        var q = $q.defer();
-
-        // Backward compatibility for previous function readFile(dir, file)
-        if (arguments.length == 2) {
-          filePath = '/' + filePath + '/' + arguments[1];
-        }
-
-        getFile(filePath, {create: false}).then(function (file) {
-          getPromisedFileReader(q).readAsArrayBuffer(file);
-        }, q.reject);
-
-        return q.promise;
-      },
-
-      readFileMetadata: function (filePath) {
-        return getFile(filePath, {create: false});
-      },
-
-      readFileAbsolute: function (filePath) {
-        var q = $q.defer();
-        getAbsoluteFile(filePath).then(function (file) {
-          getPromisedFileReader(q).readAsText(file);
-        }, q.reject);
-        return q.promise;
-      },
-
-      readFileMetadataAbsolute: function (filePath) {
-        return getAbsoluteFile(filePath);
-      },
-
-      downloadFile: function (source, filePath, options, trustAllHosts) {
-        console.warn("This method is deprecated as of v0.1.11-alpha, please refer to $cordovaFileTransfer");
-        var q = $q.defer();
-        var ft = new FileTransfer();
-        var uri = encodeURI(source);
-
-        if (options && options.timeout !== undefined && options.timeout !== null) {
-          $timeout(function () {
-            ft.abort();
-          }, options.timeout);
-          options.timeout = null;
-        }
-
-        ft.onprogress = function (progress) {
-          q.notify(progress);
-        };
-
-        ft.download(uri, filePath, q.resolve, q.reject, trustAllHosts, options);
-        return q.promise;
-      },
-
-      uploadFile: function (server, filePath, options, trustAllHosts) {
-        console.warn("This method is deprecated as of v0.1.11-alpha, please refer to $cordovaFileTransfer");
-        var q = $q.defer();
-        var ft = new FileTransfer();
-        var uri = encodeURI(server);
-
-        if (options && options.timeout !== undefined && options.timeout !== null) {
-          $timeout(function () {
-            ft.abort();
-          }, options.timeout);
-          options.timeout = null;
-        }
-
-        ft.onprogress = function (progress) {
-          q.notify(progress);
-        };
-
-        q.promise.abort = function () {
-          ft.abort();
-        };
-
-        ft.upload(filePath, uri, q.resolve, q.reject, options, trustAllHosts);
-        return q.promise;
-      }
-    };
-
-    /*
-     * Returns a new FileReader that will resolve the provided Deferred with
-     * the result of the next method called on the FileReader, or reject it
-     * if an error occurs while attempting to complete that operation.
-     */
-    function getPromisedFileReader(deferred) {
-      var reader = new FileReader();
-      reader.onloadend = function () {
-        if (this.error)
-          deferred.reject(this.error);
-        else
-          deferred.resolve(this.result);
+         readFileMetadata: function (filePath) {
+         //return getFile(filePath, {create: false});
+         }
+         */
       };
-      return reader;
-    }
 
-    /*
-     * Returns a promise that will be resolved with the requested File object
-     * or rejected if an error occurs attempting to retreive it.
-     */
-    function getFile(path, options) {
-      var q = $q.defer();
-      getFileEntry(path, options).then(function (fileEntry) {
-        fileEntry.file(q.resolve, q.reject);
-      }, q.reject);
-      return q.promise;
-    }
-
-    /*
-     * Returns a promise that will either be resolved with a FileWriter bound to the file identified
-     * in the provided path or rejected if an error occurs while attempting to initialize
-     * the writer.
-     */
-    function getFileWriter(path, options) {
-      var q = $q.defer();
-      getFileEntry(path, options).then(function (fileEntry) {
-        fileEntry.createWriter(q.resolve, q.reject);
-      }, q.reject);
-      return q.promise;
-    }
-
-    /*
-     * Returns a promise that will either be resolved with the FileEntry instance that corresponds
-     * to the provided path or rejected if an error occurs while attempting to retrieve the
-     * FileEntry.
-     */
-    function getFileEntry(path, options) {
-      var q = $q.defer();
-      getFilesystem().then(function (filesystem) {
-        filesystem.root.getFile(path, options, q.resolve, q.reject);
-      }, q.reject);
-      return q.promise;
-    }
-
-    /*
-     * Returns a promise that will either be resolved with the File object associated with the requested
-     * absolute path, or rejected if an error occurs while trying to initialize that File object.
-     */
-    function getAbsoluteFile(path) {
-      var q = $q.defer();
-      $window.resolveLocalFileSystemURL(path, function (fileEntry) {
-        fileEntry.file(q.resolve, q.reject);
-      }, q.reject);
-      return q.promise;
-    }
-
-    /*
-     * Returns a promise that will either be resolved with the Directory object associated with
-     * the requested directory or rejected if an error occurs while atempting to access that directory.
-     */
-    function getDirectory(dir, options) {
-      var q = $q.defer();
-      getFilesystem().then(function (filesystem) {
-        filesystem.root.getDirectory(dir, options, q.resolve, q.reject);
-      }, q.reject);
-      return q.promise;
-    }
-
-    /*
-     * Returns a Promise that will be either resolved with the FileSystem object associated
-     * with the device's persistent file system and with 1MB of storage reserved for it,
-     * or rejected if an error occurs while trying to accessing the FileSystem
-     */
-    function getFilesystem() {
-      var q = $q.defer();
-      try {
-        $window.requestFileSystem($window.PERSISTENT, 1024 * 1024, q.resolve, q.reject);
-      } catch (err) {
-        q.reject(err);
-      }
-      return q.promise;
-    }
+    }];
   }]);
 
 // install   :      cordova plugin add https://github.com/pwlin/cordova-plugin-file-opener2
@@ -2119,7 +2505,7 @@ angular.module('ngCordova.plugins.fileTransfer', [])
       download: function (source, filePath, options, trustAllHosts) {
         var q = $q.defer();
         var ft = new FileTransfer();
-        var uri = options.encodeURI === false ? source : encodeURI(source);
+        var uri = (options && options.encodeURI === false) ? source : encodeURI(source);
 
         if (options && options.timeout !== undefined && options.timeout !== null) {
           $timeout(function () {
@@ -2132,6 +2518,10 @@ angular.module('ngCordova.plugins.fileTransfer', [])
           q.notify(progress);
         };
 
+        q.promise.abort = function () {
+          ft.abort();
+        };
+
         ft.download(uri, filePath, q.resolve, q.reject, trustAllHosts, options);
         return q.promise;
       },
@@ -2139,7 +2529,7 @@ angular.module('ngCordova.plugins.fileTransfer', [])
       upload: function (server, filePath, options, trustAllHosts) {
         var q = $q.defer();
         var ft = new FileTransfer();
-        var uri = options.encodeURI === false ? server : encodeURI(server);
+        var uri = (options && options.encodeURI === false) ? server : encodeURI(server);
 
         if (options && options.timeout !== undefined && options.timeout !== null) {
           $timeout(function () {
@@ -2879,6 +3269,287 @@ angular.module('ngCordova.plugins.googleMap', [])
     };
   }]);
 
+// install  :     cordova plugin add nl.x-services.plugins.googleplus
+// link     :     https://github.com/EddyVerbruggen/cordova-plugin-googleplus
+
+  angular.module('ngCordova.plugins.googleplus', [])
+
+  .factory('$cordovaGooglePlus', ['$q', '$window', function ($q, $window) {
+
+    return {
+      login: function(iosKey){
+          if(iosKey === undefined){
+            iosKey = {};
+          }
+          var q = $q.defer();
+          $window.plugins.googleplus.login(
+          {
+            'iOSApiKey': iosKey
+            // there is no API key for Android; you app is wired to the Google+ API by 
+            //listing your package name in the google dev console and signing your apk
+          },
+          function (response) {
+            q.resolve(response)
+          },
+          function (error) {
+           q.reject(error)
+          }
+        );
+
+        return q.promise;
+      },
+
+      silentLogin: function(iosKey){
+
+        if(iosKey === undefined){
+            iosKey = {};
+          }
+          var q = $q.defer();
+          $window.plugins.googleplus.trySilentLogin(
+          {
+            'iOSApiKey': iosKey
+            // there is no API key for Android; you app is wired to the Google+ API by 
+            //listing your package name in the google dev console and signing your apk
+          },
+          function (response) {
+            q.resolve(response)
+          },
+          function (error) {
+           q.reject(error)
+          }
+        );
+
+        return q.promise;
+      },
+
+      logout: function(){
+        var q = $q.defer();
+        $window.plugins.googleplus.logout(
+          function (response) {
+            q.resolve(response);
+          }
+        );
+      },
+
+      disconnect: function(){
+        var q = $q.defer();
+        $window.plugins.googleplus.disconnect(
+          function (response) {
+            q.resolve(response);
+          }
+        );
+      }
+    };
+
+  }]);
+
+// install   :      cordova plugin add https://github.com/Telerik-Verified-Plugins/HealthKit
+// link      :      https://github.com/Telerik-Verified-Plugins/HealthKit
+
+angular.module('ngCordova.plugins.healthKit', [])
+
+  .factory('$cordovaHealthKit', ['$q', '$window', function ($q, $window) {
+
+    return {
+      isAvailable: function () {
+        var q = $q.defer();
+
+        $window.plugins.healthkit.available(function (success) {
+          q.resolve(success);
+        }, function (err) {
+          q.reject(err);
+        });
+
+        return q.promise;
+      },
+
+      /**
+       * Request authorization to access HealthKit data. See the full HealthKit constants
+       * reference for possible read and write types:
+       * https://developer.apple.com/library/ios/documentation/HealthKit/Reference/HealthKit_Constants/
+       */
+      requestAuthorization: function (readTypes, writeTypes) {
+        var q = $q.defer();
+
+        readTypes = readTypes || [
+          'HKCharacteristicTypeIdentifierDateOfBirth', 'HKQuantityTypeIdentifierActiveEnergyBurned', 'HKQuantityTypeIdentifierHeight'
+        ];
+        writeTypes = writeTypes || [
+          'HKQuantityTypeIdentifierActiveEnergyBurned', 'HKQuantityTypeIdentifierHeight', 'HKQuantityTypeIdentifierDistanceCycling'
+        ];
+
+        $window.plugins.healthkit.requestAuthorization({
+          'readTypes': readTypes,
+          'writeTypes': writeTypes
+        }, function (success) {
+          q.resolve(success);
+        }, function (err) {
+          q.reject(err);
+        });
+
+        return q.promise;
+      },
+
+      readDateOfBirth: function () {
+        var q = $q.defer();
+        $window.plugins.healthkit.readDateOfBirth(
+          function (success) {
+            q.resolve(success);
+          },
+          function (err) {
+            q.resolve(err);
+          }
+        );
+
+        return q.promise;
+      },
+
+      readGender: function () {
+        var q = $q.defer();
+        $window.plugins.healthkit.readGender(
+          function (success) {
+            q.resolve(success);
+          },
+          function (err) {
+            q.resolve(err);
+          }
+        );
+
+        return q.promise;
+      },
+
+      saveWeight: function (value, units, date) {
+        var q = $q.defer();
+        $window.plugins.healthkit.saveWeight({
+            'unit': units || 'lb',
+            'amount': value,
+            'date': date || new Date()
+          },
+          function (success) {
+            q.resolve(success);
+          },
+          function (err) {
+            q.resolve(err);
+          }
+        );
+        return q.promise;
+      },
+
+      readWeight: function (units) {
+        var q = $q.defer();
+        $window.plugins.healthkit.readWeight({
+            'unit': units || 'lb'
+          },
+          function (success) {
+            q.resolve(success);
+          },
+          function (err) {
+            q.resolve(err);
+          }
+        );
+
+        return q.promise;
+      },
+      saveHeight: function (value, units, date) {
+        var q = $q.defer();
+        $window.plugins.healthkit.saveHeight({
+            'unit': units || 'in',
+            'amount': value,
+            'date': date || new Date()
+          },
+          function (success) {
+            q.resolve(success);
+          },
+          function (err) {
+            q.resolve(err);
+          }
+        );
+        return q.promise;
+      },
+      readHeight: function (units) {
+        var q = $q.defer();
+        $window.plugins.healthkit.readHeight({
+            'unit': units || 'in'
+          },
+          function (success) {
+            q.resolve(success);
+          },
+          function (err) {
+            q.resolve(err);
+          }
+        );
+
+        return q.promise;
+      },
+
+      findWorkouts: function () {
+        var q = $q.defer();
+        $window.plugins.healthkit.findWorkouts({},
+          function (success) {
+            q.resolve(success);
+          },
+          function (err) {
+            q.resolve(err);
+          }
+        );
+        return q.promise;
+      },
+
+      /**
+       * Save a workout.
+       *
+       * Workout param should be of the format:
+       {
+         'activityType': 'HKWorkoutActivityTypeCycling', // HKWorkoutActivityType constant (https://developer.apple.com/library/ios/documentation/HealthKit/Reference/HKWorkout_Class/#//apple_ref/c/tdef/HKWorkoutActivityType)
+         'quantityType': 'HKQuantityTypeIdentifierDistanceCycling',
+         'startDate': new Date(), // mandatory
+         'endDate': null, // optional, use either this or duration
+         'duration': 3600, // in seconds, optional, use either this or endDate
+         'energy': 300, //
+         'energyUnit': 'kcal', // J|cal|kcal
+         'distance': 11, // optional
+         'distanceUnit': 'km' // probably useful with the former param
+         // 'extraData': "", // Not sure how necessary this is
+       },
+       */
+      saveWorkout: function (workout) {
+        var q = $q.defer();
+        $window.plugins.healthkit.saveWorkout(workout,
+          function (success) {
+            q.resolve(success);
+          },
+          function (err) {
+            q.resolve(err);
+          }
+        );
+        return q.promise;
+      },
+
+      /**
+       * Sample any kind of health data through a given date range.
+       * sampleQuery of the format:
+       {
+									'startDate': yesterday, // mandatory
+									'endDate': tomorrow, // mandatory
+									'sampleType': 'HKQuantityTypeIdentifierHeight',
+									'unit' : 'cm'
+							},
+       */
+      querySampleType: function (sampleQuery) {
+        var q = $q.defer();
+        $window.plugins.healthkit.querySampleType(sampleQuery,
+          function (success) {
+            q.resolve(success);
+          },
+          function (err) {
+            q.resolve(err);
+          }
+        );
+        return q.promise;
+      }
+    };
+  }]);
+
 // install  :     cordova plugin add https://github.com/floatinghotpot/cordova-httpd.git
 // link     :     https://github.com/floatinghotpot/cordova-httpd
 
@@ -3159,6 +3830,51 @@ angular.module('ngCordova.plugins.inAppBrowser', [])
     }];
   }]);
 
+// install  :     cordova plugin add https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git
+// link     :     https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin
+angular.module('ngCordova.plugins.insomnia', [])
+
+  .factory('$cordovaInsomnia', ['$window', function ($window) {
+
+    return {
+      keepAwake: function () {
+        return $window.plugins.insomnia.keepAwake();
+      },
+      allowSleepAgain: function () {
+        return $window.plugins.insomnia.allowSleepAgain();
+      }
+    }
+
+  }]);
+// install   :   cordova plugins add https://github.com/vstirbu/InstagramPlugin
+// link      :   https://github.com/vstirbu/InstagramPlugin
+
+angular.module('ngCordova.plugins.instagram', [])
+
+.factory('$cordovaInstagram', ['$q', function ($q) {
+
+  return {
+    share: function (options) {
+      var q = $q.defer();
+
+      if (!window.Instagram) {
+        console.error('Tried to call Instagram.share but the Instagram plugin isn\'t installed!');
+        q.resolve(null);
+        return q.promise;
+      }
+
+      Instagram.share(options.image, options.caption, function(err) {
+        if(err) {
+          q.reject(err);
+        } else {
+          q.resolve(true);
+        }
+      });
+      return q.promise;
+    }
+  };
+}]);
+
 // install   :      cordova plugin add https://github.com/driftyco/ionic-plugins-keyboard.git
 // link      :      https://github.com/driftyco/ionic-plugins-keyboard
 
@@ -3231,51 +3947,53 @@ angular.module('ngCordova.plugins.keychain', [])
 angular.module('ngCordova.plugins.localNotification', [])
 
   .factory('$cordovaLocalNotification', ['$q', '$window', '$rootScope', '$timeout', function ($q, $window, $rootScope, $timeout) {
-    if ($window.plugin && $window.plugin.notification) {
-      $window.plugin.notification.local.oncancel = function (id, state, json) {
-        var notification = {
-          id: id,
-          state: state,
-          json: json
+    document.addEventListener("deviceready", function () {
+      if ($window.plugin && $window.plugin.notification) {
+        $window.plugin.notification.local.oncancel = function (id, state, json) {
+          var notification = {
+            id: id,
+            state: state,
+            json: json
+          };
+          $timeout(function () {
+            $rootScope.$broadcast("$cordovaLocalNotification:canceled", notification);
+          });
         };
-        $timeout(function () {
-          $rootScope.$broadcast("$cordovaLocalNotification:canceled", notification);
-        });
-      };
 
-      $window.plugin.notification.local.onclick = function (id, state, json) {
-        var notification = {
-          id: id,
-          state: state,
-          json: json
+        $window.plugin.notification.local.onclick = function (id, state, json) {
+          var notification = {
+            id: id,
+            state: state,
+            json: json
+          };
+          $timeout(function () {
+            $rootScope.$broadcast("$cordovaLocalNotification:clicked", notification);
+          });
         };
-        $timeout(function () {
-          $rootScope.$broadcast("$cordovaLocalNotification:clicked", notification);
-        });
-      };
 
-      $window.plugin.notification.local.ontrigger = function (id, state, json) {
-        var notification = {
-          id: id,
-          state: state,
-          json: json
+        $window.plugin.notification.local.ontrigger = function (id, state, json) {
+          var notification = {
+            id: id,
+            state: state,
+            json: json
+          };
+          $timeout(function () {
+            $rootScope.$broadcast("$cordovaLocalNotification:triggered", notification);
+          });
         };
-        $timeout(function () {
-          $rootScope.$broadcast("$cordovaLocalNotification:triggered", notification);
-        });
-      };
 
-      $window.plugin.notification.local.onadd = function (id, state, json) {
-        var notification = {
-          id: id,
-          state: state,
-          json: json
+        $window.plugin.notification.local.onadd = function (id, state, json) {
+          var notification = {
+            id: id,
+            state: state,
+            json: json
+          };
+          $timeout(function () {
+            $rootScope.$broadcast("$cordovaLocalNotification:added", notification);
+          });
         };
-        $timeout(function () {
-          $rootScope.$broadcast("$cordovaLocalNotification:added", notification);
-        });
-      };
-    }
+      }
+    }, false);
     return {
       add: function (options, scope) {
         var q = $q.defer();
@@ -3317,19 +4035,23 @@ angular.module('ngCordova.plugins.localNotification', [])
       hasPermission: function (scope) {
         var q = $q.defer();
         $window.plugin.notification.local.hasPermission(function (result) {
-          result ? q.resolve() : q.reject();
+          result ? q.resolve(result) : q.reject(result);
         }, scope);
         return q.promise;
       },
 
       promptForPermission: function () {
-        $window.plugin.notification.local.promptForPermission();
+        var q = $q.defer();
+        $window.plugin.notification.local.promptForPermission(function (result) {
+          result ? q.resolve(result) : q.reject(result);
+        });
+        return q.promise;
       },
 
       registerPermission: function () {
         var q = $q.defer();
         $window.plugin.notification.local.registerPermission(function (result) {
-          result ? q.resolve() : q.reject();
+          result ? q.resolve(result) : q.reject(result);
         });
         return q.promise;
       },
@@ -3544,6 +4266,8 @@ angular.module('ngCordova.plugins.media', [])
           media.stopRecord();
         };
 
+        q.promise.media = media;
+
         return q.promise;
       }
     };
@@ -3691,6 +4415,7 @@ angular.module('ngCordova.plugins', [
   'ngCordova.plugins.googleAds',
   'ngCordova.plugins.googleAnalytics',
   'ngCordova.plugins.googleMap',
+  'ngCordova.plugins.healthKit',
   'ngCordova.plugins.httpd',
   'ngCordova.plugins.iAd',
   'ngCordova.plugins.imagePicker',
@@ -3721,7 +4446,8 @@ angular.module('ngCordova.plugins', [
   'ngCordova.plugins.touchid',
   'ngCordova.plugins.vibration',
   'ngCordova.plugins.videoCapturePlus',
-  'ngCordova.plugins.zip'
+  'ngCordova.plugins.zip',
+  'ngCordova.plugins.insomnia'
 ]);
 
 // install  :     cordova plugin add https://github.com/floatinghotpot/cordova-plugin-mopub.git
@@ -3969,8 +4695,8 @@ angular.module('ngCordova.plugins.network', [])
       }
     };
   }])
-  .run(function ($cordovaNetwork) {
-  });
+  .run(['$cordovaNetwork', function ($cordovaNetwork) {
+  }]);
 
 /* Created by Nic Raboy
  * http://www.nraboy.com
@@ -3997,6 +4723,7 @@ angular.module('ngCordova.plugins.network', [])
  *    Magento
  *    vkontakte
  *    ADFS
+ *    Imgur
  */
 
 angular.module("ngCordova.plugins.oauth", ["ngCordova.plugins.oauthUtility"])
@@ -4444,13 +5171,13 @@ angular.module("ngCordova.plugins.oauth", ["ngCordova.plugins.oauthUtility"])
         },
 
         /*
-        * Sign into the Twitter service
-        * Note that this service requires jsSHA for generating HMAC-SHA1 Oauth 1.0 signatures
-        *
-        * @param    string clientId
-        * @param    string clientSecret
-        * @return   promise
-        */
+         * Sign into the Twitter service
+         * Note that this service requires jsSHA for generating HMAC-SHA1 Oauth 1.0 signatures
+         *
+         * @param    string clientId
+         * @param    string clientSecret
+         * @return   promise
+         */
         twitter: function(clientId, clientSecret) {
             var deferred = $q.defer();
             if(window.cordova) {
@@ -4465,64 +5192,77 @@ angular.module("ngCordova.plugins.oauth", ["ngCordova.plugins.oauthUtility"])
                             oauth_version: "1.0"
                         };
                         var signatureObj = $cordovaOauthUtility.createSignature("POST", "https://api.twitter.com/oauth/request_token", oauthObject,  { oauth_callback: "http://localhost/callback" }, clientSecret);
-                        $http.defaults.headers.post.Authorization = signatureObj.authorization_header;
-                        $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-                        $http({method: "post", url: "https://api.twitter.com/oauth/request_token", data: "oauth_callback=http://localhost/callback" })
-                        .success(function(requestTokenResult) {
-                            var requestTokenParameters = (requestTokenResult).split("&");
-                            var parameterMap = {};
-                            for(var i = 0; i < requestTokenParameters.length; i++) {
-                                parameterMap[requestTokenParameters[i].split("=")[0]] = requestTokenParameters[i].split("=")[1];
-                            }
-                            if(parameterMap.hasOwnProperty("oauth_token") === false) {
-                                deferred.reject("Oauth request token was not received");
-                            }
-                            var browserRef = window.open('https://api.twitter.com/oauth/authenticate?oauth_token=' + parameterMap.oauth_token, '_blank', 'location=no,clearsessioncache=yes,clearcache=yes');
-                            browserRef.addEventListener('loadstart', function(event) {
-                                if((event.url).indexOf("http://localhost/callback") === 0) {
-                                    var callbackResponse = (event.url).split("?")[1];
-                                    var responseParameters = (callbackResponse).split("&");
-                                    var parameterMap = {};
-                                    for(var i = 0; i < responseParameters.length; i++) {
-                                        parameterMap[responseParameters[i].split("=")[0]] = responseParameters[i].split("=")[1];
-                                    }
-                                    if(parameterMap.hasOwnProperty("oauth_verifier") === false) {
-                                        deferred.reject("Browser authentication failed to complete.  No oauth_verifier was returned");
-                                    }
-                                    delete oauthObject.oauth_signature;
-                                    oauthObject.oauth_token = parameterMap.oauth_token;
-                                    var signatureObj = $cordovaOauthUtility.createSignature("POST", "https://api.twitter.com/oauth/access_token", oauthObject,  { oauth_verifier: parameterMap.oauth_verifier }, clientSecret);
-                                    $http.defaults.headers.post.Authorization = signatureObj.authorization_header;
-                                    $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-                                    $http({method: "post", url: "https://api.twitter.com/oauth/access_token", data: "oauth_verifier=" + parameterMap.oauth_verifier })
-                                    .success(function(result) {
-                                        var accessTokenParameters = result.split("&");
-                                        var parameterMap = {};
-                                        for(var i = 0; i < accessTokenParameters.length; i++) {
-                                            parameterMap[accessTokenParameters[i].split("=")[0]] = accessTokenParameters[i].split("=")[1];
-                                        }
-                                        if(parameterMap.hasOwnProperty("oauth_token_secret") === false) {
-                                            deferred.reject("Oauth access token was not received");
-                                        }
-                                        deferred.resolve(parameterMap);
-                                    })
-                                    .error(function(error) {
-                                        deferred.reject(error);
-                                    })
-                                    .finally(function() {
-                                        setTimeout(function() {
-                                            browserRef.close();
-                                        }, 10);
-                                    });
-                                }
-                            });
-                            browserRef.addEventListener('exit', function(event) {
-                                deferred.reject("The sign in flow was canceled");
-                            });
+                        $http({
+                            method: "post",
+                            url: "https://api.twitter.com/oauth/request_token",
+                            headers: {
+                                "Authorization": signatureObj.authorization_header,
+                                "Content-Type": "application/x-www-form-urlencoded"
+                            },
+                            data: "oauth_callback=" + encodeURIComponent("http://localhost/callback")
                         })
-                        .error(function(error) {
-                            deferred.reject(error);
-                        });
+                            .success(function(requestTokenResult) {
+                                var requestTokenParameters = (requestTokenResult).split("&");
+                                var parameterMap = {};
+                                for(var i = 0; i < requestTokenParameters.length; i++) {
+                                    parameterMap[requestTokenParameters[i].split("=")[0]] = requestTokenParameters[i].split("=")[1];
+                                }
+                                if(parameterMap.hasOwnProperty("oauth_token") === false) {
+                                    deferred.reject("Oauth request token was not received");
+                                }
+                                var browserRef = window.open('https://api.twitter.com/oauth/authenticate?oauth_token=' + parameterMap.oauth_token, '_blank', 'location=no,clearsessioncache=yes,clearcache=yes');
+                                browserRef.addEventListener('loadstart', function(event) {
+                                    if((event.url).indexOf("http://localhost/callback") === 0) {
+                                        var callbackResponse = (event.url).split("?")[1];
+                                        var responseParameters = (callbackResponse).split("&");
+                                        var parameterMap = {};
+                                        for(var i = 0; i < responseParameters.length; i++) {
+                                            parameterMap[responseParameters[i].split("=")[0]] = responseParameters[i].split("=")[1];
+                                        }
+                                        if(parameterMap.hasOwnProperty("oauth_verifier") === false) {
+                                            deferred.reject("Browser authentication failed to complete.  No oauth_verifier was returned");
+                                        }
+                                        delete oauthObject.oauth_signature;
+                                        oauthObject.oauth_token = parameterMap.oauth_token;
+                                        var signatureObj = $cordovaOauthUtility.createSignature("POST", "https://api.twitter.com/oauth/access_token", oauthObject,  { oauth_verifier: parameterMap.oauth_verifier }, clientSecret);
+                                        $http({
+                                            method: "post",
+                                            url: "https://api.twitter.com/oauth/access_token",
+                                            headers: {
+                                                "Authorization": signatureObj.authorization_header
+                                            },
+                                            params: {
+                                                "oauth_verifier": parameterMap.oauth_verifier
+                                            }
+                                        })
+                                            .success(function(result) {
+                                                var accessTokenParameters = result.split("&");
+                                                var parameterMap = {};
+                                                for(var i = 0; i < accessTokenParameters.length; i++) {
+                                                    parameterMap[accessTokenParameters[i].split("=")[0]] = accessTokenParameters[i].split("=")[1];
+                                                }
+                                                if(parameterMap.hasOwnProperty("oauth_token_secret") === false) {
+                                                    deferred.reject("Oauth access token was not received");
+                                                }
+                                                deferred.resolve(parameterMap);
+                                            })
+                                            .error(function(error) {
+                                                deferred.reject(error);
+                                            })
+                                            .finally(function() {
+                                                setTimeout(function() {
+                                                    browserRef.close();
+                                                }, 10);
+                                            });
+                                    }
+                                });
+                                browserRef.addEventListener('exit', function(event) {
+                                    deferred.reject("The sign in flow was canceled");
+                                });
+                            })
+                            .error(function(error) {
+                                deferred.reject(error);
+                            });
                     } else {
                         deferred.reject("Missing jsSHA JavaScript library");
                     }
@@ -4850,13 +5590,54 @@ angular.module("ngCordova.plugins.oauth", ["ngCordova.plugins.oauthUtility"])
                                     parameterMap[responseParameters[i].split("=")[0]] = responseParameters[i].split("=")[1];
                                 }
                                 if(parameterMap.access_token !== undefined && parameterMap.access_token !== null) {
-                                    deferred.resolve({ access_token: parameterMap.access_token, expires_in: parameterMap.expires_in });
+                                    deferred.resolve({ access_token: parameterMap.access_token, expires_in: parameterMap.expires_in, user_id: parameterMap.user_id });
                                 } else {
                                     deferred.reject("Problem authenticating");
                                 }
                                 setTimeout(function() {
                                     browserRef.close();
                                 }, 10);
+                            }
+                        });
+                        browserRef.addEventListener('exit', function(event) {
+                            deferred.reject("The sign in flow was canceled");
+                        });
+                    } else {
+                        deferred.reject("Could not find InAppBrowser plugin");
+                    }
+                } else {
+                    deferred.reject("Cannot authenticate via a web browser");
+                }
+                return deferred.promise;
+            },
+
+            /*
+             * Sign into the Imgur service
+             *
+             * @param    string clientId
+             * @return   promise
+             */
+            imgur: function(clientId) {
+                var deferred = $q.defer();
+                if(window.cordova) {
+                    var cordovaMetadata = cordova.require("cordova/plugin_list").metadata;
+                    if(cordovaMetadata.hasOwnProperty("org.apache.cordova.inappbrowser") === true) {
+                        var browserRef = window.open('https://api.imgur.com/oauth2/authorize?client_id=' + clientId + '&response_type=token', '_blank', 'location=no,clearsessioncache=yes,clearcache=yes');
+                        browserRef.addEventListener('loadstart', function(event) {
+                            if((event.url).indexOf("http://localhost/callback") === 0) {
+                            	browserRef.removeEventListener("exit",function(event){});
+                            	browserRef.close();
+                                var callbackResponse = (event.url).split("#")[1];
+                                var responseParameters = (callbackResponse).split("&");
+                                var parameterMap = [];
+                                for(var i = 0; i < responseParameters.length; i++) {
+                                    parameterMap[responseParameters[i].split("=")[0]] = responseParameters[i].split("=")[1];
+                                }
+                                if(parameterMap.access_token !== undefined && parameterMap.access_token !== null) {
+                                    deferred.resolve({ access_token: parameterMap.access_token, expires_in: parameterMap.expires_in, account_username: parameterMap.account_username });
+                                } else {
+                                    deferred.reject("Problem authenticating");
+                                }
                             }
                         });
                         browserRef.addEventListener('exit', function(event) {
@@ -5139,7 +5920,7 @@ angular.module('ngCordova.plugins.push', [])
         var q = $q.defer();
         var injector;
         if (config !== undefined && config.ecb === undefined) {
-          if (angular.element(document.querySelector('[ng-app]')) === undefined) {
+          if (document.querySelector('[ng-app]') == null) {
             injector = "document.body";
           }
           else {
@@ -5215,6 +5996,9 @@ angular.module('ngCordova.plugins.socialSharing', [])
     return {
       share: function (message, subject, file, link) {
         var q = $q.defer();
+        subject = subject || null;
+        file = file || null;
+        link = link || null;
         $window.plugins.socialsharing.share(message, subject, file, link, function () {
           q.resolve(true);
         }, function () {
@@ -5225,6 +6009,8 @@ angular.module('ngCordova.plugins.socialSharing', [])
 
       shareViaTwitter: function (message, file, link) {
         var q = $q.defer();
+        file = file || null;
+        link = link || null;
         $window.plugins.socialsharing.shareViaTwitter(message, file, link, function () {
           q.resolve(true);
         }, function () {
@@ -5235,6 +6021,8 @@ angular.module('ngCordova.plugins.socialSharing', [])
 
       shareViaWhatsApp: function (message, file, link) {
         var q = $q.defer();
+        file = file || null;
+        link = link || null;
         $window.plugins.socialsharing.shareViaWhatsApp(message, file, link, function () {
           q.resolve(true);
         }, function () {
@@ -5245,6 +6033,9 @@ angular.module('ngCordova.plugins.socialSharing', [])
 
       shareViaFacebook: function (message, file, link) {
         var q = $q.defer();
+        message = message || null;
+        file = file || null;
+        link = link || null;
         $window.plugins.socialsharing.shareViaFacebook(message, file, link, function () {
           q.resolve(true);
         }, function () {
@@ -5253,9 +6044,11 @@ angular.module('ngCordova.plugins.socialSharing', [])
         return q.promise;
       },
 
-      shareViaFacebookWithPasteMessageHint: function (message, file, url, pasteMessageHint) {
+      shareViaFacebookWithPasteMessageHint: function (message, file, link, pasteMessageHint) {
         var q = $q.defer();
-        $window.plugins.socialsharing.shareViaFacebookWithPasteMessageHint(message, file, url, pasteMessageHint, function () {
+        file = file || null;
+        link = link || null;
+        $window.plugins.socialsharing.shareViaFacebookWithPasteMessageHint(message, file, link, pasteMessageHint, function () {
           q.resolve(true);
         }, function () {
           q.reject(false);
@@ -5275,6 +6068,10 @@ angular.module('ngCordova.plugins.socialSharing', [])
 
       shareViaEmail: function (message, subject, toArr, ccArr, bccArr, fileArr) {
         var q = $q.defer();
+        toArr = toArr || null;
+        ccArr = ccArr || null;
+        bccArr = bccArr || null;
+        fileArr = fileArr || null;
         $window.plugins.socialsharing.shareViaEmail(message, subject, toArr, ccArr, bccArr, fileArr, function () {
           q.resolve(true);
         }, function () {
@@ -5285,6 +6082,10 @@ angular.module('ngCordova.plugins.socialSharing', [])
 
       shareVia: function (via, message, subject, file, link) {
         var q = $q.defer();
+        message = message || null;
+        subject = subject || null;
+        file = file || null;
+        link = link || null;
         $window.plugins.socialsharing.shareVia(via, message, subject, file, link, function () {
           q.resolve(true);
         }, function () {
@@ -5311,6 +6112,18 @@ angular.module('ngCordova.plugins.socialSharing', [])
           q.reject(error);
         });
         return q.promise;
+      },
+
+      available: function () {
+        var q = $q.defer();
+        window.plugins.socialsharing.available(function (isAvailable) {
+          if (isAvailable) {
+            q.resolve();
+          }
+          else {
+            q.reject();
+          }
+        });
       }
     };
   }]);

@@ -1,5 +1,5 @@
 /* Services */
-var bleServices = angular.module('bleServices', [ 'bleFilters', 'bcmsServices', 'LocalForageModule']);
+var bleServices = angular.module('bleServices', [ 'bleFilters', 'bcmsServices']);
 
 bleServices
 /*Constants for the bleDeviceService*/

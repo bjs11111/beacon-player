@@ -1,5 +1,5 @@
 /* Services */
-var bcmsServices = angular.module('bcmsServices', ['LocalForageModule', 'bleServices']);
+var bcmsServices = angular.module('bcmsServices', ['bleServices']);
 
 bcmsServices
 
@@ -82,7 +82,6 @@ bcmsServices
 	
 	//notice use only function name without () on the right side
 	return {
-		// fetch beacons form cms and store it with local forge
 		refreshBeaconList 	: refreshBeaconList,
 	};
 	
