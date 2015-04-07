@@ -62,21 +62,7 @@ beaconPlayerApp.config(
 	    		controller: 'ScanningRecentlyseenCtrl'
 	    	}
 	    }
-	  })
-	  
-	   .state('app.scanning-ibeacon', {
-	   url:'/scanning-ibeacon',
-	    views: {
-	    	'mainContent': {
-		  		templateUrl: 'app/components/scanning_ibeacon/scanning-recentlyseen.html',
-	    		controller: 'ScanningIbeaconRecentlyseenCtrl'
-	    	}
-	    }
-	  })
-	  
-	  
-
-	  ;
+	  });
 
 }]);
 	    
