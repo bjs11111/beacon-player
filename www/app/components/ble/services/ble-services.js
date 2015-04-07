@@ -465,10 +465,11 @@ bleServices
 	var delegate = undefined;
 	
 	//array of uuids of bcms
-	var iBeaconRanges = {
+	var iBeaconRanges = [
 		//Estimote Beacon factory UUID.
-		'B9407F30-F5F8-466E-AFF9-25556B57FE6D' : false
-	};
+		{ "uuid"			: 'B9407F30-F5F8-466E-AFF9-25556B57FE6D',
+		  "registered" 	: false}
+	];
 	//filter returns false if invalif iiud
 	var iBeaconUuidToHex 	= $filter('iBeaconUuidToHex');
 	
@@ -494,11 +495,22 @@ bleServices
   
     //add uuid to range
      var addIBeaconRange = function(uuid) {
+    	 
+    	var isInList = false;
 		 //
 		 if( iBeaconUuidToHex(uuid) !== false ) {
-			 if( iBeaconRanges[uuid] != false || iBeaconRanges[uuid] !== true ) {
-				 iBeaconRanges[uuid] = false;
+			 
+			 for (var i in iBeaconRanges) {
+				 if(iBeaconRanges[i].uuid == uuid) {
+					 isInList = true
+				 }
+	    	 }
+			 
+			 if(isInList === false) {
+					 iBeaconRanges.push({'uuid' : uuid, registered : false});
 			 }
+			 
+			
 	     }
 	}
 		  
@@ -584,12 +596,13 @@ bleServices
 					
 				}
 				*/
+				console.log(iBeaconRanges); 
 				var i = 0;
 				// Start monitoring and ranging beacons.
-				for (var uuid in iBeaconRanges) {
-					i++;  
+				for (var i in iBeaconRanges) {
+					
 					/*
-					var beaconRegion = new locationManager.BeaconRegion(i,uuid);
+					var beaconRegion = new locationManager.BeaconRegion(i+1,iBeaconRanges[i].uuid);
 					// Start ranging.
 					locationManager.startRangingBeaconsInRegion(beaconRegion)
 						.fail(console.error)
@@ -600,8 +613,9 @@ bleServices
 						.fail(console.error)
 						.done();
 					*/
-					
-					iBeaconRanges[uuid] = true;
+					console.log(iBeaconRanges[i]['registered']); 
+					iBeaconRanges[i]['registered'] = true;
+					i++;  
 				}
 				
 				setBleScannerState(true);
