@@ -264,7 +264,7 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     			$cordovaInAppBrowser.insertCSS({
     			      code: "body,\
     			      		body.page-b-i { \
-    			      		padding-bottom: 90px !important;\
+    			      		padding-bottom: 50px !important;\
     			      		}"
     			});
 
