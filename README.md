@@ -1,6 +1,6 @@
 #beacon-player
 The beacon player app is the client app for the great BCMS platform of [tokencube](http://www.tokencube.com). 
-Tokencube is one of the [netidee]( http://www.netidee.at) projects of 2014.
+Tokencube is one of the [netidee]( http://www.netidee.at) projects of 2014. 
 [netidee](https://www.netidee.at/fileadmin/www.netidee.at/template/main/images/logo_start.gif "www.netidee.at")
 
 Both, the platform source and the app source are completely open source. We also provide free access to [tokencube](http://www.tokencube.com) and the basic account has the full number of available features.
