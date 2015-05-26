@@ -4,13 +4,35 @@
       Help
   	</ion-nav-title>
   	
-  	<ion-content class="has-header">
+  	<!--  <ion-content class="has-header">
   	
 	    <div class="gigant">
 	    	  <i class="positive gigant icon icon ion-radio-waves"></i>
 	    	 <h2>Tap the <i class="positive icon icon ion-radio-waves"></i> symbol in the upper right corner to start and stop scanning for beacons</h2>
 	    </div>
 	    
-  	</ion-content>
+  	</ion-content> -->
+
+  	   <ion-slide-box class="slider has-header" ng-class="has-message" show-pager="true"  on-slide-changed="slideChanged(index)">
+		   <ion-slide>
+		      <h1>Get the beacons</h1>
+				<h3 class="padding">I want to <a href="http://www.tokencube.com/shop.html">get it</a> now!</h3>
+			
+				<img class="fullscreen-image" src="images/beacons.jpeg" />
+				
+				
+		   </ion-slide>
+		   <ion-slide>
+		      <h1>Sing up for free</h1>
+				<h3 class="padding">Sign up at <a href="http://www.beaconplayer.com">beaconplayer.com</a>!</h3>
+				<img class="fullscreen-image" src="images/bcms.jpeg" />
+		   </ion-slide>
+		   <ion-slide>
+		      <h1>Start scanning and enjoy!</h1>
+			  <h3>Tap the <i class="positive icon icon ion-radio-waves"></i> symbol in the upper right corner to start and stop scanning for beacons</h3>
+		   </ion-slide>
+		   
+	   </ion-slide-box>
+
 
 </ion-view>
