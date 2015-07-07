@@ -7096,6 +7096,6 @@ i#start-icon {
   left: 0;
   margin: auto;
   overflow: auto;
-  position: fixed;
+  z-index: -1;
   right: 0;
   top: 0; }
