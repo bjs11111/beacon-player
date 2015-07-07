@@ -10,7 +10,7 @@ var beaconPlayerApp = angular.module('beaconPlayerApp', [ 'ionic',
                                                           //custom general components (direvtives filters, services, constants)... 
                                               
                                                           //components sites
-                                                         'help.controllers', 'scanning.controllers', 'scanning.ibeacon.controllers']);
+                                                         'help.controllers', 'scanning.controllers', 'contentScanning.controllers', 'scanning.ibeacon.controllers']);
 
 beaconPlayerApp.config(
 			[ '$stateProvider', '$urlRouterProvider',   '$ionicConfigProvider',    
@@ -57,12 +57,26 @@ beaconPlayerApp.config(
 	   url:'/scanning',
 	    views: {
 	    	'mainContent': {
-	    		 url: '/beacons',
+	    		//url: '/beacons',
 		  		templateUrl: 'app/components/scanning/scanning-recentlyseen.html',
 	    		controller: 'ScanningRecentlyseenCtrl'
 	    	}
 	    }
-	  });
+	  })
+	  
+	   .state('app.content-scanning', {
+	   url:'/content-scanning',
+	    views: {
+	    	'mainContent': {
+	    		//url: '/beacons',
+		  		templateUrl: 'app/components/content-scanning/content-scanning.html',
+	    		controller: 'contentScanningCtrl'
+	    	}
+	    }
+	  })
+	  
+	 
+	  ;
 
 }]);
 	    

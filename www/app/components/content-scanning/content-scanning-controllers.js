@@ -1,13 +1,13 @@
 /* Controllers of start component */
 //______________________________________________________________________________________
 
-var scanningControllers = angular.module('scanning.controllers', ['bleServices', 'bcmsServices', 'ngCordova']);
+var contentScanningControllers = angular.module('contentScanning.controllers', ['bleServices', 'bcmsServices', 'ngCordova']);
 
 
 
-scanningControllers
+contentScanningControllers
 /**/
-.constant("scanningControllersConfig", {
+.constant("contentScanningControllersConfig", {
 	
 	iabOpenVibratePattern : [100, 100, 100],
 	iabOpenVibrateTime : 100,
@@ -20,58 +20,13 @@ scanningControllers
 })
 
 /* Scanning Controllers */
-scanningControllers.controller( 'ScanningRecentlyseenCtrl', 
+contentScanningControllers.controller( 'contentScanningCtrl', 
 				//@TODO check dependncies because if order changes problem occours
-				['$dummyScanner', '$rootScope', '$scope', '$filter', 'scanningControllersConfig', 'bleNotificationChannel', 'bcmsAjaxServiceConfig', '$cordovaEvothingsBLE', 'bleDeviceServiceConfig', 'bleDeviceService', '$ionicPlatform', '$cordovaNetwork', '$cordovaInAppBrowser', '$cordovaVibration',
-         function($dummyScanner,   $rootScope ,  $scope,   $filter,   scanningControllersConfig,   bleNotificationChannel,   bcmsAjaxServiceConfig,   $cordovaEvothingsBLE,   bleDeviceServiceConfig,   bleDeviceService,   $ionicPlatform,   $cordovaNetwork,   $cordovaInAppBrowser,   $cordovaVibration) {
-		
-					$scope.offset 		= 3000,
-					$scope.delay 		= 1000,
-					$scope.stepBreak 	= 1000;
-					$scope.platforms 	= $dummyScanner.getPlatformTypes();
-					$scope.fakePlatform = 'IOS';
-					
-					$scope.iBeaconRanges = $cordovaEvothingsBLE.getIBeaconRanges();
-					
-					$scope.setPlatform = function(platform) {
-						$dummyScanner.setFakePlatform(platform);
-					}
-					
-					$scope.allInOut = function(offset, delay,stepBreak) {
-						$dummyScanner.nearFarIntermediateBeaconEntersNagativeAndExiteAlleOneTime(offset, delay,stepBreak);
-					};
-					
-					$scope.nearPositiveInOut = function(delay,stepBreak) {
-						console.log($scope.stepBreak); 
-						$dummyScanner.nearBeaconEntersPositiveAndExit(delay,stepBreak);	
-					}
-					
-					$scope.nearInOut = function(delay,stepBreak) {
-						console.log($scope.stepBreak); 
-						$dummyScanner.nearBeaconEntersNagativeAndExiteOneTime(delay,stepBreak);
-					}
-					
-					$scope.intermediateInOut = function(delay,stepBreak) {
-						$dummyScanner.intermediateBeaconEntersNagativeAndExiteOneTime(delay,stepBreak);
-					};
-					
-					$scope.farInOut = function(delay,stepBreak) {
-						$dummyScanner.farBeaconEntersNagativeAndExiteOneTime(delay,stepBreak);
-					}
-					
-					$scope.startDummyScanning = function() {
-						$dummyScanner.startDummyDeviceFoundLoopWithSetInterval();
-					};
-					
-					$scope.stopDummyScanning = function() {
-						$dummyScanner.stopDummyDeviceFoundLoopWithSetInterval();
-					};
-				
+				[ '$rootScope', '$scope', '$filter', 'contentScanningControllersConfig', 'bleNotificationChannel', 'bcmsAjaxServiceConfig', '$cordovaEvothingsBLE', 'bleDeviceServiceConfig', 'bleDeviceService', '$ionicPlatform', '$cordovaNetwork', '$cordovaInAppBrowser', '$cordovaVibration',
+         function( $rootScope ,  $scope,   $filter,   contentScanningControllersConfig,   bleNotificationChannel,   bcmsAjaxServiceConfig,   $cordovaEvothingsBLE,   bleDeviceServiceConfig,   bleDeviceService,   $ionicPlatform,   $cordovaNetwork,   $cordovaInAppBrowser,   $cordovaVibration) {
 
 		//filter to validate the cmsBeaconKey
 	    var bcmsBeaconKeyToObj = null;
-		
-	    
 		
 		var handleSituation = function(deviceData) {
 			//console.log('SCANTEST: handleSituation');
@@ -136,9 +91,9 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     		if(bcmsBeaconKeyToObj(key) != false) {
 
     			var newItem 	= bleDeviceService.getKnownDevice(key);
-    		
+    			
     			//just update scanned and registred devices
-    			if(!newItem.scanData) { return; }	
+    			if(!newItem.scanData || !newItem.bcmsBeacon) { return; }	
     			
     			var currentItem = $scope.receivedDevicesList[key];
     				currentItem = (currentItem)? currentItem : false;
@@ -148,17 +103,14 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     			//item is not in list 
     			//add item to list
     			if(!currentItem) {
-    				 
     					updatedItem  = angular.extend({}, updatedItem, newItem);
-    					console.log('scanTest'); 
-    					if(newItem.bcmsBeacon) {
-	    					//add triggerhandling values
-	    					updatedItem.scanData.alreadyTriggered 	= false;
-	    					updatedItem.scanData.lastTriggerArea 	= bleDeviceServiceConfig.triggerAreas.outOfRange;
-	    					updatedItem.scanData.actualTriggerArea 	= bleDeviceService.calculateActualTriggerArea(updatedItem);	
-	    					updatedItem.scanData.lastRssiValue		= -100;
-	    					console.log('scanTest',key );
-    					}
+    					
+    					//add triggerhandling values
+    					updatedItem.scanData.alreadyTriggered 	= false;
+    					updatedItem.scanData.lastTriggerArea 	= bleDeviceServiceConfig.triggerAreas.outOfRange;
+    					updatedItem.scanData.actualTriggerArea 	= bleDeviceService.calculateActualTriggerArea(updatedItem);	
+    					updatedItem.scanData.lastRssiValue		= -100;
+    					
     					$scope.receivedDevicesList[key] 		= updatedItem;
     					
     					$scope.updateListLength();
@@ -172,9 +124,10 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
 				 updatedItem.scanData.lastTriggerArea 		= currentItem.scanData.actualTriggerArea;
    				 updatedItem.scanData.actualTriggerArea 	= bleDeviceService.calculateActualTriggerArea(updatedItem); 
    				 updatedItem.scanData.lastRssiValue			= updatedItem.scanData.rssi;
+   				 updatedItem.rssi							= updatedItem.scanData.rssi;
    				 
    				 $scope.receivedDevicesList[key] 			= updatedItem; 
-   				 $scope.$apply();
+   				 
     			}
 
     			handleSituation(updatedItem);
@@ -188,7 +141,7 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
       		//console.log('init'); 
       		bcmsBeaconKeyToObj = $filter('bcmsBeaconKeyToObj');
       		
-    		$scope.msBeforeBeaconIsOld = scanningControllersConfig.msBeforeBeaconIsOld
+    		$scope.msBeforeBeaconIsOld = contentScanningControllersConfig.msBeforeBeaconIsOld
       		
 			bleNotificationChannel.onKnownDeviceUpdated($scope, onKnownDeviceUpdatedHandler );
 	        
@@ -243,11 +196,11 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
 	    		
 	    		//vibrate for content
     			//$cordovaVibration.cancelVibration();
-    			$cordovaVibration.vibrate(scanningControllersConfig.iabOpenVibrateTime);
+    			$cordovaVibration.vibrate(contentScanningControllersConfig.iabOpenVibrateTime);
 	    		
 	    		//open iab with beacon content url
     			$cordovaInAppBrowser
-    			    .open(pathToContent, '_blank', scanningControllersConfig.iabDefaultSettings)
+    			    .open(pathToContent, '_blank', contentScanningControllersConfig.iabDefaultSettings)
     			    .then(
     			    	// success	
     			    	function(event) {
