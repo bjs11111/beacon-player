@@ -22,7 +22,12 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
+// Help
 @import "www/app/components/help/scss/help.scss";
 
+// Tour
+@import "www/app/components/tour/scss/tour.scss";
 
+// Scanner
+@import "www/app/components/scanning/scss/scanning.scss";
 
