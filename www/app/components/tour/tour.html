@@ -10,7 +10,6 @@
   
   	<ion-content class="has-header">
    
-
 	<h2 class="text-center positive padding-vertical" ng-show="listLength == 0">nothing found...</h2>
  	
  	<ion-refresher on-refresh="refreshServerData('pullToRefresh')"></ion-refresher>
@@ -18,21 +17,15 @@
  	
  	<h1>Nearest Beacons:</h1>
  	
- 	
-
-	  
-
-
-		<div ng-repeat="device in receivedDevicesList | orderBy:-sort" 
+ 		<!-- Beacon list -->
+		<div class="listContainer" ng-repeat="device in receivedDevicesList | orderBy:-sort" 
                   href="#" 
                   class=" item-icon-right "
                   ng-class="device.bcmsBeacon.contentThumbnailUrl?'item-avatar':'item-icon-left'"> 
                   
-                  <!-- First Beacon in List -->
+                  <!-- First beacon in list -->
                   <div ng-if="$index == 0">
-                  	
-                  			<div class="row">
-							  <div class="col">
+                  				<a href="http://www.starnberger.at/dev-bcms/b-i/{{device.bcmsBeaconKey}}?ajax=1">
 									<div class="box-big ">
 										
 										<div class="arrowbox-bottom-big">
@@ -47,15 +40,15 @@
 											<div class="clear"></div>
 										</div>
 									</div>
-								</div>
-							</div>
-                  
-                  
-                  
+								</a>
                   </div>
+                  
+                  
+                  <!-- All other beacon in list -->
                   <div ng-if="$index != 0">
                   		
 								  <div class="box-small-container">
+								  		<a href="http://www.starnberger.at/dev-bcms/b-i/{{device.bcmsBeaconKey}}?ajax=1">
 								    	<div class="box-small">
 											<div class="arrowbox-bottom-small">
 												<img src="{{device.bcmsBeacon.contentThumbnailUrl}}" />
@@ -67,22 +60,19 @@
 												<div class="clear"></div>
 											</div>
 										</div>
-								  </div>
-                  		
-                  		
-                  							
+										</a>
+								  </div>		
 				</div>
-                  
-          
  		</div>
  	
  	
  		<div class="clear"></div>
- 	 	
- 	
-	
-
-
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
   </ion-content>
   
   
