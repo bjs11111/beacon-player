@@ -20,9 +20,7 @@ tourControllers.constant("tourCtrlConfig", {
 tourControllers.controller( 'tourCtrl', [ '$scope',
 		function($scope) {
 	
-	
-
-		$scope.receivedDevicesList=[
+		$scope.showDeviceList=[
 		                            {	bcmsBeaconKey:"699EBC80-E1F3-11E3-9A0F-0CF3EE3BC012.1.1",
 		                            	contentTitle:"Beacon1",
 		                            	contentThumbnailUrl:"http://www.starnberger.at/dev-bcms/sites/default/files/styles/thumblail_cut_100_100/public/content/bild/108/108771-em-ble-beaconblebeacon.jpg?itok=MqqPjhUF",
@@ -62,9 +60,7 @@ tourControllers.controller( 'tourCtrl', [ '$scope',
 		                            	triggerZone:"Near",
 		                            	rssi:-65,
 		                            	sort:1
-		                            },
-		
-		
+		                            }
 		];
 
 }]);
