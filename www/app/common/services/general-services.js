@@ -189,15 +189,28 @@ generalServices.factory('generalService', ['$rootScope', '$ionicPlatform', '$ion
 		
 		$rootScope.$on('$cordovaInAppBrowser:loadstart', function(e, event){
 			var url = event.url;
-			if (url.indexOf("close-iab") != -1) { $cordovaInAppBrowser.close();  } 
-		});
+			if (url.indexOf("close-iab") != -1) { 
+				$cordovaInAppBrowser.close();  
+				iabIsOpen = false;  
+			} 
+		}); 
+		
+		 $rootScope.$on('$cordovaInAppBrowser:loaderror', function(e, event){
+			 $cordovaInAppBrowser.close();  
+			 iabIsOpen = false;  
+		  });
+
+		  $rootScope.$on('$cordovaInAppBrowser:exit', function(e, event){
+			  iabIsOpen = false;  
+		  });
 	};
 		
 	// return the publicly accessible methods
 	return {
 		qrSuccessCallback 	: qrSuccessCallback,
 		qrErrorCallback 	: qrErrorCallback,
-		openIAB 			: openIAB
+		openIAB 			: openIAB,
+		openIABWithKey 		: openIABWithKey
 	}
 	
 }]);

@@ -22,7 +22,7 @@
                   
                   <!-- First beacon in list -->
                   <div ng-if="$index == 0">
-                  				<a href="#" ng-click="openIAB(device.bcmsBeaconKey)">
+                  				<a href="#" ng-click="openIABWithKey(device.bcmsBeaconKey)">
 									<div class="box-big ">
 										
 										<div class="arrowbox-bottom-big">
@@ -45,7 +45,7 @@
                   <div ng-if="$index != 0">
                   		
 								  <div class="box-small-container">
-								  		<a href="#" ng-click="openIAB(device.bcmsBeaconKey)">
+								  		<a href="#" ng-click="openIABWithKey(device.bcmsBeaconKey)">
 								    	<div class="box-small">
 											<div class="arrowbox-bottom-small">
 												<img src="{{device.contentThumbnailUrl}}" />

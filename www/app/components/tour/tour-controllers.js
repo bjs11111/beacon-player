@@ -1,7 +1,7 @@
 /* Controllers of tour component */
 //______________________________________________________________________________________
 
-var tourControllers = angular.module('tourControllers', []);
+var tourControllers = angular.module('tourControllers', ['generalServices']);
 
 /* Tour Controllers Config*/
 tourControllers.constant("tourCtrlConfig", {
@@ -17,10 +17,12 @@ tourControllers.constant("tourCtrlConfig", {
 });
 
 /* Tour Controllers */
-tourControllers.controller( 'tourCtrl', [ '$scope',
-		function($scope) {
+tourControllers.controller( 'tourCtrl', [ '$scope', 'generalService',
+                                  function($scope,   generalService) {
 	
-		$scope.showDeviceList=[
+	$scope.openIABWithKey = generalService.openIABWithKey;
+
+	$scope.showDeviceList=[
 		                            {	bcmsBeaconKey:"699EBC80-E1F3-11E3-9A0F-0CF3EE3BC012.1.1",
 		                            	contentTitle:"Beacon1",
 		                            	contentThumbnailUrl:"http://www.starnberger.at/dev-bcms/sites/default/files/styles/thumblail_cut_100_100/public/content/bild/108/108771-em-ble-beaconblebeacon.jpg?itok=MqqPjhUF",
@@ -31,7 +33,7 @@ tourControllers.controller( 'tourCtrl', [ '$scope',
 		                            	rssi:-65,
 		                            	sort:4
 		                            },
-		                            {	bcmsBeaconKey:"699EBC80-E1F3-11E3-9A0F-0CF3EE3BC012.1.2",
+		                            {	bcmsBeaconKey:"699EBC80-E1F3-11E3-9A0F-0CF3EE3BC012.1.1",
 		                            	contentTitle:"Beacon2",
 		                            	contentThumbnailUrl:"http://www.starnberger.at/dev-bcms/sites/default/files/styles/thumblail_cut_100_100/public/content/bild/108/108771-em-ble-beaconblebeacon.jpg?itok=MqqPjhUF",
 		                            	uuid:"699EBC80-E1F3-11E3-9A0F-0CF3EE3BC012",
@@ -41,7 +43,7 @@ tourControllers.controller( 'tourCtrl', [ '$scope',
 		                            	rssi:-65,
 		                            	sort:2
 		                            },
-		                            {	bcmsBeaconKey:"699EBC80-E1F3-11E3-9A0F-0CF3EE3BC012.1.3",
+		                            {	bcmsBeaconKey:"699EBC80-E1F3-11E3-9A0F-0CF3EE3BC012.1.1",
 		                            	contentTitle:"Beacon3",
 		                            	contentThumbnailUrl:"http://www.starnberger.at/dev-bcms/sites/default/files/styles/thumblail_cut_100_100/public/content/bild/108/108771-em-ble-beaconblebeacon.jpg?itok=MqqPjhUF",
 		                            	uuid:"699EBC80-E1F3-11E3-9A0F-0CF3EE3BC012",
@@ -51,7 +53,7 @@ tourControllers.controller( 'tourCtrl', [ '$scope',
 		                            	rssi:-65,
 		                            	sort:3
 		                            },
-		                            {	bcmsBeaconKey:"699EBC80-E1F3-11E3-9A0F-0CF3EE3BC012.1.4",
+		                            {	bcmsBeaconKey:"699EBC80-E1F3-11E3-9A0F-0CF3EE3BC012.1.1",
 		                            	contentTitle:"Beacon4",
 		                            	contentThumbnailUrl:"http://www.starnberger.at/dev-bcms/sites/default/files/styles/thumblail_cut_100_100/public/content/bild/108/108771-em-ble-beaconblebeacon.jpg?itok=MqqPjhUF",
 		                            	uuid:"699EBC80-E1F3-11E3-9A0F-0CF3EE3BC012",
