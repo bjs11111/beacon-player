@@ -7043,9 +7043,12 @@ a.button {
   font-size: 1em;
   font-weight: bold; }
 
+#tourView .listContainer {
+  margin-right: 10px; }
+
 /*	Big Box*/
 #tourView .box-big {
-  cursor: pointer;
+  margin: 10px 0 10px 10px;
   border-radius: 7px;
   background-color: white;
   text-align: center;
@@ -7103,10 +7106,24 @@ a.button {
   border-width: 40px;
   margin-left: -40px; }
 
+#tourView .item-icon-left {
+  padding-left: 0px; }
+
 /*	Small Box */
+#tourView .box-small-container {
+  float: left;
+  width: 50%;
+  padding: 0 0 10px 10px; }
+
+#tourView .item-avatar, #tourView .item-avatar .item-content, #tourView .item-avatar-left, #tourView .item-avatar-left .item-content {
+  min-height: 0px;
+  padding-left: 0px; }
+
+#tourView .item-icon-right {
+  padding-right: 0px; }
+
 #tourView .box-small {
   width: 100%;
-  cursor: pointer;
   border-radius: 7px;
   background-color: white;
   text-align: center;
