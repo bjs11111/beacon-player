@@ -3,12 +3,19 @@
 		h1									{margin: 25px 15px 0 15px; font-size:1em;font-weight:bold;}
 		.box-big							{cursor:pointer;border-radius: 7px;background-color: white; text-align: center; border: 2px solid #B2B2B2;}
 		.box-big img						{border-top-left-radius: 6px;border-top-right-radius: 6px;width:100%;}
-		.box-big h2							{padding: 0 15px; color:#333333; font-size:1.6em; margin-top:10px;}
+		.box-big h2							{padding: 0 15px; color:#333333; font-size:1.2em; margin-top:10px;}
+		.box-big .debugInfo					{padding:10px;background: black;opacity:0.5; width:100%; color:white;font-size:1em;border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;}	
+		.box-big .debugInfo .rssi			{float:left;}
+		.box-big .debugInfo .radius			{float:right;}	
 			
 		.box-small							{width:100%;cursor:pointer; border-radius: 7px;background-color: white; text-align: center; border: 2px solid #B2B2B2;}
 		.box-small img						{border-top-left-radius: 6px;border-top-right-radius: 6px;width:100%;}
-		.box-small h2						{font-size:1.2em; padding: 0px 15px;color:#333333; margin-top:10px;margin-bottom:7px;}
-			
+		.box-small h2						{font-size:1em; padding: 0px 15px;color:#333333; margin-top:10px;margin-bottom:7px;}
+		.box-small .debugInfo				{padding:10px;background: black;opacity:0.5; width:100%; color:white;font-size:0.8em;border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;}	
+		.box-small .debugInfo .rssi			{float:left;}
+		.box-small .debugInfo .radius		{float:right;}	
+		
+		.hideDebugInfo						{display:none;}	
 		.truncate 							{width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
 		.clear								{clear:both;}
 		.ion-image							{padding-right:10px;}
@@ -44,7 +51,7 @@
  	<ion-refresher on-refresh="refreshServerData('pullToRefresh')"></ion-refresher>
  	
 
-	<h1>Nearest Beacon:</h1>
+	<h1>Nearest Beacons:</h1>
 	
 	<div class="row">
 	  <div class="col">
@@ -56,12 +63,17 @@
 				
 				
 				<h2 class="truncate">Tokencube Besprechungsraum Tokencube Besprechungsraum</h2>
+				<div class="debugInfo hideDebugInfo">
+					<div class="rssi">-64dBm</div>
+					<div class="radius">Intermediate</div>
+					<div class="clear"></div>
+				</div>
 			</div>
 		</div>
 	</div>
 
 	
-	<h1>Other Beacons:</h1>
+
 	
 	
 	
@@ -74,6 +86,11 @@
 						<img src="images/beacons.jpeg" />
 					</div>
 					<h2 class="truncate">Tokencube Besprechungsraum Tokencube Besprechungsraum</h2>
+					<div class="debugInfo hideDebugInfo">
+						<div class="rssi">-64dBm</div>
+						<div class="radius">Intermediate</div>
+						<div class="clear"></div>
+					</div>
 				</div>
 		  </div>
 	  
@@ -84,6 +101,11 @@
 						<img src="images/beacons.jpeg" />
 					</div>
 					<h2 class="truncate">Tokencube Besprechungsraum Tokencube Besprechungsraum</h2>
+					<div class="debugInfo">
+						<div class="rssi">-64dBm</div>
+						<div class="radius">Intermediate</div>
+						<div class="clear"></div>
+					</div>					
 				</div>
 		  </div>
 	</div>	
@@ -95,6 +117,11 @@
 						<img src="images/beacons.jpeg" />
 					</div>
 					<h2 class="truncate">Tokencube Besprechungsraum Tokencube Besprechungsraum</h2>
+					<div class="debugInfo">
+						<div class="rssi">-64dBm</div>
+						<div class="radius">Intermediate</div>
+						<div class="clear"></div>
+					</div>					
 				</div>
 		  </div>
 	  
@@ -105,6 +132,11 @@
 						<img src="images/beacons.jpeg" />
 					</div>
 					<h2 class="truncate">Tokencube Besprechungsraum Tokencube Besprechungsraum</h2>
+					<div class="debugInfo">
+						<div class="rssi">-64dBm</div>
+						<div class="radius">Intermediate</div>
+						<div class="clear"></div>
+					</div>					
 				</div>
 		  </div>
 	</div>

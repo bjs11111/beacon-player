@@ -13,6 +13,10 @@ startControllers.controller('helpCtrl',
 		$state.go('app.scanning');
 	};
 	
+	$scope.openNativeBrowser=function(url){
+		navigator.app.loadUrl(url, {openExternal: true});
+	}
+	
 	
 				
 }])
