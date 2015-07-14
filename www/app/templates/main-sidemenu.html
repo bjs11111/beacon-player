@@ -12,9 +12,10 @@
   			</ion-nav-buttons>
       		
       		<ion-nav-buttons side="right" >
-      			<!-- @TODO use ng-model="bleDisabledState" and check $rootscope docs -->
+  				<div class=" button button-icon icon fa fa-qrcode fa-2"></div>
   				<ng-ble-state ></ng-ble-state>  
   			</ion-nav-buttons>
+
   			
     	</ion-nav-bar>
     
@@ -25,20 +26,38 @@
 	</ion-side-menu-content>
 	
 	<ion-side-menu side="left" enable-menu-with-back-views="true">
+	
 		<header class="bar bar-header bar-stable">
-      		<h1 class="title">Main Menu</h1>
+      		<img src="images/icon.png" width="33px" /><h1 class="title"><b>Beacon Player</b></h1>
+      		
     	</header>
     	<ion-content class="has-header">
 		<ion-list>
-			
+	        <ion-item item-type="item-icon-left" nav-clear menu-close ui-sref="app.scanning">
+	          <i class="icon ion-chevron-right" style="margin-right:15px;"></i>Scan Beacons
+	        </ion-item>
+	       
 	       
 	        <ion-item nav-clear menu-close ui-sref="app.scanning">
-	          Scanning
+	          <i class="icon ion-chevron-right" style="margin-right:15px;"></i>Scan Beacons(Advanced)
+	        </ion-item>
+	        
+	        <ion-item nav-clear menu-close ui-sref="app.help">
+	          <i class="icon ion-chevron-right" style="margin-right:15px;"></i>Scan QR Code
 	        </ion-item>
 	
 	        <ion-item nav-clear menu-close ui-sref="app.help">
-	          Help
+	          <i class="icon ion-chevron-right" style="margin-right:15px;"></i>Help
 	        </ion-item>
+	        <br /><br />
+	        
+	        
+	    	<h3 style="margin-left:15px;">Settings</h3>
+	        <ion-toggle ng-model="autoOpenContent" toggle-class="toggle-calm">Auto Open Content</ion-toggle>
+	        <ion-toggle ng-model="showMoreInfo" toggle-class="toggle-calm">Show Debug Information</ion-toggle>
+	        <ion-toggle ng-model="optimizeBeaconDetection" toggle-class="toggle-calm">Optimize Beacon Detection</ion-toggle>
+	        
+	        
         
 
 
@@ -46,34 +65,5 @@
     </ion-content>
 			
 	</ion-side-menu>
-	<!-- 
-	<ion-side-menu side="right" enable-menu-with-back-views="true">
-		<header class="bar bar-header bar-stable">
-      		<h1 class="title">Content to replace by ui-state</h1>
-    	</header>
-    	<ion-content class="has-header">
-			<ion-list> 
-			<label class="item item-input item-select">
-				<div class="input-label">Sort by:</div> 
-				<select ng-model="orderProp">
-					<option value="deviceType">Alphabetical</option>
-					<option value="lastScan">Newest</option>
-					<option value="rssi">Nearest</option>
-					<option value="major">Major</option>
-					<option value="minor">Minor</option>
-				</select>
-			</label> 
-			<label class="item">
-				<div class="input-label">Trigger: {{trigger}}</div>
-				<div class="item range range-positive">
-					<span>-100</span> 
-					<input type="range" name="trigger" ng-init="trigger=-20" ng-model="trigger" min="-100" max="5" value="0">
-					<span>5</span>
-				</div>
-			</label>
-      </ion-list>
-    </ion-content>
-			
-	</ion-side-menu>
-	 -->
+
 </ion-side-menus>

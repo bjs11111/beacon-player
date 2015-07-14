@@ -147,8 +147,25 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     			
     			//item is not in list 
     			//add item to list
+    			
     			if(!currentItem) {
+    					
+    				
+    				
+ 
+    					
+    					
+    				
+    				
+    				
+    				
+    				
+    				
+    				
+    				
     					updatedItem  = angular.extend({}, updatedItem, newItem);
+    					updatedItem.rssi=updatedItem.scanData.rssi*updatedItem.scanData.rssi;
+    					updatedItem.reverse=false;
     					
     					//add triggerhandling values
     					updatedItem.scanData.alreadyTriggered 	= false;
@@ -164,6 +181,8 @@ scanningControllers.controller( 'ScanningRecentlyseenCtrl',
     			//update
     			else {
    				 updatedItem  = angular.extend({}, currentItem, newItem);
+   				 updatedItem.rssi=updatedItem.scanData.rssi;
+   				 updatedItem.reverse=false;
    				 
 				 updatedItem.scanData.alreadyTriggered 		= currentItem.scanData.alreadyTriggered;
 				 updatedItem.scanData.lastTriggerArea 		= currentItem.scanData.actualTriggerArea;
