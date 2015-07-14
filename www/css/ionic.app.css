@@ -7017,28 +7017,25 @@ a.button {
   transition-duration: 0s; }
 
 /*Help Slider Style*/
-#helpView .ion-slide-box {
-  background-image: url("/app/components/help/images/bg.jpg") no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  background-size: cover; }
-
 #helpView .slider {
   height: 100%; }
 
 #helpView .slider-slide {
-  padding: 40px 20px 0px 20px;
+  background-image: url("/app/components/help/images/bg.jpg");
   color: #000;
-  background-color: #fff;
   text-align: center;
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 300; }
 
+#helpView .slider-slide .slide {
+  background: white;
+  opacity: 0.75;
+  height: 100%;
+  width: 100%;
+  padding: 40px 20px 0px 20px; }
+
 #helpView .slider-pager {
   bottom: 80px; }
-
-.scroll-content {
-  background: url("../media/images/background.jpg"); }
 
 /*	Style Title	*/
 #tourView h1 {
