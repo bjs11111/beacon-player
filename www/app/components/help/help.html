@@ -4,35 +4,59 @@
       Help
   	</ion-nav-title>
   	
-  	<!--  <ion-content class="has-header">
-  	
-	    <div class="gigant">
-	    	  <i class="positive gigant icon icon ion-radio-waves"></i>
-	    	 <h2>Tap the <i class="positive icon icon ion-radio-waves"></i> symbol in the upper right corner to start and stop scanning for beacons</h2>
-	    </div>
-	    
-  	</ion-content> -->
+  	<ion-view>
+    
+    <ion-nav-title>
+      Help
+  	</ion-nav-title>
+  
 
   	   <ion-slide-box class="slider has-header" ng-class="has-message" show-pager="true"  on-slide-changed="slideChanged(index)">
+		   <!-- Beacon Player Help Page -->
 		   <ion-slide>
-		      <h1>Get the beacons</h1>
-				<h3 class="padding">I want to <a href="http://www.tokencube.com/shop.html">get it</a> now!</h3>
-			
-					<!--  <img class="" src="images/beacons.jpeg" /> -->
-				
-				
-		   </ion-slide>
-		   <ion-slide>
-		      <h1>Sing up for free</h1>
-				<h3 class="padding">Sign up at <a href="http://www.beaconplayer.com">beaconplayer.com</a>!</h3>
-					<!--  <img class="" src="images/bcms.jpeg" /> -->
-		   </ion-slide>
-		   <ion-slide>
-		      <h1>Start scanning and enjoy!</h1>
-			  <h3>Tap the <i class="positive icon icon ion-radio-waves"></i> symbol in the upper right corner to start and stop scanning for beacons</h3>
+		   	  <img src="images/icon.png" width="30%"/>
+		      <h1>BeaconPlayer</h1>
+			  <h3 class="padding">The Beacon Experimenting Tool</h3>
+			  <p>BeaconPlayer is a free and Open Source Platform and App for experimenting with beacons.</p>
+			  <p>It's functionality is simple: whenever you approach a beacon with your phone, the app loads the appropriate media content for it. Everythings fully configurable in few quick steps.</p>
 		   </ion-slide>
 		   
+		   <!-- Approach Beacon Description -->
+		   <ion-slide>
+		   	  <img src="images/help/play.png"/>
+		      <h1>Approach a beacon</h1>
+			  <h3 class="padding">and get location specific information</h3>
+		   </ion-slide>
+		   
+		   <!-- Manage Beacons Description -->
+		   <ion-slide>
+		   	  <img src="images/help/edit.png"/>
+		      <h1>Easy beacon management</h1>
+			  <h3 class="padding">Visit the BeaconPlayer platform and create a free account</h3>
+			  <p><a href="#" ng-click="openNativeBrowser('http://www.beacon-player.com')">www.beacon-player.com</a></p>
+		   </ion-slide>
+		   
+		   <!-- Contribute Description -->
+		   <ion-slide>
+		   	  <img src="images/help/add.png"/>
+		      <h1>Contribute</h1>
+			  <h3 class="padding">If you discover any bugs or you have proposals for new features, please feel free to contribute on Github.</h3>
+			   <p><a href="#" ng-click="openNativeBrowser('https://github.com/Tokencube/')">https://github.com/Tokencube/</a></p>
+		   </ion-slide>
+		   
+		   <!-- Buy Beacons Description -->
+		   <ion-slide>
+		   	  <img src="images/help/beacons.png"/>
+		      <h1>Buy more beacons</h1>
+			  <h3 class="padding">Please visit our online store:</h3>
+			  <p><a href="#" ng-click="openNativeBrowser('http://www.beacon-player.com')">www.beacon-player.com</a></p>
+		   </ion-slide>
+
+		   
 	   </ion-slide-box>
+
+
+</ion-view>
 
 
 </ion-view>
