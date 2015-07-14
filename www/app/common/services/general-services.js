@@ -113,6 +113,9 @@ generalServices.factory('generalService', ['$rootScope', '$ionicPlatform', '$ion
 					return;
 				} else {
 					var urlToContent = generalServiceConfig.basePath +'/'+ generalServiceConfig.iabView +'/'+ bcmsBeaconKey+'?ajax=1';
+					
+					if(device.bcmsBeacon.thirdPartyWebsite) { urlToContent = device.bcmsBeacon.thirdPartyWebsite; }
+					
 					openIAB(urlToContent);
 				}
 			}
