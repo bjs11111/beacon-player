@@ -4,7 +4,7 @@ var beaconPlayerApp = angular.module('beaconPlayerApp',
 		  //main controller
 		  'appControllers',
 		  //components/pages
-		  'helpControllers', 'scanningControllers', 'tourControllers',
+		  'helpControllers', 'scanningControllers', 'tourControllers', 'settingsControllers', 
 ]);
 
 beaconPlayerApp.config([ '$stateProvider', '$urlRouterProvider',
@@ -58,6 +58,16 @@ beaconPlayerApp.config([ '$stateProvider', '$urlRouterProvider',
 					'mainContent' : {
 						templateUrl : 'app/components/tour/tour.html',
 						controller : 'tourCtrl'
+					}
+				}
+			})
+			
+			.state('app.settings', {
+				url : '/settings',
+				views : {
+					'mainContent' : {
+						templateUrl : 'app/components/settings/settings.html',
+						controller : 'settingsCtrl'
 					}
 				}
 			});

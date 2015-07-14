@@ -1,13 +1,10 @@
-/* Controllers of start component */
+/* Controllers of tour component */
 //______________________________________________________________________________________
 
 var tourControllers = angular.module('tourControllers', []);
 
-
-
-tourControllers
-/**/
-.constant("tourCtrlConfig", {
+/* Tour Controllers Config*/
+tourControllers.constant("tourCtrlConfig", {
 	
 	iabOpenVibratePattern : [100, 100, 100],
 	iabOpenVibrateTime : 100,
@@ -17,10 +14,10 @@ tourControllers
 		      clearcache	: 'no',
 		      toolbar		: 'no'
 		    }
-})
+});
 
-/* Scanning Controllers */
-scanningControllers.controller( 'tourCtrl', [ '$scope',
+/* Tour Controllers */
+tourControllers.controller( 'tourCtrl', [ '$scope',
 		function($scope) {
 				
 

@@ -12,8 +12,8 @@
   			</ion-nav-buttons>
       		
       		<ion-nav-buttons side="right" >
-      			<!-- @TODO use ng-model="bleDisabledState" and check $rootscope docs -->
-  				<ng-ble-state ></ng-ble-state>  
+  				<sit-ble-state></sit-ble-state>  
+  				<sit-qr-scanner></sit-qr-scanner>  
   			</ion-nav-buttons>
   			
     	</ion-nav-bar>
@@ -41,6 +41,10 @@
 	
 	        <ion-item nav-clear menu-close ui-sref="app.help">
 	          Help
+	        </ion-item>
+	        
+	        <ion-item nav-clear menu-close ui-sref="app.settings">
+	          Settings
 	        </ion-item>
         
       </ion-list>

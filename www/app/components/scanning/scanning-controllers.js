@@ -1,13 +1,9 @@
 /* Controllers of start component */
-//______________________________________________________________________________________
-
 var scanningControllers = angular.module('scanningControllers', []);
 
 
-
-scanningControllers
 /*Config for scanning controllers*/
-.constant("scanningCtrlConfig", {
+scanningControllers.constant("scanningCtrlConfig", {
 	
 	iabOpenVibratePattern : [100, 100, 100],
 	iabOpenVibrateTime : 100,
@@ -17,10 +13,10 @@ scanningControllers
 		      clearcache	: 'no',
 		      toolbar		: 'no'
 		    }
-})
+});
 
 /*Scanning controller*/
-scanningControllers.controller( 'scanningCtrl', 
+scanningControllers.controller('scanningCtrl', 
 				[ '$scope', 
          function(  $scope) {
 
