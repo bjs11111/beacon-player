@@ -5,8 +5,11 @@ node_modules/
 platforms/
 plugins/
 /.project
-/config.xml
+/.settings
+/.tern-project
 /gulpfile.js
 /ionic.project
 /package.json
 /hooks/
+
+
