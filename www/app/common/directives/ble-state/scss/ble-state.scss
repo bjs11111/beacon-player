@@ -1,0 +1,15 @@
+/*
+ble state directive
+*/
+
+button.ble-disabled {
+  color: #ccc !important; 
+}
+
+button.ble-paused {
+  color: #444;
+}
+
+button.ble-scanning {
+  color: #0c63ee !important;
+}

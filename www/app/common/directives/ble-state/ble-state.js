@@ -14,6 +14,7 @@ bleState.constant("bleStateConfig", {
 bleState.directive('sitBleState', function() {
 	  return {
 	    restrict: 'E',
+	    replace:true,
 	    templateUrl: 'app/common/directives/ble-state/ble-state.html',
 	    controller: ['$scope', 'bleStateConfig', 'bleScannerChannel', 'sitBleScanner',
 	        function( $scope,   bleStateConfig,   bleScannerChannel,   sitBleScanner) {

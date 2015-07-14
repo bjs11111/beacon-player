@@ -249,13 +249,13 @@ bleFilters
   
 }])
 
-	 /*\
-	 |*|
-	 |*|  Base64 / binary data / UTF-8 strings utilities
-	 |*|
-	 |*|  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Base64_encoding_and_decoding
-	 |*|
-	 \*/
+/*\
+|*|
+|*|  Base64 / binary data / UTF-8 strings utilities
+|*|
+|*|  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Base64_encoding_and_decoding
+|*|
+\*/
 /* Array of bytes to base64 string decoding 
  * returns a Unit6 string or 0
  */

@@ -16,15 +16,7 @@ appControllers
 
 .controller('AppCtrl', ['$scope', 
                 function($scope) {
-	
-	$scope.qrSuccessCallback = function () {
-		return 's';
-	};
-	
-	$scope.qrErrorCallback = function () {
-		return 'e';
-	};
-
+		
 }]);
 
 
