@@ -16,99 +16,72 @@
  	<ion-refresher on-refresh="refreshServerData('pullToRefresh')"></ion-refresher>
  	
  	
- 	 	
  	<h1>Nearest Beacons:</h1>
-	
-	<div class="row">
-	  <div class="col">
-			<div class="box-big ">
-				
-				<div class="arrowbox-bottom-big">
-					<img src="images/beacons.jpeg" />
-				</div>
-				
-				
-				<h2 class="truncate">Tokencube Besprechungsraum Tokencube Besprechungsraum</h2>
-				<div class="debugInfo hideDebugInfo">
-					<div class="rssi">-64dBm</div>
-					<div class="radius">Intermediate</div>
-					<div class="clear"></div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	
-
-	
-	
-	
-	
-	<div class="row">
-	  
-		  <div class="col">
-		    	<div class="box-small">
-					<div class="arrowbox-bottom-small">
-						<img src="images/beacons.jpeg" />
-					</div>
-					<h2 class="truncate">Tokencube Besprechungsraum Tokencube Besprechungsraum</h2>
-					<div class="debugInfo hideDebugInfo">
-						<div class="rssi">-64dBm</div>
-						<div class="radius">Intermediate</div>
-						<div class="clear"></div>
-					</div>
-				</div>
-		  </div>
-	  
-	  
-		  <div class="col">
-		    	<div class="box-small">
-					<div class="arrowbox-bottom-small">
-						<img src="images/beacons.jpeg" />
-					</div>
-					<h2 class="truncate">Tokencube Besprechungsraum Tokencube Besprechungsraum</h2>
-					<div class="debugInfo hideDebugInfo">
-						<div class="rssi">-64dBm</div>
-						<div class="radius">Intermediate</div>
-						<div class="clear"></div>
-					</div>					
-				</div>
-		  </div>
-	</div>	
-	
-	<div class="row">
-	  
-		  <div class="col">
-		    	<div class="box-small">
-					<div class="arrowbox-bottom-small">
-						<img src="images/beacons.jpeg" />
-					</div>
-					<h2 class="truncate">Tokencube Besprechungsraum Tokencube Besprechungsraum</h2>
-					<div class="debugInfo hideDebugInfo">
-						<div class="rssi">-64dBm</div>
-						<div class="radius">Intermediate</div>
-						<div class="clear"></div>
-					</div>					
-				</div>
-		  </div>
-	  
-	  
-		  <div class="col">
-		    	<div class="box-small">
-					<div class="arrowbox-bottom-small">
-						<img src="images/beacons.jpeg" />
-					</div>
-					<h2 class="truncate">Tokencube Besprechungsraum Tokencube Besprechungsraum</h2>
-					<div class="debugInfo hideDebugInfo">
-						<div class="rssi">-64dBm</div>
-						<div class="radius">Intermediate</div>
-						<div class="clear"></div>
-					</div>					
-				</div>
-		  </div>
-	</div>
  	
  	
+
+	  
+
+
+		<div ng-repeat="device in receivedDevicesList | orderBy:-sort" 
+                  href="#" 
+                  class=" item-icon-right "
+                  ng-class="device.bcmsBeacon.contentThumbnailUrl?'item-avatar':'item-icon-left'"> 
+                  
+                  <!-- First Beacon in List -->
+                  <div ng-if="$index == 0">
+                  	
+                  			<div class="row">
+							  <div class="col">
+									<div class="box-big ">
+										
+										<div class="arrowbox-bottom-big">
+											<img src="{{device.bcmsBeacon.contentThumbnailUrl}}" />
+										</div>
+										
+										
+										<h2 class="truncate">{{device.bcmsBeacon.content_title}}</h2>
+										<div class="debugInfo">
+											<div class="rssi">{{device.scanData.rssi}}</div>
+											<div class="radius">{{device.bcmsBeacon.triggerZone}}</div>
+											<div class="clear"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+                  
+                  
+                  
+                  </div>
+                  <div ng-if="$index != 0">
+                  		
+								  <div class="box-small-container">
+								    	<div class="box-small">
+											<div class="arrowbox-bottom-small">
+												<img src="{{device.bcmsBeacon.contentThumbnailUrl}}" />
+											</div>
+											<h2 class="truncate">{{device.bcmsBeacon.content_title}}</h2>
+											<div class="debugInfo">
+												<div class="rssi">{{device.scanData.rssi}}</div>
+												<div class="radius">{{device.bcmsBeacon.triggerZone}}</div>
+												<div class="clear"></div>
+											</div>
+										</div>
+								  </div>
+                  		
+                  		
+                  							
+				</div>
+                  
+          
+ 		</div>
+ 	
+ 	
+ 		<div class="clear"></div>
+ 	 	
+ 	
+	
+
 
   </ion-content>
   

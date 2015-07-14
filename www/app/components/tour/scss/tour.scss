@@ -17,7 +17,13 @@
 		#tourView .arrowbox-bottom-big:before 			{border-color: rgba(194, 225, 245, 0);border-bottom-color: white;border-width: 40px;margin-left: -40px;}
 	
 
-/*	Small Box */					
+/*	Small Box */
+		#tourView .box-small-container					{float:left; width:50%; padding:10px;}
+		#tourView .item-avatar, 
+			#tourView .item-avatar .item-content, 
+			#tourView .item-avatar-left, 
+			#tourView .item-avatar-left .item-content	{min-height:0px;padding-left:0px;}			
+		#tourView .item-icon-right								{padding-right:0px;}		
 		#tourView .box-small							{width:100%;cursor:pointer; border-radius: 7px;background-color: white; text-align: center; border: 2px solid #B2B2B2;}
 		#tourView .box-small img						{border-top-left-radius: 6px;border-top-right-radius: 6px;width:100%;}
 		#tourView .box-small h2							{font-size:1em; padding: 0px 15px;color:#333333; margin-top:10px;margin-bottom:7px;}
