@@ -2,6 +2,7 @@
 /*	Style Title	*/		
 		#tourView h1									{margin: 25px 15px 0 15px; font-size:1em;font-weight:bold;}
 		#tourView .listContainer						{margin-right:10px;}
+		
 
 /*	Big Box*/		
 		#tourView .box-big								{margin:10px 0 10px 10px;border-radius: 7px;background-color: white; text-align: center; border: 2px solid #B2B2B2;}
@@ -15,7 +16,7 @@
 		#tourView .arrowbox-bottom-small:before 		{bottom: 0%;left: 50%;border: solid transparent;content: " ";height: 0;width: 0;position: absolute;	pointer-events: none;}
 		#tourView .arrowbox-bottom-big:after 			{border-color: rgba(136, 183, 213, 0);border-bottom-color: white;border-width: 40px;margin-left: -40px;}
 		#tourView .arrowbox-bottom-big:before 			{border-color: rgba(194, 225, 245, 0);border-bottom-color: white;border-width: 40px;margin-left: -40px;}
-	
+		#tourView .item-icon-left						{padding-left:0px;}
 
 /*	Small Box */
 		#tourView .box-small-container					{float:left; width:50%; padding:0 0 10px 10px;}
