@@ -1,5 +1,5 @@
 /*@TODO write documantation*/
-var bleDirectives = angular.module('bleDirectives', ['bcmsServices', 'angularMoment'])
+var bleDirectives = angular.module('bleDirectives', []);
 
 /*Constants for the bleDirectives*/
 bleDirectives.constant("ngBleStateConfig", {
@@ -7,7 +7,7 @@ bleDirectives.constant("ngBleStateConfig", {
     	blePausedClass 		: 'ble-paused',
     	bleScanningClass 	: 'ble-scanning',
 });
-
+/*
 bleDirectives.constant("ngBleItemConfig", {
 	
 	type : {
@@ -75,22 +75,22 @@ bleDirectives.constant("ngBleItemConfig", {
 		},
 	}
 
-})
+})*/
 
 /* BleState Directive 
- * The element is located in the apps navigation header in main.sidemenu.html
  * it handles the dis- and enabling of the bleScanner options and 
  * if enabled it offers onClick start stop bleScanning functionality
  * */
-bleDirectives.directive('ngBleState', [ '$cordovaEvothingsBLE', 
-                               function($cordovaEvothingsBLE) {
-	//@TODO use he ng-model to control deactivation from outside
+bleDirectives.directive('sitBleState', 
+                               function( ) {
+	 
 	  return {
-	    restrict: 'EA',
-	    template:'<button class="button button-icon ion-radio-waves" ng-click="toggleState()" ng-class="getStateClass()"></button>',
-	    controller: ['$scope', 'ngBleStateConfig', 'bleNotificationChannel', 
-	        function($scope,   ngBleStateConfig, bleNotificationChannel) {
-	    		 
+	    restrict: 'AE',
+	    //template:'<button class="button button-icon ion-radio-waves" ng-click="toggleState()" ng-class="getStateClass()"></button>'
+	    templateUrl: '/common/directives/templates.html'
+	    /*controller: ['$scope', 'ngBleStateConfig', 'bleNotificationChannel', 
+	        function($scope,    ngBleStateConfig,   bleNotificationChannel) {
+	    		 alert(1); 
 		    	var init = function() {
 			    	$scope.state = $cordovaEvothingsBLE.getBleScannerState();
 			    	//subscribe for onBleScannerStateUpdated on bleNotificationChannel 
@@ -122,12 +122,11 @@ bleDirectives.directive('ngBleState', [ '$cordovaEvothingsBLE',
 	    }],
 	    link: function (scope, element, attrs) {
 	    	
-        }
-	  
+        }*/	  
 	  }
-}])
+});
 
-/**/
+/*
 bleDirectives.directive('ngBleItem', function() {
   return {
     restrict: 'EA',
@@ -188,10 +187,10 @@ bleDirectives.directive('ngBleItem', function() {
     	init(); 
     }]
   	}
-});
+});*/
 
 
-/*@TODO write documantation + use link*/
+/*
 bleDirectives.directive('ngBleDevice', function() {
   return {
     restrict: 'EA',
@@ -203,4 +202,4 @@ bleDirectives.directive('ngBleDevice', function() {
     templateUrl: 'app/components/ble/directives/templates/ble-device.html',
   
   }
-});
+});*/

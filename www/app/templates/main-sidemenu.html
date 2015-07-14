@@ -13,7 +13,7 @@
       		
       		<ion-nav-buttons side="right" >
   				<sit-ble-state></sit-ble-state>  
-  				<sit-qr-scanner></sit-qr-scanner>  
+  				<sit-qr-scanner qr-success-callback="qrSuccessCallback" qr-error-callback="qrErrorCallback" ng-click="captureQrCode()">qr</sit-qr-scanner>  
   			</ion-nav-buttons>
   			
     	</ion-nav-bar>

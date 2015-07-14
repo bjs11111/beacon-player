@@ -458,7 +458,7 @@ bleServices
 	
 }])
 
-.factory('$cordovaEvothingsBLE', [ '$q', '$filter', 'bleNotificationChannel', '$interval', '$ionicPlatform', 
+.factory('sitBleScanner', [ '$q', '$filter', 'bleNotificationChannel', '$interval', '$ionicPlatform', 
                          function ( $q,   $filter,   bleNotificationChannel,   $interval,   $ionicPlatform ) {
 	
 	//locationManager.Delegate()
@@ -633,7 +633,9 @@ bleServices
 	};
 	
 	var startScanning = function() {
-
+		
+		setBleScannerState(!getBleScannerState());
+		return;
 		//IOS
 		if(ionic.Platform.isIOS()) {
 			startIOSScanning();

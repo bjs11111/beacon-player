@@ -22,20 +22,38 @@
 		<script src="lib/moment/min/moment.min.js"></script>
 		<script src="lib/angular-moment/angular-moment.min.js"></script>
 
-		<!-- your app's js -->
-		<script src="app/app-controllers.js"></script>
-		<script src="app/app.js"></script>
-		
-		<!-- custom services directives -->
-		<!-- 
-		<script src="app/components/ble/directives/ble-directives.js"></script>
+		<!-- custom directives -->
+		<script src="app/common/directives/ble-state/ble-state.js"></script>
+		<!--
 		
 		<script src="app/components/ble/services/ble-services.js"></script>
 		<script src="app/components/ble/filters/ble-filters.js"></script>
 		<script src="app/components/bcms/services/bcms-services.js"></script>
 		 -->
+		
+		<!-- custom services -->
+		<script src="app/common/services/ble-channels.js"></script>
+		<script src="app/common/services/ble-scanners.js"></script>
+		
+		<!-- custom directives -->
+		<script src="app/common/directives/ble-state/ble-state.js"></script>
+		<script src="app/common/directives/qr-scanner/qr-scanner.js"></script>
+		<!-- custom filter -->
+		<script src="app/common/filters/ble-filters.js"></script>
+		
+		<!--
+		<script src="app/common/services/ble-services.js"></script>
+		
+		
+		<script src="app/components/ble/services/ble-services.js"></script>
+		<script src="app/components/bcms/services/bcms-services.js"></script>
+		 -->
 		 
-		 
+		 <!-- your app's js -->
+		<script src="app/app-controllers.js"></script>
+		<script src="app/app.js"></script>
+		
+		
 		<!-- site depending components -->
 		<script src="app/components/help/help-controllers.js"></script>
 		<script src="app/components/scanning/scanning-controllers.js"></script>

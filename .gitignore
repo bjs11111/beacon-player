@@ -7,9 +7,3 @@ plugins/
 /.project
 /.settings
 /.tern-project
-/gulpfile.js
-/ionic.project
-/package.json
-/hooks/
-
-

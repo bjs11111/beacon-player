@@ -1,4 +1,4 @@
-var appControllers = angular.module('appControllers', [ 'ngCordova']);
+var appControllers = angular.module('appControllers', [ 'ngCordova', 'bleState', 'qrScanner']);
 
 /* 
  * 
@@ -15,7 +15,15 @@ appControllers
 })
 
 .controller('AppCtrl', ['$scope', 
-                        function($scope) {
+                function($scope) {
+	
+	$scope.qrSuccessCallback = function () {
+		return 's';
+	};
+	
+	$scope.qrErrorCallback = function () {
+		return 'e';
+	};
 
 }]);
 
