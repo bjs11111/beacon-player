@@ -18,7 +18,7 @@
  	<h1>Nearest Beacons:</h1>
  	
  		<!-- Beacon list -->
-		<div class="listContainer" ng-repeat="device in receivedDevicesList | orderBy:-sort" 
+		<div class="listContainer" ng-repeat="device in receivedDevicesList | orderBy:'sort'" 
                   href="#" 
                   class=" item-icon-right "
                   ng-class="device.bcmsBeacon.contentThumbnailUrl?'item-avatar':'item-icon-left'"> 
