@@ -7017,6 +7017,12 @@ a.button {
   transition-duration: 0s; }
 
 /*Help Slider Style*/
+#helpView .ion-slide-box {
+  background-image: url("/app/components/help/images/bg.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover; }
+
 #helpView .slider {
   height: 100%; }
 
@@ -7030,6 +7036,9 @@ a.button {
 
 #helpView .slider-pager {
   bottom: 80px; }
+
+.scroll-content {
+  background: url("../media/images/background.jpg"); }
 
 /*	Style Title	*/
 #tourView h1 {
