@@ -7017,10 +7017,10 @@ a.button {
   transition-duration: 0s; }
 
 /*Help Slider Style*/
-.slider {
+#helpView .slider {
   height: 100%; }
 
-.slider-slide {
+#helpView .slider-slide {
   padding: 40px 20px 0px 20px;
   color: #000;
   background-color: #fff;
@@ -7028,35 +7028,35 @@ a.button {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 300; }
 
-.slider-pager {
+#helpView .slider-pager {
   bottom: 80px; }
 
 /*	Style Title	*/
-h1 {
+#tourView h1 {
   margin: 25px 15px 0 15px;
   font-size: 1em;
   font-weight: bold; }
 
 /*	Big Box*/
-.box-big {
+#tourView .box-big {
   cursor: pointer;
   border-radius: 7px;
   background-color: white;
   text-align: center;
   border: 2px solid #B2B2B2; }
 
-.box-big img {
+#tourView .box-big img {
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   width: 100%; }
 
-.box-big h2 {
+#tourView .box-big h2 {
   padding: 0 15px;
   color: #333333;
   font-size: 1.2em;
   margin-top: 10px; }
 
-.box-big .debugInfo {
+#tourView .box-big .debugInfo {
   padding: 10px;
   background: black;
   opacity: 0.5;
@@ -7066,16 +7066,16 @@ h1 {
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px; }
 
-.box-big .debugInfo .rssi {
+#tourView .box-big .debugInfo .rssi {
   float: left; }
 
-.box-big .debugInfo .radius {
+#tourView .box-big .debugInfo .radius {
   float: right; }
 
-.arrowbox-bottom-big {
+#tourView .arrowbox-bottom-big {
   position: relative; }
 
-.arrowbox-bottom-big:after, .arrowbox-bottom-small:before {
+#tourView .arrowbox-bottom-big:after, #tourView .arrowbox-bottom-small:before {
   bottom: 0%;
   left: 50%;
   border: solid transparent;
@@ -7085,20 +7085,20 @@ h1 {
   position: absolute;
   pointer-events: none; }
 
-.arrowbox-bottom-big:after {
+#tourView .arrowbox-bottom-big:after {
   border-color: rgba(136, 183, 213, 0);
   border-bottom-color: white;
   border-width: 40px;
   margin-left: -40px; }
 
-.arrowbox-bottom-big:before {
+#tourView .arrowbox-bottom-big:before {
   border-color: rgba(194, 225, 245, 0);
   border-bottom-color: white;
   border-width: 40px;
   margin-left: -40px; }
 
 /*	Small Box */
-.box-small {
+#tourView .box-small {
   width: 100%;
   cursor: pointer;
   border-radius: 7px;
@@ -7106,19 +7106,19 @@ h1 {
   text-align: center;
   border: 2px solid #B2B2B2; }
 
-.box-small img {
+#tourView .box-small img {
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   width: 100%; }
 
-.box-small h2 {
+#tourView .box-small h2 {
   font-size: 1em;
   padding: 0px 15px;
   color: #333333;
   margin-top: 10px;
   margin-bottom: 7px; }
 
-.box-small .debugInfo {
+#tourView .box-small .debugInfo {
   padding: 10px;
   background: black;
   opacity: 0.5;
@@ -7128,16 +7128,16 @@ h1 {
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px; }
 
-.box-small .debugInfo .rssi {
+#tourView .box-small .debugInfo .rssi {
   float: left; }
 
-.box-small .debugInfo .radius {
+#tourView .box-small .debugInfo .radius {
   float: right; }
 
-.arrowbox-bottom-small {
+#tourView .arrowbox-bottom-small {
   position: relative; }
 
-.arrowbox-bottom-small:after, .arrowbox-bottom-small:before {
+#tourView .arrowbox-bottom-small:after, #tourView .arrowbox-bottom-small:before {
   bottom: 0%;
   left: 50%;
   border: solid transparent;
@@ -7147,30 +7147,31 @@ h1 {
   position: absolute;
   pointer-events: none; }
 
-.arrowbox-bottom-small:after {
+#tourView .arrowbox-bottom-small:after {
   border-color: rgba(136, 183, 213, 0);
   border-bottom-color: white;
   border-width: 25px;
   margin-left: -25px; }
 
-.arrowbox-bottom-small:before {
+#tourView .arrowbox-bottom-small:before {
   border-color: rgba(194, 225, 245, 0);
   border-bottom-color: white;
   border-width: 25px;
   margin-left: -25px; }
 
 /*	Helper Classes */
-.hideDebugInfo {
+#tourView .hideDebugInfo {
   display: none; }
 
-.truncate {
+#tourView .truncate {
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; }
 
-.clear {
+#tourView .clear {
   clear: both; }
 
-.ion-image {
+#tourView .ion-image {
   padding-right: 10px; }
+
