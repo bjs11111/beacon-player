@@ -9,10 +9,10 @@ bleScanners.factory('sitBleScanner', [ '$q', '$filter', 'bleScannerChannel', '$i
 	var delegate = undefined;
 	
 	//array of uuids of bcms
-	var iBeaconRanges = [
+	/*!!!var iBeaconRanges = [
 		//Estimote Beacon factory UUID.
 		//{ "uuid"			: 'B9407F30-F5F8-466E-AFF9-25556B57FE6D', "registered" 	: false}
-	];
+	];*/
 	//filter returns false if invalif iiud
 	var iBeaconUuidToHex 	= $filter('iBeaconUuidToHex');
 	
@@ -32,9 +32,9 @@ bleScanners.factory('sitBleScanner', [ '$q', '$filter', 'bleScannerChannel', '$i
 		return true;
 	}
 		
-	var getIBeaconRanges = function() {
+	/*!!!var getIBeaconRanges = function() {
 	  return iBeaconRanges; 
-  	};
+  	};*/
   
   	var setDelegate = function(newDelegate) {
   		delegate = newDelegate;
@@ -46,7 +46,7 @@ bleScanners.factory('sitBleScanner', [ '$q', '$filter', 'bleScannerChannel', '$i
     
   	
     //add uuid to range
-     var addIBeaconRange = function(uuid) {
+    /*!!!var addIBeaconRange = function(uuid) {
     	 
     	var isInList = false;
 		 //
@@ -62,7 +62,7 @@ bleScanners.factory('sitBleScanner', [ '$q', '$filter', 'bleScannerChannel', '$i
 					 iBeaconRanges.push({'uuid' : uuid, registered : false});
 			 }
 	     }
-	}
+	}*/
 		  
 	//returns bleScannerState
 	var getBleScannerState = function() {
@@ -82,10 +82,10 @@ bleScanners.factory('sitBleScanner', [ '$q', '$filter', 'bleScannerChannel', '$i
 	};
 	
 	// sends notification that a device has been found
-    var foundDevice = function(rawDevice) {
+    /*!!! var foundDevice = function(rawDevice) {
     	//console.log('do publish found'); 
         bleScannerChannel.publishFoundDevice(rawDevice);
-    };
+    };*/
     
 	//start scanning for ble devices on Android
 	var startAndroidScanning = function() {
@@ -118,6 +118,8 @@ bleScanners.factory('sitBleScanner', [ '$q', '$filter', 'bleScannerChannel', '$i
 		});
 	};
 	
+	
+	//start scanning for ble devices on iOS
 	var startIOSScanning = function() {
 		$ionicPlatform.ready(function() {
 			// Specify a shortcut for the location manager holding the iBeacon functions.
@@ -180,6 +182,7 @@ bleScanners.factory('sitBleScanner', [ '$q', '$filter', 'bleScannerChannel', '$i
 		
 	};
 	
+	// Start scanning
 	var startScanning = function() {
 		
 		setBleScannerState(!getBleScannerState());
@@ -198,7 +201,7 @@ bleScanners.factory('sitBleScanner', [ '$q', '$filter', 'bleScannerChannel', '$i
 		}
 	}
 	
-	//start scanning for ble devices
+	//stop scanning for ble devices Android specific
 	var stopAndroidScanning = function() {	
 		if(isBleDefined() == false){ return; } 
 		
@@ -218,7 +221,7 @@ bleScanners.factory('sitBleScanner', [ '$q', '$filter', 'bleScannerChannel', '$i
 			);
 	};
 	
-	//start scanning for ble devices
+	//stop scanning for ble devices iOS specific
 	var stopIOSScanning = function() {	
 		setBleScannerState(false);	
 		
@@ -235,6 +238,7 @@ bleScanners.factory('sitBleScanner', [ '$q', '$filter', 'bleScannerChannel', '$i
 		
 	};
 	
+	//stop scanning
 	var stopScanning = function() {
 		//IOS
 		if(ionic.Platform.isIOS()) {
@@ -254,8 +258,8 @@ bleScanners.factory('sitBleScanner', [ '$q', '$filter', 'bleScannerChannel', '$i
 	return {
 		setDelegate			: setDelegate,
 		getDelegate 		: getDelegate,
-		addIBeaconRange		: addIBeaconRange,
-    	getIBeaconRanges	: getIBeaconRanges,
+		//!!!addIBeaconRange		: addIBeaconRange,
+		//!!!getIBeaconRanges	: getIBeaconRanges,
 		getBleScannerState 	: getBleScannerState,
 		startScanning 		: startScanning,
 		stopScanning 		: stopScanning

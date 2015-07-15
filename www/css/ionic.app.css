@@ -7016,7 +7016,7 @@ a.button {
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
 
-/*Help Slider Style*/
+/*Help Slider Stylee*/
 #helpView .slider {
   height: 100%; }
 
@@ -7198,3 +7198,17 @@ a.button {
 #tourView .ion-image {
   padding-right: 10px; }
 
+.scanningView {
+  background: red; }
+
+/*
+ble state directive
+*/
+button.ble-disabled {
+  color: #ccc !important; }
+
+button.ble-paused {
+  color: #444; }
+
+button.ble-scanning {
+  color: #0c63ee !important; }
