@@ -1,5 +1,5 @@
 /* Controllers of start component */
-var scanningControllers = angular.module('scanningControllers', []);
+var scanningControllers = angular.module('scanningControllers', ['bleScanners', 'bleChannels']);
 
 
 /*Config for scanning controllers*/
@@ -17,8 +17,24 @@ scanningControllers.constant("scanningCtrlConfig", {
 
 /*Scanning controller*/
 scanningControllers.controller('scanningCtrl', 
-				[ '$scope', 
-         function(  $scope) {
+				[ '$scope', 'sitBleScanner', 'bleScannerChannel',
+         function(  $scope,  sitBleScanner, bleScannerChannel) {
 
-
+					bleScannerChannel.publishBleScannerStateUpdated($scope, function(args) {
+						console.log(sitBleScanner.bleStream); 
+					});
+					
+					
+					var subscription = sitBleScanner.bleStream.subscribe(
+						    function (rawDevice) {
+						        console.log('Next: ' + rawDevice);
+						    },
+						    function (err) {
+						        console.log('Error: ' + err);
+						    },
+						    function () { 
+						        console.log('Completed');
+						    });
+					console.log('BLETEST: ');
+					
 }]);
