@@ -22,26 +22,10 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
-// Help
-@import "www/app/components/help/scss/help.scss";
+// Include dierctives scss
+@import "www/app/common/directives/ble-state/scss/ble-state";
 
-// Tour
-@import "www/app/components/tour/scss/tour.scss";
-
-// Scanner
-@import "www/app/components/scanning/scss/scanning.scss";
-
-/*
-ble state directive
-*/
-button.ble-disabled {
-  color: #ccc !important;
-}
-
-button.ble-paused {
-  color: #444;
-}
-
-button.ble-scanning {
-  color: #0c63ee !important;
-}
+// Include controllers scss
+@import "www/app/components/help/scss/help";
+@import "www/app/components/tour/scss/tour";
+@import "www/app/components/scanning/scss/scanning";
