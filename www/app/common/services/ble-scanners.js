@@ -5,6 +5,10 @@ var bleScanners = angular.module('bleScanners', ['bleChannels', 'bleFilters']);
 bleScanners.factory('sitBleScanner', [ '$q', '$filter', 'bleScannerChannel', '$interval', '$ionicPlatform', 
                              function ( $q,   $filter,   bleScannerChannel,   $interval,   $ionicPlatform ) {
 	
+	
+	//
+	var bleStream = new Rx.Subject();
+	
 	//locationManager.Delegate()
 	var delegate = undefined;
 	
@@ -87,8 +91,72 @@ bleScanners.factory('sitBleScanner', [ '$q', '$filter', 'bleScannerChannel', '$i
         bleScannerChannel.publishFoundDevice(rawDevice);
     };
     
+  
+	/*
+    var startAndroidScanning = function() {
+    	console.log('start');
+		if(isBleDefined() == false){ return; } 
+		console.log('isBleDefined');
+		//skip if scanner already scanns
+		if(getBleScannerState()) { return;}
+		console.log('getBleScannerState');
+		//@TODO check ble is on or off
+		
+		//start scanning
+		setBleScannerState(true);	
+		
+		$ionicPlatform.ready(function() {
+			console.log('ready');
+			evothings.ble.startScan(
+				function(rawDevice) {
+					console.log(rawDevice);
+					//console.log('BLE startScan found device uuid: ' + rawDevice.address);
+					if (toIsBrokenRawDevice(rawDevice)) { 
+						//console.log('do publish found');
+						bleNotificationChannel.publishFoundDevice(rawDevice);
+					}
+				},
+				function(error) {
+					console.log(error);
+					//set bleScannerState to false
+					setBleScannerState(false);
+					bleNotificationChannel.publishBleStartScanError();
+					//console.log('BLE startScanning error: ' + error);
+				}
+			); 
+		});
+	};*/
+    
+	var watchAndroidBleScanner = function() {
+		console.log(evothings.ble.startScan);
+		
+		return bleStream.create( function (observer) {
+	    
+	    	evothings.ble.startScan(
+					function(rawDevice) {
+						console.log(rawDevice); 
+						//console.log('BLE startScan found device uuid: ' + rawDevice.address);
+						if (toIsBrokenRawDevice(rawDevice)) { 
+							//console.log('do publish found');
+							bleScannerChannel.publishFoundDevice(rawDevice);
+							observer.onNext(rawDevice);
+						}
+					},
+					function(error) {
+						console.log(error); 
+						//set bleScannerState to false
+						setBleScannerState(false);
+						bleScannerChannel.publishBleStartScanError();
+						observer.onError(error);
+						//console.log('BLE startScanning error: ' + error);
+					});
+	    
+	    	
+	    }).publish().refCount();
+	}
 	//start scanning for ble devices on Android
 	var startAndroidScanning = function() {
+		
 		if(isBleDefined() == false){ return; } 
 		
 		//skip if scanner already scanns
@@ -99,24 +167,10 @@ bleScanners.factory('sitBleScanner', [ '$q', '$filter', 'bleScannerChannel', '$i
 		//start scanning
 		setBleScannerState(true);	
 		
-		$ionicPlatform.ready(function() {
-			evothings.ble.startScan(
-				function(rawDevice) {
-					//console.log('BLE startScan found device uuid: ' + rawDevice.address);
-					if (toIsBrokenRawDevice(rawDevice)) { 
-						//console.log('do publish found');
-						bleScannerChannel.publishFoundDevice(rawDevice);
-					}
-				},
-				function(error) {
-					//set bleScannerState to false
-					setBleScannerState(false);
-					bleScannerChannel.publishBleStartScanError();
-					//console.log('BLE startScanning error: ' + error);
-				}
-			);
+		$ionicPlatform.ready(function() { 
+			bleStream = watchAndroidBleScanner();			
 		});
-	};
+	};/**/
 	
 	var startIOSScanning = function() {
 		$ionicPlatform.ready(function() {
@@ -182,8 +236,6 @@ bleScanners.factory('sitBleScanner', [ '$q', '$filter', 'bleScannerChannel', '$i
 	
 	var startScanning = function() {
 		
-		setBleScannerState(!getBleScannerState());
-		return;
 		//IOS
 		if(ionic.Platform.isIOS()) {
 			startIOSScanning();
@@ -252,6 +304,7 @@ bleScanners.factory('sitBleScanner', [ '$q', '$filter', 'bleScannerChannel', '$i
 	
 	// return the publicly accessible methods
 	return {
+		bleStream 			: bleStream,
 		setDelegate			: setDelegate,
 		getDelegate 		: getDelegate,
 		addIBeaconRange		: addIBeaconRange,
