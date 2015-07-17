@@ -7017,7 +7017,7 @@ a.button {
   transition-duration: 0s; }
 
 /*
-ble state directive
+ble state diredctive
 */
 button.ble-disabled {
   color: #ccc !important; }
