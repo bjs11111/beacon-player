@@ -7023,7 +7023,7 @@ button.ble-disabled {
   color: #ccc !important; }
 
 button.ble-paused {
-  color: #444444; }
+  color: #444; }
 
 button.ble-scanning {
   color: #0c63ee !important; }
