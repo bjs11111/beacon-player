@@ -2,8 +2,159 @@
 var bleScanners = angular.module('bleScanners', ['bleChannels', 'bleFilters']);
 
 
-bleScanners.factory('sitBleScanner', [ '$q', '$filter', 'bleScannerChannel', '$interval', '$ionicPlatform', 
-                             function ( $q,   $filter,   bleScannerChannel,   $interval,   $ionicPlatform ) {
+bleScanners.factory('sitBleDummyScanner', 
+			[ '$q', '$filter', 'bleScannerChannel', '$interval', '$ionicPlatform', 
+	function ( $q,   $filter,   bleScannerChannel,   $interval,   $ionicPlatform ) {
+	
+	/*
+	 * scannerstate
+	 **/			
+	var bleScannerState = false;
+
+	/*
+	 * platforms
+	 * */
+	var platformTypes = [ {name : 'IOS'}, {name : 'Android'}, {name : 'Windows'} ];
+	var fakePlatform = false;
+	
+	//the toIsBrokenRawDevice filter
+	var toIsBrokenRawDevice = $filter('toIsBrokenRawDevice');
+	
+	var interval 			= undefined,
+		intervalPromise  	= undefined;
+	
+	var break2s = 2000;
+	
+	var getFakePlatform = function () {
+		return fakePlatform;
+	};
+	
+	var setFakePlatform = function (platform) {
+		for(var i = 0 in platformTypes) {
+			if(platformTypes[i].name == platform) {
+				fakePlatform = platformTypes[i].name;
+			}
+		}
+	};
+	
+	var getPlatformTypes = function () {
+		return platformTypes;
+	};
+	
+	/*
+	 * helpers
+	 * */
+	var randBetween = function (min, max) {
+	    return Math.floor( (min < 0)?(min + Math.random() * (Math.abs(min)+max)):(min + Math.random() * max));
+	}
+	
+	var getRawAndroidData = function(rssiRange) {
+		//@TODO implement default range for RSSI 
+		var dev = rawAndroidScannData[randBetween(0,rawAndroidScannData.length-1)];
+		
+		dev.rssi = randBetween(rssiRange.min,rssiRange.max)
+		return dev;
+	}
+	
+	var getRawIOSData = function(rssiRange, accuracyRange, proximity) {
+		var dev = bcmsBeacons[randBetween(0,bcmsBeacons.length)];
+		
+		dev.rssi = randBetween(rssiRange.min,rssiRange.max);
+		dev.accuracy = randBetween(accuracyRange.min,accuracyRange.max);
+		
+		(proximity >= 0 && proximity <= proximityValues.length)?proximityValues[proximity]:proximityValues[randBetween(0,proximityValues.length)];
+		
+		return dev;
+	}
+	
+	/*
+	 * data
+	 * */
+	var proximityValues = ["ProximityNear", "ProximityInermediate", "ProximityFar" ];
+	
+	var rawAndroidScannData = [
+	        {address:'0E:FA:EF:0C:22:39', scanRecord:'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gAHAAGzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='},
+	        {address:'0E:FA:EF:0C:22:40', scanRecord:'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gAHAAK/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='},
+	        {address:'0E:FA:EF:0C:22:41', scanRecord:'AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gAHAAPFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='} 
+	];
+	
+	var rawIOSScannData = [
+   	        {uuid:"E6C56DB5-DFFB-48D2-B088-40F5A81496EE", major:7, minor:1},
+			{uuid:"E6C56DB5-DFFB-48D2-B088-40F5A81496EE", major:7, minor:2},
+			{uuid:"E6C56DB5-DFFB-48D2-B088-40F5A81496EE", major:7, minor:3},
+	];
+	
+	/*
+	 * simulations
+	 * */
+	var approachRssiTo = function(device, toRssi, steps, stepDelay) {
+		//defaults
+		steps = (steps) ? (parseInt(steps) != NaN?parseInt(steps):1 ):1;
+		stepDelay = (stepDelay) ? (parseInt(stepDelay) != NaN?parseInt(stepDelay):500 ):500;
+		
+		//debug
+		//toRssi = 20; device.rssi = 91;
+		//toRssi = 20; device.rssi = -91;
+		//toRssi = -20; device.rssi = -91;
+		//toRssi = -20; device.rssi = 91;
+		
+		var currentStep = 1,
+			defer = $q.defer(),
+			rssiDiff = Math.abs(device.rssi-toRssi),
+			rssiStep = ~~(rssiDiff/steps)
+			rssiStepMod = rssiDiff%steps,
+			numSign = (toRssi-device.rssi >= 0)?1:-1;
+		
+		/*console.log('steps: ' + steps);
+		console.log('from: ' + device.rssi);
+		console.log('to: ' + toRssi);
+		console.log('diff: ' + rssiDiff); 
+		console.log('diffStep: ' + rssiStep); 
+		console.log('rssiStepMod: ' + rssiStepMod); 
+		console.log('numSign: ' + numSign);
+		console.log('add*numSign: ' + rssiStep* numSign);*/
+		
+		
+		
+		$interval(function() {
+			var add = (currentStep == steps)?rssiStep+rssiStepMod:rssiStep;
+			
+			device.rssi += add* numSign; 
+			bleScannerChannel.publishFoundDevice( device );
+			
+			console.log('device.rssi: ' + device.rssi); 
+			
+			if(currentStep == steps) { defer.resolve(device); }
+			currentStep++;
+          }, stepDelay, steps);
+		
+		return defer.promise; 
+	}
+	
+	approachRssiTo( getRawAndroidData({min:-50, max: -90}) , -110, 10, 600 ).then(
+			function() {
+				console.log( 'Rssi approach to ' + -70 );
+			},
+			function() {}
+	);
+
+	return {
+		getFakePlatform 	: getFakePlatform,
+		setFakePlatform 	: setFakePlatform,
+		getPlatformTypes 	: getPlatformTypes,
+		
+		rawAndroidScannData : rawAndroidScannData,
+		rawIOSScannData 	: rawIOSScannData,
+		
+		approachRssiTo : approachRssiTo
+		
+	}
+
+}]);
+
+
+bleScanners.factory('sitBleScanner', [ '$q', '$filter', 'bleScannerChannel', '$ionicPlatform', 
+                             function ( $q,   $filter,   bleScannerChannel,   $ionicPlatform ) {
 	
 	//locationManager.Delegate()
 	var delegate = undefined;
