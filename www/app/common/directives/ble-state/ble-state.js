@@ -21,6 +21,7 @@ bleState.directive('sitBleState', function() {
 	    		
 		    	var init = function() {
 			    	$scope.state = sitBleScanner.getBleScannerState();
+			    	
 		     		bleScannerChannel.onBleScannerStateUpdated($scope, onBleScannerStateUpdatedHandler);
 		    	};
 	     	
@@ -35,10 +36,12 @@ bleState.directive('sitBleState', function() {
 	
 		    	$scope.toggleState = function() {	
 		    		//if bleDisabledState is disabled (set in AppCtrl) then scip
-		    		if($scope.bleDisabledState) {return;}
+		    		//if($scope.bleDisabledState) {return;}
 		    		
-		    		if(!sitBleScanner.getBleScannerState()){ sitBleScanner.startScanning(); }
+		    		if(!sitBleScanner.getBleScannerState()){ 
+		    			sitBleScanner.startScanning(); }
 		    		else { sitBleScanner.stopScanning(); }
+		    		console.log(sitBleScanner.getBleScannerState()); 
 		        };
 		        
 		        init();

@@ -14,10 +14,10 @@ bleChannels.constant( "bleScannerChannelConfig", {
 bleChannels.factory('bleScannerChannel', ['$rootScope', 'bleScannerChannelConfig', 
                                  function ($rootScope,   bleScannerChannelConfig) {
     //private functions
-	var _subscribe = function(event, $scope, scopeHandler, argsHandler) {
+	var _subscribe = function(event, $scope, scopeHandler, mapArgs) {
 		//subscribe with rotscope to event and cache unsubscribe function
 		var unsubscopeHandler = $rootScope.$on(event, function(event, args) {
-			scopeHandler(argsHandler(args));
+			scopeHandler(mapArgs(args));
 		 });
 		 
 		//unsubscribe rootRcope listener after scope destruction
@@ -44,10 +44,12 @@ bleChannels.factory('bleScannerChannel', ['$rootScope', 'bleScannerChannelConfig
   
     // publish found device notification
     var publishFoundDevice = function (rawDevice) {
+    	console.log('BLE: publishFoundDevice ' , rawDevice); 
         _publish(bleScannerChannelConfig._FOUND_BLE_DEVICE_, {rawDevice: rawDevice});
     };
     //subscribe to found device notification
     var onFoundBleDevice = function($scope, scopeHandler) {
+    	console.log('BLE: onFoundBleDevice ' , $scope);
     	_subscribe(bleScannerChannelConfig._FOUND_BLE_DEVICE_, $scope, scopeHandler, function(args) { return args.rawDevice; });
     };
   

@@ -15,8 +15,8 @@ appControllers
 })
 
 .controller('AppCtrl', ['$scope', 
-                function($scope) {
-		
+                function($scope ) {
+	
 }]);
 
 
