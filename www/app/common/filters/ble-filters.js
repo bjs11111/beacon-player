@@ -283,14 +283,12 @@ bleFilters
 .filter('base64DecToArr', ['$filter', function($filter) {
   
 	return function(sBase64, nBlocksSize) {
-	
 		var b64ToUint6 = $filter('b64ToUint6'),
-		
 	     	sB64Enc = sBase64.replace(/[^A-Za-z0-9\+\/]/g, ""), 
 	     	nInLen = sB64Enc.length,
 	     	nOutLen = nBlocksSize ? Math.ceil((nInLen * 3 + 1 >> 2) / nBlocksSize) * nBlocksSize : nInLen * 3 + 1 >> 2, 
 	     	taBytes = new Uint8Array(nOutLen);
-
+	     	
 	   for (var nMod3, nMod4, nUint24 = 0, nOutIdx = 0, nInIdx = 0; nInIdx < nInLen; nInIdx++) {
 	     nMod4 = nInIdx & 3;
 	     nUint24 |= b64ToUint6(sB64Enc.charCodeAt(nInIdx)) << 18 - 6 * nMod4;

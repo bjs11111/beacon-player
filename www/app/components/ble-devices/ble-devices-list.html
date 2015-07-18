@@ -1,0 +1,41 @@
+<ion-view id="scanningView">
+	
+	<ion-nav-title >
+      BLE Devices
+    </ion-nav-title>
+ 
+	<ion-nav-buttons side="left">
+		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+	</ion-nav-buttons>
+  
+  	<ion-content class="has-header">
+  
+
+	<h2 class="text-center positive padding-vertical" ng-show="bleDevicesCtrl.allDevicesList.length == 0">no beacons found...</h2>
+ 	
+ 	<ion-list 	show-delete="false"
+		        show-reorder="false"
+		        can-swipe="true" 
+ 	>
+		<ion-item ng-repeat="device in bleDevicesCtrl.allDevicesList track by device.bcmsBeaconKey " 
+                  href="#" 
+                  class=" item-icon-right"> 
+    			  <h2 >{{device.lastScan}}-{{device.rssi}} => {{device.major}}.{{device.minor}}</h2>		  
+ 		</ion-item>
+ 		
+ 	</ion-list>
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+
+  </ion-content>
+  
+  
+</ion-view>

@@ -14,10 +14,7 @@ generalServices.constant("generalServiceConfig", {
 	},
 	//path vars
 	basePath 				: 'http://www.starnberger.at/dev-bcms',
-	getBeaconsListPath		: 'get-all-beacons',
-	iabView 				: 'b-i',
-	//Events
-	_TRY_IAB_OPEN_EVENT_ 	: '_TRY_IAB_OPEN_EVENT_',
+	iabView 				: 'b-i'
 
 });
 
@@ -206,6 +203,7 @@ generalServices.factory('generalService', ['$rootScope', '$ionicPlatform', '$ion
 		  $rootScope.$on('$cordovaInAppBrowser:exit', function(e, event){
 			  iabIsOpen = false;  
 		  });
+		  
 	};
 		
 	// return the publicly accessible methods

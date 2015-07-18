@@ -1,4 +1,4 @@
-var appControllers = angular.module('appControllers', [ 'ngCordova', 'bleState', 'qrScanner']);
+var appControllers = angular.module('appControllers', [ 'ngCordova', 'bleState', 'qrScanner', 'deviceManagers']);
 
 /* 
  * 
@@ -14,8 +14,8 @@ appControllers
 	msBeforeBeaconIsOld : 1000 * 10,
 })
 
-.controller('AppCtrl', ['$scope', 
-                function($scope ) {
+.controller('AppCtrl', ['$scope', 'bleDeviceService', 
+                function($scope, bleDeviceService) {
 	
 }]);
 

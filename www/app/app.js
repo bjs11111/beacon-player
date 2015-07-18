@@ -4,7 +4,7 @@ var beaconPlayerApp = angular.module('beaconPlayerApp',
 		  //main controller
 		  'appControllers',
 		  //components/pages
-		  'helpControllers', 'scanningControllers', 'tourControllers', 'settingsControllers', 
+		  'helpControllers', 'bleDevicesControllers', 'apiDevicesControllers', 'scanningControllers', 'tourControllers', 'settingsControllers', 
 ]);
 
 beaconPlayerApp.config([ '$stateProvider', '$urlRouterProvider',
@@ -38,6 +38,26 @@ beaconPlayerApp.config([ '$stateProvider', '$urlRouterProvider',
 					'mainContent' : {
 						templateUrl : 'app/components/help/help.html',
 						controller : 'helpCtrl'
+					}
+				}
+			})
+			
+			.state('app.ble-devices', {
+				url : '/ble-devices',
+				views : {
+					'mainContent' : {
+						templateUrl : 'app/components/ble-devices/ble-devices-list.html',
+						controller : 'bleDevicesListCtrl'
+					}
+				}
+			})
+			
+			.state('app.api-devices', {
+				url : '/api-devices',
+				views : {
+					'mainContent' : {
+						templateUrl : 'app/components/api-devices/api-devices-list.html',
+						controller : 'apiDevicesListCtrl'
 					}
 				}
 			})

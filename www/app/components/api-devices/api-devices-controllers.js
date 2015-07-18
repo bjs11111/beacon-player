@@ -1,30 +1,16 @@
 /* Controllers of start component */
-var scanningControllers = angular.module('scanningControllers', ['bleChannels', 'deviceManagers', 'beaconAPIServices', 'deviceListDirectives']);
-
-
-/*Config for scanning controllers*/
-scanningControllers.constant("scanningCtrlConfig", {
-	
-	iabOpenVibratePattern : [100, 100, 100],
-	iabOpenVibrateTime : 100,
-
-	iabDefaultSettings 		:  {
-		      location		: 'no',
-		      clearcache	: 'no',
-		      toolbar		: 'no'
-		    }
-});
+var apiDevicesControllers = angular.module('apiDevicesControllers', ['bleChannels', 'deviceManagers', 'beaconAPIServices', 'deviceListDirectives']);
  
 /*Scanning controller*/
-scanningControllers.controller('scanningCtrl',
+apiDevicesControllers.controller('apiDevicesListCtrl',
 				[ '$scope', 'bleScannerChannel','beaconAPIService', 'bleDeviceChannel', 'bleDeviceService',
          function( $scope,   bleScannerChannel,  beaconAPIService,   bleDeviceChannel,   bleDeviceService) {
 			   
-			$scope.scanCtrl = {};
-			$scope.scanCtrl.allDevicesList = {};		
+			$scope.apiDevicesCtrl = {};
+			$scope.apiDevicesCtrl.allDevicesList = {};		
 
 	      	//start refreshes serverdata every x ms
-	    	$scope.scanCtrl.refreshServerData = function() {
+	    	$scope.apiDevicesCtrl.refreshServerData = function() {
 	    		bleDeviceService.updateBeaconsFromServer()
 			    	.then(
 		    			//success
@@ -35,14 +21,14 @@ scanningControllers.controller('scanningCtrl',
 	    	
 	    	//this is used to update list after serverdata updated   	
 	    	var subKnownDeviceUpdatedHandler = function(key)  { 
-	    		console.log('subKnownDeviceUpdatedHandler' + Date.now()); 
-				$scope.scanCtrl.allDevicesList[key] 	= bleDeviceService.getKnownDevice(key);
+	    		
+				//$scope.apiDevicesCtrl.allDevicesList[key] 	= bleDeviceService.getKnownDevice(key);
 				
 			};
 		
 	      	//initial stuff 
 	      	var init = function () {
-	      		bleDeviceChannel.subKnownDeviceUpdated($scope, subKnownDeviceUpdatedHandler );
+	      		//bleDeviceChannel.subKnownDeviceUpdated($scope, subKnownDeviceUpdatedHandler );
 	      	}
 	      	
 	      	init();

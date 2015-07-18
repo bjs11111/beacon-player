@@ -41,7 +41,6 @@ bleState.directive('sitBleState', function() {
 		    		if(!sitBleScanner.getBleScannerState()){ 
 		    			sitBleScanner.startScanning(); }
 		    		else { sitBleScanner.stopScanning(); }
-		    		console.log(sitBleScanner.getBleScannerState()); 
 		        };
 		        
 		        init();

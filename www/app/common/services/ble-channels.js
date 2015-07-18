@@ -37,19 +37,16 @@ bleChannels.factory('bleScannerChannel', ['$rootScope', 'bleScannerChannelConfig
     	_publish(bleScannerChannelConfig._BLE_SCANNER_STATE_UPDATED_, {state: state});
     };
     //subscribe to found device notification
-    var onBleScannerStateUpdated = function($scope, scopescopeHandler) {
-    	_subscribe(bleScannerChannelConfig._BLE_SCANNER_STATE_UPDATED_, $scope, scopescopeHandler, function(args) { return args.state; });
+    var onBleScannerStateUpdated = function($scope, scopeHandler) {
+    	_subscribe(bleScannerChannelConfig._BLE_SCANNER_STATE_UPDATED_, $scope, scopeHandler, function(args) { return args.state; });
     };
-   
   
     // publish found device notification
     var publishFoundDevice = function (rawDevice) {
-    	console.log('BLE: publishFoundDevice ' , rawDevice); 
         _publish(bleScannerChannelConfig._FOUND_BLE_DEVICE_, {rawDevice: rawDevice});
     };
     //subscribe to found device notification
     var onFoundBleDevice = function($scope, scopeHandler) {
-    	console.log('BLE: onFoundBleDevice ' , $scope);
     	_subscribe(bleScannerChannelConfig._FOUND_BLE_DEVICE_, $scope, scopeHandler, function(args) { return args.rawDevice; });
     };
   
@@ -112,7 +109,6 @@ bleChannels.factory('bleScannerChannel', ['$rootScope', 'bleScannerChannelConfig
 	   
 	   publishBleStartScanError 		: publishBleStartScanError,
 	   onBleStartScanError				: onBleStartScanError
-	   
    	};
 }]);
    
