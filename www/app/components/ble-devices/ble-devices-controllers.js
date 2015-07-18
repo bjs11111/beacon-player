@@ -5,7 +5,7 @@ var bleDevicesControllers = angular.module('bleDevicesControllers', ['bleChannel
 bleDevicesControllers.controller('bleDevicesListCtrl',
 				[ '$scope', 'bleScannerChannel','beaconAPIService', 'bleScannerChannel',
          function( $scope,   bleScannerChannel,  beaconAPIService,   bleScannerChannel) {
-			   
+			//we need a "." in our view variables  
 			$scope.bleDevicesCtrl = {};
 			$scope.bleDevicesCtrl.allDevicesList = {};		
 
@@ -13,7 +13,7 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 	    	
 	    	//this is used to update list after serverdata updated   	
 	    	var onFoundDeviceHandler = function(preparedDevice)  { 
-	    		console.log('subKnownDeviceUpdatedHandler' + Date.now()); 
+	    		console.log('bleDevicesListCtrl onFoundDeviceHandler' + Date.now()); 
 				$scope.bleDevicesCtrl.allDevicesList[preparedDevice.bcmsBeaconKey] 	= preparedDevice;
 				$scope.$apply();
 			};

@@ -12,22 +12,22 @@
   
 
 	<h2 class="text-center positive padding-vertical" ng-show="listLength == 0">no beacons found...</h2>
- 	<sit-ble-state></sit-ble-state>	
+ 
  	<ion-refresher on-refresh="apiDevicesCtrl.refreshServerData('pullToRefresh')"></ion-refresher>
- 	
- 	<ion-list 	ng-show="listLength != 0" 
-		 		show-delete="false"
+ 	<ion-list 	show-delete="false"
 		        show-reorder="false"
 		        can-swipe="true" 
  	>
  	
-		<ion-item ng-repeat="device in apiDevicesCtrl.allDevicesList track by device.bcmsBeaconKey " 
+		<ion-item ng-repeat="device in apiDevicesCtrl.apiDevicesList track by device.bcmsBeaconKey " 
                   href="#" 
                   class=" item-icon-right "
                   ng-class="device.bcmsBeacon.contentThumbnailUrl?'item-avatar':'item-icon-left'"> 
-    			 
-                  <img class="content-img" ng-show="device.bcmsBeacon.contentThumbnailUrl" ng-src="{{device.bcmsBeacon.contentThumbnailUrl}}"> 
- 				   <ng-ble-item ng-model="device" ng-click="openIAB(device.bcmsBeaconKey)"></ng-ble-item>  		  
+                  
+                  <img class="content-img" ng-show="device.bcmsBeacon.contentThumbnailUrl" ng-src="{{device.bcmsBeacon.contentThumbnailUrl}}">
+                 
+				  <h2>{{device.bcmsBeacon.content_title}}</h2>
+ 				  <ng-ble-item ng-model="device" ng-click="openIAB(device.bcmsBeaconKey)"></ng-ble-item>  
  		</ion-item>
  		
  	</ion-list>

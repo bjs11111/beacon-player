@@ -154,8 +154,10 @@ function( $rootScope,   $q,   $filter,   bleDeviceServiceConfig,   bleDeviceChan
              	
              	  //device from ble scanner
          		  if ( type == bleDeviceServiceConfig.mapTypeBleDevice ) {
+         			  
          			  data.scanData = deviceData;
          			  knownDevicesList[bcmsBeaconKey] = data;
+         			  
              	  } 
              	  //bcmsData
              	  else if ( bleDeviceServiceConfig.mapTypeAPIDevice ) {

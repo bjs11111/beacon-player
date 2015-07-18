@@ -14,12 +14,11 @@ scanningControllers.constant("scanningCtrlConfig", {
 		      toolbar		: 'no'
 		    }
 });
- 
 /*Scanning controller*/
 scanningControllers.controller('scanningCtrl',
 				[ '$scope', 'bleScannerChannel','beaconAPIService', 'bleDeviceChannel', 'bleDeviceService',
          function( $scope,   bleScannerChannel,  beaconAPIService,   bleDeviceChannel,   bleDeviceService) {
-			   
+			//we need a "." in our view variables			   
 			$scope.scanCtrl = {};
 			$scope.scanCtrl.allDevicesList = {};		
 
@@ -35,9 +34,9 @@ scanningControllers.controller('scanningCtrl',
 	    	
 	    	//this is used to update list after serverdata updated   	
 	    	var subKnownDeviceUpdatedHandler = function(key)  { 
-	    		console.log('subKnownDeviceUpdatedHandler' + Date.now()); 
-				$scope.scanCtrl.allDevicesList[key] 	= bleDeviceService.getKnownDevice(key);
-				
+	    		console.log('scanningCtrl subKnownDeviceUpdatedHandler' + Date.now()); 
+				$scope.scanCtrl.allDevicesList[key] 	= bleDeviceService.getKnownDevice(key); 
+				$scope.$apply(); 
 			};
 		
 	      	//initial stuff 

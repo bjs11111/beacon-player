@@ -1,34 +1,36 @@
 /* Controllers of start component */
-var apiDevicesControllers = angular.module('apiDevicesControllers', ['bleChannels', 'deviceManagers', 'beaconAPIServices', 'deviceListDirectives']);
+var apiDevicesControllers = angular.module('apiDevicesControllers', ['deviceManagers', 'beaconAPIServices', 'deviceListDirectives']);
  
 /*Scanning controller*/
 apiDevicesControllers.controller('apiDevicesListCtrl',
-				[ '$scope', 'bleScannerChannel','beaconAPIService', 'bleDeviceChannel', 'bleDeviceService',
-         function( $scope,   bleScannerChannel,  beaconAPIService,   bleDeviceChannel,   bleDeviceService) {
+				[ '$scope', 'beaconAPIService',
+         function( $scope,   beaconAPIService) {
 			   
+			//we need a "." in our view variables
 			$scope.apiDevicesCtrl = {};
-			$scope.apiDevicesCtrl.allDevicesList = {};		
+			$scope.apiDevicesCtrl.apiDevicesList = {};		
 
 	      	//start refreshes serverdata every x ms
 	    	$scope.apiDevicesCtrl.refreshServerData = function() {
-	    		bleDeviceService.updateBeaconsFromServer()
+	    		beaconAPIService.getAllBeacons()
 			    	.then(
 		    			//success
-		    			function () { console.log('getAllBeacons e' + Date.now() ); $scope.$broadcast('scroll.refreshComplete');  }, 
+		    			function (apiDeviceList) { 
+		    				console.log('apiDevicesListCtrl refreshServerData' + Date.now() ); 
+		    				angular.forEach(apiDeviceList, function(beacon, key) {
+		    					$scope.apiDevicesCtrl.apiDevicesList[key] = {	bcmsBeaconKey	: key,
+		    																	bcmsBeacon 		: beacon
+		    																};
+		    				});	
+		    				
+		    				$scope.$broadcast('scroll.refreshComplete');  }, 
 		    			//error
 		    			function() { $scope.$broadcast('scroll.refreshComplete'); }); 
 	    	}	
-	    	
-	    	//this is used to update list after serverdata updated   	
-	    	var subKnownDeviceUpdatedHandler = function(key)  { 
-	    		
-				//$scope.apiDevicesCtrl.allDevicesList[key] 	= bleDeviceService.getKnownDevice(key);
-				
-			};
 		
 	      	//initial stuff 
 	      	var init = function () {
-	      		//bleDeviceChannel.subKnownDeviceUpdated($scope, subKnownDeviceUpdatedHandler );
+	      		
 	      	}
 	      	
 	      	init();
