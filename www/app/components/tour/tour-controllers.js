@@ -102,7 +102,7 @@ tourControllers.controller( 'tourCtrl', [ '$scope', 'generalService', 'bleScanne
 	    	.then(
     			//success
     			function (apiDeviceList) { 
-    				console.log('apiDevicesListCtrl refreshServerData' + Date.now() ); 
+    				
     				angular.forEach(apiDeviceList, function(beacon, key) {
     					$scope.apiDevicesCtrl.apiDevicesList[key] = {	bcmsBeaconKey	: key,
     																	bcmsBeacon 		: beacon
@@ -121,14 +121,13 @@ tourControllers.controller( 'tourCtrl', [ '$scope', 'generalService', 'bleScanne
 	
 	// Filters only known Devices
 	var filterKnownBeacons = function(allDevicesList){
-		console.log("Filter known Devices:" + allDevicesList);
+		
 		var onlyKnownDevicesList = {};
 		
 		// Filter Only known Devices
 		for (var key in allDevicesList) { 
 			var tmpDevice= $scope.apiDevicesCtrl.apiDevicesList[key];
 			if(tmpDevice){
-				console.log("Beacon Found! ");
 				onlyKnownDevicesList[key]=tmpDevice;
 			}
 		}
@@ -167,7 +166,6 @@ tourControllers.controller( 'tourCtrl', [ '$scope', 'generalService', 'bleScanne
 	
 	// Filters only known Devices
 	var filterWhitelistBeacons = function(filteredDevicesList){
-		console.log("Filter Whitelist:" + filteredDevicesList);
 		
 		var whitelistDevicesList = {};
 		var whitelistBeacons = {};
@@ -176,7 +174,7 @@ tourControllers.controller( 'tourCtrl', [ '$scope', 'generalService', 'bleScanne
 		for (var key in filteredDevicesList) { 
 			//TODO: universalize key format. Somewhere it is with "-" and sometimes without.
 			var tmpDevice = $scope.apiDevicesCtrl.apiDevicesList[key];
-			console.log(tmpDevice);
+			
 			if(tmpDevice.bcmsBeacon.whitelisted==1){
 				whitelistBeacons[key]=tmpDevice;
 			}
@@ -202,10 +200,19 @@ tourControllers.controller( 'tourCtrl', [ '$scope', 'generalService', 'bleScanne
 		return whitelistDevicesList;
 	}
 	
+	
+	//TODO: Implement detailed Distance estimation
 	var calculateDistance = function(filteredDevicesList){
 		for (var key in filteredDevicesList) { 
 			
-			filteredDevicesList[key].sort = $scope.bleDevicesCtrl.allDevicesList[key].rssi * $scope.bleDevicesCtrl.allDevicesList[key].rssi;
+			var OFFSET_PROXIMITY_NEAR=0;
+			var OFFSET_PROXIMITY_INTERMEDIATE=15;
+			var OFFSET_PROXIMITY_FAR=30;
+			
+			if(filteredDevicesList[key].bcmsBeacon.triggerZone=="Near") filteredDevicesList[key].sort = (-1) * $scope.bleDevicesCtrl.allDevicesList[key].rssi - OFFSET_PROXIMITY_NEAR;
+			if(filteredDevicesList[key].bcmsBeacon.triggerZone=="Intermediate") filteredDevicesList[key].sort = (-1) * $scope.bleDevicesCtrl.allDevicesList[key].rssi - OFFSET_PROXIMITY_INTERMEDIATE;
+			if(filteredDevicesList[key].bcmsBeacon.triggerZone=="Far") filteredDevicesList[key].sort = (-1) * $scope.bleDevicesCtrl.allDevicesList[key].rssi - OFFSET_PROXIMITY_FAR;
+			
 			
 		}
 		return filteredDevicesList;
@@ -214,10 +221,9 @@ tourControllers.controller( 'tourCtrl', [ '$scope', 'generalService', 'bleScanne
 	
 	
 	
-	//this is used to update list after serverdata updated   	
+	// Get Updates from Bluetooth Scan 	
 	var onFoundDeviceHandler = function(preparedDevice)  {
-		console.log('bleDevicesListCtrl onFoundDeviceHandler' + Date.now()); 
-		
+
 		// Put Device into Array
 		$scope.bleDevicesCtrl.allDevicesList[preparedDevice.bcmsBeaconKey] 	= preparedDevice;
 		$scope.bleDevicesCtrl.filteredDevicesList = {};
@@ -235,7 +241,7 @@ tourControllers.controller( 'tourCtrl', [ '$scope', 'generalService', 'bleScanne
 		// Update Ionic View Array
 		updateIonicView($scope.bleDevicesCtrl.filteredDevicesList);
 		
-		if(secondsLastViewUpdate + MIN_VIEW_UPDATE_INTERVAL < new Date().getTime() / 1000)
+		//if(secondsLastViewUpdate + MIN_VIEW_UPDATE_INTERVAL < new Date().getTime() / 1000)
 		{
 			secondsLastViewUpdate = new Date().getTime() / 1000;
 			$scope.$apply();
@@ -245,15 +251,11 @@ tourControllers.controller( 'tourCtrl', [ '$scope', 'generalService', 'bleScanne
 	
 	
 	// Start Scanning
-		
+		//TODO: Automatically start scanner here
+	
+	//TODO: Retreive All Beacon List from Server
 	
 	// Register for Updates when Beacons are scanned
-		bleScannerChannel.onFoundBleDevice($scope, onFoundDeviceHandler );
-		
-
-		
-	// Get Updates from Bluetooth Scan
-	
-	
+	bleScannerChannel.onFoundBleDevice($scope, onFoundDeviceHandler );
 
 }]);
