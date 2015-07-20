@@ -202,7 +202,7 @@ tourControllers.controller( 'tourCtrl', [ '$scope', 'generalService', 'bleScanne
 	
 	
 	//this is used to update list after serverdata updated   	
-	var onFoundDeviceHandler = function(preparedDevice)  { 
+	var onFoundDeviceHandler = function(preparedDevice)  {
 		console.log('bleDevicesListCtrl onFoundDeviceHandler' + Date.now()); 
 		
 		// Put Device into Array
@@ -225,7 +225,6 @@ tourControllers.controller( 'tourCtrl', [ '$scope', 'generalService', 'bleScanne
 		{
 			secondsLastViewUpdate = new Date().getTime() / 1000;
 			$scope.$apply();
-			
 		}
 		
 	};
