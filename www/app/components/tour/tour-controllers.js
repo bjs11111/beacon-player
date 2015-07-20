@@ -36,6 +36,12 @@ tourControllers.controller( 'tourCtrl', [ '$scope', 'generalService', 'bleScanne
 	
 	var secondsLastViewUpdate = 0;
 	var MIN_VIEW_UPDATE_INTERVAL = 2;
+	var MAX_MEASUREMENTS=15;	// Maximum Number of RSSI measurements to calculate average distance
+	var MAX_TIME=5;				// Maximum Time a measurement is preserved to average Distance
+	var FACTOR_PER_SECOND=0.85;	// Time weighted average factor 
+	var OFFSET_PROXIMITY_NEAR=0;
+	var OFFSET_PROXIMITY_INTERMEDIATE=15;
+	var OFFSET_PROXIMITY_FAR=30;
 	
 	
 	$scope.openIABWithKey = generalService.openIABWithKey;
@@ -120,12 +126,10 @@ tourControllers.controller( 'tourCtrl', [ '$scope', 'generalService', 'bleScanne
 		
 		// Filter Only known Devices
 		for (var key in allDevicesList) { 
-			//TODO: universalize key format. Somewhere it is with "-" and sometimes without.
-			var key2=allDevicesList[key].iBeaconUuid + "." + allDevicesList[key].major + "." + allDevicesList[key].minor;
-			var tmpDevice= $scope.apiDevicesCtrl.apiDevicesList[key2];
+			var tmpDevice= $scope.apiDevicesCtrl.apiDevicesList[key];
 			if(tmpDevice){
 				console.log("Beacon Found! ");
-				onlyKnownDevicesList[key2]=tmpDevice;
+				onlyKnownDevicesList[key]=tmpDevice;
 			}
 		}
 		
@@ -146,8 +150,8 @@ tourControllers.controller( 'tourCtrl', [ '$scope', 'generalService', 'bleScanne
 			    	major:filteredDevicesList[key].bcmsBeacon.major,
 			    	minor:filteredDevicesList[key].bcmsBeacon.minor,		                            	
 			    	triggerZone:filteredDevicesList[key].bcmsBeacon.triggerZone,
-			    	rssi:-65, 
-			    	sort:4
+			    	rssi:$scope.bleDevicesCtrl.allDevicesList[key].rssi,
+			    	sort:filteredDevicesList[key].sort
 			};
 			tmpDeviceList.push(deviceToAdd);
 		}
@@ -198,6 +202,15 @@ tourControllers.controller( 'tourCtrl', [ '$scope', 'generalService', 'bleScanne
 		return whitelistDevicesList;
 	}
 	
+	var calculateDistance = function(filteredDevicesList){
+		for (var key in filteredDevicesList) { 
+			
+			filteredDevicesList[key].sort = $scope.bleDevicesCtrl.allDevicesList[key].rssi * $scope.bleDevicesCtrl.allDevicesList[key].rssi;
+			
+		}
+		return filteredDevicesList;
+	}
+	
 	
 	
 	
@@ -217,6 +230,7 @@ tourControllers.controller( 'tourCtrl', [ '$scope', 'generalService', 'bleScanne
 		
 		// Calculate Distance Beacons <--> Phone
 		
+		$scope.bleDevicesCtrl.filteredDevicesList = calculateDistance($scope.bleDevicesCtrl.filteredDevicesList);
 		
 		// Update Ionic View Array
 		updateIonicView($scope.bleDevicesCtrl.filteredDevicesList);
