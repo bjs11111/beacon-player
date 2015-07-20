@@ -1,7 +1,12 @@
+/* Controllers of start component */
+var bleDevicesControllers = angular.module('bleDevicesControllers', ['bleChannels', 'deviceManagers', 'beaconAPIServices', 'deviceListDirectives']);
+ 
+
+
 /* Controllers of tour component */
 //______________________________________________________________________________________
 
-var tourControllers = angular.module('tourControllers', ['generalServices']);
+var tourControllers = angular.module('tourControllers', ['bleChannels', 'deviceManagers', 'beaconAPIServices', 'deviceListDirectives']);;
 
 /* Tour Controllers Config*/
 tourControllers.constant("tourCtrlConfig", {
@@ -17,8 +22,14 @@ tourControllers.constant("tourCtrlConfig", {
 });
 
 /* Tour Controllers */
-tourControllers.controller( 'tourCtrl', [ '$scope', 'generalService',
-                                  function($scope,   generalService) {
+tourControllers.controller( 'tourCtrl', [ '$scope', 'generalService', 'bleScannerChannel','beaconAPIService', 'bleScannerChannel', 'bleDeviceService',
+                                  function($scope,   generalService, bleScannerChannel,  beaconAPIService,   bleScannerChannel, bleDeviceService) {
+	
+	
+	$scope.bleDevicesCtrl = {};
+	$scope.bleDevicesCtrl.allDevicesList = {};	
+	$scope.bleDevicesCtrl.filteredDevicesList = {};
+	
 	
 	$scope.openIABWithKey = generalService.openIABWithKey;
 
@@ -64,5 +75,81 @@ tourControllers.controller( 'tourCtrl', [ '$scope', 'generalService',
 		                            	sort:1
 		                            }
 		];
+	
+	
+	
+	var filterKnownBeacons = function(allDevicesList){
+		console.log("Filter known Devices:" + allDevicesList);
+		for (var key in allDevicesList) { 
+			if(bleDeviceService.getKnownDevice(key)){
+				console.log("Beacon Found! ");
+			}
+		}
+	}
+	
+	
+	//this is used to update list after serverdata updated   	
+	var onFoundDeviceHandler = function(preparedDevice)  { 
+		console.log('bleDevicesListCtrl onFoundDeviceHandler' + Date.now()); 
+		
+		// Put Device into Array
+		$scope.bleDevicesCtrl.allDevicesList[preparedDevice.bcmsBeaconKey] 	= preparedDevice;
+		$scope.bleDevicesCtrl.filteredDevicesList = {};
+		
+		// Filter Devices that are in BCMS
+		$scope.bleDevicesCtrl.filteredDevicesList = filterKnownBeacons($scope.bleDevicesCtrl.allDevicesList);
+		
+		// Filter Devices that with Whitelist Beacons
+		
+		
+		// Calculate Distance Beacons <--> Phone
+		
+		
+		// Update Ionic View Array
+		
+		
+		//$scope.$apply();
+		
+	};
+	
+	
+	// Start Scanning
+		
+	
+	// Register for Updates when Beacons are scanned
+		bleScannerChannel.onFoundBleDevice($scope, onFoundDeviceHandler );
+		
+
+		
+	// Get Updates from Bluetooth Scan
+		
+
+	
+	
+	
+	
+	
+	$scope.bleDevicesCtrl = {};
+	$scope.bleDevicesCtrl.allDevicesList = {};
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }]);
