@@ -1,26 +1,29 @@
-/* Controllers of start component */
-var apiDevicesControllers = angular.module('apiDevicesControllers', ['deviceManagers', 'beaconAPIServices', 'deviceListDirectives']);
+var apiDevicesControllers = angular.module('apiDevicesControllers', ['beaconAPIServices', 'generalServices']);
  
-/*Scanning controller*/
 apiDevicesControllers.controller('apiDevicesListCtrl',
-				[ '$scope', 'beaconAPIService',
-         function( $scope,   beaconAPIService) {
+				[ '$scope', 'beaconAPIService', 'generalService',
+         function( $scope,   beaconAPIService,   generalService) {
 			   
+	
 			//we need a "." in our view variables
 			$scope.apiDevicesCtrl = {};
-			$scope.apiDevicesCtrl.apiDevicesList = {};
+			$scope.apiDevicesCtrl.apiDevicesList = [];
+			
+			//functions
+			$scope.openIABWithKey = generalService.openIABWithKey;
 
-	      	//start refreshes serverdata every x ms
 	    	$scope.apiDevicesCtrl.refreshServerData = function() {
 	    		beaconAPIService.getAllBeacons()
 			    	.then(
 		    			//success
 		    			function (apiDeviceList) { 
-		    				console.log('apiDevicesListCtrl refreshServerData' + Date.now() ); 
+		    				var newDevice = {};
 		    				angular.forEach(apiDeviceList, function(beacon, key) {
-		    					$scope.apiDevicesCtrl.apiDevicesList[key] = {	bcmsBeaconKey	: key,
-		    																	bcmsBeacon 		: beacon
-		    																};
+		    					newDevice = {	bcmsBeaconKey	: key,
+												bcmsBeacon 		: beacon
+								};
+		    					
+		    					$scope.apiDevicesCtrl.apiDevicesList.push(newDevice);
 		    				});	
 		    				
 		    				$scope.$broadcast('scroll.refreshComplete');  }, 
@@ -28,12 +31,4 @@ apiDevicesControllers.controller('apiDevicesListCtrl',
 		    			function() { $scope.$broadcast('scroll.refreshComplete'); }); 
 	    	}	
 		
-	      	//initial stuff 
-	      	var init = function () {
-	      		
-	      	}
-	      	
-	      	init();
-	    
-
 }]);

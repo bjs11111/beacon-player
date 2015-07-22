@@ -22,14 +22,15 @@
  	
 		<ion-item  
 			collection-repeat="device in apiDevicesCtrl.apiDevicesList track by device.bcmsBeaconKey"
-            collection-item-height="90"
+            collection-item-height="77"
             collection-item-width="'100%'" 
+  			 ng-click="openIABWithKey(device.bcmsBeaconKey)"
             href="#" 
-            class=" item-icon-right "
+            class="item-icon-right collection-item"
             ng-class="device.bcmsBeacon.contentThumbnailUrl?'item-avatar':'item-icon-left'"> 
                   <img class="content-img" ng-show="device.bcmsBeacon.contentThumbnailUrl" ng-src="{{device.bcmsBeacon.contentThumbnailUrl}}">
 				  <h2>{{device.bcmsBeacon.content_title}}</h2>
- 				  <ng-ble-item ng-model="device" ng-click="openIAB(device.bcmsBeaconKey)"></ng-ble-item>  
+ 				  <ng-ble-item ng-model="device"></ng-ble-item>   
  		</ion-item>
  		
  	</ion-list>

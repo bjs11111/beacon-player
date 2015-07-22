@@ -84,7 +84,7 @@ deviceListDirectives.directive('ngBleItem', function() {
     	 function($scope,   ngBleItemConfig) {
     	    	
     	$scope.getCmsStateColor = function(cmsBeacon) {
-    		cmsBeacon = (cmsBeacon)?cmsBeacon:$scope.ngModel.bcmsBeacon;
+    	/*	cmsBeacon = (cmsBeacon)?cmsBeacon:$scope.ngModel.bcmsBeacon;
     		
     		if($scope.ngModel.bcmsBeacon != undefined) {
         		return ngBleItemConfig.cmsState.connected.color;
@@ -94,7 +94,7 @@ deviceListDirectives.directive('ngBleItem', function() {
         	}
         	else {
         		return ngBleItemConfig.cmsState.unknown.color;
-        	}
+        	}*/
     	};
     	
     	$scope.getContentTypeIcon = function() {

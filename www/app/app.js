@@ -7,7 +7,7 @@ var beaconPlayerApp = angular.module('beaconPlayerApp',
 		  'helpControllers', 
 		  'bleDevicesControllers', 
 		  'apiDevicesControllers', 
-		  'scanningControllers', 
+		  //'scanningControllers', 
 		  'tourControllers', 
 		  'settingsControllers', 
 ]);
@@ -17,24 +17,28 @@ beaconPlayerApp.config(
   function($stateProvider,   $urlRouterProvider,   $ionicConfigProvider) {
 			
 			/**
-			 * config ionic 
-			 **/
-			//@Todo check if needed or use defaults for each device
-			//$ionicConfigProvider.tabs.position('bottom');
-			
-			/**
 			 * config routing
 			 **/
 			// if none of the above states are matched, use this as the fallback
 			$urlRouterProvider.otherwise('/app/scanning');
 
 			$stateProvider
-
+			
+			.state('app.settings', {
+				url : '/settings',
+				views : {
+					'mainContent' : {
+						templateUrl : 'app/components/settings/settings.html',
+						controller 	: 'settingsCtrl'
+					}
+				}
+			})
+			
 			.state('app', {
-				url : "/app",
+				url : "/app", 
 				abstract : true,
 				templateUrl : "app/templates/main-sidemenu.html",
-				controller : 'AppCtrl'
+				controller 	: 'AppCtrl'
 			})
 
 			.state('app.help', {
@@ -42,7 +46,7 @@ beaconPlayerApp.config(
 				views : {
 					'mainContent' : {
 						templateUrl : 'app/components/help/help.html',
-						controller : 'helpCtrl'
+						controller 	: 'helpCtrl'
 					}
 				}
 			})
@@ -52,7 +56,7 @@ beaconPlayerApp.config(
 				views : {
 					'mainContent' : {
 						templateUrl : 'app/components/ble-devices/ble-devices-list.html',
-						controller : 'bleDevicesListCtrl'
+						controller 	: 'bleDevicesListCtrl'
 					}
 				}
 			})
@@ -62,7 +66,7 @@ beaconPlayerApp.config(
 				views : {
 					'mainContent' : {
 						templateUrl : 'app/components/api-devices/api-devices-list.html',
-						controller : 'apiDevicesListCtrl'
+						controller 	: 'apiDevicesListCtrl'
 					}
 				}
 			})
@@ -72,7 +76,7 @@ beaconPlayerApp.config(
 				views : {
 					'mainContent' : {
 						templateUrl : 'app/components/scanning/scanning.html',
-						controller : 'scanningCtrl'
+						//controller 	: 'scanningCtrl'
 					}
 				}
 			})
@@ -82,20 +86,11 @@ beaconPlayerApp.config(
 				views : {
 					'mainContent' : {
 						templateUrl : 'app/components/tour/tour.html',
-						controller : 'tourCtrl'
+						controller 	: 'tourCtrl'
 					}
 				}
 			})
-			
-			.state('app.settings', {
-				url : '/settings',
-				views : {
-					'mainContent' : {
-						templateUrl : 'app/components/settings/settings.html',
-						controller : 'settingsCtrl'
-					}
-				}
-			});
+			;
 
 		}]);
 

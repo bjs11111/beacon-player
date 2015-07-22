@@ -1,12 +1,7 @@
-/* Controllers of start component */
-var bleDevicesControllers = angular.module('bleDevicesControllers', ['listFilters', 'bleChannels', 'deviceManagers', 'beaconAPIServices', 'deviceListDirectives']);
- 
-
-
 /* Controllers of tour component */
 //______________________________________________________________________________________
 
-var tourControllers = angular.module('tourControllers', ['bleChannels', 'deviceManagers', 'beaconAPIServices', 'deviceListDirectives']);;
+var tourControllers = angular.module('tourControllers', ['bleChannels', 'beaconAPIServices', 'deviceListDirectives']);;
 
 /* Tour Controllers Config*/
 tourControllers.constant("tourCtrlConfig", {
