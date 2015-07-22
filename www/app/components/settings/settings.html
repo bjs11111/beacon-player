@@ -6,8 +6,8 @@
 	</ion-nav-buttons> 
 	
 	<ion-content class="has-header"> 
-	        <ion-toggle toggle-class="toggle-balanced">Auto Open Content</ion-toggle>
-	        <ion-toggle toggle-class="toggle-balanced">Show Debug Information</ion-toggle>
+	        <ion-toggle ng-model="states.autoTriggerState" ng-change="toggleAutoTriggerState()" toggle-class="toggle-balanced">Auto Open Content</ion-toggle>
+	        <ion-toggle ng-model="states.debugState" ng-change="test()" toggle-class="toggle-balanced">Show Debug Information</ion-toggle>
 	        <ion-toggle toggle-class="toggle-balanced">Optimize Beacon Detection</ion-toggle>
 	</ion-content> 
 	

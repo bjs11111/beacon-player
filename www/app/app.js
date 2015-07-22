@@ -4,19 +4,24 @@ var beaconPlayerApp = angular.module('beaconPlayerApp',
 		  //main controller
 		  'appControllers',
 		  //components/pages
-		  'helpControllers', 'bleDevicesControllers', 'apiDevicesControllers', 'scanningControllers', 'tourControllers', 'settingsControllers', 
+		  'helpControllers', 
+		  'bleDevicesControllers', 
+		  'apiDevicesControllers', 
+		  'scanningControllers', 
+		  'tourControllers', 
+		  'settingsControllers', 
 ]);
 
-beaconPlayerApp.config([ '$stateProvider', '$urlRouterProvider',
-		'$ionicConfigProvider',
-		function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+beaconPlayerApp.config(
+		[ '$stateProvider', '$urlRouterProvider', '$ionicConfigProvider',
+  function($stateProvider,   $urlRouterProvider,   $ionicConfigProvider) {
 			
 			/**
 			 * config ionic 
 			 **/
 			//@Todo check if needed or use defaults for each device
 			//$ionicConfigProvider.tabs.position('bottom');
-	
+			
 			/**
 			 * config routing
 			 **/
