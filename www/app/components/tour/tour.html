@@ -12,10 +12,10 @@
    
 	<h2 class="text-center positive padding-vertical" ng-show="listLength == 0">nothing found...</h2>
  	
- 	<ion-refresher on-refresh="apiDevicesCtrl.refreshServerData('pullToRefresh')"></ion-refresher>
+ 	<ion-refresher on-refresh="tourCtrlData.refreshServerData('pullToRefresh')"></ion-refresher>
  	
  		<!-- Beacon list -->
-		<div class="listContainer" ng-repeat="device in showDeviceList | orderBy:'sort'" 
+		<div class="listContainer" ng-repeat="device in tourCtrlData.showDeviceList | orderBy:'sort'" 
                   href="#" 
                   class=" item-icon-right "
                   ng-class="device.bcmsBeacon.contentThumbnailUrl?'item-avatar':'item-icon-left'"> 
