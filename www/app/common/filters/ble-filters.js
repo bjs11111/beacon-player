@@ -4,6 +4,94 @@
  * 
  */
 
+
+var listFilters = angular.module('listFilters',[]);
+
+
+listFilters.filter('lastScanFilter', function() {
+	
+	// Filters only known Devices
+	return function(items, msTimeAgo){
+		
+		var recentlyScannedBaecons = {};
+		
+		// Filter Only known Devices
+		angular.forEach(items, function(item, key) {
+				if(item.lastScan + msTimeAgo > Date.now()*1000){
+					this[key]=tmpDevice;
+				}
+	      	}, 
+	      	recentlyScannedBaecons
+	    );
+
+		return recentlyScannedBaecons;
+	}
+	
+});
+
+listFilters.filter('knownBeaconsFilter', function() {
+	
+	// Filters only known Devices
+	var filterKnownBeacons = function(items, serverBeacons){
+		
+		var onlyKnownDevicesList = {};
+		
+		// Filter Only known Devices
+		angular.forEach(items, function(item, key) {
+			 var tmpDevice= serverBeacons[key];
+				if(tmpDevice){
+					this[key]=tmpDevice;
+				}
+	      	}, 
+	      	onlyKnownDevicesList
+	    );
+
+		return onlyKnownDevicesList;
+	}
+	
+	return filterKnownBeacons;
+	
+});
+
+//@TODO optimize
+listFilters.filter('whitelistBeaconsFilter', function() {
+	
+	return function(items, serverBeacons) {
+		var whitelistDevicesList = {};
+		var whitelistBeacons = {};
+		
+		// Look if there are Whitelist Beacons and remember the user ids
+		for (var key in items) { 
+			//TODO: universalize key format. Somewhere it is with "-" and sometimes without.
+			var tmpDevice = serverBeacons[key];
+			
+			if(tmpDevice.bcmsBeacon.whitelisted==1){
+				whitelistBeacons[key]=tmpDevice;
+			}
+		}
+		
+		// Only add Beacons that have the same user id as the whitelist beacons
+		for(var key in items){
+			var tmpDevice = serverBeacons[key];
+			
+			if(Object.keys(whitelistBeacons).length==0){
+				whitelistDevicesList[key]=tmpDevice; // If no Whitelist beacon is in the area, add it anyways to list
+			}
+			else{
+				for(var key2 in whitelistBeacons){
+					if(whitelistBeacons[key2].bcmsBeacon.userId==tmpDevice.bcmsBeacon.userId)
+						whitelistDevicesList[key]=tmpDevice;
+				}
+			}
+			
+		}
+	
+		return whitelistDevicesList;
+	}
+	
+});
+
+
 var rangeFilters = angular.module('rangeFilters', []);
 rangeFilters
 .filter('rangeFilter', function() {// register new filter

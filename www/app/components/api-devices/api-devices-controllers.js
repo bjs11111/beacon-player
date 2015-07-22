@@ -8,7 +8,7 @@ apiDevicesControllers.controller('apiDevicesListCtrl',
 			   
 			//we need a "." in our view variables
 			$scope.apiDevicesCtrl = {};
-			$scope.apiDevicesCtrl.apiDevicesList = {};		
+			$scope.apiDevicesCtrl.apiDevicesList = {};
 
 	      	//start refreshes serverdata every x ms
 	    	$scope.apiDevicesCtrl.refreshServerData = function() {

@@ -432,7 +432,10 @@ bleScanners
 								//This is the UUID as iBeacon-UUID format
 								preparedDevice.iBeaconUuid = hexToIBeaconUuid(preparedDevice.mfUuid);
 								 
-								preparedDevice.bcmsBeaconKey = preparedDevice.mfUuid + '.' + preparedDevice.major + '.' + preparedDevice.minor;
+								//preparedDevice.bcmsBeaconKey = preparedDevice.mfUuid + '.' + preparedDevice.major + '.' + preparedDevice.minor;
+								preparedDevice.bcmsBeaconKey = preparedDevice.iBeaconUuid + '.' + preparedDevice.major + '.' + preparedDevice.minor;
+								
+								
 								//set lastScan to now
 								preparedDevice.lastScan = Date.now();
 							

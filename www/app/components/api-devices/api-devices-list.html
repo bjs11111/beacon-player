@@ -19,13 +19,15 @@
 		        can-swipe="true" 
  	>
  	
-		<ion-item ng-repeat="device in apiDevicesCtrl.apiDevicesList track by device.bcmsBeaconKey " 
-                  href="#" 
-                  class=" item-icon-right "
-                  ng-class="device.bcmsBeacon.contentThumbnailUrl?'item-avatar':'item-icon-left'"> 
-                  
+ 	
+		<ion-item  
+			collection-repeat="device in apiDevicesCtrl.apiDevicesList track by device.bcmsBeaconKey"
+            collection-item-height="90"
+            collection-item-width="'100%'" 
+            href="#" 
+            class=" item-icon-right "
+            ng-class="device.bcmsBeacon.contentThumbnailUrl?'item-avatar':'item-icon-left'"> 
                   <img class="content-img" ng-show="device.bcmsBeacon.contentThumbnailUrl" ng-src="{{device.bcmsBeacon.contentThumbnailUrl}}">
-                 
 				  <h2>{{device.bcmsBeacon.content_title}}</h2>
  				  <ng-ble-item ng-model="device" ng-click="openIAB(device.bcmsBeaconKey)"></ng-ble-item>  
  		</ion-item>

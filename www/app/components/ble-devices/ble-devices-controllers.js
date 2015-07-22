@@ -9,13 +9,11 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 			$scope.bleDevicesCtrl = {};
 			$scope.bleDevicesCtrl.allDevicesList = {};		
 
-	      	
-	    	
 	    	//this is used to update list after serverdata updated   	
 	    	var onFoundDeviceHandler = function(preparedDevice)  { 
 	    		console.log('bleDevicesListCtrl onFoundDeviceHandler' + Date.now()); 
 				$scope.bleDevicesCtrl.allDevicesList[preparedDevice.bcmsBeaconKey] 	= preparedDevice;
-				$scope.$apply();
+				$scope.$digest();
 			};
 		
 	      	//initial stuff 
