@@ -8,8 +8,8 @@ tourControllers.constant("tourCtrlConfig", {
 	//
 	MIN_VIEW_UPDATE_INTERVAL : 2,
 	MAX_MEASUREMENTS:20,	// Maximum Number of RSSI measurements to calculate average distance
-	MAX_TIME:7,				// Maximum Time a measurement is preserved to average Distance
-	FACTOR_PER_SECOND:0.9,	// Time weighted average factor 
+	MAX_TIME:8,				// Maximum Time a measurement is preserved to average Distance
+	FACTOR_PER_SECOND:0.85,	// Time weighted average factor 
 	
 	//
 	OFFSET_PROXIMITY_NEAR:0,
@@ -100,7 +100,7 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 			    	sort:filteredDevicesList[key].sort
 			};
 			tmpDeviceList.push(deviceToAdd);
-			if(count++ > 2) break;
+			//if(count++ >= 2) break;
 			
 		}
     	
@@ -132,7 +132,10 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 			}
 			distance/=weighted;
 			
-			filteredDevicesList[key].sort=1/distance;
+			filteredDevicesList[key].sort=1000/distance;
+			
+			//!!! Dirty try to avoid popping in of new beacons
+			if($scope.tourCtrlData.rssiMeasurements[key].rssi.length < 3 ) filteredDevicesList[key].sort +=3;
 			 
 			//if(filteredDevicesList[key].bcmsBeacon.triggerZone=="Near") filteredDevicesList[key].sort = (-1) * $scope.tourCtrlData.allDevicesList[key].rssi - tourCtrlConfig.OFFSET_PROXIMITY_NEAR;
 			//if(filteredDevicesList[key].bcmsBeacon.triggerZone=="Intermediate") filteredDevicesList[key].sort = (-1) * $scope.tourCtrlData.allDevicesList[key].rssi - tourCtrlConfig.OFFSET_PROXIMITY_INTERMEDIATE;
