@@ -67,6 +67,7 @@ generalServices.factory('generalService', ['$rootScope', '$ionicPlatform', '$ion
 	//@TODO finish implementation
 	var qrSuccessCallback = function (barcodeData) {
 		//if(isBCMSUrl(barcodeData.text)) {
+		if(barcodeData!=null && barcodeData.text.length > 3) 
 			openIAB(barcodeData.text);
 		//} else {
 		//	alert(barcodeData.text + 'is no propper url!');
