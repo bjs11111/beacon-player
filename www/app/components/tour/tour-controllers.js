@@ -113,6 +113,66 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 			if(filteredDevicesList[key].bcmsBeacon.triggerZone=="Far") filteredDevicesList[key].sort = (-1) * $scope.tourCtrlData.allDevicesList[key].rssi - tourCtrlConfig.OFFSET_PROXIMITY_FAR;
 		}
 		return filteredDevicesList;
+		
+		
+		
+		
+		
+		/*
+		
+		var measurements=updatedItem.scanData.rssiMeasurements.length;
+		updatedItem.scanData.rssiMeasurements[measurements].time	= new Date().getTime();
+		updatedItem.scanData.rssiMeasurements[measurements].rssi	= updatedItem.scanData.rssi;
+		if(measurements > MAX_MEASUREMENTS){updatedItem.scanData.rssiMeasurements.splice(0, 1);} 			// Remove Oldest Measurement values
+		
+		// Remove Measurements that are already too old
+		for(var measurement=updatedItem.scanData.rssiMeasurements.length-1;measurement>=0;measurement--){
+			if(updatedItem.scanData.rssiMeasurements[measurement].time + MAX_TIME*1000 < new Date().getTime())
+				updatedItem.scanData.rssiMeasurements.splice(measurement, 1);	// Remove Entry because it is too old
+			else
+				break;		// go out of for loop as the other values are all newer
+		}
+		
+		
+		
+		// Calculate Sort Value: Time Weighted Average
+		var distance=0;
+		var weighted=0;
+		for(var measurement=updatedItem.scanData.rssiMeasurements.length-1;measurement>=0;measurement--){
+				var weight=Math.pow(FACTOR_PER_SECOND,(new Date().getTime() - distance+=updatedItem.scanData.rssiMeasurements[measurement].time)
+				distance+=updatedItem.scanData.rssiMeasurements[measurement].rssi*weight;
+				weighted+=weight;
+		}
+		distance/=weight;
+
+
+
+		// Manipulate RSSI values dependent if a Beacon is configured as Near, Intermediate, Far
+		if(updatedItem.bcmsBeacon.triggerRadius==="near") distance+=OFFSET_PROXIMITY_NEAR;
+		else if(updatedItem.bcmsBeacon.triggerRadius==="intermediate")distance+=OFFSET_PROXIMITY_INTERMEDIATE;
+		else if(updatedItem.bcmsBeacon.triggerRadius==="far")distance+=OFFSET_PROXIMITY_FAR;
+
+
+
+
+		updatedItem.sort=distance;
+		
+		
+		
+		
+		*/
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	} 
 	
 	// Get Updates from Bluetooth Scan 	
