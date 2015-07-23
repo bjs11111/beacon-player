@@ -102,9 +102,18 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 		}
     	
     	$scope.tourCtrlData.showDeviceList=tmpDeviceList;
+    	
+    	$scope.tourCtrlData.showDeviceList.sort(function(a, b) {
+		    return a.sort - b.sort;
+		});
 		
 	}
 
+
+
+		
+	
+	
 	//TODO: Implement detailed Distance estimation
 	var calculateDistance = function(filteredDevicesList){
 		for (var key in filteredDevicesList) { 
@@ -112,19 +121,27 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 			if(filteredDevicesList[key].bcmsBeacon.triggerZone=="Intermediate") filteredDevicesList[key].sort = (-1) * $scope.tourCtrlData.allDevicesList[key].rssi - tourCtrlConfig.OFFSET_PROXIMITY_INTERMEDIATE;
 			if(filteredDevicesList[key].bcmsBeacon.triggerZone=="Far") filteredDevicesList[key].sort = (-1) * $scope.tourCtrlData.allDevicesList[key].rssi - tourCtrlConfig.OFFSET_PROXIMITY_FAR;
 		}
+		
 		return filteredDevicesList;
+		
+		
+		
+		// Sort Devices
 		
 		
 		
 		
 		
 		/*
-		
-		var measurements=updatedItem.scanData.rssiMeasurements.length;
-		updatedItem.scanData.rssiMeasurements[measurements].time	= new Date().getTime();
+		var measurements=$scope.tourCtrlData.apiDevicesList[key].rssiMeasurements.length;
+		$scope.tourCtrlData.apiDevicesList[key].rssiMeasurements[measurements].time	= new Date().getTime();
 		updatedItem.scanData.rssiMeasurements[measurements].rssi	= updatedItem.scanData.rssi;
 		if(measurements > MAX_MEASUREMENTS){updatedItem.scanData.rssiMeasurements.splice(0, 1);} 			// Remove Oldest Measurement values
+		*/
 		
+		
+		
+		/*
 		// Remove Measurements that are already too old
 		for(var measurement=updatedItem.scanData.rssiMeasurements.length-1;measurement>=0;measurement--){
 			if(updatedItem.scanData.rssiMeasurements[measurement].time + MAX_TIME*1000 < new Date().getTime())
@@ -175,11 +192,40 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 		
 	} 
 	
+	
+	//start interval for cleaning old devices
+	var alreadyUpdatedInInterval=false;
+	var updateListInterval=0;
+	var startUpdateInterval = function (interval) {
+		if(!updateListInterval) {
+			
+			
+			updateListInterval = setInterval(function(){ 
+
+				updateView();
+				
+				
+				
+			}, interval);
+			
+		}
+	};
+	
+	
+	
 	// Get Updates from Bluetooth Scan 	
 	var onFoundDeviceHandler = function(preparedDevice)  {
  
 		// Put Device into Array
 		$scope.tourCtrlData.allDevicesList[preparedDevice.bcmsBeaconKey] 	= preparedDevice;
+		
+		// Save all measurements in
+		
+		
+	};
+	
+	
+	var updateView = function(){
 		$scope.tourCtrlData.filteredDevicesList = {};
 		
 		// Filter Devices that are in BCMS
@@ -188,17 +234,18 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 		// Filter Devices that with Whitelist Beacons
 		$scope.tourCtrlData.filteredDevicesList = whitelistBeaconsFilter($scope.tourCtrlData.filteredDevicesList,  $scope.tourCtrlData.apiDevicesList);
 		
+		
 		// Calculate Distance Beacons <--> Phone
 		$scope.tourCtrlData.filteredDevicesList = calculateDistance($scope.tourCtrlData.filteredDevicesList);
 		
 		// Update Ionic View Array
 		updateIonicView($scope.tourCtrlData.filteredDevicesList);
 		
-		if(secondsLastViewUpdate + tourCtrlConfig.MIN_VIEW_UPDATE_INTERVAL < new Date().getTime() / 1000) {
+		//if(secondsLastViewUpdate + tourCtrlConfig.MIN_VIEW_UPDATE_INTERVAL < new Date().getTime() / 1000) 
+		{
 			secondsLastViewUpdate = new Date().getTime() / 1000;
 			$scope.$digest();
 		}
-		
 	};
 	
 
@@ -211,6 +258,8 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 		console.log('init tourControllers');
 		// Register for Updates when Beacons are scanned
 		bleScannerChannel.onFoundBleDevice($scope, onFoundDeviceHandler );
+		
+		startUpdateInterval(1000);
 	}
 	
 	init();

@@ -79,7 +79,8 @@ listFilters.filter('whitelistBeaconsFilter', function() {
 			}
 			else{
 				for(var key2 in whitelistBeacons){
-					if(whitelistBeacons[key2].bcmsBeacon.userId==tmpDevice.bcmsBeacon.userId)
+					if(whitelistBeacons[key2].bcmsBeacon.userId==tmpDevice.bcmsBeacon.userId
+							&& whitelistBeacons[key] ==null)
 						whitelistDevicesList[key]=tmpDevice;
 				}
 			}
