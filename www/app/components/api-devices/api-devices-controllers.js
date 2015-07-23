@@ -30,5 +30,7 @@ apiDevicesControllers.controller('apiDevicesListCtrl',
 		    			//error
 		    			function() { $scope.$broadcast('scroll.refreshComplete'); }); 
 	    	}	
+	    	
+	    	console.log('init apiDevicesListCtrl'); 
 		
 }]);

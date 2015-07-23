@@ -41,10 +41,12 @@ scanningControllers.controller('scanningCtrl',
 		
 	      	//initial stuff 
 	      	var init = function () {
+	      		console.log('init scanningCtrl');
 	      		bleDeviceChannel.subKnownDeviceUpdated($scope, subKnownDeviceUpdatedHandler );
 	      	}
 	      	
 	      	init();
 	    
+	      	console.log('asf adsf das fas fes');
 
 }]);

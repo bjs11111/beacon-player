@@ -7,13 +7,6 @@ var appControllers = angular.module('appControllers', [ 'ngCordova', 'bleState',
  * */
 
 appControllers
-//@TODO move into service
-.constant("BackgroundProcessConfig", {
-	//refreshBeaconListInterval		: ms
-	refreshBeaconListInterval 	: 1000 * 30,
-	msBeforeBeaconIsOld : 1000 * 10,
-})
-
 .controller('AppCtrl', ['$scope', 'bleDeviceService', 
                 function($scope, bleDeviceService) {
 	

@@ -7,7 +7,7 @@ var beaconPlayerApp = angular.module('beaconPlayerApp',
 		  'helpControllers', 
 		  'bleDevicesControllers', 
 		  'apiDevicesControllers', 
-		  //'scanningControllers', 
+		  'scanningControllers', 
 		  'tourControllers', 
 		  'settingsControllers', 
 ]);
@@ -24,6 +24,13 @@ beaconPlayerApp.config(
 
 			$stateProvider
 			
+			.state('app', {
+				url : "/app", 
+				abstract : true,
+				templateUrl : "app/templates/main-sidemenu.html",
+				//controller 	: 'AppCtrl'
+			})
+
 			.state('app.settings', {
 				url : '/settings',
 				views : {
@@ -34,19 +41,13 @@ beaconPlayerApp.config(
 				}
 			})
 			
-			.state('app', {
-				url : "/app", 
-				abstract : true,
-				templateUrl : "app/templates/main-sidemenu.html",
-				controller 	: 'AppCtrl'
-			})
-
+			
 			.state('app.help', {
 				url : '/help',
 				views : {
 					'mainContent' : {
 						templateUrl : 'app/components/help/help.html',
-						controller 	: 'helpCtrl'
+						//controller 	: 'helpCtrl'
 					}
 				}
 			})
@@ -76,7 +77,7 @@ beaconPlayerApp.config(
 				views : {
 					'mainContent' : {
 						templateUrl : 'app/components/scanning/scanning.html',
-						//controller 	: 'scanningCtrl'
+						controller 	: 'scanningCtrl'
 					}
 				}
 			})
@@ -89,10 +90,9 @@ beaconPlayerApp.config(
 						controller 	: 'tourCtrl'
 					}
 				}
-			})
-			;
+			});
 
-		}]);
+}]);
 
 beaconPlayerApp.run([ '$ionicPlatform', function($ionicPlatform) {
 	$ionicPlatform.ready(function() {

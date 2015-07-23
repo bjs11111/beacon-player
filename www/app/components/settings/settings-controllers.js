@@ -30,7 +30,6 @@ settingsControllers.controller('settingsCtrl',
 	};
 
 	$scope.toggleAutoTriggerState = function() {	
-    	 console.log('autoTriggerState ' + $scope.states.autoTriggerState);
 		 $scope.toggleSettingsState('states.autoTriggerState', appSettingsService, 'autoTriggerState');
     };
     //@TODO remove this test function, also in view!
@@ -43,6 +42,7 @@ settingsControllers.controller('settingsCtrl',
  	};
  	
     var init = function() {
+    	console.log('init settingsControllers');
     	appSettingsChannel.subAutoTriggerStateUpdated($scope, subAutoTriggerStateUpdated);
 	};
 	

@@ -1,4 +1,11 @@
 var bleDevicesControllers = angular.module('bleDevicesControllers', ['listFilters', 'bleChannels', 'beaconAPIServices', 'generalServices', 'deviceListDirectives']);
+//@TODO to implement
+bleDevicesControllers.constant("BackgroundProcessConfig", {
+	//refreshBeaconListInterval		: ms
+	refreshBeaconListInterval 	: 1000 * 30,
+	msBeforeBeaconIsOld : 1000 * 10,
+})
+
 
 bleDevicesControllers.controller('bleDevicesListCtrl',
 				[ '$scope', '$filter','$interval', 'bleScannerChannel','beaconAPIService', 'generalService',
@@ -60,6 +67,7 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 		
 	      	//initial stuff 
 	      	var init = function () {
+	      		console.log('init bleDevicesListCtrl'); 
 	      		//startcleaningOldDevicesinterval(1*1000, 10000);
 	      		bleScannerChannel.onFoundBleDevice($scope, onFoundDeviceHandler);
 	      	}

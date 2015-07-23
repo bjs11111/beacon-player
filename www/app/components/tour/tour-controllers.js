@@ -134,11 +134,10 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 		// Update Ionic View Array
 		updateIonicView($scope.tourCtrlData.filteredDevicesList);
 		
-		//if(secondsLastViewUpdate + tourCtrlConfig.MIN_VIEW_UPDATE_INTERVAL < new Date().getTime() / 1000)
-		//{
+		if(secondsLastViewUpdate + tourCtrlConfig.MIN_VIEW_UPDATE_INTERVAL < new Date().getTime() / 1000) {
 			secondsLastViewUpdate = new Date().getTime() / 1000;
 			$scope.$digest();
-		//}
+		}
 		
 	};
 	
@@ -149,6 +148,7 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 	
 	//TODO: Retreive All Beacon List from Server
 	var init = function() {
+		console.log('init tourControllers');
 		// Register for Updates when Beacons are scanned
 		bleScannerChannel.onFoundBleDevice($scope, onFoundDeviceHandler );
 	}
