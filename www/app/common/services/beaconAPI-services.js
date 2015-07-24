@@ -68,12 +68,10 @@ function ($rootScope,   beaconAPIServiceConfig) {
    // publish beacons updated notification
    //beaconKeys is an array of beaconKey => true
    var pubBeaconsUpdated = function (beaconKeys) {
-	   console.log('pubBeaconsUpdated', beaconKeys); 
 	   _publish(beaconAPIServiceConfig.beaconsUpdated, {beaconKeys : beaconKeys});
    };
    // subscribe to beacon updated notification
    var subBeaconsUpdated = function ($scope, scopeHandler) {
-	   console.log('subBeaconsUpdated'); 
 	   _subscribe(beaconAPIServiceConfig.beaconsUpdated, $scope, scopeHandler, function(args) { return args.beaconKeys; });
    };
    
@@ -231,14 +229,13 @@ beaconAPIServices.factory('serverBeaconStore', [
 		}
 				
 		var getAllBeacons = function(filter) {
-			console.log('serverBeaconStore in getAllBeacons', beaconList); 
 			var defer = $q.defer();
 			
 			_getAll(beaconList, filter).then(
 					//success
-	    			function (items) { console.log('serverBeaconStore in getAllBeacons done', items);  defer.resolve(items);  }, 
+	    			function (items) { defer.resolve(items);  }, 
 	    			//error
-	    			function(error) {  console.log('serverBeaconStore in getAllBeacons failed', error); defer.resolve(error); }
+	    			function(error) { defer.resolve(error); }
 			);
 			
 			return defer.promise;
@@ -258,16 +255,14 @@ beaconAPIServices.factory('serverBeaconStore', [
 		}
 		
 		var addBeacon = function(beaconData) {
-			console.log('serverBeaconStore in addBeacon', beaconData); 
+
 			if(beaconData.iBeaconUuid != false) {
 				if(iBeaconUuidToHex(beaconData.iBeaconUuid)) {
 						
 						var bcmsBeaconKey = beaconData.iBeaconUuid+'.'+beaconData.major+'.'+beaconData.minor;
-						console.log('serverBeaconStore before add beacon to beaconList', beaconData, bcmsBeaconKey, beaconList); 
 						beaconList[bcmsBeaconKey] = beaconData;
-						console.log('serverBeaconStore afer add beacon to  beaconList', beaconData, bcmsBeaconKey, beaconList); 
 						addUuid(beaconData.iBeaconUuid);
-					
+
 						beaconAPIChannel.pubBeaconUpdated(beaconData);
 						return true;
 				}
@@ -277,7 +272,7 @@ beaconAPIServices.factory('serverBeaconStore', [
 		}
 		
 		var updateBeaconList = function() {
-			console.log('serverBeaconStore in updateBeaconList'); 
+
 			var defer = $q.defer(),
 				updatedBeacons = [];
 			

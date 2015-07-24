@@ -14,7 +14,7 @@ apiDevicesControllers.controller('apiDevicesListCtrl',
 	    		serverBeaconStore.updateBeaconList()
 			    	.then(
 		    			//success
-		    			function (result) { console.log('updateBeaconList done'); $scope.$broadcast('scroll.refreshComplete');  }, 
+		    			function (result) { $scope.$broadcast('scroll.refreshComplete');  }, 
 		    			//error
 		    			function(error) { $scope.$broadcast('scroll.refreshComplete'); }
 		    		); 
@@ -32,7 +32,6 @@ apiDevicesControllers.controller('apiDevicesListCtrl',
 			}
 	    	
 	    	var _subBeaconsUpdatedHandler = function(result) {
-	    		console.log('apiDevicesListCtrl in subBeaconsUpdatedHandler', result); 
 	    		var newDevice = {};
 	    		serverBeaconStore.getAllBeacons().then(
 	    				//success
@@ -44,9 +43,10 @@ apiDevicesControllers.controller('apiDevicesListCtrl',
 	    	
 	    	var init = function() {
 	    		beaconAPIChannel.subBeaconsUpdated($scope, _subBeaconsUpdatedHandler); 
+	    		console.log('init apiDevicesListCtrl'); 
 	    	}
 	    	
 	    	init(); 
-	    	console.log('init apiDevicesListCtrl'); 
+	    	
 		
 }]);
