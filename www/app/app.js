@@ -1,6 +1,9 @@
 // Ionic beaconPlayer App-Module
 var beaconPlayerApp = angular.module('beaconPlayerApp', 
 		[ 'ionic',
+		  //stores
+		  'beaconAPIServices',
+		  
 		  //main controller
 		  'appControllers',
 		  //components/pages
@@ -28,7 +31,8 @@ beaconPlayerApp.config(
 				url : "/app", 
 				abstract : true,
 				templateUrl : "app/templates/main-sidemenu.html",
-				//controller 	: 'AppCtrl'
+				controller 	: 'AppCtrl'
+					
 			})
 
 			.state('app.settings', {

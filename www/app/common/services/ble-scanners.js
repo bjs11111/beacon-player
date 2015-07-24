@@ -59,6 +59,7 @@ bleScanners.factory('iosBleScanner', [
 
 			//locationManager.Delegate()
 			var delegate = undefined,
+				iBeaconUuidToHex = $filter('iBeaconUuidToHex'),
 			//array of uuids of bcms
 				iBeaconRanges = [
 			//Estimote Beacon factory UUID.
@@ -95,6 +96,7 @@ bleScanners.factory('iosBleScanner', [
 							'uuid' : uuid,
 							registered : false
 						});
+						console.log(uuid + ' registered in ios scanner'); 
 					}
 				}
 			}
@@ -200,13 +202,17 @@ bleScanners
 		.factory(
 				'sitBleScanner',
 				[
+						'$rootScope', 
 						'$filter',
 						'sitBleScannerConfig',
 						'bleScannerChannel',
 						'androidBleScanner',
 						'iosBleScanner',
+						'beaconAPIChannel',
 						
-						function($filter, sitBleScannerConfig, bleScannerChannel, androidBleScanner, iosBleScanner) {
+						function($rootScope, $filter, sitBleScannerConfig, bleScannerChannel, androidBleScanner, iosBleScanner, beaconAPIChannel) {
+							
+							var fakeScope = $rootScope.$new();
 							
 							//holds state of ble scanner
 							var bleScannerState = false,
@@ -446,8 +452,14 @@ bleScanners
 							};
 							
 							
+							var _regiserUuidForIosBleScanner = function(uuid) {
+								iosBleScanner.addIBeaconRange(uuid); 
+							};
+							
 							var init = function() {
-								//beaconAPIChannle.subGetAllBeaconsSuccess(scope, subGetAllBeaconsHandler);
+								if (ionic.Platform.isIOS()) {
+									beaconAPIChannel.subUuidAdded(fakeScope, _regiserUuidForIosBleScanner);
+								}
 							}
 
 							init();
@@ -506,6 +518,48 @@ bleScanners
 											.publishBleScannerStateUpdated(bleScannerState);
 								}
 							};
+							
+							/*actions*/
+							//start scanning for ble devices faked with interval
+							var startScanning = function(foundDeviceCallback) {
+								var defer = $q.defer();
+
+								//skip if scanner already scanning
+								if(getBleScannerState() == true) {
+									//console.log('getBleScannerState == true'); 
+									return;
+								}
+							
+								//set state
+								setBleScannerState(true);	
+								
+								$ionicPlatform.ready(function() {
+									
+									if(!scannerInterval) { 
+										scannerInterval = setInterval(
+											function() {
+												foundDeviceCallback(rawDevice);
+											});
+									} else {
+										defer.reject('error');
+									}
+									
+									defer.resolve(true);
+									
+								});
+
+								return defer.promise;
+
+							};
+							//stop scanning for ble devices faked with interval
+							var stopScanning = function () {
+								if(scannerInterval) { 
+									clearInterval(interval); 
+									scannerInterval = undefined; 
+									setBleScannerState(false);	
+								}
+							};
+							
 
 
 							/*

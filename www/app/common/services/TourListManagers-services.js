@@ -96,7 +96,7 @@ function( $rootScope,   $q,   $filter,   bleDeviceServiceConfig,   bleDeviceChan
          	  // list of all scanned devices [ iBeaconUuid.Major.Minor => deviceData, ]
          	  		knownDevicesList = [],
          	  //
-         	  		bcmsBeaconKeyToObj  = $filter('bcmsBeaconKeyToObj');
+         	  		//bcmsBeaconKeyToObj  = $filter('bcmsBeaconKeyToObj');
          	
 			 var subGetAllBeaconsHandler =  function(beaconList)  {
          		 angular.forEach(beaconList, function(beacon, key) {

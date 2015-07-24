@@ -153,10 +153,11 @@ bleFilters
 	  
 	    return out;
 	  };
-	})
+	});
 
 
-.filter('toIsBrokenRawDevice', function() {
+
+bleFilters.filter('toIsBrokenRawDevice', function() {
 	  
 	return function(device) {
 		
@@ -174,12 +175,12 @@ bleFilters
 
   }
   
-})
+});
 
 /*
  * returns valid hex string or false
  */
-.filter('toHexString', function() {
+bleFilters.filter('toHexString', function() {
 	
 	return function(value) {
 		
@@ -206,12 +207,44 @@ bleFilters
     	return value; 
 	};
 	
-})
+});
+
+/*
+ * returns valid hex string or false
+ */
+bleFilters.filter('toHexString', function() {
+	
+	return function(value) {
+		
+			//the hex value pattern
+		var hexPattern 		= new RegExp('^[A-Fa-f0-9]$'),
+			//array for invalid characters
+			invalidChars 	= [],
+			//char array of value
+			charArray 		= value.split('');
+    	
+		//filter invalid characters
+ 		angular.forEach(charArray, function(char) {
+    		if (!hexPattern.test(char)) {
+    			invalidChars.push(char);
+	        }
+    	});
+    	
+ 		//chech if every character is hex value
+    	if(invalidChars.length !== 0) {
+    		console.log( 'hexToIBeaconUuid returns false because characters "' + invalidChars.join(',') + '" are no valid hex values!' );
+    		return false;
+    	}
+    	
+    	return value; 
+	};
+	
+});
 
 /*
  * returns valid hex string or false
  */	
-.filter('bcmsBeaconKeyToObj', ['$filter', function($filter) {
+bleFilters.filter('bcmsBeaconKeyToObj', ['$filter', function($filter) {
 	var tmp = undefined,
 		iBeaconUuid 		= undefined,
 		major 				= undefined,
@@ -253,16 +286,20 @@ bleFilters
     		return false;
     	}
 
-    	return value; 
+    	return { 
+    			iBeaconUuid : iBeaconUuid,
+    			 major 		: major,
+    			 minor 		: major
+    		}; 
 	};
 	
-}])
+}]);
 
 
 /*
  *  returns a 36 char long string of iBeacon format or false
  */
-.filter('hexToIBeaconUuid', ['$filter', function($filter) {
+bleFilters.filter('hexToIBeaconUuid', ['$filter', function($filter) {
   
 	return function(value) {
 		
@@ -301,11 +338,11 @@ bleFilters
 	 
   };
   
-}])
+}]);
 /*
  *  returns a 32 long lowercase hex string or false
  */
-.filter('iBeaconUuidToHex', ['$filter', function($filter) {
+bleFilters.filter('iBeaconUuidToHex', ['$filter', function($filter) {
   
 	return function(value) {
 		var toHexString = $filter('toHexString');
@@ -347,7 +384,7 @@ bleFilters
 /* Array of bytes to base64 string decoding 
  * returns a Unit6 string or 0
  */
-.filter('b64ToUint6', function() {
+bleFilters.filter('b64ToUint6', function() {
   
 	return function(nChr) {
 		
@@ -366,9 +403,9 @@ bleFilters
 
   }
   
-})
+});
 
-.filter('base64DecToArr', ['$filter', function($filter) {
+bleFilters.filter('base64DecToArr', ['$filter', function($filter) {
   
 	return function(sBase64, nBlocksSize) {
 		var b64ToUint6 = $filter('b64ToUint6'),
@@ -393,10 +430,10 @@ bleFilters
 
   };
   
-}])
+}]);
 
  /* Base64 string to array encoding */
-.filter('uint6ToB64', function() {	
+bleFilters.filter('uint6ToB64', function() {	
 
 	return function  (nUint6) {
 
@@ -413,11 +450,11 @@ bleFilters
 	     :
 	       65;
 	 };
-})
+});
 /* 
  * Base64 string to array encoding 
  */ 
-.filter('base64EncArr', ['$filter', function($filter) {
+bleFilters.filter('base64EncArr', ['$filter', function($filter) {
  return function (aBytes) {
 
 	var uint6ToB64 = $filter('uint6ToB64'),
@@ -434,10 +471,10 @@ bleFilters
 	   }
 	   return sB64Enc.substr(0, sB64Enc.length - 2 + nMod3) + (nMod3 === 2 ? '' : nMod3 === 1 ? '=' : '==');
 	 };
-}])
+}]);
 
  /* UTF-8 array to DOMString and vice versa */
-.filter('UTF8ArrToStr', function() {
+bleFilters.filter('UTF8ArrToStr', function() {
 	 
 	return function  (aBytes) {
 	   var sView = "";
@@ -462,12 +499,12 @@ bleFilters
 	   }
 	   return sView;
 	 };
-})
+});
 
 /*
  * 
  */
-.filter('strToUTF8Arr', function() {
+bleFilters.filter('strToUTF8Arr', function() {
 	 
 	return function(sDOMStr) {
 
@@ -524,5 +561,4 @@ bleFilters
 
 	   return aBytes;
 	 };
-})
-;
+});
