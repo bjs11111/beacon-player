@@ -46,10 +46,11 @@ $ cordova plugins add org.apache.cordova.vibration
 $ cordova plugin add org.apache.cordova.inappbrowser
 $ cordova plugin add com.evothings.ble
 $ cordova plugin add https://github.com/petermetz/cordova-plugin-ibeacon.git
+$ cordova plugin add https://github.com/wildabeast/BarcodeScanner.git
 ```
 you alos coud do it in a singel line like 
 ```bash
-$ cordova plugin add org.apache.cordova.network-information org.apache.cordova.vibration org.apache.cordova.inappbrowser com.evothings.ble https://github.com/petermetz/cordova-plugin-ibeacon.git
+$ cordova plugin add org.apache.cordova.network-information org.apache.cordova.vibration org.apache.cordova.inappbrowser com.evothings.ble https://github.com/petermetz/cordova-plugin-ibeacon.git https://github.com/wildabeast/BarcodeScanner.git
 ```
 but seperated lines are more readable.
 
@@ -63,9 +64,9 @@ com.evothings.ble 0.0.1 "Evothings BLE API"
 
 com.ionic.keyboard 1.0.3 "Keyboard"
 
-org.apache.cordova.console 0.2.11 "Console"
+com.phonegap.plugins.barcodescanner 2.2.0 "BarcodeScanner"
 
-org.apache.cordova.device 0.2.12 "Device"
+org.apache.cordova.device 0.2.13 "Device"
 
 org.apache.cordova.inappbrowser 0.5.4 "InAppBrowser"
 
