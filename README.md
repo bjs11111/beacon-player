@@ -121,7 +121,7 @@ Alos the great ionic framework has really good documentation about this process
 http://ionicframework.com/docs/guide/publishing.html
 
 ##app
-native state checks like inet or bluetooth are done initialy in the app-controller as well as pn app resume and app open
+native state checks like inet or bluetooth are done initialy in the app-controller as well as on app resume and app open
 
 ## Issues
 
