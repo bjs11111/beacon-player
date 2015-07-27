@@ -1,5 +1,5 @@
 /* Services */
-var generalServices = angular.module('generalServices', ['ngCordova']);
+var generalServices = angular.module('generalServices', ['ngCordova',  'LocalForageModule']);
 
 /*Constants for the bleDeviceService*/
 generalServices.constant("generalServiceConfig", {
@@ -215,4 +215,36 @@ generalServices.factory('generalService', ['$rootScope', '$ionicPlatform', '$ion
 	}
 	
 }]);
-    
+
+generalServices.factory('launcherService', 
+		['$ionicPlatform', 'generalServiceConfig', '$localForage',
+function ($ionicPlatform,   generalServiceConfig,   $localForage) {
+	
+			 var firstVisit 	= $localForage.getItem('firstVisit', false);
+		     var isRegistered 	= $localForage.getItem('isRegistered', false);   
+		     
+		     var getFirstVisit = function() {
+		    	 return firstVisit;
+		     };
+		     
+		     var setFirstVisit = function(newValue) {
+		    	 firstVisit = (newValue)?true:false;
+		     };
+		     
+		     var getIsRegistered = function() {
+		    	 return isRegistered;
+		     };
+		     
+		     var setIsRegistered = function(newValue) {
+		    	 isRegistered = (newValue)?true:false;
+		     };
+		     
+		     
+		     return {
+		    	getFirstVisit 		: getFirstVisit,
+		    	setFirstVisit 		: setFirstVisit,
+		    	getIsRegistered  	: getIsRegistered,
+		    	setIsRegistered  	: setIsRegistered
+		     };
+	
+}]);

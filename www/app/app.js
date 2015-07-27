@@ -1,6 +1,7 @@
 // Ionic beaconPlayer App-Module
 var beaconPlayerApp = angular.module('beaconPlayerApp', 
 		[ 'ionic',
+		  'generalServices',
 		  //stores
 		  'beaconAPIServices',
 		  
@@ -23,7 +24,7 @@ beaconPlayerApp.config(
 			 * config routing
 			 **/
 			// if none of the above states are matched, use this as the fallback
-			$urlRouterProvider.otherwise('/app/scanning');
+			$urlRouterProvider.otherwise('/app/tour');
 
 			$stateProvider
 			
@@ -34,7 +35,7 @@ beaconPlayerApp.config(
 				controller 	: 'AppCtrl'
 					
 			})
-
+			
 			.state('app.settings', {
 				url : '/settings',
 				views : {
@@ -45,13 +46,22 @@ beaconPlayerApp.config(
 				}
 			})
 			
-			
 			.state('app.help', {
 				url : '/help',
 				views : {
 					'mainContent' : {
 						templateUrl : 'app/components/help/help.html',
 						//controller 	: 'helpCtrl'
+					}
+				}
+			})
+			
+			.state('app.tour', {
+				url : '/tour',
+				views : {
+					'mainContent' : {
+						templateUrl : 'app/components/tour/tour.html',
+						controller 	: 'tourCtrl'
 					}
 				}
 			})
@@ -84,21 +94,11 @@ beaconPlayerApp.config(
 						controller 	: 'scanningCtrl'
 					}
 				}
-			})
-
-			.state('app.tour', {
-				url : '/tour',
-				views : {
-					'mainContent' : {
-						templateUrl : 'app/components/tour/tour.html',
-						controller 	: 'tourCtrl'
-					}
-				}
 			});
 
 }]);
 
-beaconPlayerApp.run([ '$ionicPlatform', function($ionicPlatform) {
+beaconPlayerApp.run([ '$ionicPlatform', 'launcherService', function($ionicPlatform, launcherService) {
 	$ionicPlatform.ready(function() {
 		 
 		// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
