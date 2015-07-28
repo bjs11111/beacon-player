@@ -33,7 +33,6 @@ beaconPlayerApp.config(
 				abstract : true,
 				templateUrl : "app/templates/main-sidemenu.html",
 				controller 	: 'AppCtrl'
-					
 			})
 			
 			.state('app.settings', {
@@ -95,21 +94,48 @@ beaconPlayerApp.config(
 					}
 				}
 			});
-
 }]);
 
-beaconPlayerApp.run([ '$ionicPlatform', 'launcherService', function($ionicPlatform, launcherService) {
-	$ionicPlatform.ready(function() {
-		 
-		// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-		// for form inputs)
-		if (window.cordova && window.cordova.plugins.Keyboard) {
-			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-		}
+beaconPlayerApp.run([ '$rootScope', '$state', '$ionicPlatform', '$localstorage', 
+              function($rootScope, $state, $ionicPlatform, $localstorage) {
 
-		if (window.StatusBar) {
-			StatusBar.styleDefault();
-		}
+		//@TODO use launcherService instead of $localStorage
+		//redirection logic start
+	
+		//load localStorage data into scope
+		var firstVisit 	= $localstorage.getItem('firstVisit', '0');
+	
+	    $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
+	    	 // if its the users first visit to the app play the apps tour
+		   	 if ( firstVisit != '1' && toState.name !== 'app.help') { 
+		   		    event.preventDefault();
+		   		    //set FirstVisite
+			 		$localstorage.setItem('firstVisit', '1');
+			 		firstVisit = '1';
+			 	
+			 		$state.go('app.help'); 	
+			 		return;
+			 }  
+	    });   
+	    
+	    //show/hide loading screen with content of args.loading_settings || default
+	    $rootScope.$on('loading:show', function (event, args) {
+	    	$ionicLoading.show((args && 'loading_settings' in args) ? args.loading_settings:{});
+	    });
+	      
+	    $rootScope.$on('loading:hide', function (event, args) {
+	        $ionicLoading.hide()
+	    });
+	    
+		$ionicPlatform.ready(function() {
+			 
+			// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+			// for form inputs)
+			if (window.cordova && window.cordova.plugins.Keyboard) {
+				cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+			}
 
-	});
+			if (window.StatusBar) { StatusBar.styleDefault(); }
+		});
+
 } ]);

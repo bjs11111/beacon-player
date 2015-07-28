@@ -3,6 +3,94 @@
 /*Help Slider Stylee */
 
 	#helpView .slider 						{height: 100%;}
-	#helpView .slider-slide 				{background-image: url("/app/components/help/images/bg.jpg");  color: #000; text-align: center; font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-weight: 300;}
-	#helpView .slider-slide .slide			{background:white; opacity:0.75;height:100%; width:100%; padding: 40px 20px 0px 20px;}
+	#helpView .slider-slide 				{
+	
+	 }
+	#helpView .slider-slide .slide			{
+		background-color: rgba(255, 255, 255, .85); 
+	
+
+	    text-align:center;
+	    height:100%; 
+	    width:100%; 
+	    padding: 40px 20px 0px 20px;
+	}
+	    
 	#helpView .slider-pager 				{bottom:80px;}
+
+	#helpView h1, #helpView h2, #helpView h3, #helpView h4, #helpView h5, #helpView h6,
+	#helpView .h1, #helpView .h2, #helpView .h3, #helpView .h4, #helpView .h5, #helpView .h6,
+	#helpView a {
+	 	color:#FF3E15;
+	}
+	
+	#helpView h1, #helpView .h1 {
+		font-size: 28px;
+	}
+	
+	#helpView p { 
+		font-size: 16px; 
+		line-height: 24px;
+	}
+	
+	#helpView p,
+	#helpView i,
+	 {
+	 	color:#002B4B;
+	}
+	
+	/*@TODO remove redundant css*/
+	#helpView .slider-slide#slide1 {
+	 background: url("/app/components/help/images/slide1.jpg") no-repeat center center fixed; 
+  	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+ 	background-size: cover;
+
+	}
+	
+	#helpView .slider-slide#slide2 {
+	 background: url("/app/components/help/images/slide2.jpg") no-repeat center center fixed; 
+  	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+ 	background-size: cover;
+
+	}
+	
+	#helpView .slider-slide#slide3 {
+	 background: url("/app/components/help/images/slide3.jpg") no-repeat center center fixed; 
+  	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+ 	background-size: cover;
+
+	}
+	
+	#helpView .slider-slide#slide4 {
+	 background: url("/app/components/help/images/slide4.jpg") no-repeat center center fixed; 
+  	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+ 	background-size: cover;
+
+	}
+	
+	#helpView .slider-slide#slide5 {
+	 background: url("/app/components/help/images/slide5.jpg") no-repeat center center fixed; 
+  	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+ 	background-size: cover;
+
+	}
+	
+	#helpView .slider-slide#slide6 {
+	 background: url("/app/components/help/images/slide6.jpg") no-repeat center center fixed; 
+  	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+ 	background-size: cover;
+
+	}
+	

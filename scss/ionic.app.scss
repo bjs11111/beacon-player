@@ -27,6 +27,9 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
+// Include custom fonts
+@import "www/fonts/fonts";
+
 // Include dierctives scss
 @import "www/app/common/directives/ble-state/scss/ble-state";
 

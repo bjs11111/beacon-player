@@ -216,35 +216,66 @@ generalServices.factory('generalService', ['$rootScope', '$ionicPlatform', '$ion
 	
 }]);
 
+generalServices.factory('$localstorage', ['$window',
+                           function ($window) {
+                             return {
+                                //
+                               setItem: function (key, value) {
+                                 $window.localStorage[key] = value;
+                                 
+                               },
+                               getItem: function (key, emptyValue) {
+                             	var val = $window.localStorage[key];
+                                 emptyValue = (emptyValue !== undefined) ? emptyValue : undefined;
+                                 return (val !== undefined)?val:emptyValue;
+                               },
+                               removeItem: function (key) {
+                                 delete $window.localStorage[key];
+                               },
+                               //
+                               setObject: function (key, value) {
+                                 $window.localStorage[key] = JSON.stringify(value);
+                               },
+                               getObject: function (key, emptyValue) {
+                                 emptyValue = (emptyValue !== undefined) ? emptyValue : '{}';
+                                 var result = $window.localStorage[key];
+                                 //@TODO double check this
+                                 if(result === undefined || result === "Max"){return emptyValue}
+                                 return JSON.parse($window.localStorage[key] || emptyValue);
+                               },
+                               removeObject: function (key) {
+                                 delete $window.localStorage[key];
+                               },
+                               //
+                               clearAll: function (key) {
+                                 delete $window.localStorage[key];
+                                 $window.localStorage = [];
+                               },
+                             }
+                           }]);
+
 generalServices.factory('launcherService', 
-		['$ionicPlatform', 'generalServiceConfig', '$localForage',
-function ($ionicPlatform,   generalServiceConfig,   $localForage) {
+		['$q', 'generalServiceConfig', '$localstorage',
+function ($q,   generalServiceConfig,   $localstorage) {
 	
-			 var firstVisit 	= $localForage.getItem('firstVisit', false);
-		     var isRegistered 	= $localForage.getItem('isRegistered', false);   
-		     
+			var firstVisit;
 		     var getFirstVisit = function() {
 		    	 return firstVisit;
 		     };
 		     
 		     var setFirstVisit = function(newValue) {
-		    	 firstVisit = (newValue)?true:false;
+		    	 newValue = (newValue)?true:false;
+		    	 $localstorage.setItem('firstVisit', newValue)
+		    	 firstVisit = newValue;
+
 		     };
 		     
-		     var getIsRegistered = function() {
-		    	 return isRegistered;
-		     };
-		     
-		     var setIsRegistered = function(newValue) {
-		    	 isRegistered = (newValue)?true:false;
-		     };
-		     
+		
 		     
 		     return {
+
 		    	getFirstVisit 		: getFirstVisit,
-		    	setFirstVisit 		: setFirstVisit,
-		    	getIsRegistered  	: getIsRegistered,
-		    	setIsRegistered  	: setIsRegistered
+		    	setFirstVisit 		: setFirstVisit
 		     };
 	
 }]);

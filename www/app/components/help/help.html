@@ -13,52 +13,63 @@
 
   	   <ion-slide-box class="slider" ng-class="has-message" show-pager="true"  on-slide-changed="slideChanged(index)">
 		   <!-- Beacon Player Help Page -->
-		   <ion-slide>
+		   <ion-slide id="slide1">
 		   		<ion-content class="slide">
 			   	  <img src="app/components/help/images/tokenCube-logo.png" width="100px"/>
-			      <h1>BeaconPlayer</h1>
-				  <h3 class="padding">The Beacon Experimenting Tool</h3>
-				  <p>BeaconPlayer is a free and Open Source Platform and App for experimenting with beacons.</p>
-				  <p>It's functionality is simple: whenever you approach a beacon with your phone, the app loads the appropriate media content for it. Everythings fully configurable in few quick steps.</p>
+			      <h1>The Beacon Experimenting Tool</h1>
+				  <p>
+				  BeaconPlayer is a free Open Source Platform and App for experimenting with Beacons.<br/>
+				  Its functionality is simple and easy: Whenever you approach a registered beacon with your smartphone, the app loads the related media content from the Content Management Platform. Everything is fully configurable in a few steps.
+				  </p>
 				 </ion-content>
 		   </ion-slide>
 		   
 		   <!-- Approach Beacon Description -->
-		   <ion-slide>
+		   <ion-slide id="slide2">
 		   		<ion-content class="slide">
 				   	  <img src="app/components/help/images/play.png"/>
-				      <h1>Approach a beacon</h1>
-					  <h3 class="padding">and get location specific information</h3>
+				      <h1>Approach a Beacon</h1>
+					  <p>and get location specific information</p>
 				</ion-content>
 		   </ion-slide>
 		   
 		   <!-- Manage Beacons Description -->
-		   <ion-slide>
+		   <ion-slide id="slide3">
 		   		<ion-content class="slide">
 				   	  <img src="app/components/help/images/edit.png"/>
-				      <h1>Easy beacon management</h1>
-					  <h3 class="padding">Visit the BeaconPlayer platform and create a free account</h3>
+				      <h1>Easy Beacon Management</h1>
+					  <p>Visit the BeaconPlayer Platform and create a free account.</p>
 					  <p><a href="#" onclick="window.open('http://www.beacon-player.com', '_system', 'location=yes'); return false;">www.beacon-player.com</a></p>
 				<ion-content/>
 		   </ion-slide>
 		   
+		    <!-- QR Code Reader -->
+		    <ion-slide id="slide4">
+		   		<ion-content class="slide">
+				   	  <i class="fa fa-qrcode fa-10x"></i>
+				      <h1>QR Code Reader</h1>
+					  <p> BeaconPlayer includes a QR Code Reader. Manage your QR Codes the same way as you manage your Beacons.</p>
+		   		<ion-content/>
+		   </ion-slide>
+		   
 		   <!-- Contribute Description -->
-		   <ion-slide>
+		   <ion-slide id="slide5">
 		   		<ion-content class="slide">
 				   	  <img src="app/components/help/images/add.png"/>
 				      <h1>Contribute</h1>
-					  <h3 class="padding">If you discover any bugs or you have proposals for new features, please feel free to contribute on Github.</h3>
-					   <p><a href="#" onclick="window.open('https://github.com/Tokencube/', '_system', 'location=yes'); return false;">https://github.com/Tokencube/</a></p>
+					  <p>If you discover any bugs or if you have proposals for new features, please feel free to contribute on GitHub or drop us a note.</p>
+					   <p><a href="#" onclick="window.open('https://github.com/Tokencube/beacon-player/', '_system', 'location=yes'); return false;">https://github.com/Tokencube/beacon-player/</a></p>
 		   		<ion-content/>
 		   </ion-slide>
 		   
 		   <!-- Buy Beacons Description -->
-		   <ion-slide>
+		   <ion-slide id="slide6">
 		   		<ion-content class="slide">
-				   	  <img src="app/components/help/images/beacons.png"/>
-				      <h1>Buy more beacons</h1>
-					  <h3 class="padding">Please visit our online store:</h3>
-					  <p><a href="#" onclick="window.open('http://www.beacon-player.com', '_system', 'location=yes'); return false;">www.beacon-player.com</a></p>
+				   	  <i class="fa fa-qrcode fa-4"></i>
+				      <h1>Buy more Beacons</h1>
+					  <p>Please visit our online store:
+					  	<a href="#" onclick="window.open('http://www.tokencube.com/shop.html', '_system', 'location=yes'); return false;">http://www.tokencube.com/shop.html</a>
+					  </p>
 		   		<ion-content/>
 		   </ion-slide>
 
