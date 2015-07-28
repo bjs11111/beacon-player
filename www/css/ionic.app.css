@@ -7835,10 +7835,7 @@ button.ble-scanning {
   text-align: center;
   height: 100%;
   width: 100%;
-  padding: 40px 20px 0px 20px; }
-
-#helpView .slider-pager {
-  bottom: 80px; }
+  padding: 40px 20px 100px 20px; }
 
 #helpView h1, #helpView h2, #helpView h3, #helpView h4, #helpView h5, #helpView h6, #helpView .h1, #helpView .h2, #helpView .h3, #helpView .h4, #helpView .h5, #helpView .h6, #helpView a {
   color: #FF3E15; }
