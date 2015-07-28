@@ -12,15 +12,40 @@
   
 	<h2 class="text-center positive padding-vertical" ng-show="bleDevicesCtrl.allDevicesList.length == 0">no beacons found...</h2>
  	
- 	<ion-list>
-		<ion-item 
+ 	<ul>
+		<li
 		ng-repeat="device in bleDevicesCtrl.allDevicesList track by device.bcmsBeaconKey" 
 	                 href="#" 
 	                 class=" item-icon-right"
 	                 ng-click="openIABWithKey(device.bcmsBeaconKey)">                  
-	   		<h2 >{{device.scanData.lastScan}}-{{device.scanData.rssi}} => {{device.scanData.major}}.{{device.scanData.minor}}</h2>		  
-		</ion-item>
- 	</ion-list>
+	   		<h2 >{{device.scanData.lastScan}}-{{device.scanData.rssi}} => {{device.scanData.major}}.{{device.scanData.minor}}</h2>
+	   		<div>
+			address: {{device.scanData.address}}<br/>
+			uuid: {{device.scanData.uuid}}<br/>
+			major: {{device.scanData.major}}<br/>
+			minor: {{device.scanData.minor}}<br/>
+			lastScan: {{device.scanData.lastScan}}<br/>
+			rssi: {{device.scanData.rssi}}<br/>
+			name: {{device.scanData.name}}<br/>
+			scanRecord: {{device.scanData.scanRecord}}<br/>
+			firstBlockLenght: {{device.scanData.firstBlockLenght}}<br/>
+			bleFlags: {{device.scanData.bleFlags}}<br/>
+			binValFlags: {{device.scanData.binValFlags}}<br/>
+			secondBlockLenght: {{device.scanData.secondBlockLenght}}<br/>
+			secondBlockIdentifier: {{device.scanData.secondBlockIdentifier}}<br/>
+			mfId: {{device.scanData.mfId}}<br/>
+			b0: {{device.scanData.b0}}<br/>
+			b1: {{device.scanData.b1}}<br/>
+			isIbeacon: {{device.scanData.b0 != '02' || device.scanData.b1 != '15'?true:false}}<br/>
+			mfUuid: {{device.scanData.mfUuid}}<br/>
+			calibrationValue: {{device.scanData.calibrationValue}}<br/>
+			rssiOneMeterDistance: {{device.scanData.rssiOneMeterDistance}}<br/>
+			iBeaconUuid: {{device.scanData.iBeaconUuid}}<br/>
+			bcmsBeaconKey: {{device.scanData.bcmsBeaconKey}}<br/>
+
+			</div>	  
+		</li>
+ 	</ul>
  	
  	
 
