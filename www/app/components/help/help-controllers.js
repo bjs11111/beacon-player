@@ -8,8 +8,4 @@ helpControllers.controller('helpCtrl',
 						   ['$scope', 
                     function($scope) {
 			console.log('init helpCtrl');
-			
-			
-			
-			
 }])

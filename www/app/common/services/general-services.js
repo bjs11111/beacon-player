@@ -1,5 +1,5 @@
 /* Services */
-var generalServices = angular.module('generalServices', ['ngCordova',  'LocalForageModule']);
+var generalServices = angular.module('generalServices', ['ngCordova', 'bleFilters']);
 
 /*Constants for the bleDeviceService*/
 generalServices.constant("generalServiceConfig", {
@@ -17,6 +17,24 @@ generalServices.constant("generalServiceConfig", {
 	iabView 				: 'b-i'
 
 });
+
+
+/*generalServices.filter('isBCMSUrl',
+       ['$filter',
+function($filter) {
+                   // Filters only known Devices
+                   return function(url){
+        
+                    var bcmsBeaconKeyToObj = $filter('bcmsBeaconKeyToObj'),
+                        bcmsBeaconKey = url.split('/').pop();
+                       
+                       if(bcmsBeaconToObj(bcmsBeaconKey) != false) {
+                            return true;
+                       }
+                   return false;
+                   }
+                   
+});*/
 
 generalServices.factory('generalService', ['$rootScope', '$ionicPlatform', '$ionicPopup', '$cordovaNetwork', '$cordovaInAppBrowser', '$cordovaVibration', 'generalServiceConfig',
                                   function ($rootScope,   $ionicPlatform,   $ionicPopup,   $cordovaNetwork,   $cordovaInAppBrowser,   $cordovaVibration,   generalServiceConfig) {
@@ -59,21 +77,23 @@ generalServices.factory('generalService', ['$rootScope', '$ionicPlatform', '$ion
 							if(forceCloseApp) { ionic.Platform.exitApp(); }
 						});
 	};
-	
+	 
 	
 	/*
 	 * barcode scanner
 	 */
 	//@TODO finish implementation
 	var qrSuccessCallback = function (barcodeData) {
+                                           console.log(isBCMSUrl(barcodeData.text));
 		//if(isBCMSUrl(barcodeData.text)) {
 			openIAB(barcodeData.text);
 		//} else {
 		//	alert(barcodeData.text + 'is no propper url!');
 		//}
 	};
-	//@TODO handle 
-	var qrErrorCallback = function (error) { };
+	var qrErrorCallback = function (error) {
+        console.log('error', error);
+    };
 	
 	
 	
@@ -137,7 +157,7 @@ generalServices.factory('generalService', ['$rootScope', '$ionicPlatform', '$ion
 			iabIsOpen = true;
 			
     		//vibrate for content
-			$cordovaVibration.cancelVibration();
+            if (ionic.Platform.isAndroid()) { $cordovaVibration.cancelVibration(); }
 			$cordovaVibration.vibrate(generalServiceConfig.iabOpenVibrateTime);
 			
     		//open iab with beacon content url
@@ -153,7 +173,7 @@ generalServices.factory('generalService', ['$rootScope', '$ionicPlatform', '$ion
 		$rootScope.$on('$cordovaInAppBrowser:loadstop', function(e, event){
 			//@TODO check why we are not able to execute from file!!!
 			$cordovaInAppBrowser.executeScript({ 
-				//file: 'app/common/services/assets/css/iab.js',
+				//file: 'app/common/services/assets/css/iab.js'
 				code: 
 	 		    	   "var link_buttonText = document.createTextNode('Scan for new content');\
 	 		    		var link_button = document.createElement('a');\
@@ -215,36 +235,4 @@ generalServices.factory('generalService', ['$rootScope', '$ionicPlatform', '$ion
 	}
 	
 }]);
-
-generalServices.factory('launcherService', 
-		['$ionicPlatform', 'generalServiceConfig', '$localForage',
-function ($ionicPlatform,   generalServiceConfig,   $localForage) {
-	
-			 var firstVisit 	= $localForage.getItem('firstVisit', false);
-		     var isRegistered 	= $localForage.getItem('isRegistered', false);   
-		     
-		     var getFirstVisit = function() {
-		    	 return firstVisit;
-		     };
-		     
-		     var setFirstVisit = function(newValue) {
-		    	 firstVisit = (newValue)?true:false;
-		     };
-		     
-		     var getIsRegistered = function() {
-		    	 return isRegistered;
-		     };
-		     
-		     var setIsRegistered = function(newValue) {
-		    	 isRegistered = (newValue)?true:false;
-		     };
-		     
-		     
-		     return {
-		    	getFirstVisit 		: getFirstVisit,
-		    	setFirstVisit 		: setFirstVisit,
-		    	getIsRegistered  	: getIsRegistered,
-		    	setIsRegistered  	: setIsRegistered
-		     };
-	
-}]);
+    

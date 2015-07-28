@@ -4,7 +4,7 @@
 	<h2 ng-show="!(ngModel.bcmsBeacon.contentTitle)">Kein Inhalt zugewiesen</h2>
 	{{ngModel.scanData.rssi}}dBm 
 	
-	<p>{{ngModel.scanData.lastScan}}</p>
+	<p am-time-ago="ngModel.scanData.lastScan"></p>
 	<p ng-init="isOpen = false" ng-show="isOpen" class="details">
 		
 		<span class="row">

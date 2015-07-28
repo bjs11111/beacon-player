@@ -1,15 +1,15 @@
 var bleDevicesControllers = angular.module('bleDevicesControllers', ['listFilters', 'bleChannels', 'beaconAPIServices', 'generalServices', 'deviceListDirectives']);
 //@TODO to implement
-bleDevicesControllers.constant("BackgroundProcessConfig", {
+bleDevicesControllers.constant("bleDevicesListCtrlConfig", {
 	//refreshBeaconListInterval		: ms
-	refreshBeaconListInterval 	: 1000 * 30,
+	refreshBeaconListInterval 	: 1000 * 5,
 	msBeforeBeaconIsOld : 1000 * 10,
 })
 
 
 bleDevicesControllers.controller('bleDevicesListCtrl',
-				[ '$scope', '$filter','$interval', 'bleScannerChannel','beaconAPIService', 'generalService',
-         function( $scope,   $filter,  $interval,   bleScannerChannel,  beaconAPIService, generalService) {
+				[ '$scope', '$filter','$interval', 'bleDevicesListCtrlConfig', 'bleScannerChannel','beaconAPIService', 'generalService',
+         function( $scope,   $filter,  $interval,   bleDevicesListCtrlConfig,   bleScannerChannel,  beaconAPIService,   generalService) {
 			
 			$scope.bleDevicesCtrl = {};  
 			$scope.bleDevicesCtrl.allDevicesList = {};		
@@ -22,22 +22,24 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 
 			//start interval for cleaning old devices
 			var startcleaningOldDevicesinterval = function (interval, timeago) {
-				
+                
+
+                 
 				timeago = (timeago)?timeago:interval;
 				
 				if(!cleaningOldDevicesInterval) {
 					cleaningOldDevicesInterval = $interval(function() {
-						//@TODO last ScanFilter is broken
-						var filteredDevices = lastScanFilter($scope.bleDevicesCtrl.allDevicesList, timeago);
+                        console.log('interval fired', interval, timeago);
 						
+						var filteredDevices = lastScanFilter($scope.bleDevicesCtrl.allDevicesList, timeago);
+                        console.log(filteredDevices);
 						angular.forEach($scope.bleDevicesCtrl.allDevicesList, function(item, key) {
 							if(!filteredDevices[key]) {
 								console.log('delete', filteredDevices[key], filteredDevices); 
 								delete $scope.bleDevicesCtrl.allDevicesList[key];
 							}
 						});
-						
-						//$scope.bleDevicesCtrl.allDevicesList = lastScanFilter($scope.bleDevicesCtrl.allDevicesList, interval);
+                       //$scope.bleDevicesCtrl.allDevicesList = lastScanFilter($scope.bleDevicesCtrl.allDevicesList, interval);
 						
 					}, interval);
 				}
@@ -68,7 +70,7 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 	      	//initial stuff 
 	      	var init = function () {
 	      		console.log('init bleDevicesListCtrl'); 
-	      		//startcleaningOldDevicesinterval(1*1000, 10000);
+	      		//startcleaningOldDevicesinterval(bleDevicesListCtrlConfig.msBeforeBeaconIsOld, bleDevicesListCtrlConfig.refreshBeaconListInterval );
 	      		bleScannerChannel.onFoundBleDevice($scope, onFoundDeviceHandler);
 	      	}
 	      	

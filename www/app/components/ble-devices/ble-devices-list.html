@@ -17,11 +17,10 @@
 		ng-repeat="device in bleDevicesCtrl.allDevicesList track by device.bcmsBeaconKey" 
 	                 href="#" 
 	                 class=" item-icon-right"
-	                 ng-click="openIABWithKey(device.bcmsBeaconKey)">                  
+	                 ng-click="openIABWithKey(device.bcmsBeaconKey)">
 	   		<h2 >{{device.scanData.lastScan}}-{{device.scanData.rssi}} => {{device.scanData.major}}.{{device.scanData.minor}}</h2>		  
 		</ion-item>
  	</ion-list>
- 	
  	
 
 
