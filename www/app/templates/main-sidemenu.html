@@ -18,6 +18,12 @@
   			
     	</ion-nav-bar>
     
+    	<info-bar></info-bar>
+    	
+	    <div class="bar bar-network bar-assertive " ng-if="states.isOffline" >
+			App is in offline mode
+		</div>
+	
     	<ion-nav-view name="mainContent" animation="slide-left-right">
     	<!-- Main content goes here -->
     	</ion-nav-view>

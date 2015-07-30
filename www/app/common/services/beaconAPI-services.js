@@ -213,7 +213,7 @@ beaconAPIServices.factory('serverBeaconStore', [
 	    			//error
 	    			function(error) { defer.resolve(error); }
 			);
-			
+			 
 			return defer.promise;
 			
 		}
@@ -273,6 +273,7 @@ beaconAPIServices.factory('serverBeaconStore', [
 		
 		var updateBeaconList = function() {
 
+			
 			var defer = $q.defer(),
 				updatedBeacons = [];
 			

@@ -4,7 +4,7 @@ in ionic's _variables.scss file.
 
 For example, you might change some of the default colors:
 */
-/*
+/* 
 $light:                           #fff !default;
 $stable:                          #f8f8f8 !default;
 $positive:                        #387ef5 !default;
@@ -32,8 +32,10 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Include dierctives scss
 @import "www/app/common/directives/ble-state/scss/ble-state";
+@import "www/app/common/directives/info-bar/scss/info-bar";
 
 // Include controllers scss 
 @import "www/app/components/help/scss/help";
 @import "www/app/components/tour/scss/tour";
 @import "www/app/components/scanning/scss/scanning";
+ 

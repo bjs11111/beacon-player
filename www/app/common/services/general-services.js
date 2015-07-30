@@ -1,5 +1,5 @@
 /* Services */
-var generalServices = angular.module('generalServices', ['ngCordova',  'LocalForageModule']);
+var generalServices = angular.module('generalServices', ['ngCordova',  'LocalForageModule', 'bleFilters']);
 
 /*Constants for the bleDeviceService*/
 generalServices.constant("generalServiceConfig", {
@@ -18,18 +18,27 @@ generalServices.constant("generalServiceConfig", {
 
 });
 
-generalServices.factory('generalService', ['$rootScope', '$ionicPlatform', '$ionicPopup', '$cordovaNetwork', '$cordovaInAppBrowser', '$cordovaVibration', 'generalServiceConfig',
-                                  function ($rootScope,   $ionicPlatform,   $ionicPopup,   $cordovaNetwork,   $cordovaInAppBrowser,   $cordovaVibration,   generalServiceConfig) {
+generalServices.factory('generalService', ['$rootScope', '$filter', '$ionicPlatform', '$ionicPopup', '$cordovaNetwork', '$cordovaInAppBrowser', '$cordovaVibration', 'generalServiceConfig',
+                                  function ($rootScope,   $filter,   $ionicPlatform,   $ionicPopup,   $cordovaNetwork,   $cordovaInAppBrowser,   $cordovaVibration,   generalServiceConfig) {
 	
 	/* 
 	 * helper functions
 	 */
-	var isBCMSUrl = function (url) {
-		var bcmsKeyAndParams = url.split(generalServiceConfig.basePath +'/'+ generalServiceConfig.iabView +'/').pop();
-		var bcmsKey = bcmsKeyAndParams.split('?'); 
+	//@TODO create filter
+	var qrCodeUrlToBcmsBeaconKey = function (url) {
+		url = "http://www.starnberger.at/dev-bcms/b-i/699EBC80-E1F3-11E3-9A0F-0CF3EE3BC012.1.13531?ajax=1";
 		
-		if(bcmsKey.length == 2) {
-			return true;
+		var bcmsBeaconKeyToObj = $filter('bcmsBeaconKeyToObj');
+		console.log('bcmsKeyAndParams', bcmsKeyAndParams); 
+		var bcmsKeyAndParams = url.split(generalServiceConfig.basePath +'/'+ generalServiceConfig.iabView +'/').pop();
+		console.log('bcmsKeyAndParams', bcmsKeyAndParams); 
+		var bcmsKey = bcmsKeyAndParams.split('?')[0]; 
+		
+		console.log('bcmsKey', bcmsKey, 'bcmsBeaconKeyToObj(bcmsKey)', bcmsBeaconKeyToObj(bcmsKey)); 
+		
+		if( bcmsBeaconKeyToObj(bcmsKey) !== false) {
+			console.log('converted qr code'); 
+			return bcmsKey;
 		}
 		return false;
 	};
@@ -45,11 +54,32 @@ generalServices.factory('generalService', ['$rootScope', '$ionicPlatform', '$ion
 	var alertEnsureInetConnection = function(forceCloseApp) {
 		
 		forceCloseApp = (forceCloseApp)?true:false;
-		alert('alertEnsureInetConnection' + forceCloseApp);
+		
 		//let alert pop up with given settings
 		var noInetAlert =	$ionicPopup.alert({
 			   title	: 'No internet',
 			   template	: 'Pleas turn on your internet connection and try again!',
+			   okType	: 'button-energized'
+		});
+		
+		//actions after press okButton
+		noInetAlert.then( function(result) {
+							noInetAlert.close();
+							if(forceCloseApp) { ionic.Platform.exitApp(); }
+						});
+	};
+	
+	/*show alert with information to check inet connection
+	 * set closeOnOffline to true closes app after press alert button 
+	 * */	
+	var alertWrongUrl = function(forceCloseApp) {
+		
+		forceCloseApp = (forceCloseApp)?true:false;
+		
+		//let alert pop up with given settings
+		var noInetAlert =	$ionicPopup.alert({
+			   title	: 'Wrond QR-Code',
+			   template	: 'QR-Code not in system',
 			   okType	: 'button-energized'
 			 });
 		
@@ -66,11 +96,12 @@ generalServices.factory('generalService', ['$rootScope', '$ionicPlatform', '$ion
 	 */
 	//@TODO finish implementation
 	var qrSuccessCallback = function (barcodeData) {
-		//if(isBCMSUrl(barcodeData.text)) {
+		console.log('qrCodeUrlToBcmsBeaconKey', qrCodeUrlToBcmsBeaconKey(barcodeData.text)); 
+		if(qrCodeUrlToBcmsBeaconKey(barcodeData.text)) {
 			openIAB(barcodeData.text);
-		//} else {
-		//	alert(barcodeData.text + 'is no propper url!');
-		//}
+		} else {
+			alertWrongUrl();
+		}
 	};
 	//@TODO handle 
 	var qrErrorCallback = function (error) { };
@@ -79,8 +110,7 @@ generalServices.factory('generalService', ['$rootScope', '$ionicPlatform', '$ion
 	
 	/*
 	 * InnAppBrowser
-	 */
-	
+	*/
 	//iabIsOpenState
 	var iabIsOpen = false;
 	
@@ -118,7 +148,7 @@ generalServices.factory('generalService', ['$rootScope', '$ionicPlatform', '$ion
 			}
 		}
 		
-	}
+	}	    
 	
 	var openIAB = function(url) {
 		
@@ -129,6 +159,7 @@ generalServices.factory('generalService', ['$rootScope', '$ionicPlatform', '$ion
 			if(iabIsOpen) { return; } 
 			
 			//if offline
+			//@TODO create wrapper functions for no-inet, no-ble, on-deviceready, 
 			if( $cordovaNetwork.isOffline() ) { 
 				alertEnsureInetConnection();
 				return;
@@ -148,7 +179,7 @@ generalServices.factory('generalService', ['$rootScope', '$ionicPlatform', '$ion
 			    	function(event) {}, 
     			    // error
     			    function(event) {  iabIsOpen = false; });
-			});
+	    });
 	   		
 		$rootScope.$on('$cordovaInAppBrowser:loadstop', function(e, event){
 			//@TODO check why we are not able to execute from file!!!
@@ -185,29 +216,32 @@ generalServices.factory('generalService', ['$rootScope', '$ionicPlatform', '$ion
 				file: 'app/common/services/assets/css/iab.css'
 			});
 		    
-		  });
+		 });
 		
-		$rootScope.$on('$cordovaInAppBrowser:loadstart', function(e, event){
+		 $rootScope.$on('$cordovaInAppBrowser:loadstart', function(e, event){
 			var url = event.url;
 			if (url.indexOf("close-iab") != -1) { 
 				$cordovaInAppBrowser.close();  
 				iabIsOpen = false;  
 			} 
-		}); 
+		 }); 
 		
 		 $rootScope.$on('$cordovaInAppBrowser:loaderror', function(e, event){
 			 $cordovaInAppBrowser.close();  
 			 iabIsOpen = false;  
-		  });
+		 });
 
-		  $rootScope.$on('$cordovaInAppBrowser:exit', function(e, event){
+		 $rootScope.$on('$cordovaInAppBrowser:exit', function(e, event){
 			  iabIsOpen = false;  
-		  });
+		 });
 		  
 	};
 		
 	// return the publicly accessible methods
 	return {
+		//isBCMSUrl : isBCMSUrl,
+		//alertEnsureInetConnection : alertEnsureInetConnection,
+		//alertWrongUrl : alertWrongUrl,
 		qrSuccessCallback 	: qrSuccessCallback,
 		qrErrorCallback 	: qrErrorCallback,
 		openIAB 			: openIAB,

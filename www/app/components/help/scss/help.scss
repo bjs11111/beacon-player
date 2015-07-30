@@ -15,6 +15,13 @@
 	    width:100%; 
 	    padding: 40px 20px 100px 20px;
 	}
+	
+	#helpView .slider-slide .slide .icon {
+		width:120px;
+	}
+	#helpView .slider-slide .slide .fa {
+		font-size:9em;
+	}
 	    
 	#helpView .slider-pager 				{}
 
@@ -40,57 +47,60 @@
 	}
 	
 	/*@TODO remove redundant css*/
-	#helpView .slider-slide#slide1 {
-	 background: url("/app/components/help/images/slide1.jpg") no-repeat center center fixed; 
+	
+	#helpView .slider-slide#slide-beaconplayer {
+	 background: url("/app/components/help/images/beaconplayer-bg.jpg") no-repeat center center fixed; 
   	-webkit-background-size: cover;
   	-moz-background-size: cover;
   	-o-background-size: cover;
  	background-size: cover;
-
 	}
 	
-	#helpView .slider-slide#slide2 {
-	 background: url("/app/components/help/images/slide2.jpg") no-repeat center center fixed; 
+	#helpView .slider-slide#slide-bluetooth {
+	 background: url("/app/components/help/images/bluetooth-bg.jpg") no-repeat center center fixed; 
   	-webkit-background-size: cover;
   	-moz-background-size: cover;
   	-o-background-size: cover;
  	background-size: cover;
-
 	}
 	
-	#helpView .slider-slide#slide3 {
-	 background: url("/app/components/help/images/slide3.jpg") no-repeat center center fixed; 
+	#helpView .slider-slide#slide-qrscanner {
+	 background: url("/app/components/help/images/qrscanner-bg.jpg") no-repeat center center fixed; 
   	-webkit-background-size: cover;
   	-moz-background-size: cover;
   	-o-background-size: cover;
  	background-size: cover;
-
 	}
 	
-	#helpView .slider-slide#slide4 {
-	 background: url("/app/components/help/images/slide4.jpg") no-repeat center center fixed; 
+	
+	#helpView .slider-slide#slide-tour {
+	 background: url("/app/components/help/images/tour-bg.jpg") no-repeat center center fixed; 
   	-webkit-background-size: cover;
   	-moz-background-size: cover;
   	-o-background-size: cover;
  	background-size: cover;
-
 	}
 	
-	#helpView .slider-slide#slide5 {
-	 background: url("/app/components/help/images/slide5.jpg") no-repeat center center fixed; 
+	#helpView .slider-slide#slide-management {
+	 background: url("/app/components/help/images/management-bg.jpg") no-repeat center center fixed; 
   	-webkit-background-size: cover;
   	-moz-background-size: cover;
   	-o-background-size: cover;
  	background-size: cover;
-
 	}
 	
-	#helpView .slider-slide#slide6 {
-	 background: url("/app/components/help/images/slide6.jpg") no-repeat center center fixed; 
+	#helpView .slider-slide#slide-shop {
+	 background: url("/app/components/help/images/shop-bg.jpg") no-repeat center center fixed; 
   	-webkit-background-size: cover;
   	-moz-background-size: cover;
   	-o-background-size: cover;
  	background-size: cover;
-
 	}
 	
+	#helpView .slider-slide#slide-contribute {
+	 background: url("/app/components/help/images/contribute-bg.jpg") no-repeat center center fixed; 
+  	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+ 	background-size: cover;
+	}

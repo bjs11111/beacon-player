@@ -4,7 +4,6 @@
  * 
  */
 
-
 var listFilters = angular.module('listFilters',[]);
 
 
@@ -241,6 +240,7 @@ bleFilters.filter('toHexString', function() {
 	
 });
 
+
 /*
  * returns valid hex string or false
  */	
@@ -253,7 +253,7 @@ bleFilters.filter('bcmsBeaconKeyToObj', ['$filter', function($filter) {
 	
 	return function(value) {
 		
-		tmp = value.split('.');
+		tmp = value.toString().split('.');
 		
  		//check . seperation 
     	if(tmp.length != 3) {
@@ -289,7 +289,7 @@ bleFilters.filter('bcmsBeaconKeyToObj', ['$filter', function($filter) {
     	return { 
     			iBeaconUuid : iBeaconUuid,
     			 major 		: major,
-    			 minor 		: major
+    			 minor 		: minor
     		}; 
 	};
 	
