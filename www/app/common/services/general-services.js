@@ -96,9 +96,18 @@ generalServices.factory('generalService', ['$rootScope', '$filter', '$ionicPlatf
 	 */
 	//@TODO finish implementation
 	var qrSuccessCallback = function (barcodeData) {
+
 		console.log('qrCodeUrlToBcmsBeaconKey', qrCodeUrlToBcmsBeaconKey(barcodeData.text)); 
-		if(qrCodeUrlToBcmsBeaconKey(barcodeData.text)) {
+		var bcmsBeaconKey
+		if( qrCodeUrlToBcmsBeaconKey(barcodeData.text) !== false ) {
+			
+			//check if beacon has thirdPartyUrl 
+			if( thirdPartyUrl(bcmsBeaconKey) ) {
+				
+			}
+			
 			openIAB(barcodeData.text);
+			
 		} else {
 			alertWrongUrl();
 		}
@@ -115,7 +124,7 @@ generalServices.factory('generalService', ['$rootScope', '$filter', '$ionicPlatf
 	var iabIsOpen = false;
 	
 	//@TODO finish implementation
-	var openIABWithKey = function(bcmsBeaconKey) {
+	var openIABWithBcmsBeaconKey = function(bcmsBeaconKey) {
 
 		//@TODO remove fake data
 		var fakeObj = { bcmsBeaconKey:"699EBC80-E1F3-11E3-9A0F-0CF3EE3BC012.1.1",
@@ -140,9 +149,7 @@ generalServices.factory('generalService', ['$rootScope', '$filter', '$ionicPlatf
 					return;
 				} else {
 					var urlToContent = generalServiceConfig.basePath +'/'+ generalServiceConfig.iabView +'/'+ bcmsBeaconKey+'?ajax=1';
-					
 					if(device.bcmsBeacon.thirdPartyWebsite) { urlToContent = device.bcmsBeacon.thirdPartyWebsite; }
-					
 					openIAB(urlToContent);
 				}
 			}
@@ -225,7 +232,7 @@ generalServices.factory('generalService', ['$rootScope', '$filter', '$ionicPlatf
 				iabIsOpen = false;  
 			} 
 		 }); 
-		
+		  
 		 $rootScope.$on('$cordovaInAppBrowser:loaderror', function(e, event){
 			 $cordovaInAppBrowser.close();  
 			 iabIsOpen = false;  
@@ -245,8 +252,8 @@ generalServices.factory('generalService', ['$rootScope', '$filter', '$ionicPlatf
 		qrSuccessCallback 	: qrSuccessCallback,
 		qrErrorCallback 	: qrErrorCallback,
 		openIAB 			: openIAB,
-		openIABWithKey 		: openIABWithKey
-	}
+		openIABWithBcmsBeaconKey : openIABWithBcmsBeaconKey,
+	} 
 	
 }]);
 
@@ -259,9 +266,11 @@ generalServices.factory('$localstorage', ['$window',
                                  
                                },
                                getItem: function (key, emptyValue) {
-                             	var val = $window.localStorage[key];
+                            	  console.log('DEB getItem'); 
+                             	 var val = $window.localStorage[key];
                                  emptyValue = (emptyValue !== undefined) ? emptyValue : undefined;
-                                 return (val !== undefined)?val:emptyValue;
+                                 console.log('DEB val of item ', val, emptyValue); 
+                                 return (val !== undefined)?val:emptyValue; 
                                },
                                removeItem: function (key) {
                                  delete $window.localStorage[key];
@@ -288,6 +297,8 @@ generalServices.factory('$localstorage', ['$window',
                              }
                            }]);
 
+//@TODO finish!!!
+// This takes care of actions that should take place on app lounge
 generalServices.factory('launcherService', 
 		['$q', 'generalServiceConfig', '$localstorage',
 function ($q,   generalServiceConfig,   $localstorage) {
@@ -303,9 +314,7 @@ function ($q,   generalServiceConfig,   $localstorage) {
 		    	 firstVisit = newValue;
 
 		     };
-		     
-		
-		     
+		     		     
 		     return {
 
 		    	getFirstVisit 		: getFirstVisit,

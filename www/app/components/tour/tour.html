@@ -14,8 +14,10 @@
  	
  	<ion-refresher on-refresh="tourCtrlData.refreshServerData('pullToRefresh')"></ion-refresher>
  	
- 		<!-- Beacon list -->
-		<div class="listContainer" ng-repeat="device in tourCtrlData.showDeviceList | orderBy:'sort'" 
+ 		<!-- Beacon list 
+		<!--<div class="listContainer" ng-repeat="device in tourCtrlData.showDeviceList | orderBy:'sort'" -->
+		
+		<div class="listContainer" ng-repeat="device in tourCtrlData.showDeviceList | limitTo:3 "
                   href="#" 
                   class=" item-icon-right "
                   ng-class="device.bcmsBeacon.contentThumbnailUrl?'item-avatar':'item-icon-left'"> 
@@ -32,7 +34,7 @@
 										
 										<h2 class="truncate">{{device.contentTitle}}</h2>
 										<div class="debugInfo">
-											<div class="rssi">{{device.rssi}}</div>
+											<div class="rssi">{{device.sort}}</div>
 											<div class="radius">{{device.triggerZone}}</div>
 											<div class="clear"></div>
 										</div>
@@ -52,7 +54,7 @@
 											</div>
 											<h2 class="truncate">{{device.contentTitle}}</h2>
 											<div class="debugInfo">
-												<div class="rssi">{{device.rssi}}</div>
+												<div class="rssi">{{device.sort}}</div>
 												<div class="radius">{{device.triggerZone}}</div>
 												<div class="clear"></div>
 											</div>

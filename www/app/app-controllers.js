@@ -10,7 +10,7 @@ appControllers
                 function($rootScope,   $scope,   serverBeaconStore) {
 	
     var init = function() {
-	   serverBeaconStore.updateBeaconList();   
+	      
 	   console.log('init AppCtrl'); 
     }
 	   

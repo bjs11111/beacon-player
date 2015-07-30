@@ -3,9 +3,9 @@ var deviceStates = angular.module('deviceStates', []);
 
 deviceStates.constant("deviceStatesConfig", {
 	// Event Names
-	networkOnline 			: '$cordovaNetwork:online',
-	networkOffline 			: '$cordovaNetwork:offline',
-	networkStateUpdated 	: '$cordovaNetwork:networkStateUpdated',
+	networkOnline 					: '$cordovaNetwork:online',
+	networkOffline 					: '$cordovaNetwork:offline',
+	networkStateUpdated 			: '$cordovaNetwork:networkStateUpdated',
 	bluetoothEnabledStateUpdated 	: 'diagnostic:bluetoothEnabledStateUpdated',
 });
 
@@ -100,8 +100,6 @@ deviceStates.factory('deviceStatesService',
 				});
 				
 			};
-			
-			checkBluetoothEnabledState();
 			
 			var startAutoCheckBluetooth = function() {
 				checkBluetoothEnabledState();

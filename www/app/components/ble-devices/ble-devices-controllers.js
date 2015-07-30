@@ -12,7 +12,8 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
          function( $scope,   $filter,  $interval,   bleScannerChannel,  beaconAPIService, generalService) {
 			
 			$scope.bleDevicesCtrl = {};  
-			$scope.bleDevicesCtrl.allDevicesList = {};		
+			$scope.bleDevicesCtrl.allDevicesList = {};	
+			$scope.bleDevicesCtrl.listLength =0;
 			
 			//functions
 			$scope.openIABWithKey = generalService.openIABWithKey;
@@ -51,6 +52,16 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 				}
 			};
 			
+	      	$scope.updateListLength = function() {
+	    		var i = 0;
+	    		for (key in $scope.bleDevicesCtrl.allDevicesList) {
+	    			i++; 
+	    		}
+	    		//used in view
+	    		$scope.bleDevicesCtrl.listLength = i;
+	    	};
+			
+			
 	    	//this is used to update list after serverdata updated   	
 	    	var onFoundDeviceHandler = function(preparedDevice) { 
 	 
@@ -62,15 +73,46 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 	    		
 	    		//$scope.bleDevicesCtrl.allDevicesList.push(preparedDevice);
 	    		$scope.bleDevicesCtrl.allDevicesList[newDevice.bcmsBeaconKey] = newDevice;
-				$scope.$apply();
+	    		
+	    		$scope.updateListLength();
 			};
+			
+			
+			var updateListInterval = undefined;
+			
+			//start interval for cleaning old devices
+			var startUpdateListInterval = function (interval) {
+				if(!updateListInterval) {
+					
+					
+					updateListInterval = setInterval(function(){ 
+						console.log("$scope.$digest()");
+						$scope.$digest();
+						
+					}, interval);
+					
+				}
+			};
+			
+			//stopt interval for cleaning old devices
+			var stopUpdateListInterval = function () {
+				if(updateListInterval) {
+					clearInterval(updateListInterval);
+					updateListInterval = undefined;
+				}
+			};
+			
 		
 	      	//initial stuff 
 	      	var init = function () {
 	      		console.log('init bleDevicesListCtrl'); 
 	      		//startcleaningOldDevicesinterval(1*1000, 10000);
+	      		startUpdateListInterval(1000);
 	      		bleScannerChannel.onFoundBleDevice($scope, onFoundDeviceHandler);
 	      	}
+	      	
+	      	
+
 	      	
 	      	init();
 

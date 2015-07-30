@@ -33,6 +33,7 @@ beaconPlayerApp.config(
 				abstract : true,
 				templateUrl : "app/templates/main-sidemenu.html",
 				controller 	: 'AppCtrl'
+				
 			})
 			
 			.state('app.settings', {
@@ -103,14 +104,17 @@ beaconPlayerApp.run([ '$rootScope', '$state', '$ionicPlatform', '$localstorage',
 		//redirection logic start
 	
 		//load localStorage data into scope
-		var firstVisit 	= $localstorage.getItem('firstVisit', '0');
 	
+		
+		
 	    $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
+	    	var firstVisit 	= localStorage.getItem("firstVisit"); 
+	    	console.log('DEB $stateChangeStart', firstVisit); 
 	    	 // if its the users first visit to the app play the apps tour
 		   	 if ( firstVisit != '1' && toState.name !== 'app.help') { 
 		   		    event.preventDefault();
 		   		    //set FirstVisite
-			 		$localstorage.setItem('firstVisit', '1');
+		   		    localStorage.setItem('firstVisit', '1');
 			 		firstVisit = '1';
 			 	
 			 		$state.go('app.help'); 	
