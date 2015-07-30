@@ -24,7 +24,7 @@ beaconPlayerApp.config(
 			 * config routing
 			 **/
 			// if none of the above states are matched, use this as the fallback
-			$urlRouterProvider.otherwise('/app/tour');
+			$urlRouterProvider.otherwise('/app/help');
 
 			$stateProvider
 			

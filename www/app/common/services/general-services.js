@@ -101,10 +101,11 @@ generalServices.factory('generalService', ['$rootScope', '$filter', '$ionicPlatf
 		var bcmsBeaconKey
 		if( qrCodeUrlToBcmsBeaconKey(barcodeData.text) !== false ) {
 			
+			//@TODO  implement
 			//check if beacon has thirdPartyUrl 
-			if( thirdPartyUrl(bcmsBeaconKey) ) {
+			//if( thirdPartyUrl(bcmsBeaconKey) ) {
 				
-			}
+			//}
 			
 			openIAB(barcodeData.text);
 			
