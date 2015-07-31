@@ -2,6 +2,7 @@
 var beaconPlayerApp = angular.module('beaconPlayerApp', 
 		[ 'ionic',
 		  'generalServices',
+		  'LocalStorageModule',
 		  //stores
 		  'beaconAPIServices',
 		  
@@ -35,7 +36,7 @@ beaconPlayerApp.config(
 				controller 	: 'AppCtrl'
 				
 			})
-			
+			/*
 			.state('app.settings', {
 				url : '/settings',
 				views : {
@@ -45,7 +46,7 @@ beaconPlayerApp.config(
 					}
 				}
 			})
-			
+			*/
 			.state('app.help', {
 				url : '/help',
 				views : {
@@ -65,7 +66,7 @@ beaconPlayerApp.config(
 					}
 				}
 			})
-			
+		/*	
 			.state('app.ble-devices', {
 				url : '/ble-devices',
 				views : {
@@ -94,11 +95,12 @@ beaconPlayerApp.config(
 						controller 	: 'scanningCtrl'
 					}
 				}
-			});
+			})  */
+			;
 }]);
 
-beaconPlayerApp.run([ '$rootScope', '$state', '$ionicPlatform', '$localstorage', 
-              function($rootScope, $state, $ionicPlatform, $localstorage) {
+beaconPlayerApp.run([ '$rootScope', '$state', '$ionicPlatform', 'localStorageService', 
+              function($rootScope, $state, $ionicPlatform, localStorageService) {
 
 		//@TODO use launcherService instead of $localStorage
 		//redirection logic start
@@ -106,17 +108,15 @@ beaconPlayerApp.run([ '$rootScope', '$state', '$ionicPlatform', '$localstorage',
 		//load localStorage data into scope
 	
 		
-		
 	    $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
-	    	var firstVisit 	= localStorage.getItem("firstVisit"); 
-	    	console.log('DEB $stateChangeStart', firstVisit); 
+	    	//var firstVisit 	= localStorageService.get("firstVisit"); 
+	    	console.log('localStorageService', localStorageService.get("firstVisit")); 
 	    	 // if its the users first visit to the app play the apps tour
-		   	 if ( firstVisit != '1' && toState.name !== 'app.help') { 
+		   	 if ( localStorageService.get("firstVisit") != '1' && toState.name !== 'app.help') { 
 		   		    event.preventDefault();
 		   		    //set FirstVisite
-		   		    localStorage.setItem('firstVisit', '1');
-			 		firstVisit = '1';
-			 	
+		   		    localStorageService.set('firstVisit', '1');
+		   		 console.log('localStorageService2 :', localStorageService.get("firstVisit")); 
 			 		$state.go('app.help'); 	
 			 		return;
 			 }  

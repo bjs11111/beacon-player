@@ -7865,7 +7865,7 @@ button.ble-scanning {
 #helpView .slider-slide .slide .icon {
   width: 120px; }
 
-#helpView .slider-slide .slide .fa {
+#helpView .slider-slide .slide .fa, #helpView .slider-slide .slide .ion-radio-waves {
   font-size: 9em; }
 
 #helpView h1, #helpView h2, #helpView h3, #helpView h4, #helpView h5, #helpView h6, #helpView .h1, #helpView .h2, #helpView .h3, #helpView .h4, #helpView .h5, #helpView .h6, #helpView a {
@@ -7881,7 +7881,7 @@ button.ble-scanning {
 #helpView p, #helpView i {
   color: #002B4B; }
 
-/*@TODO remove redundant css*/
+/*@TODO remove redundant css */
 #helpView .slider-slide#slide-beaconplayer {
   background: url("/app/components/help/images/beaconplayer-bg.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;

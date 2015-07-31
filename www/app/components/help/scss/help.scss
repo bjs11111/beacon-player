@@ -19,9 +19,11 @@
 	#helpView .slider-slide .slide .icon {
 		width:120px;
 	}
-	#helpView .slider-slide .slide .fa {
+	#helpView .slider-slide .slide .fa,
+	#helpView .slider-slide .slide .ion-radio-waves {
 		font-size:9em;
 	}
+	
 	    
 	#helpView .slider-pager 				{}
 
@@ -46,7 +48,7 @@
 	 	color:#002B4B;
 	}
 	
-	/*@TODO remove redundant css*/
+	/*@TODO remove redundant css */
 	
 	#helpView .slider-slide#slide-beaconplayer {
 	 background: url("/app/components/help/images/beaconplayer-bg.jpg") no-repeat center center fixed; 
