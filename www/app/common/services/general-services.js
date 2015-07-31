@@ -1,5 +1,5 @@
 /* Services */
-var generalServices = angular.module('generalServices', ['ngCordova',  'LocalForageModule', 'bleFilters']);
+var generalServices = angular.module('generalServices', ['ngCordova', 'bleFilters']);
 
 /*Constants for the bleDeviceService*/
 generalServices.constant("generalServiceConfig", {

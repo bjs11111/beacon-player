@@ -101,6 +101,7 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 	var updateIonicView = function(filteredDevicesList){
 		var tmpDeviceList=[];
 		var count=0;
+		
 		for(var key in filteredDevicesList){
 			
 			var deviceToAdd = {
@@ -114,9 +115,14 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 			    	rssi:$scope.tourCtrlData.allDevicesList[key].rssi,
 			    	sort:filteredDevicesList[key].sort
 			};
-			tmpDeviceList.push(deviceToAdd);
-			//if(count++ >= 2) break;
 			
+			
+			if(Date.now() - $scope.tourCtrlData.allDevicesList[key].lastScan <= 30000) {
+				tmpDeviceList.push(deviceToAdd);
+			}
+			
+			
+			//if(count++ >= 2) break;
 		}
     	
     	$scope.tourCtrlData.showDeviceList=tmpDeviceList;
