@@ -13,7 +13,7 @@ generalServices.constant("generalServiceConfig", {
 		      toolbar		: 'no'
 	},
 	//path vars
-	basePath 				: 'http://www.starnberger.at/dev-bcms',
+	basePath 				: 'http://www.beacon-player.com',
 	iabView 				: 'b-i'
 
 });
