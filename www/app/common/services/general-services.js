@@ -24,7 +24,7 @@ generalServices.factory('generalService', ['$rootScope', '$filter', '$ionicPlatf
 	/* 
 	 * helper functions
 	 */
-	//@TODO create filter
+	//@TODO create filter of in bleFilters
 	var qrCodeUrlToBcmsBeaconKey = function (url) {
 		url = "http://www.starnberger.at/dev-bcms/b-i/699EBC80-E1F3-11E3-9A0F-0CF3EE3BC012.1.13531?ajax=1";
 		
