@@ -96,18 +96,10 @@ console.log('barcodeData: ' + JSON.stringify(barcodeData));
 		console.log('qrCodeUrlToBcmsBeaconKey'+ qrCodeUrlToBcmsBeaconKey(barcodeData.text)); 
 		var bcmsBeaconKey
 		if( qrCodeUrlToBcmsBeaconKey(barcodeData.text) !== false ) {
-			
-			//@TODO  implement
-			//check if beacon has thirdPartyUrl 
-			//if( thirdPartyUrl(bcmsBeaconKey) ) {
-				
-			//}
-			
+
 			openIAB(barcodeData.text);
 			
 		} else {
-			
-			console.log(); 
 			if(barcodeData.text !== null) {
 				alertWrongUrl(); 
 			} 
