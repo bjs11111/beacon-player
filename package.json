@@ -16,7 +16,14 @@
   },
   "cordovaPlugins": [
     "https://github.com/wildabeast/BarcodeScanner.git",
-    "cordova.plugins.diagnostic"
+    "cordova.plugins.diagnostic",
+    "org.apache.cordova.network-information",
+    "org.apache.cordova.vibration",
+    "org.apache.cordova.inappbrowser",
+    "com.evothings.ble",
+    "https://github.com/petermetz/cordova-plugin-ibeacon.git",
+    "cordova-plugin-device",
+    "https://github.com/driftyco/ionic-plugins-keyboard.git"
   ],
   "cordovaPlatforms": [
     "android",

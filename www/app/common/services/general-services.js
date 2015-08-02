@@ -26,7 +26,6 @@ generalServices.factory('generalService', ['$rootScope', '$filter', '$ionicPlatf
 	 */
 	//@TODO create filter of in bleFilters
 	var qrCodeUrlToBcmsBeaconKey = function (url) {
-		url = "http://www.starnberger.at/dev-bcms/b-i/699EBC80-E1F3-11E3-9A0F-0CF3EE3BC012.1.13531?ajax=1";
 		
 		var bcmsBeaconKeyToObj = $filter('bcmsBeaconKeyToObj');
 		console.log('bcmsKeyAndParams', bcmsKeyAndParams); 
@@ -65,7 +64,7 @@ generalServices.factory('generalService', ['$rootScope', '$filter', '$ionicPlatf
 		//actions after press okButton
 		noInetAlert.then( function(result) {
 							noInetAlert.close();
-							if(forceCloseApp) { ionic.Platform.exitApp(); }
+							//if(forceCloseApp) { ionic.Platform.exitApp(); }
 						});
 	};
 	
@@ -77,22 +76,22 @@ generalServices.factory('generalService', ['$rootScope', '$filter', '$ionicPlatf
 		forceCloseApp = (forceCloseApp)?true:false;
 		
 		//let alert pop up with given settings
-		var noInetAlert =	$ionicPopup.alert({
+		var wrongUrl =	$ionicPopup.alert({
 			   title	: 'Wrond QR-Code',
 			   template	: 'QR-Code not in system',
 			   okType	: 'button-energized'
 			 });
 		
 		//actions after press okButton
-		noInetAlert.then( function(result) {
-							noInetAlert.close();
-							if(forceCloseApp) { ionic.Platform.exitApp(); }
+		wrongUrl.then( function(result) {
+							wrongUrl.close();
+							//if(forceCloseApp) { ionic.Platform.exitApp(); }
 						});
 	};
 	
 	
 	/*
-	 * barcode scanner
+	 * barcode scanner 
 	 */
 	//@TODO finish implementation
 	var qrSuccessCallback = function (barcodeData) {
@@ -110,7 +109,7 @@ generalServices.factory('generalService', ['$rootScope', '$filter', '$ionicPlatf
 			openIAB(barcodeData.text);
 			
 		} else {
-			alertWrongUrl();
+			//alertWrongUrl();
 		}
 	};
 	//@TODO handle 
