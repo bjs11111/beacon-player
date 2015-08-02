@@ -10,24 +10,30 @@ var listFilters = angular.module('listFilters',[]);
 listFilters.filter('lastScanFilter', function() {
 	
 	// Filters only known Devices
-	return function(items, msTimeAgo) {
+	return function(items, msTimeAgo, keyToLastScan) {
+		
+	
 		var recentlyScannedBaecons = {};
 
 		// Filter Only known Devices
 		angular.forEach(items, function(item, key) {
-				if( Date.now() - item.scanData.lastScan <= msTimeAgo){ 
+			
+			console.log('keyToLastScan:'+(keyToLastScan)+ + JSON.stringify(item[keyToLastScan].lastScan) ); 
+				var lastscan = (keyToLastScan)?item[keyToLastScan].lastScan: item.lastScan;
+			console.log('lastscan: ' + lastscan); 
+				if( Date.now() - lastscan <= msTimeAgo){ 
 					this[key]=item;
 				}
 	      	}, 
 	      	recentlyScannedBaecons
 	    );
-
+		
 		return recentlyScannedBaecons;
 	}
 	
 });
 
-listFilters.filter('knownBeaconsFilter', function() {
+listFilters.filter('knownBeaconsFilter', function() { 
 	
 	// Filters only known Devices
 	var filterKnownBeacons = function(items, serverBeacons){

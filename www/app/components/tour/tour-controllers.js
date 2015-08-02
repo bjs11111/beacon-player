@@ -38,6 +38,7 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 	
 	
 
+
 	//TODO: Put into the Device Controler
 	
   	//start refreshes serverdata every x ms
@@ -97,10 +98,11 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 			    	sort:filteredDevicesList[key].sort
 			};
 			
+			
 			if(Date.now() - $scope.tourCtrlData.allDevicesList[key].lastScan <= 30000) {
 				tmpDeviceList.push(deviceToAdd);
 			}
-
+	
 		}
     	
     	$scope.tourCtrlData.showDeviceList=tmpDeviceList;
@@ -114,7 +116,8 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 	//TODO: Implement detailed Distance estimation
 	var calculateDistance = function(filteredDevicesList){
 		for (var key in filteredDevicesList) { 
-
+			
+			
 			// Calculate Sort Value: Time Weighted Average
 			var distance=0;
 			var weighted=0;
@@ -132,17 +135,21 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 		
 	} 
 	
+	
 	//start interval for cleaning old devices
 	var alreadyUpdatedInInterval=false;
 	var updateListInterval=0;
-
 	var startUpdateInterval = function (interval) {
-		if(!updateListInterval) {
+		if(!updateListInterval) {		
+			
 			updateListInterval = setInterval(function(){ 
 				updateView();
-			}, interval);		
+			}, interval);
+			
 		}
 	};
+	
+	
 
 	var saveRssiMeasurement = function(device){
 		var d = new Date();
@@ -171,6 +178,10 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 		
 	} 
 	
+	var removeOldMeasurements = function(){ }
+	
+	
+	
 	// Get Updates from Bluetooth Scan 	
 	var onFoundDeviceHandler = function(preparedDevice)  {
  
@@ -184,7 +195,9 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 		// Save the RSSI value for the beacons that are known
 		if($scope.tourCtrlData.filteredDevicesList[preparedDevice.bcmsBeaconKey]!=null)
 			saveRssiMeasurement(preparedDevice);
-
+		
+		
+		
 	};
 	
 	
@@ -222,7 +235,7 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 		beaconAPIChannel.subBeaconsUpdated($scope, _subBeaconsUpdatedHandler); 
 		
 		serverBeaconStore.updateBeaconList();
-		//startUpdateInterval(1000);
+		startUpdateInterval(1000);
 	}
 	
 	init();

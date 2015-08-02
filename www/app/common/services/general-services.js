@@ -18,27 +18,6 @@ generalServices.constant("generalServiceConfig", {
 
 });
 
-
-
-
-/*
- * http://marsbomber.com/2014/05/29/BarcodeScanner-With-Ionic/
- * ======================================
- */
-
-generalServices.factory('qRScanService', [function () {
-
-	  return {
-	    scan: function(success, fail) {
-	      cordova.plugins.barcodeScanner.scan(
-	        function (result) { success(result); },
-	        function (error) { fail(error); }
-	      );
-	    }
-	  };
-
-}]);
-
 generalServices.factory('generalService', ['$rootScope', '$filter', '$ionicPlatform', '$ionicPopup', '$cordovaNetwork', '$cordovaInAppBrowser', '$cordovaVibration', 'generalServiceConfig',
                                   function ($rootScope,   $filter,   $ionicPlatform,   $ionicPopup,   $cordovaNetwork,   $cordovaInAppBrowser,   $cordovaVibration,   generalServiceConfig) {
 	
@@ -49,13 +28,10 @@ generalServices.factory('generalService', ['$rootScope', '$filter', '$ionicPlatf
 	var qrCodeUrlToBcmsBeaconKey = function (url) {
 		
 		var bcmsBeaconKeyToObj = $filter('bcmsBeaconKeyToObj');
-
+		
 		var bcmsKeyAndParams = url.split(generalServiceConfig.basePath +'/'+ generalServiceConfig.iabView +'/').pop();
-	
 		var bcmsKey = bcmsKeyAndParams.split('?')[0]; 
-		
-
-		
+		console.log('bcmsKeyAndParams: ' + JSON.stringify(bcmsKeyAndParams));
 		if( bcmsBeaconKeyToObj(bcmsKey) !== false) {
 			console.log('converted qr code'); 
 			return bcmsKey;
@@ -116,8 +92,8 @@ generalServices.factory('generalService', ['$rootScope', '$filter', '$ionicPlatf
 	 */
 	//@TODO finish implementation
 	var qrSuccessCallback = function (barcodeData) {
-
-		console.log('qrCodeUrlToBcmsBeaconKey', qrCodeUrlToBcmsBeaconKey(barcodeData.text)); 
+console.log('barcodeData: ' + JSON.stringify(barcodeData)); 
+		console.log('qrCodeUrlToBcmsBeaconKey'+ qrCodeUrlToBcmsBeaconKey(barcodeData.text)); 
 		var bcmsBeaconKey
 		if( qrCodeUrlToBcmsBeaconKey(barcodeData.text) !== false ) {
 			
@@ -131,7 +107,7 @@ generalServices.factory('generalService', ['$rootScope', '$filter', '$ionicPlatf
 			
 		} else {
 			
-			
+			console.log(); 
 			if(barcodeData.text !== null) {
 				alertWrongUrl(); 
 			} 
@@ -221,7 +197,7 @@ generalServices.factory('generalService', ['$rootScope', '$filter', '$ionicPlatf
 	 		    	   "var link_buttonText = document.createTextNode('Scan for new content');\
 	 		    		var link_button = document.createElement('a');\
 	 		    		link_button.setAttribute('onclick', \"window.close();\");\
-	 		    		link_button.setAttribute('href', '/close-iab');\
+	 		    		link_button.setAttribute('href', 'http://www.beacon-player.at/close-iab.action');\
 	 			    	link_button.id = 'iba-close-button';\
 	 		    		link_button.style.fontSize = '14px';\
 	 		    		link_button.style.textDecoration = 'none';\

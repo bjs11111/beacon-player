@@ -23,30 +23,25 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 
 			//start interval for cleaning old devices
 			var startcleaningOldDevicesinterval = function (interval, timeago) {
-				console.log('timeago: '+ timeago); 
-				console.log('interval: '+interval); 
-			
 				timeago = (timeago)?timeago:interval;
-				console.log('timeago: '+timeago); 
+			
 				if(!cleaningOldDevicesInterval) {
 					cleaningOldDevicesInterval = $interval(function() {
 						//@TODO last ScanFilter is broken
 						
-						var filteredDevices = lastScanFilter($scope.bleDevicesCtrl.allDevicesList, timeago);
-						
+						var filteredDevices = lastScanFilter($scope.bleDevicesCtrl.allDevicesList, timeago, 'scanData');
+					
 						angular.forEach($scope.bleDevicesCtrl.allDevicesList, function(item, key) {
 							
 							if(!filteredDevices[key]) {
-								console.log('delete', filteredDevices[key], filteredDevices); 
+					
 								delete $scope.bleDevicesCtrl.allDevicesList[key];
 							}
-						});
-						
-						//$scope.bleDevicesCtrl.allDevicesList = lastScanFilter($scope.bleDevicesCtrl.allDevicesList, interval);
+						});		
 						
 					}, interval);
 				}
-			};
+			}; 
 			
 			//stopt interval for cleaning old devices
 			var stopcleaningOldDevicesinterval = function () {
@@ -114,7 +109,7 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 	      	}
 	      	
 	      	
-
+ 
 	      	
 	      	init();
 
