@@ -32,12 +32,11 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 						var filteredDevices = lastScanFilter($scope.bleDevicesCtrl.allDevicesList, timeago, 'scanData');
 					
 						angular.forEach($scope.bleDevicesCtrl.allDevicesList, function(item, key) {
-							
 							if(!filteredDevices[key]) {
-					
 								delete $scope.bleDevicesCtrl.allDevicesList[key];
 							}
-						});		
+						});	
+						
 						
 					}, interval);
 				}
@@ -85,6 +84,7 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 					
 					
 					updateListInterval = setInterval(function(){ 
+						$scope.updateListLength();
 						$scope.$digest();
 					}, interval);
 					
