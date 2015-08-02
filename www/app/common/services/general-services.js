@@ -28,12 +28,12 @@ generalServices.factory('generalService', ['$rootScope', '$filter', '$ionicPlatf
 	var qrCodeUrlToBcmsBeaconKey = function (url) {
 		
 		var bcmsBeaconKeyToObj = $filter('bcmsBeaconKeyToObj');
-		console.log('bcmsKeyAndParams', bcmsKeyAndParams); 
+
 		var bcmsKeyAndParams = url.split(generalServiceConfig.basePath +'/'+ generalServiceConfig.iabView +'/').pop();
-		console.log('bcmsKeyAndParams', bcmsKeyAndParams); 
+	
 		var bcmsKey = bcmsKeyAndParams.split('?')[0]; 
 		
-		console.log('bcmsKey', bcmsKey, 'bcmsBeaconKeyToObj(bcmsKey)', bcmsBeaconKeyToObj(bcmsKey)); 
+
 		
 		if( bcmsBeaconKeyToObj(bcmsKey) !== false) {
 			console.log('converted qr code'); 
@@ -109,7 +109,11 @@ generalServices.factory('generalService', ['$rootScope', '$filter', '$ionicPlatf
 			openIAB(barcodeData.text);
 			
 		} else {
-			//alertWrongUrl();
+			console.log('barcodeData.text' + barcodeData.text); 
+			if(barcodeData.text == null) {
+				
+			}
+			alertWrongUrl();
 		}
 	};
 	//@TODO handle 
