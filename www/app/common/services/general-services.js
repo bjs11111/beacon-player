@@ -107,8 +107,7 @@ console.log('barcodeData: ' + JSON.stringify(barcodeData));
 	};
 	//@TODO handle 
 	var qrErrorCallback = function (error) { };
-	
-	
+		
 	
 	/*
 	 * InnAppBrowser
