@@ -30,7 +30,7 @@ qrScanner.directive('sitQrScanner', [ '$ionicPlatform', '$cordovaBarcodeScanner'
 				    			.then(function(barcodeData) {
 				    				scope.successCallback(barcodeData);
 				    			}, function(error) {
-				    				scope.errorCallback(barcodeData);
+				    				scope.errorCallback(error);
 				    			});	
 		    		});
 	    	};

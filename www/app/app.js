@@ -10,6 +10,7 @@ var beaconPlayerApp = angular.module('beaconPlayerApp',
 		  'appControllers',
 		  //components/pages
 		  'alertsControllers',
+		  'qrScannerControllers',
 		  'helpControllers', 
 		  'bleDevicesControllers', 
 		  'apiDevicesControllers', 
@@ -75,6 +76,15 @@ beaconPlayerApp.config(
 					'mainContent' : {
 						templateUrl : 'app/components/alerts/alerts.html',
 						controller 	: 'alertsCtrl'
+					}
+				}
+			})
+			.state('app.qr-scanner', {
+				url : '/qr-scanner',
+				views : {
+					'mainContent' : {
+						templateUrl : 'app/components/qr-scanner/qr-scanner.html',
+						controller 	: 'qrScannerCtrl'
 					}
 				}
 			})
