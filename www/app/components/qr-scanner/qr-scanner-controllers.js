@@ -10,7 +10,7 @@ qrScannerControllers.controller('qrScannerCtrl',
  	
 	$scope.qrScaner = {};	
  
-	$scope.scannQrCode = function () {
+	$scope.qrScaner.scannQrCode = function () {
 		$ionicPlatform.ready(function() {
 			$cordovaBarcodeScanner
 				.scan()
