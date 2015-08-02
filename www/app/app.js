@@ -108,7 +108,7 @@ beaconPlayerApp.run([ '$rootScope', '$state', '$ionicPlatform', 'localStorageSer
 		//load localStorage data into scope
 	
 		
-	    $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
+	  /*  $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
 	    	//var firstVisit 	= localStorageService.get("firstVisit"); 
 	    	console.log('localStorageService', localStorageService.get("firstVisit")); 
 	    	 // if its the users first visit to the app play the apps tour
@@ -120,7 +120,7 @@ beaconPlayerApp.run([ '$rootScope', '$state', '$ionicPlatform', 'localStorageSer
 			 		$state.go('app.help'); 	
 			 		return;
 			 }  
-	    });   
+	    }); */
 	    
 	    //show/hide loading screen with content of args.loading_settings || default
 	    $rootScope.$on('loading:show', function (event, args) {
