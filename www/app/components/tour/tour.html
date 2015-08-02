@@ -1,7 +1,7 @@
 <ion-view id="tourView">
 	
 	<ion-nav-title >
-      Tour
+    Tour
     </ion-nav-title>
  
 	<ion-nav-buttons side="left">
@@ -16,9 +16,7 @@
  	
  		<!-- Beacon list 
 		<!--<div class="listContainer" ng-repeat="device in tourCtrlData.showDeviceList | orderBy:'sort'" -->
-	
 
-		
 		<div class="listContainer" ng-repeat="device in tourCtrlData.showDeviceList | limitTo:3 "
                   href="#" 
                   class=" item-icon-right "
@@ -30,9 +28,8 @@
 									<div class="box-big ">
 										
 										<div class="arrowbox-bottom-big">
-											<img src="{{device.contentThumbnailUrl}}" />
+											<img ng-src="{{device.contentThumbnailUrl}}" />
 										</div>
-										
 										
 										<h2 class="truncate">{{device.contentTitle}}</h2>
 										<!-- <div class="debugInfo">
@@ -55,24 +52,18 @@
 												<img src="{{device.contentThumbnailUrl}}" />
 											</div>
 											<h2 class="truncate">{{device.contentTitle}}</h2>
-											<div class="debugInfo">
+											<!-- <div class="debugInfo">
 												<div class="rssi">{{device.sort}}</div>
 												<div class="radius">{{device.triggerZone}}</div>
 												<div class="clear"></div>
-											</div>
+											</div> -->
 										</div>
 										</a>
 								  </div>		
 				</div>
  		</div>
- 	
- 	
+
  		<div class="clear"></div>
- 		
- 		
- 		
- 		
- 		
  		
   </ion-content>
   

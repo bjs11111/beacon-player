@@ -66,7 +66,7 @@ beaconPlayerApp.config(
 					}
 				}
 			})
-		/*	
+			
 			.state('app.ble-devices', {
 				url : '/ble-devices',
 				views : {
@@ -76,7 +76,7 @@ beaconPlayerApp.config(
 					}
 				}
 			})
-			
+			/*
 			.state('app.api-devices', {
 				url : '/api-devices',
 				views : {

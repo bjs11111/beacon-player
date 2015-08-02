@@ -18,6 +18,27 @@ generalServices.constant("generalServiceConfig", {
 
 });
 
+
+
+
+/*
+ * http://marsbomber.com/2014/05/29/BarcodeScanner-With-Ionic/
+ * ======================================
+ */
+
+generalServices.factory('qRScanService', [function () {
+
+	  return {
+	    scan: function(success, fail) {
+	      cordova.plugins.barcodeScanner.scan(
+	        function (result) { success(result); },
+	        function (error) { fail(error); }
+	      );
+	    }
+	  };
+
+}]);
+
 generalServices.factory('generalService', ['$rootScope', '$filter', '$ionicPlatform', '$ionicPopup', '$cordovaNetwork', '$cordovaInAppBrowser', '$cordovaVibration', 'generalServiceConfig',
                                   function ($rootScope,   $filter,   $ionicPlatform,   $ionicPopup,   $cordovaNetwork,   $cordovaInAppBrowser,   $cordovaVibration,   generalServiceConfig) {
 	
@@ -109,11 +130,11 @@ generalServices.factory('generalService', ['$rootScope', '$filter', '$ionicPlatf
 			openIAB(barcodeData.text);
 			
 		} else {
-			console.log('barcodeData.text' + barcodeData.text); 
-			if(barcodeData.text == null) {
-				
-			}
-			alertWrongUrl();
+			
+			
+			if(barcodeData.text !== null) {
+				alertWrongUrl(); 
+			} 
 		}
 	};
 	//@TODO handle 
@@ -247,6 +268,14 @@ generalServices.factory('generalService', ['$rootScope', '$filter', '$ionicPlatf
 		 });
 		  
 	};
+	
+	
+	//backbutton
+	$ionicPlatform.registerBackButtonAction(function (event) {
+        event.preventDefault();
+        
+        console.log(event); 
+	}, 100);
 		
 	// return the publicly accessible methods
 	return {

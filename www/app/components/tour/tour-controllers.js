@@ -37,27 +37,6 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 	
 	
 	
-	//functions
-
-	//start interval for cleaning old devices
-	/*startcleaningOldDevicesinterval = function (interval) {
-		//console.log('APPTEST: on startcleaningOldDevicesinterval');
-		if(!$scope.cleaningOldDevicesintervalPromise) cleaningOldDevicesintervalPromise = $interval(function() {
-				for (key in $scope.receivedDevicesList) {
-					if($scope.receivedDevicesList[key].scanData.lastScan < Date.now() -  interval) {
-						delete $scope.receivedDevicesList[key];
-					} 
-				}
-				$scope.updateListLength();
-			}, interval);
-	};
-	//stopt interval for cleaning old devices
-	stopcleaningOldDevicesinterval = function () {
-		if($scope.cleaningOldDevicesintervalPromise) {
-			$interval.cancel(intervalPromise);
-			$scope.cleaningOldDevicesintervalPromise = undefined;
-		}
-	};*/
 
 	//TODO: Put into the Device Controler
 	
@@ -78,6 +57,8 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
     			//error
     			function() { $scope.$broadcast('scroll.refreshComplete'); }); 
 	}	
+	
+	
 	
 	var _subBeaconsUpdatedHandler = function(result) {
 		console.log('init result', result); 
@@ -116,13 +97,10 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 			    	sort:filteredDevicesList[key].sort
 			};
 			
-			
 			if(Date.now() - $scope.tourCtrlData.allDevicesList[key].lastScan <= 30000) {
 				tmpDeviceList.push(deviceToAdd);
 			}
-			
-			
-			//if(count++ >= 2) break;
+
 		}
     	
     	$scope.tourCtrlData.showDeviceList=tmpDeviceList;
@@ -136,8 +114,7 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 	//TODO: Implement detailed Distance estimation
 	var calculateDistance = function(filteredDevicesList){
 		for (var key in filteredDevicesList) { 
-			
-			
+
 			// Calculate Sort Value: Time Weighted Average
 			var distance=0;
 			var weighted=0;
@@ -149,39 +126,23 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 			distance/=weighted;
 			
 			filteredDevicesList[key].sort=1000/distance;
-			
-			//!!! Dirty try to avoid popping in of new beacons
-			//if($scope.tourCtrlData.rssiMeasurements[key].rssi.length < 3 ) filteredDevicesList[key].sort +=3;
-			 
-			//if(filteredDevicesList[key].bcmsBeacon.triggerZone=="Near") filteredDevicesList[key].sort = (-1) * $scope.tourCtrlData.allDevicesList[key].rssi - tourCtrlConfig.OFFSET_PROXIMITY_NEAR;
-			//if(filteredDevicesList[key].bcmsBeacon.triggerZone=="Intermediate") filteredDevicesList[key].sort = (-1) * $scope.tourCtrlData.allDevicesList[key].rssi - tourCtrlConfig.OFFSET_PROXIMITY_INTERMEDIATE;
-			//if(filteredDevicesList[key].bcmsBeacon.triggerZone=="Far") filteredDevicesList[key].sort = (-1) * $scope.tourCtrlData.allDevicesList[key].rssi - tourCtrlConfig.OFFSET_PROXIMITY_FAR;
 		}
 		
 		return filteredDevicesList;
 		
 	} 
 	
-	
 	//start interval for cleaning old devices
 	var alreadyUpdatedInInterval=false;
 	var updateListInterval=0;
+
 	var startUpdateInterval = function (interval) {
 		if(!updateListInterval) {
-			
-			
 			updateListInterval = setInterval(function(){ 
-
 				updateView();
-				
-				
-				
-			}, interval);
-			
+			}, interval);		
 		}
 	};
-	
-	
 
 	var saveRssiMeasurement = function(device){
 		var d = new Date();
@@ -210,12 +171,6 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 		
 	} 
 	
-	var removeOldMeasurements = function(){
-
-	}
-	
-	
-	
 	// Get Updates from Bluetooth Scan 	
 	var onFoundDeviceHandler = function(preparedDevice)  {
  
@@ -229,9 +184,7 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 		// Save the RSSI value for the beacons that are known
 		if($scope.tourCtrlData.filteredDevicesList[preparedDevice.bcmsBeaconKey]!=null)
 			saveRssiMeasurement(preparedDevice);
-		
-		
-		
+
 	};
 	
 	
@@ -269,7 +222,7 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 		beaconAPIChannel.subBeaconsUpdated($scope, _subBeaconsUpdatedHandler); 
 		
 		serverBeaconStore.updateBeaconList();
-		startUpdateInterval(1000);
+		//startUpdateInterval(1000);
 	}
 	
 	init();

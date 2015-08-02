@@ -10,14 +10,13 @@ var listFilters = angular.module('listFilters',[]);
 listFilters.filter('lastScanFilter', function() {
 	
 	// Filters only known Devices
-	return function(items, msTimeAgo){
-		
+	return function(items, msTimeAgo) {
 		var recentlyScannedBaecons = {};
-		
+
 		// Filter Only known Devices
 		angular.forEach(items, function(item, key) {
-				if(item.lastScan + msTimeAgo > Date.now()*1000){
-					this[key]=tmpDevice;
+				if( Date.now() - item.scanData.lastScan <= msTimeAgo){ 
+					this[key]=item;
 				}
 	      	}, 
 	      	recentlyScannedBaecons
@@ -172,7 +171,6 @@ bleFilters.filter('toIsBrokenRawDevice', function() {
 		}
 		
 		return true;
-
   }
   
 });
