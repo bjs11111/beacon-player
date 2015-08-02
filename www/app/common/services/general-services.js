@@ -110,9 +110,9 @@ generalServices.factory('generalService', ['$rootScope', '$filter', '$ionicPlatf
 			
 		} else {
 			console.log('barcodeData.text' + barcodeData.text); 
-			if(barcodeData.text == null) {
+			//if(barcodeData.text == null) {
 				
-			}
+			//}
 			alertWrongUrl();
 		}
 	};

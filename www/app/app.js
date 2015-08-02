@@ -9,6 +9,7 @@ var beaconPlayerApp = angular.module('beaconPlayerApp',
 		  //main controller
 		  'appControllers',
 		  //components/pages
+		  'alertsControllers',
 		  'helpControllers', 
 		  'bleDevicesControllers', 
 		  'apiDevicesControllers', 
@@ -66,7 +67,18 @@ beaconPlayerApp.config(
 					}
 				}
 			})
-		/*	
+		
+			
+			.state('app.alerts', {
+				url : '/alerts',
+				views : {
+					'mainContent' : {
+						templateUrl : 'app/components/alerts/alerts.html',
+						controller 	: 'alertsCtrl'
+					}
+				}
+			})
+			
 			.state('app.ble-devices', {
 				url : '/ble-devices',
 				views : {
@@ -95,7 +107,7 @@ beaconPlayerApp.config(
 						controller 	: 'scanningCtrl'
 					}
 				}
-			})  */
+			})  
 			;
 }]);
 
