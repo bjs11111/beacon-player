@@ -1,0 +1,51 @@
+
+<div  id="{{ngModel.address}}" class="device" >
+	<i ng-show="!ngModel.bcmsBeacon.contentThumbnailUrl"  class="icon beacon {{itemTypeIcon}} {{cmsStateColor}}" ></i>      
+	<h2 ng-show="ngModel.bcmsBeacon.contentTitle">{{ngModel.bcmsBeacon.contentTitle}}</h2>
+	<h2 ng-show="!(ngModel.bcmsBeacon.contentTitle)">Kein Inhalt zugewiesen</h2>
+	<p am-time-ago="ngModel.scanData.lastScan"></p>
+	<p ng-init="isOpen = false" ng-show="isOpen" class="details">
+		
+		<span class="row">
+		  <span class="col-33">
+		    <b>Entry:</b>	
+		  </span>
+		  <span class="col-33">
+		    <b>RSSI:</b>	
+		  </span>
+		  <span class="col-33">
+		    <b>Exit:</b>	
+		  </span>
+		</span>
+		
+		<span class="row">
+		  <span class="col-33">
+		    <span ng-show="ngModel.bcmsBeacon.triggerZone == 'Near'">&gt;= {{ngModel.scanData.rssiOneMeterDistance  + 20}}dBm</span><br ng-show="ngModel.bcmsBeacon.triggerZone == 'Near'">
+			<span ng-show="ngModel.bcmsBeacon.triggerZone == 'Intermediate'">&gt;= {{ngModel.scanData.rssiOneMeterDistance  + 10}}dBm</span><br ng-show="ngModel.bcmsBeacon.triggerZone == 'Intermediate'">
+			<span ng-show="ngModel.bcmsBeacon.triggerZone == 'Far'">&gt;= {{ngModel.scanData.rssiOneMeterDistance  - 10}}dBm</span>
+		  </span>
+		  <span class="col-33" >
+		     {{ngModel.scanData.rssi}}dBm
+		  </span>
+		   <span class="col-33">
+		    <span ng-show="ngModel.bcmsBeacon.triggerZone == 'Near'">&lt; {{ngModel.scanData.rssiOneMeterDistance  + 10}}dBm</span><br ng-show="ngModel.bcmsBeacon.triggerZone == 'Near'">
+			<span ng-show="ngModel.bcmsBeacon.triggerZone == 'Intermediate'">&lt; {{ngModel.scanData.rssiOneMeterDistance  - 10}}dBm</span><br ng-show="ngModel.bcmsBeacon.triggerZone == 'Intermediate'">
+			<span ng-show="ngModel.bcmsBeacon.triggerZone == 'Far'">&lt; {{ngModel.scanData.rssiOneMeterDistance  - 40}}dBm</span>
+		  </span>
+		</span>
+		
+		<span><b>Uuid:</b><br>{{ngModel.scanData.iBeaconUuid}}</span><br>
+		<span><b>Major:</b> {{ngModel.scanData.major}}</span><br>
+		<span><b>Minor:</b> {{ngModel.scanData.minor}}</span> <br>
+		<span><b>triggerZone:</b> {{ngModel.bcmsBeacon.triggerZone}}</span><br>
+		<span><b>rssiOneMeterDistance:</b> {{ngModel.scanData.rssiOneMeterDistance}}</span>
+		
+	</p>
+	
+	<i class="icon {{contentTypeIcon}} {{rssiStateColor}} rssi"></i>
+	
+	<ion-option-button class="button-calm" ng-click="isOpen = !isOpen">
+	<span ng-show="!isOpen">show &nbsp;</span><span ng-show="isOpen">hide &nbsp;</span>details
+	</ion-option-button>
+	
+</div>

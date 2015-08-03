@@ -1,0 +1,71 @@
+<ion-view id="tourView">
+	
+	<ion-nav-title >
+    Tour
+    </ion-nav-title>
+ 
+	<ion-nav-buttons side="left">
+		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+	</ion-nav-buttons>
+  
+  	<ion-content class="has-header">
+   
+	<h2 class="text-center positive padding-vertical" ng-show="tourCtrlData.showDeviceList.length == 0">nothing found...</h2>
+ 	
+ 	<ion-refresher on-refresh="tourCtrlData.refreshServerData('pullToRefresh')"></ion-refresher>
+ 	
+ 		<!-- Beacon list 
+		<!--<div class="listContainer" ng-repeat="device in tourCtrlData.showDeviceList | orderBy:'sort'" -->
+
+		<div class="listContainer" ng-repeat="device in tourCtrlData.showDeviceList | limitTo:3 "
+                  href="#" 
+                  class=" item-icon-right "
+                  ng-class="device.bcmsBeacon.contentThumbnailUrl?'item-avatar':'item-icon-left'"> 
+                  
+                  <!-- First beacon in list -->
+                  <div ng-if="$index == 0">
+                  				<a href="#" ng-click="openIABWithKey(device.bcmsBeaconKey)">
+									<div class="box-big ">
+										
+										<div class="arrowbox-bottom-big">
+											<img ng-src="{{device.contentThumbnailUrl}}" />
+										</div>
+										
+										<h2 class="truncate">{{device.contentTitle}}</h2>
+										<!-- <div class="debugInfo">
+											<div class="rssi">{{device.sort}}</div>
+											<div class="radius">{{device.triggerZone}}</div>
+											<div class="clear"></div>
+										</div>  -->
+									</div>
+								</a>
+                  </div>
+                  
+                  
+                  <!-- All other beacon in list -->
+                  <div ng-if="$index != 0">
+                  		
+								  <div class="box-small-container">
+								  		<a href="#" ng-click="openIABWithKey(device.bcmsBeaconKey)">
+								    	<div class="box-small">
+											<div class="arrowbox-bottom-small">
+												<img src="{{device.contentThumbnailUrl}}" />
+											</div>
+											<h2 class="truncate">{{device.contentTitle}}</h2>
+											<!-- <div class="debugInfo">
+												<div class="rssi">{{device.sort}}</div>
+												<div class="radius">{{device.triggerZone}}</div>
+												<div class="clear"></div>
+											</div> -->
+										</div>
+										</a>
+								  </div>		
+				</div>
+ 		</div>
+
+ 		<div class="clear"></div>
+ 		
+  </ion-content>
+  
+  
+</ion-view>
