@@ -96,9 +96,9 @@ console.log('barcodeData: ' + JSON.stringify(barcodeData));
 		console.log('qrCodeUrlToBcmsBeaconKey'+ qrCodeUrlToBcmsBeaconKey(barcodeData.text)); 
 		var bcmsBeaconKey;
 		
-		console.log(barcodeData); 
-		
-		if(barcodeData.cancelled !== true) {
+		console.log(JSON.stringify(barcodeData));
+		//canceled in true on android and 1 on ios 
+		if(!barcodeData.cancelled) {
 			if( qrCodeUrlToBcmsBeaconKey(barcodeData.text) !== false ) {
 				openIAB(barcodeData.text);
 			} else {
