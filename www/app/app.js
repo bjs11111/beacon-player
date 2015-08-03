@@ -15,11 +15,12 @@ var beaconPlayerApp = angular.module('beaconPlayerApp',
 		  'scanningControllers', 
 		  'tourControllers', 
 		  'settingsControllers', 
+		  'beaconAPIServices',
 ]);
 
 beaconPlayerApp.config(
-		[ '$stateProvider', '$urlRouterProvider', '$ionicConfigProvider',
-  function($stateProvider,   $urlRouterProvider,   $ionicConfigProvider) {
+		[ '$stateProvider',  '$urlRouterProvider', '$ionicConfigProvider',
+  function($stateProvider,    $urlRouterProvider,   $ionicConfigProvider ) {
 			
 			/**
 			 * config routing
@@ -33,7 +34,7 @@ beaconPlayerApp.config(
 				url : "/app", 
 				abstract : true,
 				templateUrl : "app/templates/main-sidemenu.html",
-				controller 	: 'AppCtrl'
+				controller 	: 'appCtrl'
 				
 			})
 			/*
@@ -52,7 +53,7 @@ beaconPlayerApp.config(
 				views : {
 					'mainContent' : {
 						templateUrl : 'app/components/help/help.html',
-						//controller 	: 'helpCtrl'
+						controller 	: 'helpCtrl'
 					}
 				}
 			})
@@ -64,6 +65,12 @@ beaconPlayerApp.config(
 						templateUrl : 'app/components/tour/tour.html',
 						controller 	: 'tourCtrl'
 					}
+				},
+				resolve : {
+					serverBeaconList :  function(serverBeaconStore) {
+			            // $http returns a promise for the url data
+			            return serverBeaconStore.getAllBeacons();
+			         }
 				}
 			})
 			
@@ -99,8 +106,8 @@ beaconPlayerApp.config(
 			;
 }]);
 
-beaconPlayerApp.run([ '$rootScope', '$state', '$ionicPlatform', 'localStorageService', 
-              function($rootScope, $state, $ionicPlatform, localStorageService) {
+beaconPlayerApp.run([ '$rootScope', '$state', '$ionicPlatform',  
+              function($rootScope, $state, $ionicPlatform) {
 
 		//@TODO use launcherService instead of $localStorage
 		//redirection logic start

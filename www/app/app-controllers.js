@@ -1,4 +1,4 @@
-var appControllers = angular.module('appControllers', [ 'ngCordova', 'bleState', 'qrScanner', 'deviceStates']);
+var appControllers = angular.module('appControllers', [ 'ngCordova', 'bleState', 'qrScanner', 'beaconAPIServices']);
 
 /* 
  * 
@@ -6,13 +6,13 @@ var appControllers = angular.module('appControllers', [ 'ngCordova', 'bleState',
  * This controller holds general logic for all app.* controllers
  * */
 appControllers
-.controller('AppCtrl', ['$rootScope', '$scope', 'serverBeaconStore',
-                function($rootScope,   $scope,   serverBeaconStore) {
+.controller('appCtrl', ['$rootScope', '$scope', '$state', '$timeout', 'serverBeaconStore', 'beaconAPIChannel',
+                function($rootScope,   $scope,   $state,   $timeout,  serverBeaconStore,   beaconAPIChannel) {
 	
-    var init = function() {
-	      
-	   console.log('init AppCtrl'); 
-    }
+   
+	$scope.appCtrl = {};
+	
+	
 	   
 	// @TODO moe into directive
     // Show hide network connection bar
@@ -30,6 +30,10 @@ appControllers
     	$scope.states.isOffline = true;
     });
        
+    var init = function() {
+ 	   console.log('init AppCtrl');
+     }
+    
     init(); 
 		
 }]);

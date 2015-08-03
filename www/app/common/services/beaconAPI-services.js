@@ -47,6 +47,16 @@ function ($rootScope,   beaconAPIServiceConfig) {
 	   _subscribe(beaconAPIServiceConfig.getAllBeaconsSuccess, $scope, scopeHandler, function(args) { return args.list; });
    };
    
+   // publish knownDevices updated notification
+   // updateDate is an array of  device.address => true
+   var pubGetAllBeaconsError = function (list) {
+	   _publish(beaconAPIServiceConfig.getAllBeaconsError, {list : list});
+   };
+   // subscribe to knownDevices updated notification
+   var subGetAllBeaconsError = function ($scope, scopeHandler) {
+	   _subscribe(beaconAPIServiceConfig.getAllBeaconsError, $scope, scopeHandler, function(args) { return args.list; });
+   };
+   
    // publish uuid added notification
    var pubUuidAdded = function (uuid) {
 	   _publish(beaconAPIServiceConfig.uuidAdded, {uuid : uuid});
@@ -79,6 +89,10 @@ function ($rootScope,   beaconAPIServiceConfig) {
    return {
 	   pubGetAllBeaconsSuccess	: pubGetAllBeaconsSuccess,
 	   subGetAllBeaconsSuccess	: subGetAllBeaconsSuccess,
+	   pubGetAllBeaconsError 	: pubGetAllBeaconsError,
+	   subGetAllBeaconsError 	: subGetAllBeaconsError,
+	   
+	   
 	   pubUuidAdded : pubUuidAdded,
 	   subUuidAdded : subUuidAdded,
 	   pubBeaconUpdated : pubBeaconUpdated,
@@ -115,7 +129,7 @@ beaconAPIServices.factory('beaconAPIService', [
 					defer.resolve(data);
 				})
 				.error(function(data, status, headers, config){
-					beaconAPIChannel.pubGetAllBeaconsSuccess(data);
+					beaconAPIChannel.pubGetAllBeaconsError(data);
 					defer.reject(data);
 				});
 				
@@ -138,7 +152,8 @@ beaconAPIServices.factory('serverBeaconStore', [
 			iBeaconUuidToHex	= $filter('iBeaconUuidToHex');
 		
 		//stores
-		var beaconList = {},
+		//set to indefined, it will be initialized in addBeacon function
+		var beaconList = undefined,
 			uuids = {};
 		
 		//returns all (filtered) items
@@ -229,15 +244,40 @@ beaconAPIServices.factory('serverBeaconStore', [
 		}
 				
 		var getAllBeacons = function(filter) {
+			
 			var defer = $q.defer();
 			
-			_getAll(beaconList, filter).then(
-					//success
-	    			function (items) { defer.resolve(items);  }, 
-	    			//error
-	    			function(error) { defer.resolve(error); }
-			);
-			
+			//reload Beacons from server
+			if(beaconList === undefined) {
+				
+				//@TODO improve resolving logic
+				updateBeaconList().then(
+						function() {
+							//success
+							_getAll(beaconList, filter).then(
+								//success
+				    			function (items) { defer.resolve(items);  }, 
+				    			//error
+				    			function(error) { defer.resolve(error); }
+						)},
+						//error
+		    			function(error) { defer.resolve(error); }	
+				);
+						
+				
+			} 
+			//return beacons directly from service cache
+			else {
+				
+				_getAll(beaconList, filter).then(
+						//success
+		    			function (items) { defer.resolve(items);  }, 
+		    			//error
+		    			function(error) { defer.resolve(error); }
+				);
+				
+			}
+
 			return defer.promise;
 		}
 		
@@ -255,7 +295,10 @@ beaconAPIServices.factory('serverBeaconStore', [
 		}
 		
 		var addBeacon = function(beaconData) {
-
+			if(beaconList === undefined) {
+				beaconList = {};
+			};
+			
 			if(beaconData.iBeaconUuid != false) {
 				if(iBeaconUuidToHex(beaconData.iBeaconUuid)) {
 						
@@ -264,6 +307,7 @@ beaconAPIServices.factory('serverBeaconStore', [
 						addUuid(beaconData.iBeaconUuid);
 
 						beaconAPIChannel.pubBeaconUpdated(beaconData);
+						console.log(beaconList);  
 						return true;
 				}
 				
@@ -273,7 +317,6 @@ beaconAPIServices.factory('serverBeaconStore', [
 		
 		var updateBeaconList = function() {
 
-			
 			var defer = $q.defer(),
 				updatedBeacons = [];
 			

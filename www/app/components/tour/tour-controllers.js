@@ -19,8 +19,8 @@ tourControllers.constant("tourCtrlConfig", {
 
 /* Tour Controllers */
 tourControllers.controller( 'tourCtrl', 
-		['$scope', '$filter', 'tourCtrlConfig', 'generalService', 'bleScannerChannel','serverBeaconStore', 'beaconAPIChannel', 'bleScannerChannel', 
-function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerChannel,  serverBeaconStore,   beaconAPIChannel,   bleScannerChannel ) {
+		['$scope', '$filter', 'tourCtrlConfig', 'generalService', 'bleScannerChannel','serverBeaconStore', 'beaconAPIChannel', 'bleScannerChannel', 'serverBeaconList' ,
+function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerChannel,  serverBeaconStore,   beaconAPIChannel,   bleScannerChannel,   serverBeaconList ) {
 	
 	var secondsLastViewUpdate = 0;
 	var knownBeaconsFilter = $filter('knownBeaconsFilter');
@@ -35,9 +35,13 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 	$scope.tourCtrlData.showDeviceList = {};
 	$scope.tourCtrlData.rssiMeasurements = {};
 	
+	angular.forEach(serverBeaconList, function(beacon, key) {
+		$scope.tourCtrlData.apiDevicesList[key] = {	bcmsBeaconKey	: key,
+														bcmsBeacon 		: beacon
+													};
+	});	
 	
 	
-
 
 	//TODO: Put into the Device Controler
 	
@@ -234,7 +238,7 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 		bleScannerChannel.onFoundBleDevice($scope, onFoundDeviceHandler );
 		beaconAPIChannel.subBeaconsUpdated($scope, _subBeaconsUpdatedHandler); 
 		
-		serverBeaconStore.updateBeaconList();
+		
 		startUpdateInterval(1000);
 	}
 	
