@@ -6,8 +6,8 @@ var appControllers = angular.module('appControllers', [ 'ngCordova', 'bleState',
  * This controller holds general logic for all app.* controllers
  * */
 appControllers
-.controller('appCtrl', ['$rootScope', '$scope', '$state', '$timeout', 'serverBeaconStore', 'beaconAPIChannel',
-                function($rootScope,   $scope,   $state,   $timeout,  serverBeaconStore,   beaconAPIChannel) {
+.controller('appCtrl', ['$rootScope', '$scope', 
+                function($rootScope,   $scope ) {
 	
    
 	$scope.appCtrl = {};

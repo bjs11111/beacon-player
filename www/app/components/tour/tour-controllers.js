@@ -19,8 +19,8 @@ tourControllers.constant("tourCtrlConfig", {
 
 /* Tour Controllers */
 tourControllers.controller( 'tourCtrl', 
-		['$scope', '$filter', 'tourCtrlConfig', 'generalService', 'bleScannerChannel','serverBeaconStore', 'beaconAPIChannel', 'bleScannerChannel', 'serverBeaconList' ,
-function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerChannel,  serverBeaconStore,   beaconAPIChannel,   bleScannerChannel,   serverBeaconList ) {
+		['$scope', '$filter', 'tourCtrlConfig', 'generalService', 'bleScannerChannel','serverBeaconStore', 'beaconAPIChannel', 'bleScannerChannel',
+function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerChannel,  serverBeaconStore,   beaconAPIChannel,   bleScannerChannel  ) {
 	
 	var secondsLastViewUpdate = 0;
 	var knownBeaconsFilter = $filter('knownBeaconsFilter');
@@ -35,14 +35,6 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 	$scope.tourCtrlData.showDeviceList = {};
 	$scope.tourCtrlData.rssiMeasurements = {};
 	
-	angular.forEach(serverBeaconList, function(beacon, key) {
-		$scope.tourCtrlData.apiDevicesList[key] = {	bcmsBeaconKey	: key,
-														bcmsBeacon 		: beacon
-													};
-	});	
-	
-	
-
 	//TODO: Put into the Device Controler
 	
   	//start refreshes serverdata every x ms
@@ -66,7 +58,7 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 	
 	
 	var _subBeaconsUpdatedHandler = function(result) {
-		console.log('init result', result); 
+		
 		var newDevice = {};
 		serverBeaconStore.getAllBeacons().then(
 				//success
@@ -238,6 +230,19 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 		bleScannerChannel.onFoundBleDevice($scope, onFoundDeviceHandler );
 		beaconAPIChannel.subBeaconsUpdated($scope, _subBeaconsUpdatedHandler); 
 		
+		serverBeaconStore.getAllBeacons().then(
+				//success
+    			function (newBeaconList) { 
+    				console.log('initial load beaconlist', newBeaconList); 
+    				angular.forEach(newBeaconList, function(beacon, key) {
+    					$scope.tourCtrlData.apiDevicesList[key] = {	bcmsBeaconKey	: key,
+    																bcmsBeacon 		: beacon
+    															  };
+    				});	
+    			}, 
+    			//error
+    			function() { }  
+		);
 		
 		startUpdateInterval(1000);
 	}

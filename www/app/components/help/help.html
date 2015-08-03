@@ -4,11 +4,8 @@
       Help
   	</ion-nav-title>
   	
-  	<button 
-  	class="button button-outline" 
-  	ng-click="helpCtrl.goToTour()"  
-  	style="border-left: 0px; position:absolute; z-index:3000; top:130px; color:#FF3E15; border-color: #FF3E15;">
-  	<span ng-if="!helpCtrl.loadinBeaconListIsPending" >Start Tour</span><span ng-if="helpCtrl.loadinBeaconListIsPending">Loading</span>  <ion-spinner ng-if="helpCtrl.loadinBeaconListIsPending"></ion-spinner>
+  	<button class="button button-outline" ui-sref="app.tour" style="border-left: 0px; position:absolute; z-index:3000; top:130px; color:#FF3E15; border-color: #FF3E15;">
+  	SKIP
   	</button>
   	
   	   <ion-slide-box class="slider has-header" ng-class="has-message" show-pager="true"  on-slide-changed="slideChanged(index)">

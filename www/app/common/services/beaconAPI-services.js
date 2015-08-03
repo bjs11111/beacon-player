@@ -125,6 +125,7 @@ beaconAPIServices.factory('beaconAPIService', [
 
 				$http(requestConfig)
 				.success(function(data, status, headers, config){
+					console.log('beacons loaded from server'); 
 					beaconAPIChannel.pubGetAllBeaconsSuccess(data);
 					defer.resolve(data);
 				})
@@ -153,15 +154,20 @@ beaconAPIServices.factory('serverBeaconStore', [
 		
 		//stores
 		//set to indefined, it will be initialized in addBeacon function
-		var beaconList = undefined,
+		var initializedState = false,
+			beaconList = {},
 			uuids = {};
+		
+		
+		var isInitialized = function() {
+			return initializedState;
+		};
 		
 		//returns all (filtered) items
 		var _getAll = function(items, filter) {
-			console.log('_getAll',items, filter); 
+			
 			var defer = $q.defer(),
-			allFilteredItems = undefined,
-			result = undefined;
+			allFilteredItems = undefined;
 
 			if(Object.keys(items).length > 0) {
 
@@ -189,12 +195,11 @@ beaconAPIServices.factory('serverBeaconStore', [
 		var _get = function(filter, items) {
 			
 			var defer = $q.defer(),
-				filteredItems = $filter('filter')(items, filter),
-				result = undefined;
+				filteredItems = $filter('filter')(items, filter);
 			
 			if(filteredItems.length > 0) {
 				item = filteredItems[0];
-			} else {
+			} else { 
 				item = undefined;
 			}
 				
@@ -246,38 +251,14 @@ beaconAPIServices.factory('serverBeaconStore', [
 		var getAllBeacons = function(filter) {
 			
 			var defer = $q.defer();
-			
-			//reload Beacons from server
-			if(beaconList === undefined) {
-				
-				//@TODO improve resolving logic
-				updateBeaconList().then(
-						function() {
-							//success
-							_getAll(beaconList, filter).then(
-								//success
-				    			function (items) { defer.resolve(items);  }, 
-				    			//error
-				    			function(error) { defer.resolve(error); }
-						)},
-						//error
-		    			function(error) { defer.resolve(error); }	
-				);
-						
-				
-			} 
-			//return beacons directly from service cache
-			else {
-				
-				_getAll(beaconList, filter).then(
-						//success
-		    			function (items) { defer.resolve(items);  }, 
-		    			//error
-		    			function(error) { defer.resolve(error); }
-				);
-				
-			}
 
+			_getAll(beaconList, filter).then(
+					//success
+	    			function (items) { defer.resolve(items);  }, 
+	    			//error
+	    			function(error) { defer.resolve(error); }
+			);
+			
 			return defer.promise;
 		}
 		
@@ -295,10 +276,6 @@ beaconAPIServices.factory('serverBeaconStore', [
 		}
 		
 		var addBeacon = function(beaconData) {
-			if(beaconList === undefined) {
-				beaconList = {};
-			};
-			
 			if(beaconData.iBeaconUuid != false) {
 				if(iBeaconUuidToHex(beaconData.iBeaconUuid)) {
 						
@@ -307,7 +284,7 @@ beaconAPIServices.factory('serverBeaconStore', [
 						addUuid(beaconData.iBeaconUuid);
 
 						beaconAPIChannel.pubBeaconUpdated(beaconData);
-						console.log(beaconList);  
+						
 						return true;
 				}
 				
@@ -325,6 +302,7 @@ beaconAPIServices.factory('serverBeaconStore', [
 	    			//success
 	    			function (newBeaconList) { 
 	    				angular.forEach(newBeaconList, function(beacon, key) {
+	    					initializedState = true;  
 	    					if(addBeacon(beacon)) {
 	    						updatedBeacons.push(key);
 	    					}
@@ -341,6 +319,7 @@ beaconAPIServices.factory('serverBeaconStore', [
 		
 		//public accessible methods
 		return {
+			isInitialized : isInitialized,
 			getAllUuids : getAllUuids,
 			getUuid : getUuid, 
 			addUuid : addUuid,
