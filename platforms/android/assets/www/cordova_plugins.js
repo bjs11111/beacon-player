@@ -59,11 +59,53 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/cordova.plugins.diagnostic/www/diagnostic.js",
+        "file": "plugins/cordova.plugins.diagnostic/www/android/diagnostic.js",
         "id": "cordova.plugins.diagnostic.Diagnostic",
         "clobbers": [
             "cordova.plugins.diagnostic"
         ]
+    },
+    {
+        "file": "plugins/com.unarin.cordova.beacon/www/lib/underscore-min-1.6.js",
+        "id": "com.unarin.cordova.beacon.underscorejs",
+        "runs": true
+    },
+    {
+        "file": "plugins/com.unarin.cordova.beacon/www/lib/q.min.js",
+        "id": "com.unarin.cordova.beacon.Q",
+        "runs": true
+    },
+    {
+        "file": "plugins/com.unarin.cordova.beacon/www/LocationManager.js",
+        "id": "com.unarin.cordova.beacon.LocationManager",
+        "merges": [
+            "cordova.plugins"
+        ]
+    },
+    {
+        "file": "plugins/com.unarin.cordova.beacon/www/Delegate.js",
+        "id": "com.unarin.cordova.beacon.Delegate",
+        "runs": true
+    },
+    {
+        "file": "plugins/com.unarin.cordova.beacon/www/model/Region.js",
+        "id": "com.unarin.cordova.beacon.Region",
+        "runs": true
+    },
+    {
+        "file": "plugins/com.unarin.cordova.beacon/www/Regions.js",
+        "id": "com.unarin.cordova.beacon.Regions",
+        "runs": true
+    },
+    {
+        "file": "plugins/com.unarin.cordova.beacon/www/model/CircularRegion.js",
+        "id": "com.unarin.cordova.beacon.CircularRegion",
+        "runs": true
+    },
+    {
+        "file": "plugins/com.unarin.cordova.beacon/www/model/BeaconRegion.js",
+        "id": "com.unarin.cordova.beacon.BeaconRegion",
+        "runs": true
     }
 ];
 module.exports.metadata = 
@@ -72,11 +114,12 @@ module.exports.metadata =
     "com.evothings.ble": "0.0.1",
     "com.ionic.keyboard": "1.0.3",
     "org.apache.cordova.device": "0.2.13",
-    "org.apache.cordova.inappbrowser": "0.5.4",
-    "org.apache.cordova.network-information": "0.2.14",
-    "org.apache.cordova.vibration": "0.3.12",
+    "org.apache.cordova.inappbrowser": "0.6.0",
+    "org.apache.cordova.network-information": "0.2.15",
+    "org.apache.cordova.vibration": "0.3.13",
     "com.phonegap.plugins.barcodescanner": "2.2.0",
-    "cordova.plugins.diagnostic": "1.0.0"
+    "cordova.plugins.diagnostic": "1.1.0",
+    "com.unarin.cordova.beacon": "3.3.0"
 }
 // BOTTOM OF METADATA
 });

@@ -13,7 +13,7 @@ appControllers
 	$scope.appCtrl = {};
 	
 	
-	   
+     
 	// @TODO moe into directive
     // Show hide network connection bar
     $scope.states = {};
@@ -37,16 +37,3 @@ appControllers
     init(); 
 		
 }]);
-
-
-
-
-
-
-
-
-
-
-
-
-
