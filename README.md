@@ -121,6 +121,10 @@ http://ilee.co.uk/Sign-Releases-with-Cordova-Android/
 Alos the great ionic framework has really good documentation about this process
 http://ionicframework.com/docs/guide/publishing.html
 
+###building and signing the app for IOS
+ionic build --release ios
+xcodebuild -scheme "Beacon Player" -configuration Release clean archive
+
 ##app
 native state checks like inet or bluetooth are done initialy in the app-controller as well as on app resume and app open
 
