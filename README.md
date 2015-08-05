@@ -122,6 +122,8 @@ Alos the great ionic framework has really good documentation about this process
 http://ionicframework.com/docs/guide/publishing.html
 
 ###building and signing the app for IOS
+HINT: dont foger to increment version number
+
 ionic build --release ios
 xcodebuild -scheme "Beacon Player" -configuration Release clean archive
 
