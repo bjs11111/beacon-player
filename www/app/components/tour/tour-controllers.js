@@ -1,7 +1,7 @@
 /* Controllers of tour component */
 //______________________________________________________________________________________
 
-var tourControllers = angular.module('tourControllers', ['bleChannels', 'beaconAPIServices', 'deviceListDirectives']);;
+var tourControllers = angular.module('tourControllers', ['bleChannels', 'beaconAPIServices', 'deviceListDirectives', 'generalServices']);;
 
 /* Tour Controllers Config*/
 tourControllers.constant("tourCtrlConfig", {
@@ -35,7 +35,16 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 	$scope.tourCtrlData.showDeviceList = {};
 	$scope.tourCtrlData.rssiMeasurements = {};
 	
-	//TODO: Put into the Device Controler
+	
+	$scope.openIABWithBcmsBeaconKey=function(bcmsBeaconKey){
+	
+		if($scope.tourCtrlData.apiDevicesList[bcmsBeaconKey].bcmsBeacon.contentType==false){/*Ignore this action*/}
+		else if($scope.tourCtrlData.apiDevicesList[bcmsBeaconKey].bcmsBeacon.contentType=="link")
+			generalService.openIAB($scope.tourCtrlData.apiDevicesList[bcmsBeaconKey].bcmsBeacon.thirdPartyWebsite);
+		else
+			generalService.openIABWithBcmsBeaconKey(bcmsBeaconKey);
+	}
+	
 	
   	//start refreshes serverdata every x ms
 	$scope.tourCtrlData.refreshServerData = function() {

@@ -17,14 +17,14 @@
  		<!-- Beacon list 
 		<!--<div class="listContainer" ng-repeat="device in tourCtrlData.showDeviceList | orderBy:'sort'" -->
 
-		<div class="listContainer" ng-repeat="device in tourCtrlData.showDeviceList | limitTo:3 "
+		<div class="listContainer" ng-repeat="device in tourCtrlData.showDeviceList | limitTo:10 "
                   href="#" 
                   class=" item-icon-right "
                   ng-class="device.bcmsBeacon.contentThumbnailUrl?'item-avatar':'item-icon-left'"> 
                   
                   <!-- First beacon in list -->
                   <div ng-if="$index == 0">
-                  				<a href="#" ng-click="openIABWithKey(device.bcmsBeaconKey)">
+                  				<a href="#" ng-click="openIABWithBcmsBeaconKey(device.bcmsBeaconKey)">
 									<div class="box-big ">
 										
 										<div class="arrowbox-bottom-big">
@@ -44,9 +44,10 @@
                   
                   <!-- All other beacon in list -->
                   <div ng-if="$index != 0">
-                  		
+                  		<a href="#" ng-click="openIABWithBcmsBeaconKey(device.bcmsBeaconKey)">
 								  <div class="box-small-container">
-								  		<a href="#" ng-click="openIABWithKey(device.bcmsBeaconKey)">
+								  		
+								  		
 								    	<div class="box-small">
 											<div class="arrowbox-bottom-small">
 												<img src="{{device.contentThumbnailUrl}}" />
@@ -58,8 +59,9 @@
 												<div class="clear"></div>
 											</div> -->
 										</div>
-										</a>
-								  </div>		
+										
+								  </div>
+						</a>		
 				</div>
  		</div>
 
