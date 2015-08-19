@@ -17,7 +17,23 @@
                             "count": 1
                         },
                         {
+                            "xml": "<feature name=\"BarcodeScanner\"><param name=\"android-package\" value=\"com.phonegap.plugins.barcodescanner.BarcodeScanner\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"LocationManager\"><param name=\"android-package\" value=\"com.unarin.cordova.beacon.LocationManager\" /></feature>",
+                            "count": 1
+                        },
+                        {
                             "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SplashScreen\"><param name=\"android-package\" value=\"org.apache.cordova.splashscreen.SplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         },
                         {
@@ -30,14 +46,6 @@
                         },
                         {
                             "xml": "<feature name=\"Vibration\"><param name=\"android-package\" value=\"org.apache.cordova.vibration.Vibration\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"BarcodeScanner\"><param name=\"android-package\" value=\"com.phonegap.plugins.barcodescanner.BarcodeScanner\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"LocationManager\"><param name=\"android-package\" value=\"com.unarin.cordova.beacon.LocationManager\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -55,10 +63,6 @@
                             "count": 2
                         },
                         {
-                            "xml": "<uses-permission android:name=\"android.permission.VIBRATE\" />",
-                            "count": 1
-                        },
-                        {
                             "xml": "<uses-permission android:name=\"android.permission.CAMERA\" />",
                             "count": 1
                         },
@@ -68,6 +72,10 @@
                         },
                         {
                             "xml": "<uses-feature android:name=\"android.hardware.camera\" android:required=\"false\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />",
                             "count": 1
                         },
                         {
@@ -83,13 +91,7 @@
                             "count": 1
                         },
                         {
-                            "xml": "<uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />",
-                            "count": 1
-                        }
-                    ],
-                    "/*": [
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
+                            "xml": "<uses-permission android:name=\"android.permission.VIBRATE\" />",
                             "count": 1
                         }
                     ],
@@ -116,6 +118,12 @@
                         },
                         {
                             "xml": "<service android:enabled=\"true\" android:name=\"org.altbeacon.beacon.BeaconIntentProcessor\"><meta-data android:name=\"background\" android:value=\"true\" /><intent-filter android:priority=\"1\"><action android:name=\"com.unarin.cordova.beacon.IBeaconPlugin.DID_RANGING\" /><action android:name=\"com.unarin.cordova.beacon.IBeaconPlugin.DID_MONITORING\" /></intent-filter></service>",
+                            "count": 1
+                        }
+                    ],
+                    "/*": [
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
                             "count": 1
                         }
                     ]
@@ -622,7 +630,25 @@
         "com.ionic.keyboard": {
             "PACKAGE_NAME": "com.starnberger.beaconplayer"
         },
-        "org.apache.cordova.device": {
+        "com.phonegap.plugins.barcodescanner": {
+            "PACKAGE_NAME": "com.starnberger.beaconplayer"
+        },
+        "com.unarin.cordova.beacon": {
+            "PACKAGE_NAME": "com.starnberger.beaconplayer"
+        },
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "com.starnberger.beaconplayer"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.starnberger.beaconplayer"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.starnberger.beaconplayer"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.starnberger.beaconplayer"
+        },
+        "cordova.plugins.diagnostic": {
             "PACKAGE_NAME": "com.starnberger.beaconplayer"
         },
         "org.apache.cordova.inappbrowser": {
@@ -632,15 +658,6 @@
             "PACKAGE_NAME": "com.starnberger.beaconplayer"
         },
         "org.apache.cordova.vibration": {
-            "PACKAGE_NAME": "com.starnberger.beaconplayer"
-        },
-        "com.phonegap.plugins.barcodescanner": {
-            "PACKAGE_NAME": "com.starnberger.beaconplayer"
-        },
-        "cordova.plugins.diagnostic": {
-            "PACKAGE_NAME": "com.starnberger.beaconplayer"
-        },
-        "com.unarin.cordova.beacon": {
             "PACKAGE_NAME": "com.starnberger.beaconplayer"
         }
     },

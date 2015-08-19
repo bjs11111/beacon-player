@@ -18,8 +18,8 @@ generalServices.constant("generalServiceConfig", {
 
 });
 
-generalServices.factory('generalService', ['$rootScope', '$filter', '$ionicPlatform', '$ionicPopup', '$cordovaNetwork', '$cordovaInAppBrowser', '$cordovaVibration', 'generalServiceConfig',
-                                  function ($rootScope,   $filter,   $ionicPlatform,   $ionicPopup,   $cordovaNetwork,   $cordovaInAppBrowser,   $cordovaVibration,   generalServiceConfig) {
+generalServices.factory('generalService', ['$rootScope', '$timeout', '$filter', '$ionicPlatform', '$ionicPopup', '$cordovaNetwork', '$cordovaInAppBrowser', '$cordovaVibration', 'generalServiceConfig',
+                                  function ($rootScope,   $timeout, $filter,   $ionicPlatform,   $ionicPopup,   $cordovaNetwork,   $cordovaInAppBrowser,   $cordovaVibration,   generalServiceConfig) {
 	
 	/* 
 	 * helper functions
@@ -94,15 +94,17 @@ generalServices.factory('generalService', ['$rootScope', '$filter', '$ionicPlatf
 	var qrSuccessCallback = function (barcodeData) {
 console.log('barcodeData: ' + JSON.stringify(barcodeData)); 
 		console.log('qrCodeUrlToBcmsBeaconKey'+ qrCodeUrlToBcmsBeaconKey(barcodeData.text)); 
-		var bcmsBeaconKey
-		if( qrCodeUrlToBcmsBeaconKey(barcodeData.text) !== false ) {
-
-			openIAB(barcodeData.text);
-			
-		} else {
-			if(barcodeData.text !== null) {
-				alertWrongUrl(); 
-			} 
+		var bcmsBeaconKey;
+		
+		console.log(JSON.stringify(barcodeData));
+		//canceled in true on android and 1 on ios 
+		if(!barcodeData.cancelled) {
+			if( qrCodeUrlToBcmsBeaconKey(barcodeData.text) !== false ) {
+				openIAB(barcodeData.text);
+			} else {
+				//@TODO sleanup workaround for bug #66 (https://github.com/Tokencube/beacon-player/issues/66)
+				$timeout(alertWrongUrl, 300)
+			}
 		}
 	};
 	//@TODO handle 

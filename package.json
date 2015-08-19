@@ -23,10 +23,10 @@
     "com.evothings.ble",
     "https://github.com/petermetz/cordova-plugin-ibeacon.git",
     "cordova-plugin-device",
-    "https://github.com/driftyco/ionic-plugins-keyboard.git"
+    "https://github.com/driftyco/ionic-plugins-keyboard.git",
+    "com.unarin.cordova.beacon"
   ],
   "cordovaPlatforms": [
-    "android",
-    "ios"
+    "android"
   ]
 }

@@ -166,7 +166,7 @@ bleScanners.factory('iosBleScanner', [
                                      locationManager.startMonitoringForRegion(beaconRegion)
                                                   .fail( console.log('error while startMonitoringForRegion: ' + iBeaconRanges[i].uuid, JSON.stringify(beaconRegion) ) )
                                         .done();
-                                     
+                                     console.log('registered '+iBeaconRanges[i].uuid);
                                          iBeaconRanges[i].registered = true;
                        }
                                                            

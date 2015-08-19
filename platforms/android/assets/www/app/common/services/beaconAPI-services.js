@@ -47,6 +47,16 @@ function ($rootScope,   beaconAPIServiceConfig) {
 	   _subscribe(beaconAPIServiceConfig.getAllBeaconsSuccess, $scope, scopeHandler, function(args) { return args.list; });
    };
    
+   // publish knownDevices updated notification
+   // updateDate is an array of  device.address => true
+   var pubGetAllBeaconsError = function (list) {
+	   _publish(beaconAPIServiceConfig.getAllBeaconsError, {list : list});
+   };
+   // subscribe to knownDevices updated notification
+   var subGetAllBeaconsError = function ($scope, scopeHandler) {
+	   _subscribe(beaconAPIServiceConfig.getAllBeaconsError, $scope, scopeHandler, function(args) { return args.list; });
+   };
+   
    // publish uuid added notification
    var pubUuidAdded = function (uuid) {
 	   _publish(beaconAPIServiceConfig.uuidAdded, {uuid : uuid});
@@ -79,6 +89,10 @@ function ($rootScope,   beaconAPIServiceConfig) {
    return {
 	   pubGetAllBeaconsSuccess	: pubGetAllBeaconsSuccess,
 	   subGetAllBeaconsSuccess	: subGetAllBeaconsSuccess,
+	   pubGetAllBeaconsError 	: pubGetAllBeaconsError,
+	   subGetAllBeaconsError 	: subGetAllBeaconsError,
+	   
+	   
 	   pubUuidAdded : pubUuidAdded,
 	   subUuidAdded : subUuidAdded,
 	   pubBeaconUpdated : pubBeaconUpdated,
@@ -111,11 +125,12 @@ beaconAPIServices.factory('beaconAPIService', [
 
 				$http(requestConfig)
 				.success(function(data, status, headers, config){
+					console.log('beacons loaded from server'); 
 					beaconAPIChannel.pubGetAllBeaconsSuccess(data);
 					defer.resolve(data);
 				})
 				.error(function(data, status, headers, config){
-					beaconAPIChannel.pubGetAllBeaconsSuccess(data);
+					beaconAPIChannel.pubGetAllBeaconsError(data);
 					defer.reject(data);
 				});
 				
@@ -138,15 +153,21 @@ beaconAPIServices.factory('serverBeaconStore', [
 			iBeaconUuidToHex	= $filter('iBeaconUuidToHex');
 		
 		//stores
-		var beaconList = {},
+		//set to indefined, it will be initialized in addBeacon function
+		var initializedState = false,
+			beaconList = {},
 			uuids = {};
+		
+		
+		var isInitialized = function() {
+			return initializedState;
+		};
 		
 		//returns all (filtered) items
 		var _getAll = function(items, filter) {
-			console.log('_getAll',items, filter); 
+			
 			var defer = $q.defer(),
-			allFilteredItems = undefined,
-			result = undefined;
+			allFilteredItems = undefined;
 
 			if(Object.keys(items).length > 0) {
 
@@ -174,12 +195,11 @@ beaconAPIServices.factory('serverBeaconStore', [
 		var _get = function(filter, items) {
 			
 			var defer = $q.defer(),
-				filteredItems = $filter('filter')(items, filter),
-				result = undefined;
+				filteredItems = $filter('filter')(items, filter);
 			
 			if(filteredItems.length > 0) {
 				item = filteredItems[0];
-			} else {
+			} else { 
 				item = undefined;
 			}
 				
@@ -229,8 +249,9 @@ beaconAPIServices.factory('serverBeaconStore', [
 		}
 				
 		var getAllBeacons = function(filter) {
-			var defer = $q.defer();
 			
+			var defer = $q.defer();
+
 			_getAll(beaconList, filter).then(
 					//success
 	    			function (items) { defer.resolve(items);  }, 
@@ -255,7 +276,6 @@ beaconAPIServices.factory('serverBeaconStore', [
 		}
 		
 		var addBeacon = function(beaconData) {
-
 			if(beaconData.iBeaconUuid != false) {
 				if(iBeaconUuidToHex(beaconData.iBeaconUuid)) {
 						
@@ -264,6 +284,7 @@ beaconAPIServices.factory('serverBeaconStore', [
 						addUuid(beaconData.iBeaconUuid);
 
 						beaconAPIChannel.pubBeaconUpdated(beaconData);
+						
 						return true;
 				}
 				
@@ -273,7 +294,6 @@ beaconAPIServices.factory('serverBeaconStore', [
 		
 		var updateBeaconList = function() {
 
-			
 			var defer = $q.defer(),
 				updatedBeacons = [];
 			
@@ -282,6 +302,7 @@ beaconAPIServices.factory('serverBeaconStore', [
 	    			//success
 	    			function (newBeaconList) { 
 	    				angular.forEach(newBeaconList, function(beacon, key) {
+	    					initializedState = true;  
 	    					if(addBeacon(beacon)) {
 	    						updatedBeacons.push(key);
 	    					}
@@ -298,6 +319,7 @@ beaconAPIServices.factory('serverBeaconStore', [
 		
 		//public accessible methods
 		return {
+			isInitialized : isInitialized,
 			getAllUuids : getAllUuids,
 			getUuid : getUuid, 
 			addUuid : addUuid,

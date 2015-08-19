@@ -43,6 +43,7 @@ bleChannels.factory('bleScannerChannel', ['$rootScope', 'bleScannerChannelConfig
   
     // publish found device notification
     var publishFoundDevice = function (rawDevice) {
+        console.log('rawDevice found'); 
         _publish(bleScannerChannelConfig._FOUND_BLE_DEVICE_, {rawDevice: rawDevice});
     };
     //subscribe to found device notification

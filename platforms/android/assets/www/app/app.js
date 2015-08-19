@@ -15,11 +15,12 @@ var beaconPlayerApp = angular.module('beaconPlayerApp',
 		  'scanningControllers', 
 		  'tourControllers', 
 		  'settingsControllers', 
+		  'beaconAPIServices',
 ]);
 
 beaconPlayerApp.config(
-		[ '$stateProvider', '$urlRouterProvider', '$ionicConfigProvider',
-  function($stateProvider,   $urlRouterProvider,   $ionicConfigProvider) {
+		[ '$stateProvider',  '$urlRouterProvider', '$ionicConfigProvider',
+  function($stateProvider,    $urlRouterProvider,   $ionicConfigProvider ) {
 			
 			/**
 			 * config routing
@@ -33,7 +34,7 @@ beaconPlayerApp.config(
 				url : "/app", 
 				abstract : true,
 				templateUrl : "app/templates/main-sidemenu.html",
-				controller 	: 'AppCtrl'
+				controller 	: 'appCtrl'
 				
 			})
 			/*
@@ -52,7 +53,7 @@ beaconPlayerApp.config(
 				views : {
 					'mainContent' : {
 						templateUrl : 'app/components/help/help.html',
-						//controller 	: 'helpCtrl'
+						controller 	: 'helpCtrl'
 					}
 				}
 			})
@@ -99,8 +100,8 @@ beaconPlayerApp.config(
 			;
 }]);
 
-beaconPlayerApp.run([ '$rootScope', '$state', '$ionicPlatform', 'localStorageService', 
-              function($rootScope, $state, $ionicPlatform, localStorageService) {
+beaconPlayerApp.run([ '$rootScope', '$state', '$ionicPlatform', 'serverBeaconStore', '$urlRouter', '$ionicLoading',
+              function($rootScope,   $state,   $ionicPlatform,   serverBeaconStore,   $urlRouter,   $ionicLoading ) {
 
 		//@TODO use launcherService instead of $localStorage
 		//redirection logic start
@@ -121,6 +122,35 @@ beaconPlayerApp.run([ '$rootScope', '$state', '$ionicPlatform', 'localStorageSer
 			 		return;
 			 }  
 	    }); */
+	
+	 //http://angular-ui.github.io/ui-router/site/#/api/ui.router.router.$urlRouterProvider#methods_deferintercept
+	//better way
+    $rootScope.$on('$locationChangeSuccess', function(e) {
+
+      if (serverBeaconStore.isInitialized() === false) {
+   	    // Prevent $urlRouter's default handler from firing
+   	    e.preventDefault();
+   	    $rootScope.$broadcast('loading:show', { loading_settings : {template:"<p><ion-spinner></ion-spinner><br/>Loading...</p>"} });
+   	    
+   	    // init or refresh Authentication service connection    
+   	    serverBeaconStore.updateBeaconList().then(
+   	    	function() {
+   	    		$rootScope.$broadcast('loading:hide');
+   	    		//sync the current URL to the router 
+   	    		console.log('loading:hide'); 
+   	    		$urlRouter.sync(); 
+   	    	},
+   	    	function() {
+   	    		$rootScope.$broadcast('loading:hide');
+   	    		//sync the current URL to the router 
+   	    		$urlRouter.sync();
+   	    	}
+   	    );
+      }
+      	  
+   	  // Configures $urlRouter's listener *after* your custom listener
+   	  $urlRouter.listen();
+	});
 	    
 	    //show/hide loading screen with content of args.loading_settings || default
 	    $rootScope.$on('loading:show', function (event, args) {

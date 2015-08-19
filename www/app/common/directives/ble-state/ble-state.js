@@ -22,7 +22,10 @@ bleState.directive('sitBleState', function() {
 		    	var init = function() {
 			    	$scope.state = sitBleScanner.getBleScannerState();
 			    	
+			    	
 		     		bleScannerChannel.onBleScannerStateUpdated($scope, onBleScannerStateUpdatedHandler);
+		     		
+		     		sitBleScanner.startScanning();
 		    	};
 	     	
 		     	var onBleScannerStateUpdatedHandler = function(newState) {
