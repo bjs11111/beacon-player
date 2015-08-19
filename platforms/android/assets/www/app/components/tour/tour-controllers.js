@@ -8,8 +8,8 @@ tourControllers.constant("tourCtrlConfig", {
 	//
 	MIN_VIEW_UPDATE_INTERVAL : 2,
 	MAX_MEASUREMENTS:20,	// Maximum Number of RSSI measurements to calculate average distance
-	MAX_TIME:6,				// Maximum Time a measurement is preserved to average Distance
-	FACTOR_PER_SECOND:0.95,	// Time weighted average factor 
+	MAX_TIME:4,				// Maximum Time a measurement is preserved to average Distance
+	FACTOR_PER_SECOND:0.9,	// Time weighted average factor 
 	
 	//
 	OFFSET_PROXIMITY_NEAR:0,
