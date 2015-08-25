@@ -168,10 +168,11 @@ console.log('barcodeData: ' + JSON.stringify(barcodeData));
 			
 			iabIsOpen = true;
 			
-    		//vibrate for content
-			$cordovaVibration.cancelVibration();
-			$cordovaVibration.vibrate(generalServiceConfig.iabOpenVibrateTime);
 			
+    		//vibrate for content
+//!!!			$cordovaVibration.cancelVibration();
+//!!!			$cordovaVibration.vibrate(generalServiceConfig.iabOpenVibrateTime);
+
     		//open iab with beacon content url
 			$cordovaInAppBrowser
 			    .open(url, '_blank', generalServiceConfig.iabDefaultSettings)
