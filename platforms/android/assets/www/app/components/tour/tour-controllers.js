@@ -158,17 +158,22 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 
 	var saveRssiMeasurement = function(device){
 		var d = new Date();
+		
+		// Prepare Variables
 		if($scope.tourCtrlData.rssiMeasurements[device.bcmsBeaconKey]==null) 
-		$scope.tourCtrlData.rssiMeasurements[device.bcmsBeaconKey]={};
+			$scope.tourCtrlData.rssiMeasurements[device.bcmsBeaconKey]={};
+		
 		if($scope.tourCtrlData.rssiMeasurements[device.bcmsBeaconKey].time==null)
 			$scope.tourCtrlData.rssiMeasurements[device.bcmsBeaconKey].time=[];
 		
 		if($scope.tourCtrlData.rssiMeasurements[device.bcmsBeaconKey].rssi==null)
 			$scope.tourCtrlData.rssiMeasurements[device.bcmsBeaconKey].rssi=[];
 		
-		$scope.tourCtrlData.rssiMeasurements[device.bcmsBeaconKey].time.splice(0, 0, d.getTime());
-
-		$scope.tourCtrlData.rssiMeasurements[device.bcmsBeaconKey].rssi.splice(0, 0, device.rssi);
+		// Check if RSSI values are plausible and then save into the array
+		if(device.rssi < -10 && device.rssi > -110){
+			$scope.tourCtrlData.rssiMeasurements[device.bcmsBeaconKey].time.splice(0, 0, d.getTime());
+			$scope.tourCtrlData.rssiMeasurements[device.bcmsBeaconKey].rssi.splice(0, 0, device.rssi);
+		}
 		
 		// Remove Measurements that are already too old
 		for(var measurement=$scope.tourCtrlData.rssiMeasurements[device.bcmsBeaconKey].rssi.length-1;measurement>=0;measurement--){
