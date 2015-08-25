@@ -15,13 +15,6 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/com.phonegap.plugins.barcodescanner/www/barcodescanner.js",
-        "id": "com.phonegap.plugins.barcodescanner.BarcodeScanner",
-        "clobbers": [
-            "cordova.plugins.barcodeScanner"
-        ]
-    },
-    {
         "file": "plugins/com.unarin.cordova.beacon/www/lib/underscore-min-1.6.js",
         "id": "com.unarin.cordova.beacon.underscorejs",
         "runs": true
@@ -139,7 +132,6 @@ module.exports.metadata =
 {
     "com.evothings.ble": "0.0.1",
     "com.ionic.keyboard": "1.0.3",
-    "com.phonegap.plugins.barcodescanner": "2.2.0",
     "com.unarin.cordova.beacon": "3.3.0",
     "cordova-plugin-console": "1.0.1",
     "cordova-plugin-device": "1.0.1",
