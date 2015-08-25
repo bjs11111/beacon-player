@@ -1,10 +1,10 @@
-var qrScanner = angular.module('qrScanner', ['generalServices']);
+var infoBar = angular.module('infoBar', ['generalServices']);
 
 
 /**
- *  qrScanner Directive 
+ *  infoBar Directive 
  **/
-qrScanner.directive('ionInfoBar', [ '$ionicPlatform', '$cordovaBarcodeScanner', 'generalService',
+infoBar.directive('ionInfoBar', [ '$ionicPlatform', '$cordovaBarcodeScanner', 'generalService',
                               function($ionicPlatform,   $cordovaBarcodeScanner,   generalService) {
 	  return {
 	    restrict: 'E',
