@@ -17,11 +17,10 @@ appControllers
 	// @TODO moe into directive
     // Show hide network connection bar
     $scope.states = {};
-  	$scope.states.isOffline = false;
+    $scope.states.isOffline = false;
   	
     // listen for Online event
     $rootScope.$on('$cordovaNetwork:online', function(event, networkState){
-    	serverBeaconStore.updateBeaconList();
     	$scope.states.isOffline = false;
     });
 
