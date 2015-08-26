@@ -16,7 +16,6 @@
   },
   "cordovaPlugins": [
     "https://github.com/wildabeast/BarcodeScanner.git",
-    "cordova.plugins.diagnostic",
     "org.apache.cordova.network-information",
     "org.apache.cordova.vibration",
     "org.apache.cordova.inappbrowser",
@@ -29,6 +28,10 @@
     {
       "locator": "https://github.com/apache/cordova-plugin-whitelist",
       "id": "cordova-plugin-whitelist"
+    },
+    {
+      "locator": "https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin.git",
+      "id": "nl.x-services.plugins.flashlight"
     }
   ],
   "cordovaPlatforms": [
