@@ -4,11 +4,7 @@
       Help
   	</ion-nav-title>
   	
-  	<button class="button button-outline" ui-sref="app.tour" style="border-left: 0px; position:absolute; z-index:30000; top:130px; color:#FF3E15; border-color: #FF3E15;">
-  	SKIP
-  	</button>
-  	
-  	   <ion-slide-box class="slider has-header" ng-class="has-message" show-pager="true"  on-slide-changed="slideChanged(index)">
+<ion-slide-box class="slider has-header" ng-class="has-message" show-pager="true"  on-slide-changed="slideChanged(index)">
 		   
 		   <!-- Beacon Player Help Page -->
 		   <ion-slide id="slide-beaconplayer">
@@ -78,5 +74,7 @@
 		   </ion-slide>
 
 	   </ion-slide-box>
+	   
+	   <a class="button icon-right ion-chevron-right button-calm" ui-sref="app.tour" style="position:absolute; right: 15px; bottom:30px; z-index:30000;  background-color: #FF3E15; color:white; border-color:#FF3E15;">Skip</a>
 
 </ion-view>

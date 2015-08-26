@@ -25,7 +25,10 @@
 	}
 	
 	    
-	#helpView .slider-pager 				{}
+	#helpView .slider-pager 				{
+		position: absolute;
+		bottom: 90px;
+	}
 
 	#helpView h1, #helpView h2, #helpView h3, #helpView h4, #helpView h5, #helpView h6,
 	#helpView .h1, #helpView .h2, #helpView .h3, #helpView .h4, #helpView .h5, #helpView .h6,
@@ -105,4 +108,5 @@
   	-moz-background-size: cover;
   	-o-background-size: cover;
  	background-size: cover;
+ 	
 	}

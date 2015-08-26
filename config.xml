@@ -6,8 +6,13 @@
   </description>
     <author email="office@starnberger.at" href="www.starnberger.at">      Starnberger Innovation und Technology
   </author>
+  
     <content src="index.html" />
+    
     <access origin="*" />
+    <allow-navigation href="*" />
+     
+    <preference name="orientation" value="portrait" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
@@ -74,5 +79,5 @@
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
     </platform>
     <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
-    <allow-navigation href="*" />
+   
 </widget>
