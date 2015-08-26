@@ -21,8 +21,8 @@
     <preference name="SplashScreenDelay" value="3000" />
     
     <!-- specifie min and max target for android -->
-    <preference name="android-minSdkVersion" value="18"> 
-    <preference name="android-targetSdkVersion" value="22">
+    <preference name="android-minSdkVersion" value="18" /> 
+    <preference name="android-targetSdkVersion" value="22" />
     <!-- specifie min and max target form ios -->    
     <preference name="deployment-target" value="8.2" />
         
