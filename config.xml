@@ -1,11 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.starnberger.beaconplayer" version="1.0.7" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Beacon Player</name>
-    <description>
-	BeaconPlayer is a free and Open Source Platform and App for experimenting with beacons.
+    <description>
+	BeaconPlayer is a free and Open Source Platform and App for experimenting with beacons.
   </description>
-    <author email="office@starnberger.at" href="www.starnberger.at">
-      Starnberger Innovation und Technology
+    <author email="office@starnberger.at" href="www.starnberger.at">      Starnberger Innovation und Technology
   </author>
     <content src="index.html" />
     <access origin="*" />
@@ -15,9 +14,17 @@
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="3000" />
+    
+    <!-- specifie min and max target for android -->
+    <preference name="android-minSdkVersion" value="18"> 
+    <preference name="android-targetSdkVersion" value="22">
+    <!-- specifie min and max target form ios -->    
+    <preference name="deployment-target" value="8.2" />
+        
     <feature name="StatusBar">
         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
+    
     <platform name="android">
         <icon density="ldpi" src="resources\android\icon\drawable-ldpi-icon.png" />
         <icon density="mdpi" src="resources\android\icon\drawable-mdpi-icon.png" />
