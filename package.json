@@ -24,7 +24,12 @@
     "https://github.com/petermetz/cordova-plugin-ibeacon.git",
     "cordova-plugin-device",
     "https://github.com/driftyco/ionic-plugins-keyboard.git",
-    "com.unarin.cordova.beacon"
+    "com.unarin.cordova.beacon",
+    "https://github.com/apache/cordova-plugin-whitelist",
+    {
+      "locator": "https://github.com/apache/cordova-plugin-whitelist",
+      "id": "cordova-plugin-whitelist"
+    }
   ],
   "cordovaPlatforms": [
     "android"

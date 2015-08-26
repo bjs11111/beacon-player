@@ -130,6 +130,7 @@ beaconAPIServices.factory('beaconAPIService', [
 					defer.resolve(data);
 				})
 				.error(function(data, status, headers, config){
+					console.log("Error fetching All Beacon List", data, status, headers, config);
 					beaconAPIChannel.pubGetAllBeaconsError(data);
 					defer.reject(data);
 				});

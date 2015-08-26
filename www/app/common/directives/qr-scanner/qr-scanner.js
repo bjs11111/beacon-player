@@ -25,9 +25,11 @@ qrScanner.directive('sitQrScanner', [ '$ionicPlatform', '$cordovaBarcodeScanner'
 	    	
 	    	//ng-click callback of directive
 	    	scope.scannQrCode = function () {
+	    		console.log("Open QR Scanner");
 	    		if(scope.isQrScannerOpen==false){
 	    			scope.isQrScannerOpen=true;
 		    		$ionicPlatform.ready(function() {
+		    			console.log("Open QR Scanner Ready");
 		    			$cordovaBarcodeScanner
 		    				.scan()
 				    			.then(function(barcodeData) {

@@ -38,6 +38,7 @@ bleState.directive('sitBleState', function() {
 		    	}
 	
 		    	$scope.toggleState = function() {	
+		    		console.log("Toggle BLE State");
 		    		//if bleDisabledState is disabled (set in AppCtrl) then scip
 		    		//if($scope.bleDisabledState) {return;}
 		    		

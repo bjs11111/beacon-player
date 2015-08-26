@@ -19,7 +19,7 @@ infoBar.directive('ionInfoBar', [ '$ionicPlatform', '$cordovaBarcodeScanner', 'g
 	    link: function(scope, element, attrs) {
 	        	
 	    	var init = function() {
-	    		scope.content = (scope.content) ? scope.content : "App is in offline mode";
+	    		scope.content = (scope.content) ? scope.content : "No Internet Connection!";
 	    		scope.color =  (color) ? color : 'bar-assertive';
 	    	}
 	    	
