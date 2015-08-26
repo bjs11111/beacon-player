@@ -170,8 +170,14 @@ console.log('barcodeData: ' + JSON.stringify(barcodeData));
 			
 			
     		//vibrate for content
-//!!!			$cordovaVibration.cancelVibration();
-//!!!			$cordovaVibration.vibrate(generalServiceConfig.iabOpenVibrateTime);
+			try {
+				$cordovaVibration.cancelVibration();
+				$cordovaVibration.vibrate(generalServiceConfig.iabOpenVibrateTime);
+			}
+			catch(err) {
+			    console.log("Error vibrating before open IAB");
+			}
+
 
     		//open iab with beacon content url
 			$cordovaInAppBrowser
