@@ -3,6 +3,7 @@ var beaconPlayerApp = angular.module('beaconPlayerApp',
 		[ 'ionic',
 		  'generalServices',
 		  'LocalStorageModule',
+		  'bleScanners',
 		  //stores
 		  'beaconAPIServices',
 		  
@@ -100,8 +101,8 @@ beaconPlayerApp.config(
 			;
 }]);
 
-beaconPlayerApp.run([ '$rootScope', '$state', '$ionicPlatform', 'serverBeaconStore', '$urlRouter', '$ionicLoading',
-              function($rootScope,   $state,   $ionicPlatform,   serverBeaconStore,   $urlRouter,   $ionicLoading ) {
+beaconPlayerApp.run([ '$rootScope', '$state', '$ionicPlatform', 'serverBeaconStore', '$urlRouter', '$ionicLoading', 'sitBleScanner',
+              function($rootScope,   $state,   $ionicPlatform,   serverBeaconStore,   $urlRouter,   $ionicLoading,   sitBleScanner ) {
 
 		//@TODO use launcherService instead of $localStorage
 		//redirection logic start
@@ -135,9 +136,9 @@ beaconPlayerApp.run([ '$rootScope', '$state', '$ionicPlatform', 'serverBeaconSto
    	    // init or refresh Authentication service connection    
    	    serverBeaconStore.updateBeaconList().then(
    	    	function() {
+   	    		sitBleScanner.startScanning();
    	    		$rootScope.$broadcast('loading:hide');
    	    		//sync the current URL to the router 
-   	    		console.log('loading:hide'); 
    	    		$urlRouter.sync(); 
    	    	},
    	    	function() {

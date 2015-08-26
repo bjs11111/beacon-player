@@ -21,11 +21,7 @@ bleState.directive('sitBleState', function() {
 	    		
 		    	var init = function() {
 			    	$scope.state = sitBleScanner.getBleScannerState();
-			    	
-			    	
 		     		bleScannerChannel.onBleScannerStateUpdated($scope, onBleScannerStateUpdatedHandler);
-		     		
-		     		sitBleScanner.startScanning();
 		    	};
 	     	
 		     	var onBleScannerStateUpdatedHandler = function(newState) {
@@ -38,7 +34,7 @@ bleState.directive('sitBleState', function() {
 		    	}
 	
 		    	$scope.toggleState = function() {	
-		    		console.log("Toggle BLE State");
+		    		
 		    		//if bleDisabledState is disabled (set in AppCtrl) then scip
 		    		//if($scope.bleDisabledState) {return;}
 		    		
