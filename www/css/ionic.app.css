@@ -10,7 +10,7 @@ $stable:                          #f8f8f8 !default;
 $positive:                        #387ef5 !default;
 $calm:                            #11c1f3 !default;
 $balanced:                        #33cd5f !default;
-$energized:                       #ffc900 !default;
+$energized:                       #FF3E15 !default;
 $assertive:                       #ef473a !default;
 $royal:                           #886aea !default;
 $dark:                            #444 !default;
@@ -7866,6 +7866,10 @@ button.ble-scanning {
 
 #helpView .slider-slide .slide .fa, #helpView .slider-slide .slide .ion-radio-waves {
   font-size: 9em; }
+
+#helpView .slider-pager {
+  position: absolute;
+  bottom: 90px; }
 
 #helpView h1, #helpView h2, #helpView h3, #helpView h4, #helpView h5, #helpView h6, #helpView .h1, #helpView .h2, #helpView .h3, #helpView .h4, #helpView .h5, #helpView .h6, #helpView a {
   color: #FF3E15; }
