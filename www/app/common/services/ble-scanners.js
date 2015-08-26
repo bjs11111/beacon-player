@@ -108,14 +108,14 @@ bleScanners.factory('iosBleScanner', [
 							'uuid' : uuid,
 							registered : false
 						});
-						console.log(uuid + ' registered in ios scanner'); 
+						
 					}
 				}
 			}
 
 			//start scanning for ble devices on IOS
             var startScanning = function(foundDeviceCallback) {
-                console.log('in start ios scanning ');
+                
                 var defer = $q.defer();
                                       
                 $ionicPlatform.ready(function() {
@@ -166,7 +166,7 @@ bleScanners.factory('iosBleScanner', [
                                      locationManager.startMonitoringForRegion(beaconRegion)
                                                   .fail( console.log('error while startMonitoringForRegion: ' + iBeaconRanges[i].uuid, JSON.stringify(beaconRegion) ) )
                                         .done();
-                                     console.log('registered '+iBeaconRanges[i].uuid);
+                                    
                                          iBeaconRanges[i].registered = true;
                        }
                                                            
@@ -273,23 +273,23 @@ bleScanners
 							};
 
 							var startScanning = function() {
-                                console.log('start scanning clicked');
+                               
 								if (getBleScannerState()) {
 									return;
 								}
-                                console.log('scaner state is not true');
+                               
 
 								//IOS
 								if (ionic.Platform.isIOS()) {
-                                    console.log('start scanning clicked on IOS');
+                                   
                                     iosBleScanner.startScanning(foundDevice).then(
                                         function(result) {
-                                            console.log('start scanning done. color should be blue');
+                                            
                                             setBleScannerState(true);
                                         },
                                         function(error) {
                                             //@TODO should we react on this???
-                                            console.log('error while start scanning on ios', error);
+                                           
                                         });
                  
 								}
@@ -354,19 +354,19 @@ bleScanners
 
 								//IOS
 								if (ionic.Platform.isIOS()) {
-									//console.log('ios');
+									
 									return prepareIOSDeviceData(device);
 
 								}
 								//Android
 								else if (ionic.Platform.isAndroid()) {
-									//console.log('android');
+								
 									return prepareAndroidDeviceData(device);
 								}
 								//WindowsPhone
 								else if (ionic.Platform.isWindowsPhone()) {
 									//@TODO
-									//console.log('windows');
+									
 								}
 							};
 
@@ -555,7 +555,7 @@ bleScanners
 
 								//skip if scanner already scanning
 								if(getBleScannerState() == true) {
-									//console.log('getBleScannerState == true'); 
+									
 									return;
 								}
 							

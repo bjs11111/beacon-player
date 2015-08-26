@@ -303,11 +303,13 @@ beaconAPIServices.factory('serverBeaconStore', [
 	    			//success
 	    			function (newBeaconList) { 
 	    				angular.forEach(newBeaconList, function(beacon, key) {
-	    					initializedState = true;  
 	    					if(addBeacon(beacon)) {
 	    						updatedBeacons.push(key);
 	    					}
 	    				});	
+	    				
+	    				initializedState = true;  
+	    				
 	    				beaconAPIChannel.pubBeaconsUpdated(updatedBeacons);
 	    				defer.resolve(updatedBeacons);
 	    			},

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.starnberger.beaconplayer" version="1.0.7" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.starnberger.beaconplayer" version="1.0.8" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Beacon Player</name>
   <description>
 	BeaconPlayer is a free and Open Source Platform and App for experimenting with beacons.
   </description>
-  <author email="office@starnberger.at" href="www.starnberger.at">&#xD;      Starnberger Innovation und Technology
+  <author email="office@starnberger.at" href="www.starnberger.at">Starnberger Innovation und Technology
   </author>
   <content src="index.html"/>
   <access origin="*"/>

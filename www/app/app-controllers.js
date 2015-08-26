@@ -1,4 +1,4 @@
-var appControllers = angular.module('appControllers', [ 'ngCordova', 'bleState', 'qrScanner', 'beaconAPIServices']);
+var appControllers = angular.module('appControllers', [ 'ngCordova', 'bleState', 'qrScanner', 'beaconAPIServices', 'bleScanners']);
 
 /* 
  * 
@@ -6,8 +6,8 @@ var appControllers = angular.module('appControllers', [ 'ngCordova', 'bleState',
  * This controller holds general logic for all app.* controllers
  * */
 appControllers
-.controller('appCtrl', ['$rootScope', '$scope', 
-                function($rootScope,   $scope ) {
+.controller('appCtrl', ['$rootScope', '$scope', 'serverBeaconStore', 'sitBleScanner',
+                function($rootScope,   $scope,   serverBeaconStore,   sitBleScanner ) {
 	
    
 	$scope.appCtrl = {};
@@ -22,6 +22,15 @@ appControllers
     // listen for Online event
     $rootScope.$on('$cordovaNetwork:online', function(event, networkState){
     	$scope.states.isOffline = false;
+    	
+    	if(!serverBeaconStore.isInitialized()) {
+    		serverBeaconStore.updateBeaconList().then(
+    		   	    	function() {
+    		   	    		sitBleScanner.startScanning();
+    		   	    	},
+    		   	    	function() {});
+    	}
+    	
     });
 
     // listen for Offline event
