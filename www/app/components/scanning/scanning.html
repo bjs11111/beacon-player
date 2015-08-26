@@ -12,6 +12,8 @@
   
 
 	<h2 class="text-center positive padding-vertical" ng-show="listLength == 0">no beacons found...</h2>
+	<h3 class="text-center padding-vertical" ng-show="listLength == 0">Please make sure your Bluetooth is enabled!</h3> 
+	
  	<sit-ble-state></sit-ble-state>	
  	<ion-refresher on-refresh="scanCtrl.refreshServerData('pullToRefresh')"></ion-refresher>
  	
