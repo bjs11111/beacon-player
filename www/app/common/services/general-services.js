@@ -88,11 +88,89 @@ generalServices.factory('generalService', ['$rootScope', '$timeout', '$filter', 
 	
 	
 	/*
+	 * Register NFC for listening NDEF messages
+	 */
+	var isNFCInitialized=false;
+    var registerNFCUrlListener = function() {
+    	try{
+		    	setInterval(
+		    		function () 
+		    			{
+						    	if(!isNFCInitialized){
+								    	
+								    	//nfc.addNdefListener (
+								    	nfc.addMimeTypeListener("text/json", 
+										        function (nfcEvent) {
+										        	
+										        	try {
+										        		   
+												        	var tag = nfcEvent.tag,
+												            ndefMessage = tag.ndefMessage;
+												
+												            //alert(JSON.stringify(ndefMessage));
+												
+												            //alert(nfc.bytesToString(ndefMessage[0].payload));
+												            
+												            var uri="";
+												            
+												            // Loop over all NDEF Entries and look if there is an URI
+												            for(var messageNr=0; messageNr<ndefMessage.length;messageNr++){
+													            //Check NDEF URI Type
+													            if(ndefMessage[messageNr].type[0]==85){
+													            	
+													            	// Decide Shema
+													            	if(ndefMessage[messageNr].payload[0]==1)uri="http://www."; // Shema not in Payload
+													            	if(ndefMessage[messageNr].payload[0]==2)uri="https://www."; // Shema not in Payload
+													            	if(ndefMessage[messageNr].payload[0]==3)uri="http://"; // Shema not in Payload
+													            	if(ndefMessage[messageNr].payload[0]==4)uri="https://"; // Shema not in Payload
+													            	if(ndefMessage[messageNr].payload[0]==0)uri=""; // Whole URL in Payload
+													            	
+													            	// Get URI
+													            	uri=uri + nfc.bytesToString(ndefMessage[messageNr].payload).substring(1);
+													            	openIAB(uri);
+													            	
+													            	// End as soon the first URI was detected
+													            	break;
+													            }
+												            }
+										        		
+										        		
+										        		
+										        		
+										        		}
+										        		catch (e) {
+										        		   alert("Error evaluating NFC card")
+										        		}
+										            
+										        }, 
+										        function () { // success callback
+										            isNFCInitialized=true;
+										        },
+										        function (error) { // error callback
+										            alert("Error adding NDEF listener " + JSON.stringify(error));
+										        }
+									        
+								    
+								    		);
+						    	}
+		    			}, 2000);
+    	}
+    	catch(e){
+    		// NFC init Error
+    	}
+    };
+	
+	
+	
+	
+	
+	
+	/*
 	 * barcode scanner 
 	 */
 	//@TODO finish implementation
 	var qrSuccessCallback = function (barcodeData) {
-console.log('barcodeData: ' + JSON.stringify(barcodeData)); 
+		console.log('barcodeData: ' + JSON.stringify(barcodeData)); 
 		console.log('qrCodeUrlToBcmsBeaconKey'+ qrCodeUrlToBcmsBeaconKey(barcodeData.text)); 
 		var bcmsBeaconKey;
 		
@@ -262,6 +340,7 @@ console.log('barcodeData: ' + JSON.stringify(barcodeData));
 		qrErrorCallback 	: qrErrorCallback,
 		openIAB 			: openIAB,
 		openIABWithBcmsBeaconKey : openIABWithBcmsBeaconKey,
+		registerNFCUrlListener:registerNFCUrlListener,
 	} 
 	
 }]);

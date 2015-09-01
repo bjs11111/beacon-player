@@ -20,6 +20,10 @@ qrScanner.directive('sitQrScanner', [ '$ionicPlatform', '$cordovaBarcodeScanner'
 	    		scope.successCallback = (scope.successCallback) ? scope.successCallback : generalService.qrSuccessCallback;
 	    		scope.errorCallback = (scope.errorCallback) ? scope.errorCallback : generalService.qrErrorCallback ;
 	    		scope.isQrScannerOpen=false;
+	    		
+	    		
+	    		generalService.registerNFCUrlListener();
+	    		
 	    	}
 	    	
 	    	//ng-click callback of directive
