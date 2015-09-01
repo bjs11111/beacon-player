@@ -28,6 +28,10 @@
     {
       "locator": "https://github.com/apache/cordova-plugin-whitelist",
       "id": "cordova-plugin-whitelist"
+    },
+    {
+      "locator": "https://github.com/chariotsolutions/phonegap-nfc",
+      "id": "com.chariotsolutions.nfc.plugin"
     }
   ],
   "cordovaPlatforms": [
