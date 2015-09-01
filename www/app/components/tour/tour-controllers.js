@@ -261,6 +261,10 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 		startUpdateInterval(1000);
 		
 		
+		
+		
+
+		
 	}
 	
 	init();

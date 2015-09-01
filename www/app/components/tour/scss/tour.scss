@@ -1,11 +1,13 @@
 
+
+
 /*	Style Title	*/		
 		#tourView h1									{margin: 25px 15px 0 15px; font-size:1em;font-weight:bold;}
 		#tourView .listContainer						{margin-right:10px;}
 		
 
 /*	Big Box*/		
-		#tourView .box-big								{height:80%;overflow:hidden;margin:10px 0 10px 10px;border-radius: 7px;background-color: white; text-align: center; border: 2px solid #B2B2B2;}
+		#tourView .box-big								{overflow:hidden;margin:10px 0 10px 10px;border-radius: 7px;background-color: white; text-align: center; border: 2px solid #B2B2B2;}
 		#tourView .box-big img							{border-top-left-radius: 6px;border-top-right-radius: 6px;width:100%;}
 		#tourView .box-big h2							{padding: 0 15px; color:#333333; font-size:1.2em; margin-top:10px;}
 		#tourView .box-big .debugInfo					{padding:10px;background: black;opacity:0.5; width:100%; color:white;font-size:1em;border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;}	
@@ -17,6 +19,8 @@
 		#tourView .arrowbox-bottom-big:after 			{border-color: rgba(136, 183, 213, 0);border-bottom-color: white;border-width: 40px;margin-left: -40px;}
 		#tourView .arrowbox-bottom-big:before 			{border-color: rgba(194, 225, 245, 0);border-bottom-color: white;border-width: 40px;margin-left: -40px;}
 		#tourView .item-icon-left						{padding-left:0px;}
+		
+
 
 /*	Small Box */
 		#tourView .box-small-container					{float:left; width:50%; padding:0 0 10px 10px;}

@@ -7945,7 +7945,6 @@ button.ble-scanning {
 
 /*	Big Box*/
 #tourView .box-big {
-  height: 80%;
   overflow: hidden;
   margin: 10px 0 10px 10px;
   border-radius: 7px;
