@@ -167,7 +167,9 @@ beaconPlayerApp.run([ '$rootScope', '$state', '$ionicPlatform', 'serverBeaconSto
 		$ionicPlatform.ready(function() {
 			
 			if (ionic.Platform.isIOS()){
-				$cordovaStatusbar.hide();
+			    	ionic.Platform.fullScreen();
+			    	$cordovaStatusbar.styleHex('#fff');
+			    	$cordovaStatusbar.hide();
 			}
 			
 			// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
