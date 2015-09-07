@@ -68,7 +68,9 @@ bleScanners.factory('iosBleScanner', [
 		'$filter', '$q',
 		'$ionicPlatform',
 		function(bleScannerChannel, $filter, $q, $ionicPlatform) {
-
+			
+			
+			
 			//locationManager.Delegate()
 			var delegate = undefined,
 				iBeaconUuidToHex = $filter('iBeaconUuidToHex'),
@@ -112,6 +114,9 @@ bleScanners.factory('iosBleScanner', [
 					}
 				}
 			}
+			
+			
+
 
 			//start scanning for ble devices on IOS
             var startScanning = function(foundDeviceCallback) {
@@ -224,6 +229,25 @@ bleScanners
 						
 						function($rootScope, $filter, sitBleScannerConfig, bleScannerChannel, androidBleScanner, iosBleScanner, beaconAPIChannel) {
 							
+							//TODO: ugly fix
+							// Define a Supervision Timer to see if the Scanner stil receives some information
+							var scannerSupervisionTimer=setInterval(function () {clearSupervisionTimer()}, 4000);
+							var devicesFoundCount=0;
+
+							function clearSupervisionTimer() {
+								if(devicesFoundCount==0 && getBleScannerState()){
+									//Restart BLE Scanner
+									stopScanning();
+									setTimeout(function(){
+										startScanning();
+									},350)
+									
+								}
+								devicesFoundCount=0;
+							}
+							
+							
+							
 							var fakeScope = $rootScope.$new();
 							
 							//holds state of ble scanner
@@ -265,6 +289,8 @@ bleScanners
 
 							// sends notification that a device has been found
 							var foundDevice = function(rawDevice) { 
+								console.log("ble device found");
+								devicesFoundCount++;
 								var preparedDevice = prepareDeviceData(rawDevice);
 								if(preparedDevice !== false) {
 									scannedDevicesList[preparedDevice.bcmsBeaconKey] = preparedDevice;
