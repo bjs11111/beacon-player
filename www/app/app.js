@@ -101,8 +101,8 @@ beaconPlayerApp.config(
 			;
 }]);
 
-beaconPlayerApp.run([ '$rootScope', '$state', '$ionicPlatform', 'serverBeaconStore', '$urlRouter', '$ionicLoading', 'sitBleScanner',
-              function($rootScope,   $state,   $ionicPlatform,   serverBeaconStore,   $urlRouter,   $ionicLoading,   sitBleScanner ) {
+beaconPlayerApp.run([ '$rootScope', '$state', '$ionicPlatform', 'serverBeaconStore', '$urlRouter', '$ionicLoading', '$cordovaStatusbar', 'sitBleScanner',
+              function($rootScope,   $state,   $ionicPlatform,   serverBeaconStore,   $urlRouter,   $ionicLoading,   $cordovaStatusbar,   sitBleScanner ) {
 
 		//@TODO use launcherService instead of $localStorage
 		//redirection logic start
@@ -167,10 +167,7 @@ beaconPlayerApp.run([ '$rootScope', '$state', '$ionicPlatform', 'serverBeaconSto
 		$ionicPlatform.ready(function() {
 			
 			if (ionic.Platform.isIOS()){
-			    	ionic.Platform.fullScreen();
-			    	if (window.StatusBar) {
-			    	    return StatusBar.hide();
-			    	}
+				$cordovaStatusbar.hide();
 			}
 			
 			// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
