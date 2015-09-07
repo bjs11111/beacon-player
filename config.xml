@@ -19,8 +19,11 @@
     <preference name="android-minSdkVersion" value="18" />
     <preference name="android-targetSdkVersion" value="22" />
     <preference name="deployment-target" value="8.2" />
+    
+    <preference name="StatusBarOverlaysWebView" value="false" />
     <feature name="StatusBar">
-        <param name="ios-package" onload="true" value="CDVStatusBar" />
+        <param name="id" value="org.apache.cordova.statusbar" />
+         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
     <platform name="android">
         <icon density="ldpi" src="resources\android\icon\drawable-ldpi-icon.png" />
@@ -62,7 +65,5 @@
         <splash height="480" src="resources\ios\splash\Default~iphone.png" width="320" />
     </platform>
     <icon src="resources\android\icon\drawable-xhdpi-icon.png" />
-    <feature name="StatusBar">
-        <param name="id" value="org.apache.cordova.statusbar" />
-    </feature>
+    
 </widget>
