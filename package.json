@@ -32,7 +32,8 @@
     {
       "locator": "https://github.com/chariotsolutions/phonegap-nfc",
       "id": "com.chariotsolutions.nfc.plugin"
-    }
+    },
+    "org.apache.cordova.statusbar"
   ],
   "cordovaPlatforms": [
     "android",
