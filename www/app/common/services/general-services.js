@@ -54,7 +54,7 @@ generalServices.factory('generalService', ['$rootScope', '$timeout', '$filter', 
 		//let alert pop up with given settings
 		var noInetAlert =	$ionicPopup.alert({
 			   title	: 'No internet',
-			   template	: 'Pleas turn on your internet connection and try again!',
+			   template	: 'Please turn on your internet connection and try again!',
 			   okType	: 'button-energized'
 		});
 		
