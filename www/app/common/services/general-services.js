@@ -310,7 +310,8 @@ generalServices.factory('generalService', ['$rootScope', '$timeout', '$filter', 
 	 		    		link_button.style.fontSize = '20px';\
 	 		    		link_button.style.height = '50px';\
 	 		    		link_button.style.textDecoration = 'none';\
-	 		    		link_button.style.color = '#444';\
+	 		    		link_button.style.fontWeight = 'bold';\
+	 		    		link_button.style.color = '#0c63ee';\
 	 		    		link_button.style.lineHeight = '20px';\
 	 		    		link_button.style.textAlign	= 'left';\
 	 		    		link_button.style.verticalAlign = 'middle';\

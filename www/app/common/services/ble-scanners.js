@@ -231,7 +231,7 @@ bleScanners
 							
 							//TODO: ugly fix
 							// Define a Supervision Timer to see if the Scanner stil receives some information
-							var scannerSupervisionTimer=setInterval(function () {clearSupervisionTimer()}, 4000);
+							var scannerSupervisionTimer=setInterval(function () {clearSupervisionTimer()}, 2500);
 							var devicesFoundCount=0;
 
 							function clearSupervisionTimer() {
