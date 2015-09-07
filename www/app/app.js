@@ -162,8 +162,14 @@ beaconPlayerApp.run([ '$rootScope', '$state', '$ionicPlatform', 'serverBeaconSto
 	        $ionicLoading.hide()
 	    });
 	    
+	   
+	    
 		$ionicPlatform.ready(function() {
-			 
+			
+			if (ionic.Platform.isIOS()){
+			    	ionic.Platform.fullScreen();
+			}
+			
 			// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
 			// for form inputs)
 			if (window.cordova && window.cordova.plugins.Keyboard) {
