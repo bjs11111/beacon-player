@@ -87,7 +87,7 @@ generalServices.factory('generalService', ['$rootScope', '$timeout', '$filter', 
 	};
 	
 	
-	
+	//@TODO move into service
 	evaluateNFCCard = function(nfcEvent){
 		try {
  		   
@@ -141,9 +141,11 @@ generalServices.factory('generalService', ['$rootScope', '$timeout', '$filter', 
 		    	setInterval(
 		    		function () 
 		    			{
-		    				    	
-		    			if(!isRegistered){
+		    				   
+		    			if(!isRegistered && typeof nfc != "undefined" ){
 		    				isRegistered=true;	
+		    							
+		    				
 								    	nfc.addNdefListener (
 										        function (nfcEvent) {evaluateNFCCard(nfcEvent);}, // NFC Tag scanned
 										        function () {isRegistered=true;},// Waiting for NFC Tag, registration Successful
@@ -187,6 +189,7 @@ generalServices.factory('generalService', ['$rootScope', '$timeout', '$filter', 
     	}
     	catch(e){
     		// NFC init Error
+    		console.log('ASDF'); 
     	}
     };
 	

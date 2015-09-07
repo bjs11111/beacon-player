@@ -229,7 +229,7 @@ bleScanners
 						
 						function($rootScope, $filter, sitBleScannerConfig, bleScannerChannel, androidBleScanner, iosBleScanner, beaconAPIChannel) {
 							
-							//TODO: ugly fix
+							//@TODO: move into separate service that handles ble scanning logic checks autostart 
 							// Define a Supervision Timer to see if the Scanner stil receives some information
 							var scannerSupervisionTimer=setInterval(function () {clearSupervisionTimer()}, 2500);
 							var devicesFoundCount=0;

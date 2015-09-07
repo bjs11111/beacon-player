@@ -8,10 +8,15 @@
 		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
 	</ion-nav-buttons>
   
-  	<ion-content class="has-header">
+  	<ion-content class="has-header" ng-show="tourCtrlData.showDeviceList.length == 0">
+   		
+   		<div class="card ble-info-card" ng-show="tourCtrlData.showDeviceList.length == 0">    
+   		 	<img src="./app/components/help/images/tour-icon.png"/>  
+            <h2 class="text-center positive padding-vertical" >Approach a beacon</h2>
+ 			<p class="text-center padding-vertical" >Please make sure your Bluetooth is enabled!</p>    
+ 		</div>
    
-	<h2 class="text-center positive padding-vertical" ng-show="tourCtrlData.showDeviceList.length == 0">nothing found...</h2>
- 	<h3 class="text-center padding-vertical" ng-show="tourCtrlData.showDeviceList.length == 0">Please make sure your Bluetooth is enabled!</h3> 
+	
  	<!-- <ion-refresher on-refresh="tourCtrlData.refreshServerData('pullToRefresh')"></ion-refresher> -->
  	
  		<!-- Beacon list 

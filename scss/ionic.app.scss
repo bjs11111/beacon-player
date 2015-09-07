@@ -134,3 +134,24 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 		fill: #fff;
 	}
  
+ 
+.ble-info-card {
+	img {
+		margin:auto;
+		width: 100px;
+		height:auto;	
+		display: block;
+    	margin-top: 10px;
+	}
+	
+	h2 {
+	 text-align: center;
+	    margin-bottom: 0px;
+    	margin-top: 0px;
+	}
+	
+	p {
+		font-size: 18px;
+    	font-weight: bold;
+	}
+}

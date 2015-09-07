@@ -12,6 +12,9 @@ tourListManagers.factory('bleDeviceChannel',
 		['$rootScope', 'bleDeviceChannelConfig',
 function ($rootScope,   bleDeviceChannelConfig) {
    
+	//@TODO refactore and move into service
+			
+			
 	//private functions
 	var _subscribe = function(event, $scope, scopeHandler, mapArgs) {
 		//subscribe with rotscope to event and cache unsubscribe function

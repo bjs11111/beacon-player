@@ -22,6 +22,8 @@ tourControllers.controller( 'tourCtrl',
 		['$scope', '$filter', 'tourCtrlConfig', 'generalService', 'bleScannerChannel','serverBeaconStore', 'beaconAPIChannel', 'bleScannerChannel',
 function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerChannel,  serverBeaconStore,   beaconAPIChannel,   bleScannerChannel  ) {
 	
+	//@TODO refactore and move into service
+			
 	var secondsLastViewUpdate = 0;
 	var knownBeaconsFilter = $filter('knownBeaconsFilter');
 	var whitelistBeaconsFilter = $filter('whitelistBeaconsFilter');
