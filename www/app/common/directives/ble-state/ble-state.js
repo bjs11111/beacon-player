@@ -23,8 +23,22 @@ bleState.directive('sitBleState', function() {
 			    	$scope.state = sitBleScanner.getBleScannerState();
 		     		bleScannerChannel.onBleScannerStateUpdated($scope, onBleScannerStateUpdatedHandler);
 		     		
+		     		document.addEventListener("resume", onResume, false);
+		     		document.addEventListener("pause", onPause, false);
 		     		
 		    	};
+		    	
+		    	// Start scanning when App is Resumed
+		    	function onResume() {
+		    		sitBleScanner.startScanning();
+		    		$scope.$apply();
+		        }
+		    	
+		    	// Stop scanning when App is in Background
+		    	function onPause() {
+		    		sitBleScanner.stopScanning();
+		    		$scope.$apply();
+		        }
 	     	
 		     	var onBleScannerStateUpdatedHandler = function(newState) {
 		     		$scope.state = sitBleScanner.getBleScannerState();
