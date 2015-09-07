@@ -168,6 +168,9 @@ beaconPlayerApp.run([ '$rootScope', '$state', '$ionicPlatform', 'serverBeaconSto
 			
 			if (ionic.Platform.isIOS()){
 			    	ionic.Platform.fullScreen();
+			    	if (window.StatusBar) {
+			    	    return StatusBar.hide();
+			    	}
 			}
 			
 			// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
