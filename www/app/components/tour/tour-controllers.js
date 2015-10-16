@@ -19,8 +19,8 @@ tourControllers.constant("tourCtrlConfig", {
 
 /* Tour Controllers */
 tourControllers.controller( 'tourCtrl', 
-		['$scope', '$filter', 'tourCtrlConfig', 'generalService', 'bleScannerChannel','serverBeaconStore', 'beaconAPIChannel', 'bleScannerChannel',
-function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerChannel,  serverBeaconStore,   beaconAPIChannel,   bleScannerChannel  ) {
+		['$scope', '$timeout', '$filter', 'tourCtrlConfig', 'generalService', 'bleScannerChannel','serverBeaconStore', 'beaconAPIChannel', 'bleScannerChannel',
+function( $scope,   $timeout,   $filter,   tourCtrlConfig,   generalService,   bleScannerChannel,  serverBeaconStore,   beaconAPIChannel,   bleScannerChannel  ) {
 	
 	//@TODO refactore and move into service
 			
@@ -28,6 +28,36 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 	var knownBeaconsFilter = $filter('knownBeaconsFilter');
 	var whitelistBeaconsFilter = $filter('whitelistBeaconsFilter');
 	var lastScanFilter =  $filter('lastScanFilter');
+	
+	$scope.audioIsPlaying = false;
+	var audioplayer = new Audio();
+	var handelskammer = {
+			uuid  : '699EBC80-E1F3-11E3-9A0F-0CF3EE3BC012',
+			major : 1,
+			minor : 11969
+	};
+	var bus = {
+			uuid  : '699EBC80-E1F3-11E3-9A0F-0CF3EE3BC012',
+			major : 1,
+			minor : 11563	
+		};
+	var bus_faehrt_ein = {
+			uuid  : '699EBC80-E1F3-11E3-9A0F-0CF3EE3BC012',
+			major : 1,
+			minor : 12267
+	};
+	
+	$scope.play = function(path) {
+		if($scope.audioIsPlaying == false) {
+			audioplayer.src = path;
+		     audioplayer.play();
+		     $scope.audioIsPlaying = true;
+		     $timeout(function() {
+		    	 $scope.audioIsPlaying = false;
+		     }, 12000);
+		}
+		 
+	};
 	
 	//values
 	$scope.tourCtrlData = {};
@@ -87,7 +117,7 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
 	};
 	
 
-	var updateIonicView = function(filteredDevicesList){
+	var updateIonicView = function(filteredDevicesList) {
 		var tmpDeviceList=[];
 		var count=0;
 		
@@ -117,6 +147,33 @@ function( $scope,   $filter,   tourCtrlConfig,   generalService,   bleScannerCha
     	$scope.tourCtrlData.showDeviceList.sort(function(a, b) {
 		    return a.sort - b.sort;
 		});
+    	
+
+    	/*if( $scope.tourCtrlData.showDeviceList[0].uuid === handelskammer.uuid &&
+    		$scope.tourCtrlData.showDeviceList[0].major === handelskammer.major &&
+    		$scope.tourCtrlData.showDeviceList[0].minor === handelskammer.minor
+    	) {
+    		$scope.play('/app/data/handelskammer.mp3');
+    	    
+    	}
+    	
+    	if( $scope.tourCtrlData.showDeviceList[0].uuid === bus.uuid &&
+        		$scope.tourCtrlData.showDeviceList[0].major === bus.major &&
+        		$scope.tourCtrlData.showDeviceList[0].minor === bus.minor
+        	) {
+        		$scope.play('/app/data/handelskammer.mp3');
+        	    
+        	}
+    	
+    	if( $scope.tourCtrlData.showDeviceList[0].uuid === bus_faehrt_ein.uuid &&
+        		$scope.tourCtrlData.showDeviceList[0].major === bus_faehrt_ein.major &&
+        		$scope.tourCtrlData.showDeviceList[0].minor === bus_faehrt_ein.minor
+        	) {
+        		$scope.play('/app/data/handelskammer.mp3');
+        	    
+        	}*/
+    	
+       
 		
 	}
 

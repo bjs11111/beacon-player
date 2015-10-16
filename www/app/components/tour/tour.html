@@ -21,7 +21,10 @@
  	
  		<!-- Beacon list 
 		<!--<div class="listContainer" ng-repeat="device in tourCtrlData.showDeviceList | orderBy:'sort'" -->
-
+<div ng-click="play('/app/data/handelskammer.mp3')">handelskammer</div>
+<div ng-click="play('/app/data/bus.mp3')">bus</div>
+<div ng-click="play('/app/data/bus_faehrt_ein.mp3')">bus_faehrt_ein</div>
+{{audioIsPlaying}}
 		<div class="listContainer" ng-repeat="device in tourCtrlData.showDeviceList | limitTo:3 "
                   href="#" 
                   class=" item-icon-right "
