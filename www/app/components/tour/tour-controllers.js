@@ -1,7 +1,7 @@
 /* Controllers of tour component */
 //______________________________________________________________________________________
 
-var tourControllers = angular.module('tourControllers', ['bleChannels', 'beaconAPIServices', 'deviceListDirectives', 'generalServices']);;
+var tourControllers = angular.module('tourControllers', ['bleChannels', 'beaconAPIServices', 'deviceListDirectives', 'generalServices', 'ngCordova']);
 
 /* Tour Controllers Config*/
 tourControllers.constant("tourCtrlConfig", {
@@ -19,8 +19,8 @@ tourControllers.constant("tourCtrlConfig", {
 
 /* Tour Controllers */
 tourControllers.controller( 'tourCtrl', 
-		['$scope', '$timeout', '$filter', 'tourCtrlConfig', 'generalService', 'bleScannerChannel','serverBeaconStore', 'beaconAPIChannel', 'bleScannerChannel',
-function( $scope,   $timeout,   $filter,   tourCtrlConfig,   generalService,   bleScannerChannel,  serverBeaconStore,   beaconAPIChannel,   bleScannerChannel  ) {
+		['$scope', '$cordovaNativeAudio', '$ionicPlatform', '$timeout', '$filter', 'tourCtrlConfig', 'generalService', 'bleScannerChannel','serverBeaconStore', 'beaconAPIChannel', 'bleScannerChannel',
+function( $scope,   $cordovaNativeAudio,   $ionicPlatform,   $timeout,   $filter,   tourCtrlConfig,   generalService,   bleScannerChannel,  serverBeaconStore,   beaconAPIChannel,   bleScannerChannel  ) {
 	
 	//@TODO refactore and move into service
 			
@@ -32,9 +32,9 @@ function( $scope,   $timeout,   $filter,   tourCtrlConfig,   generalService,   b
 	$scope.audioIsPlaying = false;
 	var audioplayer = new Audio();
 	var handelskammer = {
-			uuid  : '699EBC80-E1F3-11E3-9A0F-0CF3EE3BC012',
-			major : 1,
-			minor : 11969
+			uuid  : 'E6C56DB5-DFFB-48D2-B088-40F5A81496EE',
+			major : 2,
+			minor : 3
 	};
 	var bus = {
 			uuid  : '699EBC80-E1F3-11E3-9A0F-0CF3EE3BC012',
@@ -47,17 +47,26 @@ function( $scope,   $timeout,   $filter,   tourCtrlConfig,   generalService,   b
 			minor : 12267
 	};
 	
-	$scope.play = function(path) {
+	$ionicPlatform.ready(function() {
+        // all calls to $cordovaNativeAudio return promises
+        $cordovaNativeAudio.preloadSimple('handelskammer', 'app/data/handelskammer.mp3');
+
+        $cordovaNativeAudio.preloadSimple('bus', 'app/data/bus.mp3');
+
+        $cordovaNativeAudio.preloadSimple('bus_faehrt_ein', 'app/data/bus_faehrt_ein.mp3');
+
+    });
+	
+	$scope.play = function(sound) {
 		if($scope.audioIsPlaying == false) {
-			audioplayer.src = path;
-		     audioplayer.play();
-		     $scope.audioIsPlaying = true;
-		     $timeout(function() {
-		    	 $scope.audioIsPlaying = false;
-		     }, 12000);
+        $cordovaNativeAudio.play(sound);
+        $scope.audioIsPlaying = true;
+	     $timeout(function() {
+	    	 $scope.audioIsPlaying = false;
+	     }, 12000);
 		}
-		 
-	};
+    };
+	
 	
 	//values
 	$scope.tourCtrlData = {};
@@ -148,14 +157,18 @@ function( $scope,   $timeout,   $filter,   tourCtrlConfig,   generalService,   b
 		    return a.sort - b.sort;
 		});
     	
-
-    	/*if( $scope.tourCtrlData.showDeviceList[0].uuid === handelskammer.uuid &&
-    		$scope.tourCtrlData.showDeviceList[0].major === handelskammer.major &&
-    		$scope.tourCtrlData.showDeviceList[0].minor === handelskammer.minor
+    	
+    	
+    	if( $scope.tourCtrlData.showDeviceList[0].uuid == handelskammer.uuid &&
+    		$scope.tourCtrlData.showDeviceList[0].major == handelskammer.major &&
+    		$scope.tourCtrlData.showDeviceList[0].minor == handelskammer.minor
     	) {
-    		$scope.play('/app/data/handelskammer.mp3');
+    		
+    		$scope.play('handelskammer');
     	    
     	}
+/*
+    	
     	
     	if( $scope.tourCtrlData.showDeviceList[0].uuid === bus.uuid &&
         		$scope.tourCtrlData.showDeviceList[0].major === bus.major &&

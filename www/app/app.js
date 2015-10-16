@@ -128,7 +128,7 @@ beaconPlayerApp.run([ '$rootScope', '$state', '$ionicPlatform', 'serverBeaconSto
 	//better way
     $rootScope.$on('$locationChangeSuccess', function(e) {
 
-    	/*if (serverBeaconStore.isInitialized() === false) {
+    	if (serverBeaconStore.isInitialized() === false) {
    	    // Prevent $urlRouter's default handler from firing
    	    e.preventDefault();
    	    $rootScope.$broadcast('loading:show', { loading_settings : {template:"<p><ion-spinner></ion-spinner><br/>Loading...</p>"} });
@@ -147,7 +147,7 @@ beaconPlayerApp.run([ '$rootScope', '$state', '$ionicPlatform', 'serverBeaconSto
    	    		$urlRouter.sync();
    	    	}
    	    );
-      }*/
+      }/**/
       	  
    	  // Configures $urlRouter's listener *after* your custom listener
    	  $urlRouter.listen();
@@ -166,11 +166,6 @@ beaconPlayerApp.run([ '$rootScope', '$state', '$ionicPlatform', 'serverBeaconSto
 	    
 		$ionicPlatform.ready(function() {
 			
-			if (ionic.Platform.isIOS()){
-			    	ionic.Platform.fullScreen();
-			    	$cordovaStatusbar.styleHex('#fff');
-			    	$cordovaStatusbar.hide();
-			}
 			
 			// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
 			// for form inputs)
@@ -178,7 +173,7 @@ beaconPlayerApp.run([ '$rootScope', '$state', '$ionicPlatform', 'serverBeaconSto
 				cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
 			}
 
-			if (window.StatusBar) { StatusBar.styleDefault(); }
+			
 		});
 
 } ]);

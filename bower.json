@@ -5,11 +5,11 @@
     "ionic": "driftyco/ionic-bower#1.0.1"
   },
   "dependencies": {
-    "ngCordova": "~0.1.17-alpha",
+    "angular-local-storage": "~0.2.2",
+    "angular-localforage": "~1.2.3",
     "angular-moment": "~0.9.0",
     "fontawesome": "~4.3.0",
     "localforage": "~1.2.4",
-    "angular-localforage": "~1.2.3",
-    "angular-local-storage": "~0.2.2"
+    "ngCordova": "~0.1.20-alpha"
   }
 }
