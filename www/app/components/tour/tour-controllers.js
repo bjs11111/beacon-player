@@ -31,18 +31,33 @@ function( $scope,   $cordovaNativeAudio,   $ionicPlatform,   $timeout,   $filter
 	
 	$scope.audioIsPlaying = false;
 	var audioplayer = new Audio();
+	//swatch
 	var handelskammer = {
-			uuid  : 'E6C56DB5-DFFB-48D2-B088-40F5A81496EE',
-			major : 2,
-			minor : 3
+			uuid  : '699EBC80-E1F3-11E3-9A0F-0CF3EE3BC012',
+			//for testing 
+			//major : 00001,
+			//minor : 11810
+			//reals
+			major : 1,
+			minor : 11969
 	};
+	//battery
 	var bus = {
 			uuid  : '699EBC80-E1F3-11E3-9A0F-0CF3EE3BC012',
+			//for testing 
+			//major : 00001,
+			//minor : 11442
+			//reals
 			major : 1,
 			minor : 11563	
 		};
+	//buggy
 	var bus_faehrt_ein = {
 			uuid  : '699EBC80-E1F3-11E3-9A0F-0CF3EE3BC012',
+			//for testing 
+			//major : 00001,
+			//minor : 11775	
+			//reals
 			major : 1,
 			minor : 12267
 	};
@@ -50,12 +65,36 @@ function( $scope,   $cordovaNativeAudio,   $ionicPlatform,   $timeout,   $filter
 	$ionicPlatform.ready(function() {
         // all calls to $cordovaNativeAudio return promises
         $cordovaNativeAudio.preloadSimple('handelskammer', 'app/data/handelskammer.mp3');
-
         $cordovaNativeAudio.preloadSimple('bus', 'app/data/bus.mp3');
-
         $cordovaNativeAudio.preloadSimple('bus_faehrt_ein', 'app/data/bus_faehrt_ein.mp3');
-
     });
+	
+	function playForNearBeacon() {
+		
+		
+		
+		if( $scope.tourCtrlData.showDeviceList[0].uuid == handelskammer.uuid &&
+	    		$scope.tourCtrlData.showDeviceList[0].major == handelskammer.major &&
+	    		$scope.tourCtrlData.showDeviceList[0].minor == handelskammer.minor
+	    	) 
+	    	{ 
+			$scope.play('handelskammer'); }
+
+	    	
+	    	
+	    	if( $scope.tourCtrlData.showDeviceList[0].uuid == bus.uuid &&
+	        		$scope.tourCtrlData.showDeviceList[0].major == bus.major &&
+	        		$scope.tourCtrlData.showDeviceList[0].minor == bus.minor
+	        ) 
+	    	{ $scope.play('bus'); }
+	    	
+	    	if( $scope.tourCtrlData.showDeviceList[0].uuid == bus_faehrt_ein.uuid &&
+	        		$scope.tourCtrlData.showDeviceList[0].major == bus_faehrt_ein.major &&
+	        		$scope.tourCtrlData.showDeviceList[0].minor == bus_faehrt_ein.minor
+	        ) 
+	    	{ $scope.play('bus_faehrt_ein'); }
+	    	
+	}
 	
 	$scope.play = function(sound) {
 		if($scope.audioIsPlaying == false) {
@@ -158,35 +197,7 @@ function( $scope,   $cordovaNativeAudio,   $ionicPlatform,   $timeout,   $filter
 		});
     	
     	
-    	
-    	if( $scope.tourCtrlData.showDeviceList[0].uuid == handelskammer.uuid &&
-    		$scope.tourCtrlData.showDeviceList[0].major == handelskammer.major &&
-    		$scope.tourCtrlData.showDeviceList[0].minor == handelskammer.minor
-    	) {
-    		
-    		$scope.play('handelskammer');
-    	    
-    	}
-/*
-    	
-    	
-    	if( $scope.tourCtrlData.showDeviceList[0].uuid === bus.uuid &&
-        		$scope.tourCtrlData.showDeviceList[0].major === bus.major &&
-        		$scope.tourCtrlData.showDeviceList[0].minor === bus.minor
-        	) {
-        		$scope.play('/app/data/handelskammer.mp3');
-        	    
-        	}
-    	
-    	if( $scope.tourCtrlData.showDeviceList[0].uuid === bus_faehrt_ein.uuid &&
-        		$scope.tourCtrlData.showDeviceList[0].major === bus_faehrt_ein.major &&
-        		$scope.tourCtrlData.showDeviceList[0].minor === bus_faehrt_ein.minor
-        	) {
-        		$scope.play('/app/data/handelskammer.mp3');
-        	    
-        	}*/
-    	
-       
+    	playForNearBeacon();      
 		
 	}
 
