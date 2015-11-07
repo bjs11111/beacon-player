@@ -4,132 +4,154 @@ in ionic's _variables.scss file.
 
 For example, you might change some of the default colors:
 */
-/*
+/* 
 $light:                           #fff !default;
 $stable:                          #f8f8f8 !default;
 $positive:                        #387ef5 !default;
 $calm:                            #11c1f3 !default;
 $balanced:                        #33cd5f !default;
-$energized:                       #ffc900 !default;
+$energized:                       #FF3E15 !default;
 $assertive:                       #ef473a !default;
 $royal:                           #886aea !default;
 $dark:                            #444 !default;
 */
 
+
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
+
+.collection-item {
+  left: 0;
+  right: 0; 
+}
 
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
-// headerbar
-button#main-back-button span.back-text {
-	display:none !important;
-	color: #f00 !important;
-}
+// Include custom fonts
+@import "www/fonts/fonts";
 
-/*
-ble state directive
-*/
-button.ble-disabled {
-  color: #ccc !important;
-}
+// Include dierctives scss
+@import "www/app/common/directives/ble-state/scss/ble-state";
+@import "www/app/common/directives/info-bar/scss/info-bar";
 
-button.ble-paused {
-  color: #444;
-}
+// Include controllers scss 
+@import "www/app/components/help/scss/help"; 
+@import "www/app/components/tour/scss/tour";
+@import "www/app/components/scanning/scss/scanning";
 
-button.ble-scanning {
-  color: #0c63ee !important;
-}
+/*spinner extendsions*/
 
-/*
-components
-*/
-.content-img {
-border-radius:5px !important;
-}
+  .spinner.spinner-small svg {
+    width: 20px;
+    height: 20px; }
 
-.icon.beacon {
-	left:17px;
-	font-size: 40px;
-}
-.icon.beacon:before{
-
-}
-
-.icon.rssi.stable {
-color:#ccc;
-}
-
-.details {
-margin-left:-57px;
-}
-
-.triggerZone {
- top: 0; 
- right: 51px; 
- display: flex; 
- position:absolute; 
- align-items:center; 
- height: 100%;
- padding: 0;margin: 0;
- }
-
-.item-complex.item-icon-left .item-content {
-padding-left: 72px;
-}
-
-
-
-/*
-custom components
-*/
-//ble-item
-
-
-//start
-
-.gigant {
-margin-top:60px;
-text-align:center;
-text-shadow: 0 -3px 6px rgba(0, 0, 0, 0.176);
-}
-
-i.icon.gigant {
-font-size: 190px !important;
-}
-i#start-icon {
-  font-size: 20px;
-}
-
-.slider {
-  height: 100%;
-}
-
-.slider-slide {
-  padding-top: 120px;
-  color: #000;
-  background-color: #fff;
-  text-align: center;
-
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-  font-weight: 300;
-}
-
-.slider-pager {
-bottom:100px;
-}
-
-.fullscreen-image {
-  max-width: 100%;
-  max-height: 100%;
-  bottom: 0;
-  left: 0;
-  margin: auto;
-  overflow: auto;
- 
-  z-index:-1;
-  right: 0;
+.item-spinner-left .spinner, .item-spinner-right .spinner {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  align-items: center;
+  position: absolute;
   top: 0;
+  height: 100%;
+  font-size: 32px;
+  }
+  
+  .item-spinner-left .spinner:before, .item-spinner-right .spinner:before {
+    display: block;
+    width: 32px;
+    text-align: center;
+  }
+
+.item-spinner-left {
+  padding-left: 54px; }
+  .item-spinner-left .spinner {
+    left: 11px; }
+
+.item-complex.item-spinner-left {
+  padding-left: 0; }
+  .item-complex.item-spinner-left .item-content {
+    padding-left: 54px; }
+
+.item-spinner-right {
+  padding-right: 54px; }
+  .item-spinner-right .spinner {
+    right: 11px; }
+
+.item-complex.item-spinner-right {
+  padding-right: 0; }
+  .item-complex.item-spinner-right .item-content {
+    padding-right: 54px; }
+
+.item-spinner-left.item-spinner-right .spinner:first-child {
+  right: auto; }
+
+.item-spinner-left.item-spinner-right .spinner:last-child, .item-spinner-left .item-delete .spinner {
+  left: auto; }
+
+.item-spinner-left .spinner-accessory, .item-spinner-right .spinner-accessory {
+  color: #ccc;
+  font-size: 16px; }
+
+.item-spinner-left .spinner-accessory {
+  left: 3px; }
+
+.item-spinner-right .spinner-accessory {
+  right: 3px; }
+
+ .button .spinner svg {
+    vertical-align: middle;
+    pointer-events: none; }
+    
+  .button .spinner:before, .button.spinner:before, .button.spinner-left:before, .button.spinner-right:before {
+    display: inline-block;
+    padding: 0 0 1px 0;
+    vertical-align: inherit;
+    font-size: 24px;
+    line-height: 41px;
+    pointer-events: none; }
+    
+  .button.spinner-left:before {
+    float: left;
+    padding-right: .2em;
+    padding-left: 0; }
+    
+  .button.spinner-right:before {
+    float: right;
+    padding-right: 0;
+    padding-left: .2em; }
+           
+    .button.button-positive.button-spinner .spinner svg {
+		
+		stroke: #fff;
+		fill: #fff;
+	}
+ 
+ 
+.ble-info-card {
+	img {
+		margin:auto;
+		width: 100px;
+		height:auto;	
+		display: block;
+    	margin-top: 10px;
+	}
+	
+	h2 {
+	 text-align: center;
+	    margin-bottom: 0px;
+    	margin-top: 0px;
+	}
+	
+	p {
+		font-size: 18px;
+    	font-weight: bold;
+	}
 }

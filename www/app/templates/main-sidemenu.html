@@ -3,21 +3,28 @@
 	<ion-side-menu-content drag-content="false">
     	<ion-nav-bar class="bar-stable nav-title-slide-ios7">
 			
-			<ion-nav-back-button class="button-clear icon" id="main-back-button">
-				<i class="icon ion-ios7-arrow-back"></i>
-			</ion-nav-back-button>
+
 			
 			<ion-nav-buttons side="left">
     			<button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   			</ion-nav-buttons>
       		
       		<ion-nav-buttons side="right" >
-      			<!-- @TODO use ng-model="bleDisabledState" and check $rootscope docs -->
-  				<ng-ble-state ></ng-ble-state>  
+  				<!-- <sit-ble-state></sit-ble-state> -->  
+  				<sit-qr-scanner></sit-qr-scanner>  
   			</ion-nav-buttons>
   			
     	</ion-nav-bar>
     
+    	<!-- 
+    	@TODO create directive for info bar
+    	<info-bar></info-bar>
+    	 -->
+    	
+	    <div class="bar bar-network bar-assertive " ng-if="states.isOffline" >
+			No Internet Connection!
+		</div>
+	
     	<ion-nav-view name="mainContent" animation="slide-left-right">
     	<!-- Main content goes here -->
     	</ion-nav-view>
@@ -30,54 +37,32 @@
     	</header>
     	<ion-content class="has-header">
 		<ion-list>
-			
-	       
-	        <ion-item nav-clear menu-close ui-sref="app.scanning">
-	          Scanning
-	        </ion-item>
-	        
-	         <ion-item nav-clear menu-close ui-sref="app.content-scanning">
-	          Content Scanning
-	        </ion-item>
-	
 	        <ion-item nav-clear menu-close ui-sref="app.help">
 	          Help
 	        </ion-item>
-        
-
-
+	        <ion-item nav-clear menu-close ui-sref="app.tour">
+	          Tour
+	        </ion-item>
+			<ion-item nav-clear menu-close ui-sref="app.ble-devices">
+	          Scanning
+	        </ion-item>
+	       <!--   
+	        <ion-item nav-clear menu-close ui-sref="app.api-devices">
+	          api-devices
+	        </ion-item>
+	        
+	        <ion-item nav-clear menu-close ui-sref="app.scanning">
+	          Mixed-Scanning
+	        </ion-item>
+	    
+	        
+	        <ion-item nav-clear menu-close ui-sref="app.settings">
+	          Settings
+	        </ion-item>
+        -->
       </ion-list>
     </ion-content>
 			
 	</ion-side-menu>
-	<!-- 
-	<ion-side-menu side="right" enable-menu-with-back-views="true">
-		<header class="bar bar-header bar-stable">
-      		<h1 class="title">Content to replace by ui-state</h1>
-    	</header>
-    	<ion-content class="has-header">
-			<ion-list> 
-			<label class="item item-input item-select">
-				<div class="input-label">Sort by:</div> 
-				<select ng-model="orderProp">
-					<option value="deviceType">Alphabetical</option>
-					<option value="lastScan">Newest</option>
-					<option value="rssi">Nearest</option>
-					<option value="major">Major</option>
-					<option value="minor">Minor</option>
-				</select>
-			</label> 
-			<label class="item">
-				<div class="input-label">Trigger: {{trigger}}</div>
-				<div class="item range range-positive">
-					<span>-100</span> 
-					<input type="range" name="trigger" ng-init="trigger=-20" ng-model="trigger" min="-100" max="5" value="0">
-					<span>5</span>
-				</div>
-			</label>
-      </ion-list>
-    </ion-content>
-			
-	</ion-side-menu>
-	 -->
+	
 </ion-side-menus>

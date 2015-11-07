@@ -5,12 +5,15 @@
 	<head>
 	
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">  
 		
 		<title>BeaconPlayer</title>
-	
-    <!-- compiled css output -->
+	 
+    	<!-- compiled css output -->
 		<link id="app-css" href="css/ionic.app.css" rel="stylesheet">
+		
+		<!-- external css -->
+		<link rel="stylesheet" href="lib/fontawesome/css/font-awesome.min.css">
 
 		<script src="lib/ionic/js/ionic.bundle.js"></script>
 		
@@ -19,25 +22,48 @@
 		
 		<!--lib -->
 		<script src="lib/ngCordova/dist/ng-cordova.js"></script>
+		<script src="lib/angular-local-storage/dist/angular-local-storage.min.js"></script>
+		
+
 		<script src="lib/moment/min/moment.min.js"></script>
 		<script src="lib/angular-moment/angular-moment.min.js"></script>
 
-		<!-- your app's js -->
+		<!-- custom directives -->
+		<script src="app/common/directives/ble-state/ble-state.js"></script>
+
+		<!-- custom services -->
+		<script src="app/common/services/helper-services.js"></script>
+		<script src="app/common/services/general-services.js"></script>
+		<script src="app/common/services/ble-channels.js"></script>
+		<script src="app/common/services/ble-scanners.js"></script>
+		<script src="app/common/services/appSettings-services.js"></script>
+		<script src="app/common/services/deviceState-services.js"></script>
+		<script src="app/common/services/deviceManagers-services.js"></script>
+		<script src="app/common/services/beaconAPI-services.js"></script>
+
+		<!-- custom directives -->
+		<script src="app/common/directives/ble-state/ble-state.js"></script>
+		<script src="app/common/directives/qr-scanner/qr-scanner.js"></script>
+		<script src="app/common/directives/ble-list-item/device-list-directives.js"></script>
+		<!-- custom filter -->
+		<script src="app/common/filters/ble-filters.js"></script>
+		 
+		 <!-- your app's js -->
 		<script src="app/app-controllers.js"></script>
 		<script src="app/app.js"></script>
 		
-		<!-- custom components -->
-		<script src="app/components/ble/directives/ble-directives.js"></script>
-		<script src="app/components/ble/services/ble-services.js"></script>
-		<script src="app/components/ble/filters/ble-filters.js"></script>
-		
-		<script src="app/components/bcms/services/bcms-services.js"></script>
 		
 		<!-- site depending components -->
 		<script src="app/components/help/help-controllers.js"></script>
+		<script src="app/components/settings/settings-controllers.js"></script>
+		<script src="app/components/ble-devices/ble-devices-controllers.js"></script>
+		<script src="app/components/api-devices/api-devices-controllers.js"></script>
 		<script src="app/components/scanning/scanning-controllers.js"></script>
-		<script src="app/components/content-scanning/content-scanning-controllers.js"></script>
-		<script src="app/components/scanning_ibeacon/scanning-controllers.js"></script>
+		<script src="app/components/tour/tour-controllers.js"></script>
+
+		<script src="app/components/settings/settings-controllers.js"></script>
+		
+		
 	
 	</head>
 	

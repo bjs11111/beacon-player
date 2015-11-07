@@ -1,0 +1,14 @@
+<ion-view> 
+
+	<ion-nav-title> Settings </ion-nav-title> 
+	<ion-nav-buttons side="left">
+		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+	</ion-nav-buttons> 
+	
+	<ion-content class="has-header"> 
+	        <ion-toggle ng-model="states.autoTriggerState" ng-change="toggleAutoTriggerState()" toggle-class="toggle-balanced">Auto Open Content</ion-toggle>
+	        <ion-toggle ng-model="states.debugState" ng-change="test()" toggle-class="toggle-balanced">Show Debug Information</ion-toggle>
+	        <ion-toggle toggle-class="toggle-balanced">Optimize Beacon Detection</ion-toggle>
+	</ion-content> 
+	
+</ion-view>

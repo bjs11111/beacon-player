@@ -1,0 +1,112 @@
+
+
+/*Help Slider Stylee */
+
+	#helpView .slider 						{height: 100%;}
+	#helpView .slider-slide 				{
+	
+	 }
+	#helpView .slider-slide .slide			{
+		background-color: rgba(255, 255, 255, .85); 
+	
+
+	    text-align:center;
+	    height:100%; 
+	    width:100%; 
+	    padding: 40px 20px 100px 20px;
+	}
+	
+	#helpView .slider-slide .slide .icon {
+		width:120px;
+	}
+	#helpView .slider-slide .slide .fa,
+	#helpView .slider-slide .slide .ion-radio-waves {
+		font-size:9em;
+	}
+	
+	    
+	#helpView .slider-pager 				{
+		position: absolute;
+		bottom: 90px;
+	}
+
+	#helpView h1, #helpView h2, #helpView h3, #helpView h4, #helpView h5, #helpView h6,
+	#helpView .h1, #helpView .h2, #helpView .h3, #helpView .h4, #helpView .h5, #helpView .h6,
+	#helpView a {
+	 	color:#FF3E15;
+	}
+	
+	#helpView h1, #helpView .h1 {
+		font-size: 28px;
+	}
+	
+	#helpView p { 
+		font-size: 16px; 
+		line-height: 24px;
+	}
+	
+	#helpView p,
+	#helpView i,
+	 {
+	 	color:#002B4B;
+	}
+	
+	/*@TODO remove redundant css */
+	
+	#helpView .slider-slide#slide-beaconplayer {
+	 /*background: url("../app/components/help/images/beaconplayer-bg.jpg") no-repeat center center fixed; */
+  	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+ 	background-size: cover;
+	}
+	
+	#helpView .slider-slide#slide-bluetooth {
+	 /*background: url("../app/components/help/images/bluetooth-bg.jpg") no-repeat center center fixed; */
+  	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+ 	background-size: cover;
+	}
+	
+	#helpView .slider-slide#slide-qrscanner {
+	 /*background: url("../app/components/help/images/qrscanner-bg.jpg") no-repeat center center fixed; */
+  	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+ 	background-size: cover;
+	}
+	
+	
+	#helpView .slider-slide#slide-tour {
+	 /*background: url("../app/components/help/images/tour-bg.jpg") no-repeat center center fixed; */
+  	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+ 	background-size: cover;
+	}
+	
+	#helpView .slider-slide#slide-management {
+	 /*background: url("../app/components/help/images/management-bg.jpg") no-repeat center center fixed; */
+  	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+ 	background-size: cover;
+	}
+	
+	#helpView .slider-slide#slide-shop {
+	 /*background: url("../app/components/help/images/shop-bg.jpg") no-repeat center center fixed; */
+  	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+ 	background-size: cover;
+	}
+	
+	#helpView .slider-slide#slide-contribute {
+	 /*background: url("../app/components/help/images/contribute-bg.jpg") no-repeat center center fixed; */
+  	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+ 	background-size: cover;
+ 	
+	}
