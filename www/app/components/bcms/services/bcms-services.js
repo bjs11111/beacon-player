@@ -94,7 +94,6 @@ bcmsServices
 		
 		///////
 		
-		
 		function mapSkyDataBeaconToBcmsBeacon(obj) {
 			var mappedObj = angular.extend({}, obj);
 			mappedObj.iBeaconUuid = hexToIBeaconUuid(mappedObj.idDataUUID.split('x').pop());
