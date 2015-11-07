@@ -1,5 +1,5 @@
 /* Services */
-var bcmsServices = angular.module('bcmsServices', ['bleServices']);
+var bcmsServices = angular.module('bcmsServices', ['bleServices', 'bleFilters']);
 
 bcmsServices
 
@@ -56,27 +56,53 @@ bcmsServices
 }])
 
 //ajax calls
-.factory( 'bcmsAjaxService', ['$http', 'bcmsAjaxServiceConfig', 'bleDeviceServiceConfig', 'bleDeviceService', '$cordovaEvothingsBLE',
-                      function($http,   bcmsAjaxServiceConfig,   bleDeviceServiceConfig,   bleDeviceService,   $cordovaEvothingsBLE) {
+.factory( 'bcmsAjaxService', ['$http','$filter', 'bcmsAjaxServiceConfig', 'bleDeviceServiceConfig', 'bleDeviceService', '$cordovaEvothingsBLE',
+                      function($http,  $filter,  bcmsAjaxServiceConfig,   bleDeviceServiceConfig,   bleDeviceService,   $cordovaEvothingsBLE) {
 
+	 var hexToIBeaconUuid 	= $filter('hexToIBeaconUuid');
+	
 	var refreshBeaconList = function() {
 		
 		var path = bcmsAjaxServiceConfig.basePath + '/' + bcmsAjaxServiceConfig.getBeaconsListPath;
 		var oldData = undefined;
 		
-		return  $http.post(path)			
-		.success(function (data, status, headers, config) { 
-				angular.forEach(data, function(value, key) {
+		
+
+		return   $http({
+ 			    method: 'GET',
+ 			    url: 'app/data/skydataBeacons.json'
+ 			  })			
+		.then(function (data, status, headers, config) { 
+			
+			//console.log(data); 
+			
+				angular.forEach(data.data, function(value, key) {
+					//console.log(value, key);
+					value = mapSkyDataBeaconToBcmsBeacon(value)
+					
+					
 					//add uuid to range
 					$cordovaEvothingsBLE.addIBeaconRange(value.iBeaconUuid);
 					
 					bleDeviceService.mapBeaconDataToKnownDevices(value, bleDeviceServiceConfig.mapTypeBcmsDevice); 
 				});	
 				return true;
-        })
-        .error(function (data, status, headers, config) {
-            return {error : "Error occurred.  Status:" + status};
+        },function (error, status, headers, config) {
+        	console.log(error); 
+           return {error : "Error occurred.  Status:" + status};
         });
+		
+		///////
+		
+		
+		function mapSkyDataBeaconToBcmsBeacon(obj) {
+			var mappedObj = angular.extend({}, obj);
+			mappedObj.iBeaconUuid = hexToIBeaconUuid(mappedObj.idDataUUID.split('x').pop());
+		    mappedObj.bcmsBeaconKey  = mappedObj.iBeaconUuid +'.'+mappedObj.idDataMajorId+'.'+mappedObj.idDataMinorId;
+		    
+			return mappedObj;
+			
+		}
 	
 	}
 	

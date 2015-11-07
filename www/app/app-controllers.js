@@ -61,14 +61,14 @@ appControllers
 			//add then to do something on finieh
 			bcmsAjaxService.refreshBeaconList().then(
 			//success
-			function () {
+			function (data) {
 				//Stop the ion-refresher from spinning
 				//console.log('refreshServerData'); 
 				$scope.$broadcast('scroll.refreshComplete');
 				defer.resolve(data);
 			}, 
 			//error
-			function() {
+			function(errors) {
 				//if request fails close pull to refresh
 				$scope.$broadcast('scroll.refreshComplete');
 				defer.reject(errors); 

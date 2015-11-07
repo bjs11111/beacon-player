@@ -936,7 +936,7 @@ bleServices
     	  var 	bcmsBeaconKey  = deviceData.iBeaconUuid+'.'+deviceData.major+'.'+deviceData.minor,
     	  		inTriggerRange  = false;
 
-    	  data = knownDevicesList[bcmsBeaconKey];
+    	  var data = knownDevicesList[bcmsBeaconKey];
     	  
     	  //update
     	  if( !data ) {
