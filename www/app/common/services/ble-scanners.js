@@ -289,7 +289,7 @@ bleScanners
 
 							// sends notification that a device has been found
 							var foundDevice = function(rawDevice) { 
-								console.log("ble device found");
+								
 								devicesFoundCount++;
 								var preparedDevice = prepareDeviceData(rawDevice);
 								if(preparedDevice !== false) {

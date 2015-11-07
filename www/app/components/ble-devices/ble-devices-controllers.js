@@ -102,7 +102,7 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 		
 	      	//initial stuff 
 	      	var init = function () {
-	      		console.log('init bleDevicesListCtrl'); 
+	      		//console.log('init bleDevicesListCtrl'); 
 	      		startcleaningOldDevicesinterval(2*1000, 10000);
 	      		startUpdateListInterval(1000);
 	      		bleScannerChannel.onFoundBleDevice($scope, onFoundDeviceHandler);

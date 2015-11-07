@@ -217,7 +217,7 @@ bleServices
 		delay = (delay)?delay:1000;
 		stepBreak = (stepBreak)?stepBreak:break2s;
 		var i = 0;
-		console.log(delay, stepBreak); 
+		 
 		//entry at -57dBm 
 		setTimeout(function() {beacon7_1.rssi =-57; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+stepBreak*i++);
 		setTimeout(function() {beacon7_1.rssi =-57; bleNotificationChannel.publishFoundDevice( beacon7_1 ); }, delay+stepBreak*i++);
@@ -238,7 +238,7 @@ bleServices
 		delay = (delay)?delay:1000;
 		stepBreak = (stepBreak)?stepBreak:break2s;
 		var i = 0;
-		console.log(delay, stepBreak); 
+		
 		//near beacon 
 		//rssiCalibration value = B3=>179
 		//rssiOneMeterDistance  = -77
@@ -771,19 +771,19 @@ bleServices
 	  var prepareDeviceData =  function (device) {
 			//IOS
 			if(ionic.Platform.isIOS()) {
-				console.log('ios'); 
+				//console.log('ios'); 
 				return prepareIOSDeviceData(device);
 				
 			}
 			//Android
 			else if(ionic.Platform.isAndroid()) {
-				console.log('android'); 
+				//console.log('android'); 
 				return prepareAndroidDeviceData(device);
 			}
 			//WindowsPhone
 			else if(ionic.Platform.isWindowsPhone()) {
 				//@TODO
-				console.log('windows'); 
+				//console.log('windows'); 
 			}
 	  }
 	  
