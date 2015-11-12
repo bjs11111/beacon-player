@@ -18,9 +18,9 @@ listFilters.filter('lastScanFilter', function() {
 		// Filter Only known Devices
 		angular.forEach(items, function(item, key) {
 			
-			console.log('keyToLastScan:'+(keyToLastScan)+ + JSON.stringify(item[keyToLastScan].lastScan) ); 
+			
 				var lastscan = (keyToLastScan)?item[keyToLastScan].lastScan: item.lastScan;
-			console.log('lastscan: ' + lastscan); 
+	
 				if( Date.now() - lastscan <= msTimeAgo){ 
 					this[key]=item;
 				}

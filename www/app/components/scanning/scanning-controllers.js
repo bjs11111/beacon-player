@@ -47,6 +47,6 @@ scanningControllers.controller('scanningCtrl',
 	      	
 	      	init();
 	    
-	      	console.log('asf adsf das fas fes');
+
 
 }]);

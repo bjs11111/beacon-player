@@ -1,7 +1,7 @@
 /* Controllers of start component */
 //______________________________________________________________________________________
 
-var contentScanningControllers = angular.module('contentScanning.controllers', ['bleServices', 'bcmsServices', 'ngCordova']);
+var contentScanningControllers = angular.module('contentScanning.controllers', ['bleServices','deviceManagers', 'bcmsServices', 'ngCordova']);
 
 
 
@@ -129,9 +129,9 @@ contentScanningControllers.controller( 'contentScanningCtrl',
    				 $scope.receivedDevicesList[key] 			= updatedItem; 
    				 
     			}
-
+    			
     			handleSituation(updatedItem);
-			
+    			
     		};
 
 		};

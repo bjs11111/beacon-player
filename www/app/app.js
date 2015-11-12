@@ -14,9 +14,10 @@ var beaconPlayerApp = angular.module('beaconPlayerApp',
 		  'bleDevicesControllers', 
 		  'apiDevicesControllers', 
 		  'scanningControllers', 
+		
 		  'tourControllers', 
 		  'settingsControllers', 
-		  'beaconAPIServices',
+		  'beaconAPIServices'
 ]);
 
 beaconPlayerApp.config(
@@ -79,6 +80,16 @@ beaconPlayerApp.config(
 				}
 			})
 			/*
+			.state('app.content-scanning', {
+				url : '/content-scanning',
+				views : {
+					'mainContent' : {
+						templateUrl : 'app/components/content-scanning/content-scanning.html',
+						controller 	: 'contentScanningCtrl'
+					}
+				}
+			})
+			
 			.state('app.api-devices', {
 				url : '/api-devices',
 				views : {

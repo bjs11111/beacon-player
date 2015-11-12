@@ -1,5 +1,5 @@
 /* Services */
-var generalServices = angular.module('generalServices', ['ngCordova', 'bleFilters']);
+var generalServices = angular.module('generalServices', ['ngCordova', 'bleFilters','commons.services.localNotificationsManager.factory']);
 
 /*Constants for the bleDeviceService*/
 generalServices.constant("generalServiceConfig", {
@@ -18,8 +18,8 @@ generalServices.constant("generalServiceConfig", {
 
 });
 
-generalServices.factory('generalService', ['$rootScope', '$timeout', '$filter', '$ionicPlatform', '$ionicPopup', '$cordovaNetwork', '$cordovaInAppBrowser', '$cordovaVibration', 'generalServiceConfig',
-                                  function ($rootScope,   $timeout, $filter,   $ionicPlatform,   $ionicPopup,   $cordovaNetwork,   $cordovaInAppBrowser,   $cordovaVibration,   generalServiceConfig) {
+generalServices.factory('generalService', ['$rootScope', '$timeout', '$filter', '$ionicPlatform', '$ionicPopup', '$cordovaNetwork', '$cordovaInAppBrowser', '$cordovaVibration', 'generalServiceConfig','localNotificationsManager',
+                                  function ($rootScope,   $timeout, $filter,   $ionicPlatform,   $ionicPopup,   $cordovaNetwork,   $cordovaInAppBrowser,   $cordovaVibration,   generalServiceConfig, localNotificationsManager) {
 	
 	/* 
 	 * helper functions
