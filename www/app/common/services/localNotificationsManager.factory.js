@@ -21,7 +21,7 @@
 		
 		//
 		var scope = $rootScope.$new(), 
-			scannedBeaconsWithContent = {},
+			notifiedBeacons = {},
 			bcmsBeaconKeyToObjFilter = $filter('bcmsBeaconKeyToObj'),
 			onClickAction = function() {
 				$state.go('app.tour');
@@ -61,41 +61,68 @@
 		 * 
 		**/
 		function schedule(options, scope) {
-			//be shure the phone is ready
-			$ionicPlatform.ready(function() {
-				$cordovaLocalNotification.schedule(options, scope);
-			});
+			
+
+			//console.log( notifiedBeacons[options.data.bcmsBeaconKey].notified <= ( Date.now() - 10000 )  ); 
+			
+			if( !notifiedBeacons[options.data.bcmsBeaconKey] || isToNotify(notifiedBeacons[options.data.bcmsBeaconKey]) ) {
+
+				//be sure the phone is ready
+				$ionicPlatform.ready(function() {
+					notifiedBeacons[options.data.bcmsBeaconKey] = { notified : Date.now(), opened : false };
+					//console.log( 'notify: ', JSON.stringify( options.data ) ); 
+					$cordovaLocalNotification.schedule(options, scope);
+				});
+				
+			} else {
+				
+			}
+			
+			///
+			
+			function isToNotify(device) {
+				
+				if(angular.isObject(device)) {
+					if(device.notified) {
+						if (device.notified <= ( Date.now() - 30000 )) {
+							return true;
+						}
+					}
+				}
+				
+				return false;
+			}
+			
 		};
 		
 		/**
 		 * subEnterTriggerHandler
 		 * 
-		 * 
 		 */
 		function subEnteredTriggerHandler(device) {
 			
 			schedule({
-			    id: 1,
+			    id: device.bcmsBeaconKey,
 			    title: device.bcmsBeacon.contentTitle,
 			    text: "Some more text possible here", 
 			    //firstAt: monday_9_am,
 			    //every: "week",
-			    //sound: "file://sounds/reminder.mp3",
-			    //icon: "http://icons.com/?cal_id=1",
-			    data: { bcmsBeaconKey:device.bcmsBeaconKey }
+			    //sound: "app/data/bus_faehrt_ein.mp3",
+			    //icon: "app/data/gewista.png",
+			    data: { bcmsBeaconKey : device.bcmsBeaconKey }
 			});
 
 			 $rootScope.$on('$cordovaLocalNotification:click',
 					    function (event, notification, state) {
-				 		//console.log('event', JSON.stringify(event) );
-				 
-				 		console.log('notification.data.bcmsBeaconKey', JSON.stringify(notification.data.bcmsBeaconKey) );
+				 		//console.log('open: ',  JSON.stringify(JSON.decode(notification.data)) );
+				 		//notifiedBeacons[notification.data.bcmsBeaconKey].opened = true;
+				 		//console.log('notification.data.bcmsBeaconKey', JSON.stringify(notification.data.bcmsBeaconKey) );
 				 		
 				 		onClickAction();
 					    });
 			
 			
-			console.log('trigger frtom: ', device.bcmsBeaconKey); 
+			//console.log('trigger frtom: ', device.bcmsBeaconKey); 
 		}
 
 	};

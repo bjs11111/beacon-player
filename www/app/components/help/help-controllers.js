@@ -1,25 +1,15 @@
 /* Controllers of start component */
 //______________________________________________
 
-var helpControllers = angular.module('helpControllers', ['ngCordova']);
+var helpControllers = angular.module('helpControllers', []);
 
 /* Main Start Controllers */
 helpControllers.controller('helpCtrl', 
-						   ['$scope','$ionicPlatform','$cordovaLocalNotification', 
-                    function($scope,  $ionicPlatform,  $cordovaLocalNotification) {
+						   ['$scope','$ionicPlatform', 
+                    function($scope,  $ionicPlatform) {
 			console.log('init helpCtrl');	
 			
-			$scope.schedule = schedule;
 			
-			function schedule() {
-				 
-				var options = {},
-					scope = $scope;
-				$ionicPlatform.ready(function() {
-					alert('schedule');
-					$cordovaLocalNotification.schedule(options, scope);
-				});
-			}
 			
 			
 }])
