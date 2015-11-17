@@ -173,13 +173,22 @@ function( $rootScope,   $q,   $filter,   bleDeviceServiceConfig,   bleDeviceChan
        		 */
        		var tryPubTriggerEvent = function(deviceData) {
  
+       			//console.log(deviceData.scanData.lastTriggerArea, deviceData.scanData.actualTriggerArea);
+       			if( !deviceData.scanData || !('lastTriggerArea' in deviceData.scanData)) {
+       				return;
+       			}
        			// outOfRange -> positive || negative -> positive
     			if(		deviceData.scanData.lastTriggerArea 	=== bleDeviceServiceConfig.triggerAreas.outOfRange
     				&&	deviceData.scanData.actualTriggerArea 	=== bleDeviceServiceConfig.triggerAreas.positive
-    				|| 	deviceData.scanData.lastTriggerArea 	=== bleDeviceServiceConfig.triggerAreas.negative
-    				&&	deviceData.scanData.actualTriggerArea 	=== bleDeviceServiceConfig.triggerAreas.positive  ) 
-    			{ 
-					bleDeviceChannel.pubEnteredTriggerArea(deviceData);
+    				
+    				|| 	
+    				
+    				deviceData.scanData.lastTriggerArea 	=== bleDeviceServiceConfig.triggerAreas.negative
+    				&&	deviceData.scanData.actualTriggerArea 	=== bleDeviceServiceConfig.triggerAreas.positive  
+    			) { 
+    				
+					console.log('o-p||n-p:' );
+    				bleDeviceChannel.pubEnteredTriggerArea(deviceData);
 					return;
     			}
     			
@@ -188,16 +197,16 @@ function( $rootScope,   $q,   $filter,   bleDeviceServiceConfig,   bleDeviceChan
     					&&	deviceData.scanData.actualTriggerArea 	=== bleDeviceServiceConfig.triggerAreas.negative  ) 
     			{ 
     				bleDeviceChannel.pubExitTriggerArea(deviceData);
+    				console.log('p-n:');
 					return;
     			}
 	
        		}
        		
        		//this is used to update after serverdata updated   	
-           	var mapForTriggerFunctions = function(actualDevice)  {
-           		//console.log('currentItem.bcmsBeacon' , JSON.stringify(actualDevice.triggerZone)); 
-           		
-           			//console.log( 'actualDevice', JSON.stringify(actualDevice) ); 
+           	var mapForTriggerFunctions = function(scanData)  {
+
+           			//console.log( 'actualDevice', JSON.stringify(scanData) ); 
            			var triggerZone = bleDeviceServiceConfig.triggerZones.noServerConfig.name;
            		
 	           		var defaultData = {};
@@ -207,63 +216,57 @@ function( $rootScope,   $q,   $filter,   bleDeviceServiceConfig,   bleDeviceChan
 						defaultData.scanData.actualTriggerArea 	= bleDeviceServiceConfig.triggerAreas.outOfRange;
 						defaultData.scanData.lastRssiValue		= -100;
 						//console.log('defaultData.scanData.actualTriggerArea', JSON.stringify(defaultData.scanData.actualTriggerArea) ); 
-           			var oldItem = knownDevicesList[actualDevice.bcmsBeaconKey];
-           				oldItem = (oldItem)? oldItem : {};
-           				 
+           			var oldItem = knownDevicesList[scanData.bcmsBeaconKey];
+           				oldItem = (oldItem)? oldItem : false; 
+           				// console.log('oldItem:', oldItem);
            			//a new reference
-           			var updatedItem = {};
-           			updatedItem.scanData = angular.extend(defaultData.scanData , oldItem, actualDevice.scanData);
+           			var updatedScanData = angular.copy(scanData);
+           			//console.log(JSON.stringify(updatedScanData));
            			
-           		    updatedItem.scanData.lastRssiValue 		= updatedItem.scanData.rssi;
-           			updatedItem.scanData.lastTriggerArea 	= updatedItem.scanData.actualTriggerArea;
-
+           			//console.log(actualDevice.bcmsBeacon.triggerZone, triggerZone);
            			
-           			//console.log('updatedItem.bcmsBeacon', updatedItem.bcmsBeacon); 
-           			
-           			if(updatedItem.bcmsBeacon) {
-           				triggerZone = (updatedItem.bcmsBeacon.triggerZone)?updatedItem.bcmsBeacon.triggerZone : triggerZone;
-           			}
-           			
-           			//console.log('trz', triggerZone); 
-           			updatedItem.scanData.actualTriggerArea 	= calculateActualTriggerArea(updatedItem.scanData, triggerZone);
-           			
-           			
-           			actualDevice.scanData = updatedItem.scanData; 
-           			//console.log(actualDevice.scanData.actualTriggerArea); 
-           			/*
-           			//item is not in list 
-           			//add item to list
            			if(!oldItem) {
-           					//updatedItem  = angular.extend(updatedItem, newItem);
-           					console.log('add');
-           					//add triggerhandling values
-           					
-           					
-           					//cannedBeaconsWithContent[key] 		= updatedItem;
-           			}
-           			//update
-           			else {
-          				 //updatedItem  = angular.extend(updatedItem, oldItem, newItem);
-          				 
-          				 //updatedItem.scanData.alreadyTriggered 		= oldItem.scanData.alreadyTriggered;
-          				 //updatedItem.scanData.lastTriggerArea 		= currentItem.scanData.actualTriggerArea;
-          				 //updatedItem.scanData.actualTriggerArea 		= bleDeviceService.calculateActualTriggerArea(updatedItem); 
-          				 //updatedItem.scanData.lastRssiValue			= updatedItem.scanData.rssi;
-          				 //updatedItem.rssi								= updatedItem.scanData.rssi;
-           			}
-           			*/
-           			
-           			//console.log(updatedItem.lastRssiValue, updatedItem.actualTriggerArea); 
-           			
-           			return actualDevice;
+           				//console.log('new');
+           				
+           					updatedScanData = angular.extend(updatedScanData, defaultData.scanData);
+               				console.log('new');
+    	    				console.log(JSON.stringify(updatedScanData.actualTriggerArea));
+               				//console.log('fresh trigger', updatedScanData.actualTriggerArea);
+           				//console.log(updatedScanData); 
+           				//console.log('return when fail;'); 
+	    			}
+	    			//update
+	    			else {
+	    				console.log('old');
+	    				console.log(JSON.stringify(scanData.actualTriggerArea)); 
+	    				updatedScanData.alreadyTriggered 		= updatedScanData.alreadyTriggered;
+	    				updatedScanData.lastTriggerArea 		= updatedScanData.actualTriggerArea;
+	    				
+	    				//console.log('old trigger', updatedScanData.actualTriggerArea);
+	    				if(oldItem.bcmsBeacon) {
+	           				triggerZone = (oldItem.bcmsBeacon.triggerZone)?oldItem.bcmsBeacon.triggerZone : triggerZone;
+	           			}
+	           			
+	    				console.log( 'triggerArea', calculateActualTriggerArea(updatedScanData, triggerZone) );
+					 	updatedScanData.actualTriggerArea 	= calculateActualTriggerArea(updatedScanData, triggerZone);
+	   				 	//console.log('new trigger', updatedScanData.actualTriggerArea);
+	   				 	updatedScanData.lastRssiValue			= updatedScanData.rssi;
+	   				 	//updatedScanData.rssi					= updatedScanData.rssi;
+	   					//console.log('odl'); 
+	    				//console.log(JSON.stringify(updatedScanData));  
+	    			}
+
+           			return updatedScanData;
            			
            			/////////////////////////////
-           			
+           			 
            			function calculateActualTriggerArea(deviceData, triggerZone) {
            				
            				var ThresholdOffset = undefined;
            				var willEntry = undefined;
            				
+           				
+           				//console.log(deviceData.lastTriggerArea); return;
            				//detect willEntry value
            				//will entry or stay
            				if(		deviceData.lastTriggerArea === bleDeviceServiceConfig.triggerAreas.negative
@@ -274,34 +277,44 @@ function( $rootScope,   $q,   $filter,   bleDeviceServiceConfig,   bleDeviceChan
            				{ willEntry = false; } 
            				
            				if(willEntry === undefined) { 
-           					console.log('SCANTEST: willEntry is undefined: ' + deviceData.lastTriggerArea + '=>' + deviceData.actualTriggerArea); 
+           					//console.log( 'SCANTEST: willEntry is undefined: ' + deviceData.lastTriggerArea + '=>' + deviceData.actualTriggerArea); 
            					return; 
            				}
            				
            				//console.log('willEntry', willEntry);
-	
+           				
+           				//console.log('triggerZone', triggerZone);
+           				
            				switch(triggerZone) {
            					case bleDeviceServiceConfig.triggerZones.near.name:
+           						//console.log('near willEntry' , willEntry); 
            						ThresholdOffset = (willEntry)?bleDeviceServiceConfig.triggerZones.near.entryThresholdOffset:bleDeviceServiceConfig.triggerZones.near.exitThresholdOffset;
            					break;
            					case bleDeviceServiceConfig.triggerZones.intermediate.name:
+           						//console.log('intermediate willEntry' , willEntry); 
            						ThresholdOffset = (willEntry)?bleDeviceServiceConfig.triggerZones.intermediate.entryThresholdOffset:bleDeviceServiceConfig.triggerZones.intermediate.exitThresholdOffset;
            					break;
            					case bleDeviceServiceConfig.triggerZones.far.name:
+           						//console.log('far willEntry' , willEntry); 
            						ThresholdOffset = (willEntry)?bleDeviceServiceConfig.triggerZones.far.entryThresholdOffset:bleDeviceServiceConfig.triggerZones.far.exitThresholdOffset;
            					break;	
            					default:
            						//console.log('noServerConfig');
-           					ThresholdOffset = (willEntry)?bleDeviceServiceConfig.triggerZones.noServerConfig.entryThresholdOffset:bleDeviceServiceConfig.triggerZones.noServerConfig.exitThresholdOffset;
+           						ThresholdOffset = (willEntry)?bleDeviceServiceConfig.triggerZones.noServerConfig.entryThresholdOffset:bleDeviceServiceConfig.triggerZones.noServerConfig.exitThresholdOffset;
            						break;
            				}
            				
-           				if(ThresholdOffset === undefined) { 
+           				if(ThresholdOffset === undefined) {  
            					//console.log('ThresholdOffset is undefined'); 
            					return; 
            				}
-           					
-           				if(deviceData.rssi >= deviceData.rssiOneMeterDistance  + ThresholdOffset) 
+           				 
+           				//console.log( 'ThresholdOffset: ', ThresholdOffset ); 
+           				//console.log( 'deviceData.rssi : ', deviceData.rssi ); 
+           				//console.log( 'deviceData.rssiOneMeterDistance  + ThresholdOffset', deviceData.rssiOneMeterDistance  + ThresholdOffset); 
+           				//console.log( deviceData.rssi + '>='+ deviceData.rssiOneMeterDistance +'+'+ ThresholdOffset); 
+           				
+           				if( deviceData.rssi >= deviceData.rssiOneMeterDistance  + ThresholdOffset) 
            				{
            					return bleDeviceServiceConfig.triggerAreas.positive;
            				}
@@ -324,31 +337,37 @@ function( $rootScope,   $q,   $filter,   bleDeviceServiceConfig,   bleDeviceChan
 	             	  		currentItem = angular.isObject(knownDevicesList[bcmsBeaconKey])?knownDevicesList[bcmsBeaconKey]:{};
 	             	  		
 	             	  		//if empty
-	             	  		currentItem = angular.extend(currentItem, defaultData);
+	             	  		currentItem.bcmsBeaconKey = bcmsBeaconKey;
 
 	             	
 	             	  //device from ble scanner
 	         		  if ( type == bleDeviceServiceConfig.mapTypeBleDevice ) {
-	         			 currentItem.scanData = deviceData;
+	         			  console.log('map', JSON.stringify(mapForTriggerFunctions(deviceData))); 
+	         			 currentItem.scanData = mapForTriggerFunctions(deviceData);
+	         			  
+	         			// currentItem.scanData = deviceData;
 	             	  } 
 	             	  //bcmsData
 	             	  else if ( bleDeviceServiceConfig.mapTypeAPIDevice ) {
 	             		  currentItem.bcmsBeacon = deviceData; 
 	             	  } 
 	             	  else {
-	             		  //console.log('mapBeaconDataToKnownDevices check this!'); 
-	             		  return;
+	             		  //console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!mapBeaconDataToKnownDevices check this!'); 
+	             		  return; 
 	             	  }         
 	         		  
+	         		//console.log('pre',  JSON.stringify(currentItem) ); 
+	         		  
+	         		 
+	         		 console.log('post',  JSON.stringify(currentItem.scanData) ); 
 	         		
-	         		 currentItem = mapForTriggerFunctions(currentItem);
-	         		 tryPubTriggerEvent(currentItem);
-	         		 //console.log('after data: ', JSON.stringify(currentItem));
+	         		 //console.log('after data: ', JSON.stringify(bcmsBeaconKey));
 	         		  
 	         		 knownDevicesList[bcmsBeaconKey] = currentItem;
 	         		 
 	         		 
 	         		 
+	         		 tryPubTriggerEvent(currentItem);
 	         		 bleDeviceChannel.pubKnownDeviceUpdated(bcmsBeaconKey);
 
                }
@@ -370,7 +389,7 @@ function( $rootScope,   $q,   $filter,   bleDeviceServiceConfig,   bleDeviceChan
 	         	         			mapBeaconDataToKnownDevices(bcmsBeacon, bleDeviceServiceConfig.mapTypeAPIDevice);  
 	         	         		 });
 	         				},function(error) {
-	         					console.log('error',error);
+	         					//console.log('error',error);
 	         				}
 	         			);
          		

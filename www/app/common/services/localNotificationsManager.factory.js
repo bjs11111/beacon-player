@@ -23,10 +23,40 @@
 		var scope = $rootScope.$new(), 
 			notifiedBeacons = {},
 			bcmsBeaconKeyToObjFilter = $filter('bcmsBeaconKeyToObj'),
+			appIsInBackground = false,
 			onClickAction = function() {
 				$state.go('app.tour');
 			};
-		
+			
+		//listeners
+		 $rootScope.$on('$cordovaLocalNotification:click',
+				    function (event, notification, state) {
+			 		//console.log('open: ',  JSON.stringify(JSON.decode(notification.data)) );
+			 		//notifiedBeacons[notification.data.bcmsBeaconKey].opened = true;
+			 		//console.log('notification.data.bcmsBeaconKey', JSON.stringify(notification.data.bcmsBeaconKey) );
+			 		delete notifiedBeacons[notification.data.bcmsBeaconKey];
+			 		onClickAction();
+				    });
+		 
+		 $rootScope.$on('$cordovaLocalNotification:cancel',
+				    function (event, notification, state) {
+			 		//console.log('open: ',  JSON.stringify(JSON.decode(notification.data)) );
+			 	console.log('cancel klicked'); 
+			 		delete notifiedBeacons[notification.data.bcmsBeaconKey];
+		 }); 
+		 
+		//on app resume
+		$ionicPlatform.on('resume', function() {
+			console.log('APPTEST: on resume');
+			appIsInBackground = false;
+		});
+			
+		//on app paused
+		$ionicPlatform.on('pause', function() {
+			console.log('APPTEST: on pause'); 
+			appIsInBackground = true;
+		});		 
+	
 		//
 		var NotificationChannelService = {
 				schedule : schedule,
@@ -63,10 +93,11 @@
 		function schedule(options, scope) {
 			
 
-			//console.log( notifiedBeacons[options.data.bcmsBeaconKey].notified <= ( Date.now() - 10000 )  ); 
+			//console.log( !notifiedBeacons[options.data.bcmsBeaconKey] , isToNotify(notifiedBeacons[options.data.bcmsBeaconKey]) , appIsInBackground ); 
 			
-			if( !notifiedBeacons[options.data.bcmsBeaconKey] || isToNotify(notifiedBeacons[options.data.bcmsBeaconKey]) ) {
+			if( ( !notifiedBeacons[options.data.bcmsBeaconKey] || isToNotify(notifiedBeacons[options.data.bcmsBeaconKey]) ) && appIsInBackground === true) {
 
+				
 				//be sure the phone is ready
 				$ionicPlatform.ready(function() {
 					notifiedBeacons[options.data.bcmsBeaconKey] = { notified : Date.now(), opened : false };
@@ -84,7 +115,8 @@
 				
 				if(angular.isObject(device)) {
 					if(device.notified) {
-						if (device.notified <= ( Date.now() - 30000 )) {
+						
+						if ( (device.notified <= ( Date.now() - 30000 ) ) && !notifiedBeacons[options.data.bcmsBeaconKey] ) {
 							return true;
 						}
 					}
@@ -111,19 +143,10 @@
 			    //icon: "app/data/gewista.png",
 			    data: { bcmsBeaconKey : device.bcmsBeaconKey }
 			});
-
-			 $rootScope.$on('$cordovaLocalNotification:click',
-					    function (event, notification, state) {
-				 		//console.log('open: ',  JSON.stringify(JSON.decode(notification.data)) );
-				 		//notifiedBeacons[notification.data.bcmsBeaconKey].opened = true;
-				 		//console.log('notification.data.bcmsBeaconKey', JSON.stringify(notification.data.bcmsBeaconKey) );
-				 		
-				 		onClickAction();
-					    });
-			
-			
 			//console.log('trigger frtom: ', device.bcmsBeaconKey); 
 		}
+		
+		
 
 	};
 
