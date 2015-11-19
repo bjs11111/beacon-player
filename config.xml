@@ -8,6 +8,7 @@
   </author>
   <content src="index.html"/>
   <access origin="*"/>
+  <!--  <access origin="http://**/*" />-->
   <allow-navigation href="*"/>
   <preference name="orientation" value="portrait"/>
   <preference name="webviewbounce" value="false"/>

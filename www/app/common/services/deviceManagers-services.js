@@ -204,9 +204,11 @@ function( $rootScope,   $q,   $filter,   bleDeviceServiceConfig,   bleDeviceChan
        		}
        		
        		//this is used to update after serverdata updated   	
-           	var mapForTriggerFunctions = function(scanData)  {
-
-           			//console.log( 'actualDevice', JSON.stringify(scanData) ); 
+           	var mapForTriggerFunctions = function(scanData, bcmsBeaconKey)  {
+           		
+           			var updatedScanData = angular.copy(scanData);
+           		
+           			//console.log( 'bcmsBeaconKey', JSON.stringify(bcmsBeaconKey) ); 
            			var triggerZone = bleDeviceServiceConfig.triggerZones.noServerConfig.name;
            		
 	           		var defaultData = {};
@@ -216,11 +218,11 @@ function( $rootScope,   $q,   $filter,   bleDeviceServiceConfig,   bleDeviceChan
 						defaultData.scanData.actualTriggerArea 	= bleDeviceServiceConfig.triggerAreas.outOfRange;
 						defaultData.scanData.lastRssiValue		= -100;
 						//console.log('defaultData.scanData.actualTriggerArea', JSON.stringify(defaultData.scanData.actualTriggerArea) ); 
-           			var oldItem = knownDevicesList[scanData.bcmsBeaconKey];
+           			var oldItem = knownDevicesList[bcmsBeaconKey];
            				oldItem = (oldItem)? oldItem : false; 
-           				// console.log('oldItem:', oldItem);
+           				 console.log('oldItem:', oldItem);
            			//a new reference
-           			var updatedScanData = angular.copy(scanData);
+           			
            			//console.log(JSON.stringify(updatedScanData));
            			
            			//console.log(actualDevice.bcmsBeacon.triggerZone, triggerZone);
@@ -339,37 +341,42 @@ function( $rootScope,   $q,   $filter,   bleDeviceServiceConfig,   bleDeviceChan
 	             	  		//if empty
 	             	  		currentItem.bcmsBeaconKey = bcmsBeaconKey;
 
-	             	
+	             	console.log(type);
 	             	  //device from ble scanner
 	         		  if ( type == bleDeviceServiceConfig.mapTypeBleDevice ) {
-	         			  console.log('map', JSON.stringify(mapForTriggerFunctions(deviceData))); 
-	         			 currentItem.scanData = mapForTriggerFunctions(deviceData);
+	         			  console.log('map1', JSON.stringify(currentItem.scanData) ); 
+	         			  
+	         			  if(!('scanData' in currentItem)) {
+	         				 console.log('first');
+	         				 currentItem.scanData = {};
+	         			  }
+	         			 currentItem.scanData = angular.extend(currentItem.scanData , deviceData);
+	         			  
+	         			  console.log('map2', JSON.stringify(currentItem.scanData)); 
+	         			  currentItem.scanData = mapForTriggerFunctions(currentItem.scanData, currentItem.bcmsBeaconKey);
+	         			 console.log('map3', JSON.stringify(currentItem.scanData)); 
 	         			  
 	         			// currentItem.scanData = deviceData;
 	             	  } 
 	             	  //bcmsData
 	             	  else if ( bleDeviceServiceConfig.mapTypeAPIDevice ) {
-	             		  currentItem.bcmsBeacon = deviceData; 
+	             		  currentItem.bcmsBeacon = deviceData;
 	             	  } 
 	             	  else {
-	             		  //console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!mapBeaconDataToKnownDevices check this!'); 
+	             		  console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!mapBeaconDataToKnownDevices check this!'); 
 	             		  return; 
 	             	  }         
 	         		  
-	         		//console.log('pre',  JSON.stringify(currentItem) ); 
-	         		  
-	         		 
-	         		 console.log('post',  JSON.stringify(currentItem.scanData) ); 
+	         		 //console.log('pre',  JSON.stringify(currentItem) ); 
+
+	         		 //console.log('post',  JSON.stringify(currentItem.scanData) ); 
 	         		
 	         		 //console.log('after data: ', JSON.stringify(bcmsBeaconKey));
 	         		  
 	         		 knownDevicesList[bcmsBeaconKey] = currentItem;
-	         		 
-	         		 
-	         		 
+
 	         		 tryPubTriggerEvent(currentItem);
 	         		 bleDeviceChannel.pubKnownDeviceUpdated(bcmsBeaconKey);
-
                }
                
                
@@ -394,8 +401,6 @@ function( $rootScope,   $q,   $filter,   bleDeviceServiceConfig,   bleDeviceChan
 	         			);
          		
          	  };
-         	  
-         	 
          	  
          	  var init = function() {
          		bleScannerChannel.onFoundBleDevice(scope, onFoundBleDeviceHandler);
