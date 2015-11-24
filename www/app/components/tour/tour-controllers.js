@@ -39,7 +39,7 @@ function( $scope,   $cordovaNativeAudio,   $ionicPlatform,   $timeout,   $filter
 			//minor : 11810
 			//reals
 			major : 1,
-			minor : 11969
+			minor : 12812
 	};
 	//battery
 	var bus = {
@@ -49,7 +49,7 @@ function( $scope,   $cordovaNativeAudio,   $ionicPlatform,   $timeout,   $filter
 			//minor : 11442
 			//reals
 			major : 1,
-			minor : 11563	
+			minor : 13548	
 		};
 	//buggy
 	var bus_faehrt_ein = {
@@ -59,8 +59,9 @@ function( $scope,   $cordovaNativeAudio,   $ionicPlatform,   $timeout,   $filter
 			//minor : 11775	
 			//reals
 			major : 1,
-			minor : 12267
+			minor : 12975
 	};
+
 	
 	$ionicPlatform.ready(function() {
         // all calls to $cordovaNativeAudio return promises
