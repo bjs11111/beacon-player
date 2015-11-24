@@ -24,26 +24,86 @@
 			notifiedBeacons = {},
 			bcmsBeaconKeyToObjFilter = $filter('bcmsBeaconKeyToObj'),
 			appIsInBackground = false,
+			idCount = 0,
 			onClickAction = function() {
 				$state.go('app.tour');
 			};
 			
-		//listeners
-		 $rootScope.$on('$cordovaLocalNotification:click',
+		 //listeners
+		/* $rootScope.$on('$cordovaLocalNotification:click',
 				    function (event, notification, state) {
 			 		//console.log('open: ',  JSON.stringify(JSON.decode(notification.data)) );
 			 		//notifiedBeacons[notification.data.bcmsBeaconKey].opened = true;
 			 		//console.log('notification.data.bcmsBeaconKey', JSON.stringify(notification.data.bcmsBeaconKey) );
 			 		delete notifiedBeacons[notification.data.bcmsBeaconKey];
-			 		onClickAction();
-				    });
+			 		
+				    });*/
+		 
+		
+	
+		 
+		 $rootScope.$on('$cordovaLocalNotification:schedule',
+				    function (event, notification, state) {
+			 		console.log('scheduled'); 
+		 }); 
+		 
+		 $rootScope.$on('$cordovaLocalNotification:trigger',
+				    function (event, notification, state) {
+			 		console.log('trigger'); 
+		 }); 
+		 
+		 $rootScope.$on('$cordovaLocalNotification:update',
+				    function (event, notification, state) {
+			 		console.log('update'); 
+		 }); 
+		 
+		 $rootScope.$on('$cordovaLocalNotification:clear',
+				    function (event, notification, state) {
+			 		console.log('clear'); 
+			 		var decodedNotificationData = JSON.parse(notification.data);
+			 		
+			 		if(notifiedBeacons[decodedNotificationData.bcmsBeaconKey]) {
+			 			notifiedBeacons[decodedNotificationData.bcmsBeaconKey].clearedAt = Date.now();
+			 		}
+			 		
+		 }); 
+		 
+		 $rootScope.$on('$cordovaLocalNotification:clearall',
+				    function (event, notification, state) {
+			 		console.log('clearall'); 
+		 }); 
+		 
 		 
 		 $rootScope.$on('$cordovaLocalNotification:cancel',
 				    function (event, notification, state) {
 			 		//console.log('open: ',  JSON.stringify(JSON.decode(notification.data)) );
-			 	console.log('cancel klicked'); 
-			 		delete notifiedBeacons[notification.data.bcmsBeaconKey];
+			 		console.log('cancel klicked'); 
+			 		var decodedNotificationData = JSON.parse(notification.data);
+			 		if(notifiedBeacons[decodedNotificationData.bcmsBeaconKey]) {
+			 			notifiedBeacons[decodedNotificationData.bcmsBeaconKey].canceledAt = Date.now();
+			 		}
 		 }); 
+		 
+		 
+		 $rootScope.$on('$cordovaLocalNotification:cancelall',
+				    function (event, notification, state) {
+			 		console.log('cancelall'); 
+		 }); 
+	
+		 $rootScope.$on('$cordovaLocalNotification:click',
+				    function (event, notification, state) {
+			 		console.log('click klicked'); 
+			 		var decodedNotificationData = JSON.parse(notification.data);
+			 		if(notifiedBeacons[decodedNotificationData.bcmsBeaconKey]) {
+			 		notifiedBeacons[decodedNotificationData.bcmsBeaconKey].openedAt = Date.now();
+			 		}
+			 		onClickAction();
+		 }); 
+		
+		 
+		
+		 
+		 
 		 
 		//on app resume
 		$ionicPlatform.on('resume', function() {
@@ -93,37 +153,73 @@
 		function schedule(options, scope) {
 			
 
-			//console.log( !notifiedBeacons[options.data.bcmsBeaconKey] , isToNotify(notifiedBeacons[options.data.bcmsBeaconKey]) , appIsInBackground ); 
 			
-			if( ( !notifiedBeacons[options.data.bcmsBeaconKey] || isToNotify(notifiedBeacons[options.data.bcmsBeaconKey]) ) && appIsInBackground === true) {
-
+			
+			//if the app runs in background and 
+			//the item is not the list or it is in the list and we want to notify the item
+			if( ( !notifiedBeacons[options.data.bcmsBeaconKey] || isToNotify(notifiedBeacons[options.data.bcmsBeaconKey])  ) && appIsInBackground === true) {
+//( !notifiedBeacons[options.data.bcmsBeaconKey] ||  ) &&
 				
 				//be sure the phone is ready
 				$ionicPlatform.ready(function() {
-					notifiedBeacons[options.data.bcmsBeaconKey] = { notified : Date.now(), opened : false };
-					//console.log( 'notify: ', JSON.stringify( options.data ) ); 
+					
+					
+					notifiedBeacons[options.data.bcmsBeaconKey] = { 
+																		id : idCount++,//parstInt(bcmsbeaconKeyToInt(options.data.bcmsBeaconKey) )
+																		notified : Date.now(), 
+																		openedAt : false, 
+																		clearedAt : false,
+																		canceledAt : false
+																   };
+					
+					//set id 
+					options.id = notifiedBeacons[options.data.bcmsBeaconKey].id;
+					//console.log( 'JSON.stringify( options) = ', JSON.stringify( options ) ); 
+					
+					//console.log( 'notify: ', JSON.stringify( options.data.bcmsBeaconKey ) ); 
+					//console.log( 'id: ', JSON.stringify( options.id ) ); 
 					$cordovaLocalNotification.schedule(options, scope);
 				});
 				
-			} else {
+		} 
+				//else {
 				
-			}
+			//}
 			
 			///
 			
 			function isToNotify(device) {
+				var notificationPause = 1000 * 40;
 				
-				if(angular.isObject(device)) {
-					if(device.notified) {
+				//console.log('isToNotify'); 
+				
+				if(!angular.isObject(device)) {
+					//console.log('isObject'); 
+					return false; 
+				}
+				
+				if(	   device.openedAt != false 
+					|| device.clearedAt != false) {
+					//console.log('device.openedAt:' , device.openedAt);
+					//console.log('device.clearedAt:' , device.clearedAt);
 						
-						if ( (device.notified <= ( Date.now() - 30000 ) ) && !notifiedBeacons[options.data.bcmsBeaconKey] ) {
+						if ( device.notified <= ( Date.now() - notificationPause ) ) {
+							//console.log(device.notified, ( Date.now() - notificationPause ) );
 							return true;
 						}
 					}
-				}
+				
+				//console.log('device.notified:' , device.notified);
+				 
+				//console.log('( Date.now() - 300000 ):' , Date.now() - notificationPause);
+				
+				//console.log(' diff' ,  (device.notified -  (Date.now() - notificationPause) ));
+				
 				
 				return false;
 			}
+				
+				
 			
 		};
 		
@@ -132,20 +228,30 @@
 		 * 
 		 */
 		function subEnteredTriggerHandler(device) {
+			//console.log( 'JSON.stringify(device)', JSON.stringify(device.bcmsBeacon) ); 
 			
-			schedule({
-			    id: device.bcmsBeaconKey,
-			    title: device.bcmsBeacon.contentTitle,
-			    text: "Some more text possible here", 
-			    //firstAt: monday_9_am,
-			    //every: "week",
-			    //sound: "app/data/bus_faehrt_ein.mp3",
-			    //icon: "app/data/gewista.png",
-			    data: { bcmsBeaconKey : device.bcmsBeaconKey }
-			});
-			//console.log('trigger frtom: ', device.bcmsBeaconKey); 
+			if('bcmsBeacon' in device) {
+				
+				if('contentTitle' in device.bcmsBeacon) {
+					schedule({
+					   
+					    title : device.bcmsBeacon.contentTitle,
+					    text  : "Some more text possible here", 
+					    //firstAt: monday_9_am,
+					    //every: "week",
+					    //sound: "app/data/bus_faehrt_ein.mp3",
+					    //icon: "app/data/gewista.png",
+					    data: { bcmsBeaconKey : device.bcmsBeaconKey }
+					});
+					
+				}
+				
+			} 
+			else {
+				//console.log('no contentTitle forr notification'); 
+			}
+
 		}
-		
 		
 
 	};
