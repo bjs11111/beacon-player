@@ -5,11 +5,11 @@
 angular
     .module('drupalionicDemo.app.controller', ['ngDrupal7Services-3_x.commons.authentication', 'ngDrupal7Services-3_x.commons.directives.toggleByAccesslevel'])
     .controller('AppController', AppController);
-
-	AppController.$inject = ['$state','$ionicSideMenuDelegate','AuthenticationServiceConstant', 'AuthenticationService'];
+	//@TODO try to use $scope to listen on events instead of $rootScope
+	AppController.$inject = ['$rootScope','$state','$ionicSideMenuDelegate','AuthenticationServiceConstant','AuthenticationService'];
 
 	/** @ngInject */ 
-	function AppController(   $state,  $ionicSideMenuDelegate,  AuthenticationServiceConstant,   AuthenticationService ) 
+	function AppController(   $rootScope,  $state,  $ionicSideMenuDelegate,  AuthenticationServiceConstant,   AuthenticationService ) 
 	{ 
 		// jshint validthis: true 
 		var vm = this;
@@ -19,6 +19,29 @@ angular
 		vm.loggingOut = false;
 		
 		vm.doLogout = doLogout;
+		
+		//hold phone states
+		vm.states = {};
+		vm.states.isOffline = false;
+	  	
+	    // listen for Online event
+	    $rootScope.$on('$cordovaNetwork:online', function(event, networkState){
+	    	vm.states.isOffline = false;
+	    	
+	    	if(!serverBeaconStore.isInitialized()) {
+	    		serverBeaconStore.updateBeaconList().then(
+	    		   	    	function() {
+	    		   	    		sitBleScanner.startScanning();
+	    		   	    	},
+	    		   	    	function() {});
+	    	}
+	    	
+	    });
+
+	    // listen for Offline event
+	    $rootScope.$on('$cordovaNetwork:offline', function(event, networkState){
+	    	vm.states.isOffline = true;
+	    });
 		
 		///////////////////////
 		
@@ -38,8 +61,7 @@ angular
 		 				function() {
 		 					vm.loggingOut = false;
 		 				}
-	 				);
-			 
+	 				); 
 		}
 	   
 		

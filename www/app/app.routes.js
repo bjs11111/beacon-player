@@ -7,8 +7,9 @@
                                               'drupalionicDemo.app.controller', 
                                               'drupalionicDemo.login.controller',
                                               'drupalionicDemo.profile.controller',
-                                              'drupalionicDemo.articleFeed.controller',
-                                              'drupalionicDemo.articleFeed.service']) 
+                                              'commons.services.cms.beaconAPIServices',
+                                              'commons.services.ble.bleScanners.factory'
+                                              ]) 
     .config(configFunction)
     .run(runFunction);
 
@@ -60,32 +61,17 @@
             }
        })
        
-       .state('app.articleFeed', {
-            url: '/article-feed',
-            views : {
-            	'menuContent' : {
-            		 templateUrl	: 'app/components/articleFeed/articleFeed.view.html',
-                     controller		: 'ArticleFeedController as articleFeed'
-            	}
-            },
-            resolve : {
-	        	actualArticles : function (ArticleFeedService, $rootScope) {
-	        		$rootScope.$broadcast('loading:show', { loading_settings : {template:"<p><ion-spinner></ion-spinner><br/>Loading initial articles...</p>"} });
-	        		return ArticleFeedService.getAll().finally(function(){$rootScope.$broadcast('loading:hide');});
-	        	}
-	        }
-       })
-
+       
        ;
 	    
 	};
 	
 	
-	runFunction.$inject = ['$rootScope', 'AuthenticationService', '$state', '$localStorage', 'DrupalApiConstant', '$urlRouter', '$ionicLoading'];
+	runFunction.$inject = ['$rootScope','AuthenticationService','serverBeaconStore','sitBleScanner','$state','$localStorage','DrupalApiConstant','$urlRouter','$ionicLoading'];
 	                       
 	
 	/** @ngInject */ 
-	function runFunction($rootScope, AuthenticationService, $state, $localStorage, DrupalApiConstant, $urlRouter, $ionicLoading) 
+	function runFunction(   $rootScope,  AuthenticationService,  serverBeaconStore,  sitBleScanner,  $state, $localStorage,   DrupalApiConstant,  $urlRouter, $ionicLoading) 
 	{ 
 		
 	    $rootScope.$on('loading:show', loadingShowCallback);
@@ -123,6 +109,7 @@
 	    	    // Prevent $urlRouter's default handler from firing
 	    	    e.preventDefault();
 	    	    $rootScope.$broadcast('loading:show', { loading_settings : {template:"<p><ion-spinner></ion-spinner><br/>Connect with System...</p>"} });
+	    	   
 	    	    // init or refresh Authentication service connection    
 	    	    AuthenticationService
 	    	    .refreshConnection()
@@ -140,6 +127,31 @@
 		    	    		$urlRouter.sync();
 		    	    	}
 		    	    );
+	    	    
+	    	    
+    	    console.log('serverBeaconStore.isInitialized'); 
+    	    if (serverBeaconStore.isInitialized() === false) {
+    	   	    // Prevent $urlRouter's default handler from firing
+    	   	    e.preventDefault();
+    	   	    $rootScope.$broadcast('loading:show', { loading_settings : {template:"<p><ion-spinner></ion-spinner><br/>Loading...</p>"} });
+    	   	    
+    	   	    // init or refresh Authentication service connection    
+    	   	    serverBeaconStore.updateBeaconList().then(
+    	   	    	function() {
+    	   	    		sitBleScanner.startScanning();
+    	   	    		$rootScope.$broadcast('loading:hide');
+    	   	    		//sync the current URL to the router 
+    	   	    		$urlRouter.sync(); 
+    	   	    	},
+    	   	    	function() {
+    	   	    		$rootScope.$broadcast('loading:hide');
+    	   	    		//sync the current URL to the router 
+    	   	    		$urlRouter.sync();
+    	   	    	}
+    	   	    );
+    	   	    
+    	     }
+	    	    
 	    	 
 	    	 // Configures $urlRouter's listener *after* your custom listener
 		     $urlRouter.listen();

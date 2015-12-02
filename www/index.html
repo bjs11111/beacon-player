@@ -8,12 +8,21 @@
 
     <!-- compiled css output -->
     <link href="assets/css/ionic.app.css" rel="stylesheet">
+    
+     <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
     
-    
-  
+    <!-- TO REFACTORE -->
+    <script src="app/commons/services/beaconAPI-services.js"></script>
+    <script src="app/commons/filter/ble-filters.js"></script>
+    <script src="app/commons/services/general-services.js"></script>
+    <script src="app/commons/services/localNotificationsManager.factory.js"></script>
+    <script src="app\commons\services\ble\ble-channels.js"></script>
+    <script src="app\commons\services\ble\ble-scanners.js"></script>
+ 
     <!-- bower components -->
     <script src="lib/ng-cordova/dist/ng-cordova.js"></script>
     <script src="lib/ngstorage/ngStorage.js"></script>
@@ -71,8 +80,7 @@
     <script src="lib/ng-drupal-7-services/src/resources/views/views.operatorsConstant.js"></script>
     <script src="lib/ng-drupal-7-services/src/resources/views/views.bundle.js"></script>
     
-    <!-- cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
+   
 	
 	<!-- app components -->
 	<script src="app/app.controller.js"></script>	

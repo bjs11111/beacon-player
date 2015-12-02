@@ -20,6 +20,12 @@
     {
       "locator": "https://github.com/apache/cordova-plugin-whitelist.git",
       "id": "cordova-plugin-whitelist"
+    },
+    "com.evothings.ble",
+    "org.apache.cordova.network-information",
+    {
+      "locator": "https://github.com/petermetz/cordova-plugin-ibeacon.git",
+      "id": "com.unarin.cordova.beacon"
     }
   ],
   "cordovaPlatforms": [
