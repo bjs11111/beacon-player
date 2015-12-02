@@ -1,0 +1,12 @@
+{
+  "name": "Ionic-Headless-Drupal-Demo",
+  "app_id": "8ca49328",
+  "gulpStartupTasks": [
+    "sass",
+    "watch"
+  ],
+  "watchPatterns": [
+    "www/**/*",
+    "!www/lib/**/*"
+  ]
+}
