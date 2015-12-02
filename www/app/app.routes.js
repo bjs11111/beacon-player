@@ -25,7 +25,7 @@
 		$urlRouterProvider.deferIntercept();
 		
 		//routing configurations
-		$urlRouterProvider.otherwise('app/articleFeed/article-feed');
+		$urlRouterProvider.otherwise('app/login');
 		
 		//set states
 	    $stateProvider
@@ -146,16 +146,9 @@
 		};
 		
 		function stateChangeStartCallback(event, toState, toParams, fromState, fromParams) {
-	    	
-			// if its the users first visit to the app show the apps tour
-		   	 if (  !$localStorage.firstVisit && toState.name !== 'app.tour') { 
-			   		event.preventDefault();
-				 	$state.go('app.tour'); 	
-				 	return;
-			 }   
 		   
 		    //redirects for logged in user away from login or register and show its profile instead
-			if  (toState.name == 'app.login' || toState.name == 'app.register') {
+			if  (toState.name == 'app.login') {
 				if(AuthenticationService.getConnectionState()) {
 					event.preventDefault();
 					$state.go('app.profile');
@@ -166,8 +159,8 @@
 			//redirect if user is unauthorized
 			if ( ('data' in toState) && ('access' in toState.data) && !AuthenticationService.isAuthorized(toState.data.access) ) {
 				event.preventDefault();
-				if ($localStorage.isRegistered) { $state.go('app.login'); return;} 
-		        else { $state.go('app.register'); return;} 
+				$state.go('app.login'); 
+				return;
 		    }
 	    }
 
