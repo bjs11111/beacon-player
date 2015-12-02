@@ -5,12 +5,9 @@
                                               'ngDrupal7Services-3_x.commons.configurations',
                                               'ngDrupal7Services-3_x.commons.authentication',
                                               'drupalionicDemo.app.controller', 
-                                              'drupalionicDemo.tour.controller', 
-                                              'drupalionicDemo.register.controller', 
                                               'drupalionicDemo.login.controller',
                                               'drupalionicDemo.profile.controller',
                                               'drupalionicDemo.articleFeed.controller',
-                                              'drupalionicDemo.articleFeed.articleDetail.controller',
                                               'drupalionicDemo.articleFeed.service']) 
     .config(configFunction)
     .run(runFunction);
@@ -28,16 +25,7 @@
 		$urlRouterProvider.deferIntercept();
 		
 		//routing configurations
-	
-		//set default URL
-		if(!$localStorageProvider.get('isRegistered') ) {
-			$urlRouterProvider.otherwise('app/register');
-		}
-		else {
-			$urlRouterProvider.otherwise('app/login');
-		}
-		
-		
+		$urlRouterProvider.otherwise('app/articleFeed/article-feed');
 		
 		//set states
 	    $stateProvider
@@ -49,32 +37,12 @@
             controller		: 'AppController as app'
           })
 	    
-	    .state('app.tour', {
-            url: '/tour',
-            views : {
-            	'menuContent' : {
-            		 templateUrl	: 'app/components/tour/tour.view.html',
-                     controller		: 'TourController as tour',
-            	}
-            } 
-       })
-       
        .state('app.login', {
             url: '/login',
             views : {
             	'menuContent' : {
             		 templateUrl	: 'app/components/login/login.view.html',
                      controller		: 'LoginController as login',
-            	}
-            } 
-       })
-       
-       .state('app.register', {
-            url: '/register',
-            views : {
-            	'menuContent' : {
-            		 templateUrl	: 'app/components/register/register.view.html',
-                     controller		: 'RegisterController as register',
             	}
             } 
        })
@@ -107,22 +75,7 @@
 	        	}
 	        }
        })
-       
-       .state('app.articleDetail', {
-            url: '/article-feed/:nid?title',
-            views : {
-            	'menuContent' : {
-            		 templateUrl	: 'app/components/articleFeed/articleDetail/articleDetail.view.html',
-                     controller		: 'ArticleDetailController as articleDetail'
-            	}
-            },
-            resolve : {
-            	articleDetail : function (ArticleFeedService, $stateParams) {
-		    		return ArticleFeedService.get( {nid:$stateParams.nid} );
-	            }	
-	        }
-       })
-       
+
        ;
 	    
 	};
