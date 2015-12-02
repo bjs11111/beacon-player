@@ -7,7 +7,8 @@
                                               'drupalionicDemo.app.controller', 
                                               'drupalionicDemo.login.controller',
                                               'drupalionicDemo.profile.controller',
-                                              'commons.services.cms.beaconAPIServices',
+                                              'drupalionicDemo.bleDevicesControllers',
+                                              //'commons.services.cms.beaconAPIServices',
                                               'commons.services.ble.bleScanners.factory'
                                               ]) 
     .config(configFunction)
@@ -61,6 +62,16 @@
             }
        })
        
+       //@TODO refactor to controller as
+       .state('app.list', {
+				url : '/ble-devices',
+				views : {
+					'menuContent' : {
+						templateUrl : 'app/components/ble-devices/ble-devices-list.html',
+						//controller 	: 'bleDevicesListCtrl'
+					}
+				}
+			})
        
        ;
 	    

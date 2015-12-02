@@ -1,4 +1,4 @@
-var bleDevicesControllers = angular.module('bleDevicesControllers', ['listFilters', 'bleChannels', 'beaconAPIServices', 'generalServices', 'deviceListDirectives']);
+var bleDevicesControllers = angular.module('drupalionicDemo.bleDevicesControllers', ['commons.filter.listFilters', 'commons.services.ble.bleChannels', 'commons.services.cms.beaconAPIServices', 'commons.services.generalServices.factory', 'deviceListDirectives']);
 //@TODO to implement
 bleDevicesControllers.constant("BackgroundProcessConfig", {
 	//refreshBeaconListInterval		: ms
