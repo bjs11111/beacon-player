@@ -68,7 +68,7 @@
 				views : {
 					'menuContent' : {
 						templateUrl : 'app/components/ble-devices/ble-devices-list.html',
-						//controller 	: 'bleDevicesListCtrl'
+						controller 	: 'bleDevicesListCtrl'
 					}
 				}
 			})

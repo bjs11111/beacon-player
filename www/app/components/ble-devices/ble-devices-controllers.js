@@ -1,4 +1,4 @@
-var bleDevicesControllers = angular.module('drupalionicDemo.bleDevicesControllers', ['commons.filter.listFilters', 'commons.services.ble.bleChannels', 'commons.services.cms.beaconAPIServices', 'commons.services.generalServices.factory', 'deviceListDirectives']);
+var bleDevicesControllers = angular.module('drupalionicDemo.bleDevicesControllers', ['commons.filter.listFilters', 'commons.services.ble.bleChannels', 'deviceListDirectives', 'deviceManagers']);
 //@TODO to implement
 bleDevicesControllers.constant("BackgroundProcessConfig", {
 	//refreshBeaconListInterval		: ms
@@ -8,15 +8,12 @@ bleDevicesControllers.constant("BackgroundProcessConfig", {
 
 
 bleDevicesControllers.controller('bleDevicesListCtrl',
-				[ '$scope', '$filter','$interval', 'bleScannerChannel','beaconAPIService', 'generalService',
-         function( $scope,   $filter,  $interval,   bleScannerChannel,  beaconAPIService, generalService) {
+				[ '$scope', '$filter','$interval', 'bleScannerChannel','bleDeviceChannel',
+         function( $scope,   $filter,  $interval,   bleScannerChannel,  bleDeviceChannel) {
 			
 			$scope.bleDevicesCtrl = {};  
 			$scope.bleDevicesCtrl.allDevicesList = {};	
 			$scope.bleDevicesCtrl.listLength =0;
-			
-			//functions
-			$scope.openIABWithKey = generalService.openIABWithKey;
 					
 			var lastScanFilter =  $filter('lastScanFilter'),
 				cleaningOldDevicesInterval = undefined;
@@ -59,7 +56,6 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 	    		$scope.bleDevicesCtrl.listLength = i;
 	    	};
 			
-			
 	    	//this is used to update list after serverdata updated   	
 	    	var onFoundDeviceHandler = function(preparedDevice) { 
 	 
@@ -74,7 +70,6 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 	    		
 	    		$scope.updateListLength();
 			};
-			
 			
 			var updateListInterval = undefined;
 			
@@ -99,7 +94,6 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 				}
 			};
 			
-		
 	      	//initial stuff 
 	      	var init = function () {
 	      		//console.log('init bleDevicesListCtrl'); 
@@ -107,10 +101,7 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 	      		startUpdateListInterval(1000);
 	      		bleScannerChannel.onFoundBleDevice($scope, onFoundDeviceHandler);
 	      	}
-	      	
-	      	
- 
-	      	
+
 	      	init();
 
 }]);

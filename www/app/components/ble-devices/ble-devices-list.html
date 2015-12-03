@@ -11,21 +11,33 @@
   	<ion-content class="has-header">
   
 		<div class="card ble-info-card" ng-show="bleDevicesCtrl.listLength == 0">    
-   		 	<img src="./app/components/help/images/tour-icon.png"/>  
+   		 	<img src="app\images\tour-icon.png"/>  
             <h2 class="text-center positive padding-vertical" >Approach a beacon</h2>
  			<p class="text-center padding-vertical">Please make sure your Bluetooth is enabled!</p>    
  	</div>
 	
  	
  	<ion-list>
+ 		<!-- 
  		<ion-item ng-repeat="device in bleDevicesCtrl.allDevicesList track by device.bcmsBeaconKey" href="#"> 
 			<h2>{{device.scanData.iBeaconUuid}}</h2>
 			<p>
    				Major: {{device.scanData.major}} Minor: {{device.scanData.minor}} <span class="pull-right">dBm {{device.scanData.rssi}}</span>
 	   		</p>
  		</ion-item>
+ 		-->
+ 		<ion-item ng-repeat="device in bleDevicesCtrl.allDevicesList track by device.bcmsBeaconKey" 
+                  href="#" 
+                  class=" item-icon-right "
+                  ng-class="device.bcmsBeacon.contentThumbnailUrl?'item-avatar':'item-icon-left'"> 
+                  
+                  <img class="content-img" ng-show="device.bcmsBeacon.contentThumbnailUrl" ng-src="{{device.bcmsBeacon.contentThumbnailUrl}}">
+                 
+				  <h2>{{device.bcmsBeacon.content_title}}</h2>
+ 				  <ng-ble-item ng-model="device" ng-click="openIAB(device.bcmsBeaconKey)"></ng-ble-item>  
+ 		</ion-item>
 	</ion-list>
 
   </ion-content>
-  
+   
 </ion-view>

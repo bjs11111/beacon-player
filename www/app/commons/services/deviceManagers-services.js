@@ -1,5 +1,5 @@
 /* Services */
-var deviceManagers = angular.module('deviceManagers', ['bleFilters', 'bleChannels', 'beaconAPIServices']);
+var deviceManagers = angular.module('deviceManagers', ['commons.filter.bleFilters', 'commons.services.ble.bleChannels', 'commons.services.cms.beaconAPIServices']);
 
 deviceManagers.constant( "bleDeviceChannelConfig", {
 	//events

@@ -79,12 +79,13 @@ deviceListDirectives.directive('ngBleItem', function() {
     scope: {
       ngModel: '='
     },
-    templateUrl: 'app/common/directives/ble-list-item/ble-device.html',
+    templateUrl: 'app/commons/directives/ble-list-item/ble-device.html',
     controller: ['$scope', 'ngBleItemConfig',
     	 function($scope,   ngBleItemConfig) {
     	    	
     	$scope.getCmsStateColor = function(cmsBeacon) {
-    	/*	cmsBeacon = (cmsBeacon)?cmsBeacon:$scope.ngModel.bcmsBeacon;
+    		/*	
+    	    cmsBeacon = (cmsBeacon)?cmsBeacon:$scope.ngModel.bcmsBeacon;
     		
     		if($scope.ngModel.bcmsBeacon != undefined) {
         		return ngBleItemConfig.cmsState.connected.color;
@@ -94,7 +95,8 @@ deviceListDirectives.directive('ngBleItem', function() {
         	}
         	else {
         		return ngBleItemConfig.cmsState.unknown.color;
-        	}*/
+        	}
+        	*/
     	};
     	
     	$scope.getContentTypeIcon = function() {
@@ -144,7 +146,7 @@ deviceListDirectives.directive('ngBleDevice', function() {
         ngModel: '='
     },
 	//@TODO set relative path  => http://nozzle.io/devblog/relative-angularjs-modules/
-    templateUrl: 'app/common/directives/ble-list-item/ble-device.html',
+    templateUrl: 'app/commons/directives/ble-list-item/ble-device.html',
   
   }
 });
