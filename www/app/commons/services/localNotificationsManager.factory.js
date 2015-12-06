@@ -4,7 +4,7 @@
 	/**
 	 * NotificationChannel Module
 	 */
-	angular.module('commons.services.localNotificationsManager.factory', ['ng-cordova'])
+	angular.module('commons.services.localNotificationsManager.factory', ['ngCordova'])
 		   .factory('localNotificationsManager', localNotificationsManager); 
 
 	/**
@@ -124,7 +124,7 @@
 		};
 		
 		//subscriptions
-		
+		console.log('local not subscriptions'); 
 		bleDeviceChannel.subEnteredTriggerArea(scope, subEnteredTriggerHandler);
 		
        
@@ -157,7 +157,9 @@
 			
 			//if the app runs in background and 
 			//the item is not the list or it is in the list and we want to notify the item
-			if( ( !notifiedBeacons[options.data.bcmsBeaconKey] || isToNotify(notifiedBeacons[options.data.bcmsBeaconKey])  ) && appIsInBackground === true) {
+			if( ( !notifiedBeacons[options.data.bcmsBeaconKey] || isToNotify(notifiedBeacons[options.data.bcmsBeaconKey])  ) 
+					//&& appIsInBackground === true
+			  ) {
 //( !notifiedBeacons[options.data.bcmsBeaconKey] ||  ) &&
 				
 				//be sure the phone is ready

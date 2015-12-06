@@ -1,5 +1,5 @@
 /* Services */
-var generalServices = angular.module('commons.services.generalServices.factory', ['ng-cordova', 'commons.filter.bleFilters', 'commons.services.localNotificationsManager.factory']);
+var generalServices = angular.module('commons.services.generalServices.factory', ['ngCordova', 'commons.filter.bleFilters', 'commons.services.localNotificationsManager.factory']);
 
 /*Constants for the bleDeviceService*/
 generalServices.constant("generalServiceConfig", {
@@ -18,8 +18,8 @@ generalServices.constant("generalServiceConfig", {
 
 });
 
-generalServices.factory('generalService', ['$rootScope', '$timeout', '$filter', '$ionicPlatform', '$ionicPopup', '$cordovaNetwork', '$cordovaInAppBrowser', '$cordovaVibration', 'generalServiceConfig','localNotificationsManager',
-                                  function ($rootScope,   $timeout, $filter,   $ionicPlatform,   $ionicPopup,   $cordovaNetwork,   $cordovaInAppBrowser,   $cordovaVibration,   generalServiceConfig, localNotificationsManager) {
+generalServices.factory('generalService', ['$rootScope','$timeout','$filter','$ionicPlatform','$ionicPopup','generalServiceConfig','localNotificationsManager',
+                                  function ($rootScope,  $timeout,  $filter,  $ionicPlatform,  $ionicPopup,  generalServiceConfig,  localNotificationsManager) {
 	
 	/* 
 	 * helper functions
@@ -50,7 +50,7 @@ generalServices.factory('generalService', ['$rootScope', '$timeout', '$filter', 
 	var alertEnsureInetConnection = function(forceCloseApp) {
 		
 		forceCloseApp = (forceCloseApp)?true:false;
-		
+		 
 		//let alert pop up with given settings
 		var noInetAlert =	$ionicPopup.alert({
 			   title	: 'No internet',
@@ -272,7 +272,7 @@ generalServices.factory('generalService', ['$rootScope', '$timeout', '$filter', 
 			
 			//if offline
 			//@TODO create wrapper functions for no-inet, no-ble, on-deviceready, 
-			if( $cordovaNetwork.isOffline() ) { 
+			if( navigator.isOffline() ) { 
 				alertEnsureInetConnection();
 				return;
 			}
@@ -282,8 +282,8 @@ generalServices.factory('generalService', ['$rootScope', '$timeout', '$filter', 
 			
     		//vibrate for content
 			try {
-				$cordovaVibration.cancelVibration();
-				$cordovaVibration.vibrate(generalServiceConfig.iabOpenVibrateTime);
+				//$cordovaVibration.cancelVibration();
+				//$cordovaVibration.vibrate(generalServiceConfig.iabOpenVibrateTime);
 			}
 			catch(err) {
 			    console.log("Error vibrating before open IAB");
@@ -291,13 +291,15 @@ generalServices.factory('generalService', ['$rootScope', '$timeout', '$filter', 
 
 
     		//open iab with beacon content url
-			$cordovaInAppBrowser
+			/*
+			 $cordovaInAppBrowser
 			    .open(url, '_blank', generalServiceConfig.iabDefaultSettings)
 			    .then(
 			    	// success	
 			    	function(event) {}, 
     			    // error
     			    function(event) {  iabIsOpen = false; });
+    			    */
 	    });
 	   		
 		$rootScope.$on('$cordovaInAppBrowser:loadstop', function(e, event){

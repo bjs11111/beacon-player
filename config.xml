@@ -32,15 +32,16 @@
     <splash density="port-xhdpi" src="resources/android/splash/drawable-port-xhdpi-screen.png"/>
     <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.png"/>
     <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png"/>
-    <icon src="resources\android\icon\drawable-ldpi-icon.png" density="ldpi"/>
-    <icon src="resources\android\icon\drawable-mdpi-icon.png" density="mdpi"/>
-    <icon src="resources\android\icon\drawable-hdpi-icon.png" density="hdpi"/>
-    <icon src="resources\android\icon\drawable-xhdpi-icon.png" density="xhdpi"/>
-    <icon src="resources\android\icon\drawable-xxhdpi-icon.png" density="xxhdpi"/>
-    <icon src="resources\android\icon\drawable-xxxhdpi-icon.png" density="xxxhdpi"/>
+    <icon density="ldpi" src="resources\android\icon\drawable-ldpi-icon.png"/>
+    <icon density="mdpi" src="resources\android\icon\drawable-mdpi-icon.png"/>
+    <icon density="hdpi" src="resources\android\icon\drawable-hdpi-icon.png"/>
+    <icon density="xhdpi" src="resources\android\icon\drawable-xhdpi-icon.png"/>
+    <icon density="xxhdpi" src="resources\android\icon\drawable-xxhdpi-icon.png"/>
+    <icon density="xxxhdpi" src="resources\android\icon\drawable-xxxhdpi-icon.png"/>
   </platform>
   <plugin name="org.apache.cordova.network-information" spec="~0.2.15"/>
   <plugin name="com.evothings.ble" spec="~0.0.1"/>
   <plugin name="com.unarin.cordova.beacon" spec="https://github.com/petermetz/cordova-plugin-ibeacon.git"/>
+  <plugin name="de.appplant.cordova.plugin.local-notification" spec="https://github.com/katzer/cordova-plugin-local-notifications.git"/>
   <icon src="resources\android\icon\drawable-xhdpi-icon.png"/>
 </widget>

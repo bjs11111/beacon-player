@@ -367,7 +367,7 @@ function( $rootScope,   $q,   $filter,   bleDeviceServiceConfig,   bleDeviceChan
     				&&	deviceData.scanData.actualTriggerArea 	=== bleDeviceServiceConfig.triggerAreas.positive  
     			) { 
     				
-					//console.log('o-p||n-p:' );
+					console.log('o-p||n-p:' );
     				//console.log( 'deviceData.bcmsBeacon.contentTitle111: ', JSON.stringify(deviceData.bcmsBeacon) );
     				//console.log('knownDevicesList[deviceData.bcmsBeaconKey]: ', knownDevicesList[deviceData.bcmsBeaconKey].bcmsBeacon); 
     				bleDeviceChannel.pubEnteredTriggerArea(deviceData); 
@@ -378,8 +378,8 @@ function( $rootScope,   $q,   $filter,   bleDeviceServiceConfig,   bleDeviceChan
     			else if( 	deviceData.scanData.lastTriggerArea 	=== bleDeviceServiceConfig.triggerAreas.positive
     					&&	deviceData.scanData.actualTriggerArea 	=== bleDeviceServiceConfig.triggerAreas.negative  ) 
     			{ 
+    				console.log('p-n:');
     				bleDeviceChannel.pubExitTriggerArea(deviceData);
-    				//console.log('p-n:');
 					return;
     			}
 	
