@@ -1,16 +1,12 @@
 <div  id="{{ngModel.address}}" class="device" >
-
- 
-	<i ng-show="!ngModel.bcmsBeacon.contentThumbnailUrl"  class="icon beacon {{itemTypeIcon}} {{cmsStateColor}}" ></i>      
+	<i ng-show="!ngModel.bcmsBeacon.contentThumbnailUrl"  class="icon {{cmsStateColor}}" ></i>      
 	<h2 ng-show="ngModel.bcmsBeacon.contentTitle">{{ngModel.bcmsBeacon.contentTitle}}</h2>
 	<h2 ng-show="!(ngModel.bcmsBeacon.contentTitle)">Kein Inhalt zugewiesen</h2>
 	{{ngModel.scanData.rssi}}dBm 
 	
-	<p>{{ngModel.scanData.lastScan}}</p>
+	<p>{{ngModel.scanData.lastScan | date:"HH:mm:ss"}}</p>
 	<p ng-init="isOpen = false" ng-show="isOpen" class="details">
-		<pre>
-		{{ngModel.scanData | json}}
-		</pre>
+		
 		<span class="row">
 		  <span class="col-33">
 		    <b>Entry:</b>	

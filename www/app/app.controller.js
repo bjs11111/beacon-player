@@ -3,10 +3,10 @@
 
 
 angular
-    .module('drupalionicDemo.app.controller', ['ngDrupal7Services-3_x.commons.authentication', 'ngDrupal7Services-3_x.commons.directives.toggleByAccesslevel'])
+    .module('drupalionicDemo.app.controller', ['ngDrupal7Services-3_x.commons.authentication', 'ngDrupal7Services-3_x.commons.directives.toggleByAccesslevel', 'deviceManagers'])
     .controller('AppController', AppController);
 	//@TODO try to use $scope to listen on events instead of $rootScope
-	AppController.$inject = ['$rootScope','$state','$ionicSideMenuDelegate','AuthenticationServiceConstant','AuthenticationService'];
+	AppController.$inject = ['$rootScope','$state','$ionicSideMenuDelegate','AuthenticationServiceConstant','AuthenticationService','bleDeviceService'];
 
 	/** @ngInject */ 
 	function AppController(   $rootScope,  $state,  $ionicSideMenuDelegate,  AuthenticationServiceConstant,   AuthenticationService ) 
@@ -23,7 +23,7 @@ angular
 		//hold phone states
 		vm.states = {};
 		vm.states.isOffline = false;
-	  	
+	  	 
 	    // listen for Online event
 	    $rootScope.$on('$cordovaNetwork:online', function(event, networkState){
 	    	vm.states.isOffline = false;

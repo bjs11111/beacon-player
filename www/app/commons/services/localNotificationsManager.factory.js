@@ -228,7 +228,7 @@
 		 * 
 		 */
 		function subEnteredTriggerHandler(device) {
-			//console.log( 'JSON.stringify(device)', JSON.stringify(device.bcmsBeacon) ); 
+			console.log( 'JSON.stringify(device)', JSON.stringify(device.bcmsBeacon) ); 
 			
 			if('bcmsBeacon' in device) {
 				

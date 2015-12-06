@@ -28,7 +28,11 @@ bleScanners.factory('androidBleScanner', [
 				$ionicPlatform.ready(function() {
 					evothings.ble.startScan(function(rawDevice) {
 						
-						foundDeviceCallback(rawDevice);
+						if(rawDevice.rssi != 0) {
+							foundDeviceCallback(rawDevice);
+						}
+						
+						
 					}, function(error) {
 						defer.reject(error);
 					});

@@ -24,7 +24,7 @@ function ($rootScope,   beaconAPIServiceConfig) {
 	var _subscribe = function(event, $scope, scopeHandler, mapArgs) {
 		//subscribe with rotscope to event and cache unsubscribe function
 		var unsubscopeHandler = $rootScope.$on(event, function(event, args) {
-			scopeHandler(mapArgs(args));
+			scopeHandler(mapArgs(args)); 
 		 });
 		 
 		//unsubscribe rootRcope listener after scope destruction
@@ -125,12 +125,12 @@ beaconAPIServices.factory('beaconAPIService', [
 
 				$http(requestConfig)
 				.success(function(data, status, headers, config){
-					console.log('beacons loaded from server'); 
+					//console.log('beacons loaded from server'); 
 					beaconAPIChannel.pubGetAllBeaconsSuccess(data);
 					defer.resolve(data);
 				})
 				.error(function(data, status, headers, config){
-					console.log("Error fetching All Beacon List", data, status, headers, config);
+					//console.log("Error fetching All Beacon List", data, status, headers, config);
 					beaconAPIChannel.pubGetAllBeaconsError(data);
 					defer.reject(data);
 				});
@@ -166,15 +166,17 @@ beaconAPIServices.factory('serverBeaconStore', [
 		
 		//returns all (filtered) items
 		var _getAll = function(items, filter) {
-			
+			//console.log('_getAll');
 			var defer = $q.defer(),
 			allFilteredItems = undefined;
 
 			if(Object.keys(items).length > 0) {
 
 				if(filter) {
-					 allFilteredItems = $filter('filter')(items, filter);
+					//console.log('_getAll filter', items); 
+					 allFilteredItems = $filter('filter')([], filter);
 				} else {
+					
 					allFilteredItems =  items;
 				}	
 				
@@ -183,8 +185,10 @@ beaconAPIServices.factory('serverBeaconStore', [
 			}
 			
 			if(allFilteredItems != undefined) {
+				//console.log('allFilteredItems');
 				defer.resolve(allFilteredItems);
 			} else {
+				//console.log('allFilteredItems undefined');
 				defer.reject(undefined);
 			}
 			
@@ -250,9 +254,9 @@ beaconAPIServices.factory('serverBeaconStore', [
 		}
 				
 		var getAllBeacons = function(filter) {
-			
+			//console.log('getAllBeacons filter:', filter); 
 			var defer = $q.defer();
-
+			//console.log('beaconList', beaconList); 
 			_getAll(beaconList, filter).then(
 					//success
 	    			function (items) { defer.resolve(items);  }, 
@@ -296,12 +300,14 @@ beaconAPIServices.factory('serverBeaconStore', [
 		var updateBeaconList = function() {
 
 			var defer = $q.defer(),
-				updatedBeacons = [];
+				updatedBeacons = []; 
 			
+			//console.log('fire request in updateBeaconList'); 
 			beaconAPIService.getAllBeacons()
 		    	.then(
 	    			//success
 	    			function (newBeaconList) { 
+	    				
 	    				angular.forEach(newBeaconList, function(beacon, key) {
 	    					if(addBeacon(beacon)) {
 	    						updatedBeacons.push(key);
