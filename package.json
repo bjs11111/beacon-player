@@ -30,6 +30,15 @@
     {
       "locator": "https://github.com/katzer/cordova-plugin-local-notifications.git",
       "id": "de.appplant.cordova.plugin.local-notification"
+    },
+    {
+      "locator": "https://github.com/transistorsoft/cordova-background-geolocation-lt",
+      "id": "com.transistorsoft.cordova.background-geolocation"
+    },
+    "cordova-plugin-geolocation",
+    {
+      "locator": "https://github.com/christocracy/cordova-plugin-background-geolocation#cordova-4.x",
+      "id": "org.transistorsoft.cordova.background-geolocation"
     }
   ],
   "cordovaPlatforms": [

@@ -43,5 +43,8 @@
   <plugin name="com.evothings.ble" spec="~0.0.1"/>
   <plugin name="com.unarin.cordova.beacon" spec="https://github.com/petermetz/cordova-plugin-ibeacon.git"/>
   <plugin name="de.appplant.cordova.plugin.local-notification" spec="https://github.com/katzer/cordova-plugin-local-notifications.git"/>
+  <plugin name="com.transistorsoft.cordova.background-geolocation" spec="https://github.com/transistorsoft/cordova-background-geolocation-lt.git"/>
+  <plugin name="cordova-plugin-geolocation" spec="~1.0.1"/>
+  <plugin name="org.transistorsoft.cordova.background-geolocation" spec="https://github.com/christocracy/cordova-plugin-background-geolocation#cordova-4.x"/>
   <icon src="resources\android\icon\drawable-xhdpi-icon.png"/>
 </widget>

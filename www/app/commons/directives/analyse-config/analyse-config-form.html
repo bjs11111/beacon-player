@@ -1,0 +1,35 @@
+<div id="analyse-config-form">
+
+	<form name="analyseForm" ng-submit="cfd.saveConfig(analyseForm, cfd.config)" novalidate>
+
+       	<label class="item item-input item-floating-label" ng-class="{ 'has-error' : analyseForm.title.$invalid && analyseForm.$submitted, 'valid' : analyseForm.title.$valid && analyseForm.$submitted}">
+		   <span class="input-label">Title of measurement</span>
+		   <input type="text" placeholder="Title of measurement" name="title" ng-model="cfd.config.title" autocorrect="off" autocapitalize="off" spellcheck="false" required>
+		</label>
+       	<div class="form-errors"
+            ng-show="analyseForm.title.$invalid && analyseForm.$submitted"
+            ng-messages="analyseForm.title.$error">
+            <div class="form-error" ng-message="required">This field is required.</div>
+       	</div> 	
+       	
+        ScannDaten von BLE => Default
+        <ion-toggle ng-model="cfd.config.withOS" toggle-class="toggle-calm">Platform => Android</ion-toggle>
+        <ion-toggle ng-model="cfd.config.withOSVersion" toggle-class="toggle-calm">App version => 5.1 von Android</ion-toggle>
+        <ion-toggle ng-model="cfd.config.GPSPostition" toggle-class="toggle-calm">GPS Position (lat,long)</ion-toggle>
+        <ion-toggle ng-model="cfd.config.withAppState" toggle-class="toggle-calm">App im Background => Ja, Nein</ion-toggle>
+
+        <div class="form-errors" ng-show="analyseForm.$submitted">
+          <div class="form-error" ng-bind-html="error" ng-repeat="error in loginServerErrors" ></div>
+        </div> 
+	
+	
+		<button class="button button-positive button-clear padding-vertical button-center">Save settings</button>
+	</form>
+	
+	
+	<button ng-click="cfd.startAnalyse" class="button button-positive button-clear padding-vertical button-center">Start analysing</button>
+	
+	<button ng-click="cfd.saveData()" class="button button-positive button-clear padding-vertical button-center">Save</button>
+	
+	
+</div>

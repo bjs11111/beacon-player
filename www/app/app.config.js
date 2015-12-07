@@ -12,7 +12,7 @@ angular
 	function configFunction(DrupalApiConstant) 
 	{ 
 		//drupal services configurations
-		DrupalApiConstant.drupal_instance = 'http://beacon-player.com/';
+		DrupalApiConstant.drupal_instance = 'http://www.starnberger.at/beaconplayer_analyse/';
 		DrupalApiConstant.api_endpoint += 'v1/';
 		
 	};

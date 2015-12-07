@@ -28,13 +28,13 @@ angular
 	    $rootScope.$on('$cordovaNetwork:online', function(event, networkState){
 	    	vm.states.isOffline = false;
 	    	
-	    	if(!serverBeaconStore.isInitialized()) {
+	    	/*if(!serverBeaconStore.isInitialized()) {
 	    		serverBeaconStore.updateBeaconList().then(
 	    		   	    	function() {
 	    		   	    		sitBleScanner.startScanning();
 	    		   	    	},
 	    		   	    	function() {});
-	    	}
+	    	}*/
 	    	
 	    });
 

@@ -29,13 +29,12 @@
 	  	  <ion-item toggle-by-accesslevel="{{app.accessLevels.user}}" 	nav-clear menu-close 	ui-sref="app.profile">Profile</ion-item>
 	     
 	      <ion-item toggle-by-accesslevel="{{app.accessLevels.user}}" 	nav-clear  				ng-click="app.doLogout()" class="item-spinner-right" >
-	      	Logout
+			Logout
 	      	<ion-spinner ng-if="app.loggingOut"></ion-spinner>
 	      </ion-item>
 	      
-	      <ion-item														nav-clear menu-close	ui-sref="app.list" >
-		      List
-	      </ion-item>
+	      <ion-item														nav-clear menu-close	ui-sref="app.list" >List</ion-item>
+	      <ion-item 												 	nav-clear menu-close 	ui-sref="app.analyse">Analyse</ion-item>
 		</ion-list>
       
     </ion-content>

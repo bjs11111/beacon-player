@@ -8,8 +8,10 @@
                                               'drupalionicDemo.login.controller',
                                               'drupalionicDemo.profile.controller',
                                               'drupalionicDemo.bleDevicesControllers',
-                                              //'commons.services.cms.beaconAPIServices',
-                                              'commons.services.ble.bleScanners.factory'
+                                              'drupalionicDemo.analyse.controller',
+                                       
+                                              'commons.services.ble.bleScanners.factory',
+                                              
                                               ]) 
     .config(configFunction)
     .run(runFunction);
@@ -72,6 +74,17 @@
 					}
 				}
 			})
+			
+		 .state('app.analyse', {
+				url : '/analyse',
+				views : {
+					'menuContent' : {
+						templateUrl : 'app/components/analyse/analyse.view.html',
+						controller 	: 'AnalyseController as analyse'
+					}
+				}
+			})	
+		
        
        ;
 	    

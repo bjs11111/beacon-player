@@ -72,8 +72,7 @@
 				    function (event, notification, state) {
 			 		console.log('clearall'); 
 		 }); 
-		 
-		 
+		 	 
 		 $rootScope.$on('$cordovaLocalNotification:cancel',
 				    function (event, notification, state) {
 			 		//console.log('open: ',  JSON.stringify(JSON.decode(notification.data)) );
@@ -83,7 +82,6 @@
 			 			notifiedBeacons[decodedNotificationData.bcmsBeaconKey].canceledAt = Date.now();
 			 		}
 		 }); 
-		 
 		 
 		 $rootScope.$on('$cordovaLocalNotification:cancelall',
 				    function (event, notification, state) {
@@ -230,7 +228,7 @@
 		 * 
 		 */
 		function subEnteredTriggerHandler(device) {
-			console.log( 'JSON.stringify(device)', JSON.stringify(device.bcmsBeacon) ); 
+			//console.log( 'JSON.stringify(device)', JSON.stringify(device.bcmsBeacon) ); 
 			
 			if('bcmsBeacon' in device) {
 				
