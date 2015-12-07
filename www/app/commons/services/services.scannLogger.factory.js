@@ -11,13 +11,13 @@
 	 * Manually identify dependencies for minification-safe code
 	 * 
 	 **/
-	scannLogger.$inject = ['$rootScope','$state','$filter','$ionicPlatform','bleDeviceChannel','bleDeviceService','NodeResource', 'DrupalHelperService', 'bleScannerChannel', 'bleDeviceService'];
+	scannLogger.$inject = ['$rootScope','$state','$filter','$ionicPlatform','bleDeviceChannel','bleDeviceService','NodeResource', 'DrupalHelperService', 'bleScannerChannel'];
 	
 	/**
 	 * The function holds the logic for local notifications
 	 * 
 	 **/
-	function scannLogger(  $rootScope,  $state,  $filter,   $ionicPlatform, bleDeviceChannel,   bleDeviceService,  NodeResource,   DrupalHelperService,    bleScannerChannel,  bleDeviceService) {
+	function scannLogger(  $rootScope,  $state,  $filter,   $ionicPlatform, bleDeviceChannel,   bleDeviceService,  NodeResource,   DrupalHelperService,    bleScannerChannel) {
 		
 		var configurations = {};
 		
