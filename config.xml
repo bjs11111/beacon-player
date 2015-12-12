@@ -12,7 +12,15 @@
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
-  <preference name="android-minSdkVersion" value="16"/>
+  <preference name="android-minSdkVersion" value="21"/>
+  
+  <preference name="android-minSdkVersion" value="21"/>
+  <preference name="android-compileSdkVersion" value="21"/>
+  <preference name="android-buildToolsVersion" value="23.0.0"/>
+  
+     
+  
+  
   <preference name="BackupWebStorage" value="none"/>
   <preference name="SplashScreen" value="screen"/>
   <preference name="SplashScreenDelay" value="3000"/>
