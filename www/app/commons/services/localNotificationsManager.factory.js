@@ -2,27 +2,21 @@
 	'use strict';
 
 	/**
-	 * NotificationChannel Module
+	 * localNotificationsManager Module
 	 */
-	angular.module('commons.services.localNotificationsManager.factory', ['ngCordova', 'commons.deviceDataManager.channel'])
+	angular.module('commons.services.localNotificationsManager.factory', ['ngCordova', 'commons.deviceDataManager.channel','commons.filter.bleFilters'])
 		   .factory('localNotificationsManager', localNotificationsManager); 
 
-	/**
-	 * Manually identify dependencies for minification-safe code
-	 * 
-	 **/
-	localNotificationsManager.$inject = ['$rootScope','$state','$filter','$ionicPlatform','DeviceDataManagerChannel', '$cordovaLocalNotification'];
 	
-	/**
-	 * The function holds the logic for local notifications
-	 * 
-	 **/
-	function localNotificationsManager($rootScope,$state,$filter,$ionicPlatform, DeviceDataManagerChannel, $cordovaLocalNotification) {
+	localNotificationsManager.$inject = ['$rootScope','$state','$filter','$ionicPlatform','$cordovaLocalNotification','DeviceDataManagerChannel'];
+	function localNotificationsManager(   $rootScope,  $state,  $filter,  $ionicPlatform,  $cordovaLocalNotification,  DeviceDataManagerChannel) {
 		
 		//
 		var scope = $rootScope.$new(), 
 			notifiedBeacons = {},
-			bcmsBeaconKeyToObjFilter = $filter('bcmsBeaconKeyToObj'),
+			
+			bcmsBeaconKeyToIntFilter = $filter('bcmsBeaconKeyToInt'),
+			
 			appIsInBackground = false,
 			idCount = 0,
 			onClickAction = function() {
@@ -94,7 +88,6 @@
 			 		}
 			 		onClickAction();
 		 }); 
-
 		 
 		//on app resume
 		$ionicPlatform.on('resume', function() {
@@ -142,21 +135,16 @@
 		 * 
 		**/
 		function schedule(options, scope) {
-			
 
-			
-			
 			//if the app runs in background and 
 			//the item is not the list or it is in the list and we want to notify the item
-			if( ( !notifiedBeacons[options.data.bcmsBeaconKey] || isToNotify(notifiedBeacons[options.data.bcmsBeaconKey])  ) 
-					//&& appIsInBackground === true
+			if( ( 	  !notifiedBeacons[options.data.bcmsBeaconKey] || isToNotify(notifiedBeacons[options.data.bcmsBeaconKey])  ) 
+					&& appIsInBackground === true
 			  ) {
-//( !notifiedBeacons[options.data.bcmsBeaconKey] ||  ) &&
+
 				
 				//be sure the phone is ready
 				$ionicPlatform.ready(function() {
-					
-					
 					notifiedBeacons[options.data.bcmsBeaconKey] = { 
 																		id : idCount++,//parstInt(bcmsbeaconKeyToInt(options.data.bcmsBeaconKey) )
 																		notified : Date.now(), 
@@ -164,56 +152,33 @@
 																		clearedAt : false,
 																		canceledAt : false
 																   };
-					
 					//set id 
-					options.id = notifiedBeacons[options.data.bcmsBeaconKey].id;
-					//console.log( 'JSON.stringify( options) = ', JSON.stringify( options ) ); 
-					
-					//console.log( 'notify: ', JSON.stringify( options.data.bcmsBeaconKey ) ); 
-					//console.log( 'id: ', JSON.stringify( options.id ) ); 
+					options.id = options.data.uid;
 					$cordovaLocalNotification.schedule(options, scope);
 				});
 				
 		} 
-				//else {
-				
-			//}
-			
-			///
-			
+			//////
+
 			function isToNotify(device) {
 				var notificationPause = 1000 * 40;
 				
-				//console.log('isToNotify'); 
-				
 				if(!angular.isObject(device)) {
-					//console.log('isObject'); 
 					return false; 
 				}
 				
 				if(	   device.openedAt != false 
 					|| device.clearedAt != false) {
-					//console.log('device.openedAt:' , device.openedAt);
-					//console.log('device.clearedAt:' , device.clearedAt);
-						
+
 						if ( device.notified <= ( Date.now() - notificationPause ) ) {
 							//console.log(device.notified, ( Date.now() - notificationPause ) );
 							return true;
 						}
 					}
 				
-				//console.log('device.notified:' , device.notified);
-				 
-				//console.log('( Date.now() - 300000 ):' , Date.now() - notificationPause);
-				
-				//console.log(' diff' ,  (device.notified -  (Date.now() - notificationPause) ));
-				
-				
 				return false;
 			}
-				
-				
-			
+
 		};
 		
 		/**
@@ -222,21 +187,23 @@
 		 */
 		function subEnteredTriggerHandler(device) {
 			//console.log( 'JSON.stringify(device)', JSON.stringify(device.bcmsBeacon) ); 
-			
+
 			if('bcmsBeacon' in device) {
 				
 				if('contentTitle' in device.bcmsBeacon) {
+
+					var bcmsBeaconKeyAsInt = bcmsBeaconKeyToIntFilter(device.bcmsBeaconKey);
+					//console.log('bcmsBeaconKeyAsInt', bcmsBeaconKeyAsInt); 
+	
 					schedule({
-					   
 					    title : device.bcmsBeacon.contentTitle,
-					    text  : "Some more text possible here", 
+					    text  : "uid: " + bcmsBeaconKeyAsInt, 
 					    //firstAt: monday_9_am,
 					    //every: "week",
 					    //sound: "app/data/bus_faehrt_ein.mp3",
 					    //icon: "app/data/gewista.png",
-					    data: { bcmsBeaconKey : device.bcmsBeaconKey }
+					    data: { bcmsBeaconKey : device.bcmsBeaconKey, uid : bcmsBeaconKeyAsInt }
 					});
-					
 				}
 				
 			} 

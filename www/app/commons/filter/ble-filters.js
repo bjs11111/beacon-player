@@ -343,6 +343,33 @@ bleFilters.filter('hexToIBeaconUuid', ['$filter', function($filter) {
   };
   
 }]);
+
+/*
+ * returns valid hex string or false
+ */	
+bleFilters.filter('bcmsBeaconKeyToInt', ['$filter', function($filter) {
+	
+	return function(value) {
+		
+		var bcmsBeaconKeyToObjFilter = $filter('bcmsBeaconKeyToObj');
+		var iBeaconUuidToHexFilter = $filter('iBeaconUuidToHex');
+
+    	var iBeaconObj = bcmsBeaconKeyToObjFilter(value);
+    	console.log('iBeaconObj', iBeaconObj); 
+    	var iBeaconUuidAsHex = iBeaconUuidToHexFilter(iBeaconObj.iBeaconUuid);
+		var iBeaconUuidAsInt = parseInt(iBeaconUuidAsHex,16);
+		iBeaconUuidAsInt = iBeaconUuidAsInt/100000000000000000000000000000000000000;
+		var bcmsBeaconKeyAsInt = iBeaconUuidAsInt + parseInt(iBeaconObj.major) + parseInt(iBeaconObj.minor);
+
+    	return bcmsBeaconKeyAsInt; 
+	};
+	
+}]);
+
+
+
+
+
 /*
  *  returns a 32 long lowercase hex string or false
  */

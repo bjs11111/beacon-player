@@ -178,11 +178,10 @@
    			//maplogic
    			var mergedItem = false;
    			if ( type == DeviceDataManagerServiceConstant.mapTypeBleDevice ) {
-   				//this returns a clean reference
+   				//this merges the old with the new data to a new object
    				var mergedItem1 = angular.merge({}, oldItem, {scanData : deviceData});
-   				//console.log('mergedItem1', mergedItem1); 
-   				//mergedItem = mergedItem1;
-   				//this returns a clean reference
+
+   				//this merges the old with the new data to a new object and add the default trigger values
    				mergedItem = prepareTriggerData(mergedItem1, oldItem);
    			} 
    			else if (type == DeviceDataManagerServiceConstant.mapTypeAPIDevice ) {
@@ -191,12 +190,8 @@
    			
    			
    			knownDevicesList[bcmsBeaconKey] = mergedItem;
-   	   		 
-   			//console.log('mergedItem', knownDevicesList[bcmsBeaconKey]); 
-   			//console.log('updated knownDevicesList',angular.copy(knownDevicesList));
-   			//console.log('updatedItem.bcmsBeacon.contentTitle!:', updatedItem.bcmsBeacon.contentTitle); 
 
-   	   		//tryPubTriggerEvent(updatedItem);
+   	   		tryPubTriggerEvent(mergedItem);
 
    	   		DeviceDataManagerChannel.pubKnownDeviceUpdated(mergedItem);
 
@@ -321,27 +316,23 @@
 			else {	return DeviceDataManagerServiceConstant.triggerAreas.negative; }	
 
 	};
-
-
-	               
-	/**
-	 * tryPubTriggerEvent
-	 * 
-	 * here we trigger the enter and exit events for scan data changes
-	 * 
-	 * @param newItem {Object} The new scandata already perpared for trigger
-	 * 
-	 * @event Entered- and Exit-TriggerArea events with the newItem
-	 * 
-	 */
-   	function tryPubTriggerEvent(newItem) {
+      
+		/**
+		 * tryPubTriggerEvent
+		 * 
+		 * here we trigger the enter and exit events for scan data changes
+		 * 
+		 * @param newItem {Object} The new scandata already perpared for trigger
+		 * 
+		 * @event Entered- and Exit-TriggerArea events with the newItem
+		 * 
+		 */
+   		function tryPubTriggerEvent(newItem) {
 
    			// outOfRange -> positive || negative -> positive
 			if(		newItem.scanData.lastTriggerArea   === DeviceDataManagerServiceConstant.triggerAreas.outOfRange
 				&&	newItem.scanData.actualTriggerArea === DeviceDataManagerServiceConstant.triggerAreas.positive
-				
 				|| 	
-				
 					newItem.scanData.lastTriggerArea 	=== DeviceDataManagerServiceConstant.triggerAreas.negative
 				&&	newItem.scanData.actualTriggerArea 	=== DeviceDataManagerServiceConstant.triggerAreas.positive  
 			) { 
@@ -359,12 +350,7 @@
 
    		}
 
-   		
-   		
-     	 
-     	  
-     	  
-          /**
+        /**
   		 * getItemWithDefaultData
   		 * 
   		 * generates a new item with default scan and bcmsBeacon data.
@@ -390,8 +376,6 @@
   		}    	 
 	     
 	};
-	
-	
-	
+
 	
 })();
