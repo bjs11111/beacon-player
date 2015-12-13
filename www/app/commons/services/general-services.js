@@ -1,7 +1,7 @@
 /* Services */
 var generalServices = angular.module('commons.services.generalServices.factory', ['ngCordova', 'commons.filter.bleFilters', 'commons.services.localNotificationsManager.factory']);
 
-/*Constants for the bleDeviceService*/
+
 generalServices.constant("generalServiceConfig", {
 	//vibration settings
 	iabOpenVibratePattern 	: [100, 100, 100],

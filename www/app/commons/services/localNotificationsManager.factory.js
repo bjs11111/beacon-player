@@ -4,20 +4,20 @@
 	/**
 	 * NotificationChannel Module
 	 */
-	angular.module('commons.services.localNotificationsManager.factory', ['ngCordova'])
+	angular.module('commons.services.localNotificationsManager.factory', ['ngCordova', 'commons.deviceDataManager.channel'])
 		   .factory('localNotificationsManager', localNotificationsManager); 
 
 	/**
 	 * Manually identify dependencies for minification-safe code
 	 * 
 	 **/
-	localNotificationsManager.$inject = ['$rootScope','$state','$filter','$ionicPlatform','bleDeviceChannel','bleDeviceService', '$cordovaLocalNotification'];
+	localNotificationsManager.$inject = ['$rootScope','$state','$filter','$ionicPlatform','DeviceDataManagerChannel', '$cordovaLocalNotification'];
 	
 	/**
 	 * The function holds the logic for local notifications
 	 * 
 	 **/
-	function localNotificationsManager($rootScope,$state,$filter,$ionicPlatform, bleDeviceChannel,bleDeviceService, $cordovaLocalNotification) {
+	function localNotificationsManager($rootScope,$state,$filter,$ionicPlatform, DeviceDataManagerChannel, $cordovaLocalNotification) {
 		
 		//
 		var scope = $rootScope.$new(), 
@@ -38,10 +38,7 @@
 			 		delete notifiedBeacons[notification.data.bcmsBeaconKey];
 			 		
 				    });*/
-		 
-		
-	
-		 
+
 		 $rootScope.$on('$cordovaLocalNotification:schedule',
 				    function (event, notification, state) {
 			 		console.log('scheduled'); 
@@ -97,11 +94,7 @@
 			 		}
 			 		onClickAction();
 		 }); 
-		
-		 
-		
-		 
-		 
+
 		 
 		//on app resume
 		$ionicPlatform.on('resume', function() {
@@ -122,8 +115,8 @@
 		};
 		
 		//subscriptions
-		console.log('local not subscriptions'); 
-		bleDeviceChannel.subEnteredTriggerArea(scope, subEnteredTriggerHandler);
+		//console.log('local not subscriptions'); 
+		DeviceDataManagerChannel.subEnteredTriggerArea(scope, subEnteredTriggerHandler);
 		
        
         return NotificationChannelService;

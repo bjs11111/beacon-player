@@ -1,4 +1,4 @@
-var bleDevicesControllers = angular.module('drupalionicDemo.bleDevicesControllers', ['commons.filter.listFilters', 'commons.services.ble.bleChannels', 'deviceListDirectives', 'deviceManagers']);
+var bleDevicesControllers = angular.module('drupalionicDemo.bleDevicesControllers', ['commons.filter.listFilters', 'commons.services.ble.bleChannels', 'deviceListDirectives', 'commons.deviceDataManager.channel', 'commons.deviceDataManager.service']);
 //@TODO to implement
 bleDevicesControllers.constant("BackgroundProcessConfig", {
 	//refreshBeaconListInterval		: ms
@@ -7,8 +7,8 @@ bleDevicesControllers.constant("BackgroundProcessConfig", {
 });
 
 bleDevicesControllers.controller('bleDevicesListCtrl',
-				[ '$scope', '$filter','$interval', 'bleScannerChannel','bleDeviceChannel','bleDeviceService',
-         function( $scope,   $filter,  $interval,   bleScannerChannel,  bleDeviceChannel,  bleDeviceService) {
+				[ '$scope', '$filter','$interval', 'DeviceDataManagerChannel','DeviceDataManagerService',
+         function( $scope,   $filter,  $interval,   DeviceDataManagerChannel,  DeviceDataManagerService) {
 			
 			var vm = this;
 			vm.allDevicesList = {};	
@@ -82,7 +82,7 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 	    	//this is used to update list after serverdata updated   	
 	    	function onFoundDeviceHandler(preparedDevice) { 
 	 
-	    		var newDevice =  bleDeviceService.getKnownDevice(preparedDevice.bcmsBeaconKey);
+	    		var newDevice =  DeviceDataManagerService.getKnownDevice(preparedDevice.bcmsBeaconKey);
 	    		/*{
 	    			bcmsBeaconKey	: preparedDevice.bcmsBeaconKey, 
 					bcmsBeacon 		: {},
@@ -119,9 +119,9 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 	      		startcleaningOldDevicesinterval(2*1000, 3000);
 	      		startUpdateListInterval(1000);
 	      		
-	      		//bleDeviceChannel.subKnownDeviceUpdated($scope, onDeviceUpdatedHandler);
+	      		DeviceDataManagerChannel.subKnownDeviceUpdated($scope, onDeviceUpdatedHandler);
 	      		
-	      		bleScannerChannel.onFoundBleDevice($scope, onFoundDeviceHandler);
+	      		//bleScannerChannel.onFoundBleDevice($scope, onFoundDeviceHandler);
 	      	}
 
 	      	init();

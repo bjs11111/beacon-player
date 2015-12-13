@@ -2,7 +2,7 @@
 var beaconAPIServices = angular.module('commons.services.cms.beaconAPIServices',
 		[ 'commons.services.generalServices.factory','commons.filter.bleFilters' ]);
 
-// Constants for the bleDeviceService
+// Constants for the deviceDataManagerService
 // rename to general settings
 beaconAPIServices.constant("beaconAPIServiceConfig", {
 	//paths
@@ -113,7 +113,7 @@ beaconAPIServices.factory('beaconAPIService', [
 	function($http, $q, beaconAPIServiceConfig, generalServiceConfig, beaconAPIChannel) {
 		
 		//$cordovaEvothingsBLE.addIBeaconRange(value.iBeaconUuid);
-		//bleDeviceService.mapBeaconDataToKnownDevices(value,bleDeviceServiceConfig.mapTypeBcmsDevice);
+
 		var getAllBeacons = function(){
 			
 				var retrievePath = generalServiceConfig.basePath+ '/'+ beaconAPIServiceConfig.getAllBeaconsPath,
@@ -174,10 +174,12 @@ beaconAPIServices.factory('serverBeaconStore', [
 
 				if(filter) {
 					//console.log('_getAll filter', items); 
-					 allFilteredItems = $filter('filter')([], filter);
+					//@TODO change list as obj to list as array to enable filtering
+					allFilteredItems = $filter('filter')([], filter);
 				} else {
-					
-					allFilteredItems =  items;
+					//create a clean (copied reference) to items list 
+					var cleanReferenceToitems = angular.copy(items);
+					allFilteredItems =  cleanReferenceToitems;
 				}	
 				
 			} else {
@@ -257,9 +259,12 @@ beaconAPIServices.factory('serverBeaconStore', [
 			//console.log('getAllBeacons filter:', filter); 
 			var defer = $q.defer();
 			//console.log('beaconList', beaconList); 
+			//_getAll returns a clean (copied reference)
 			_getAll(beaconList, filter).then(
 					//success
-	    			function (items) { defer.resolve(items);  }, 
+	    			function (items) { 
+	    				defer.resolve(items);  
+	    			},
 	    			//error
 	    			function(error) { defer.resolve(error); }
 			);

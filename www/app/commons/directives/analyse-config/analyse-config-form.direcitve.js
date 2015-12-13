@@ -11,13 +11,13 @@
 	 * Manually identify dependencies for minification-safe code
 	 * 
 	 **/
-	analyseConfigForm.$inject = ['scannLogger'];
+	analyseConfigForm.$inject = ['ScannLogger'];
 	
 	/**
 	 * analyseConforPannel
 	 **/
 	/** @ngInject */
-	function analyseConfigForm(scannLogger) {
+	function analyseConfigForm(ScannLogger) {
 
 		 return {
 			    restrict: 'E',
@@ -46,7 +46,7 @@
 			    		//listeners, 
 				    	function init() {
 				    		
-				    		var currentConfig = scannLogger.getConfig();
+				    		var currentConfig = ScannLogger.getConfig();
 				    		
 				    		$scope.cfd.config.title = currentConfig.title;
 				    		$scope.cfd.config.withOS = currentConfig.withOS;
@@ -67,19 +67,19 @@
 				    	 * 
 				    	**/
 				    	function saveConfig(configForm, config) {
-				    			console.log('saveConfig', configForm.$valid); 
+				    			//console.log('saveConfig', configForm.$valid); 
 				    		if(configForm.$valid) {
-				    			scannLogger.setConfig(config);
+				    			ScannLogger.setConfig(config);
 				    		}
 				    		
 				    	}
 				    	
 				    	function startAnalyse() {
-				    		scannLogger.start();
+				    		ScannLogger.start();
 				    	}
 				    	
 				    	function saveData() {
-				    		scannLogger.save();
+				    		ScannLogger.save();
 				    	}
 
 

@@ -3,13 +3,13 @@
 
 
 angular
-    .module('drupalionicDemo.app.controller', ['ngDrupal7Services-3_x.commons.authentication', 'ngDrupal7Services-3_x.commons.directives.toggleByAccesslevel', 'deviceManagers', 'commons.services.generalServices.factory'])
+    .module('drupalionicDemo.app.controller', ['ngDrupal7Services-3_x.commons.authentication', 'ngDrupal7Services-3_x.commons.directives.toggleByAccesslevel', 'commons.services.generalServices.factory'])
     .controller('AppController', AppController);
 	//@TODO try to use $scope to listen on events instead of $rootScope
-	AppController.$inject = ['$rootScope','$state','$ionicSideMenuDelegate','AuthenticationServiceConstant','AuthenticationService','bleDeviceService','generalService'];
+	AppController.$inject = ['$rootScope','$state','$ionicSideMenuDelegate','AuthenticationServiceConstant','AuthenticationService','generalService'];
 
 	/** @ngInject */ 
-	function AppController(   $rootScope,  $state,  $ionicSideMenuDelegate,  AuthenticationServiceConstant,   AuthenticationService, bleDeviceService, generalService ) 
+	function AppController(   $rootScope,  $state,  $ionicSideMenuDelegate,  AuthenticationServiceConstant,   AuthenticationService, generalService ) 
 	{ 
 		// jshint validthis: true 
 		var vm = this;
@@ -21,7 +21,7 @@ angular
 		vm.doLogout = doLogout;
 		
 		//hold phone states
-		vm.states = {};
+		vm.states = {}; 
 		vm.states.isOffline = false;
 	  	 
 	    // listen for Online event

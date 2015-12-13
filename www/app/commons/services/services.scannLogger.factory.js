@@ -4,27 +4,19 @@
 	/**
 	 * NotificationChannel Module
 	 */
-	angular.module('commons.services.scannLogger.factory', ['ngCordova', 'ngDrupal7Services-3_x.resources.node.resource', 'ngDrupal7Services-3_x.commons.helperService', 'commons.services.ble.bleChannels', 'deviceManagers'])
-		   .factory('scannLogger', scannLogger); 
+	angular.module('commons.services.scannLogger.factory', ['ngCordova', 'ngDrupal7Services-3_x.resources.node.resource', 'ngDrupal7Services-3_x.commons.helperService', 'commons.services.ble.bleChannels', 'commons.deviceDataManager.channel', 'commons.deviceDataManager.service'])
+		   .factory('ScannLogger', ScannLogger); 
 
-	/**
-	 * Manually identify dependencies for minification-safe code
-	 * 
-	 **/
-	scannLogger.$inject = ['$rootScope','$state','$filter','$ionicPlatform','bleDeviceChannel','bleDeviceService','NodeResource', 'DrupalHelperService', 'bleScannerChannel'];
+	ScannLogger.$inject = ['$rootScope','$state','$filter','$ionicPlatform','DeviceDataManagerChannel','DeviceDataManagerService','NodeResource', 'DrupalHelperService', 'bleScannerChannel'];
 	
-	/**
-	 * The function holds the logic for local notifications
-	 * 
-	 **/
-	function scannLogger(  $rootScope,  $state,  $filter,   $ionicPlatform, bleDeviceChannel,   bleDeviceService,  NodeResource,   DrupalHelperService,    bleScannerChannel) {
+	function ScannLogger(  $rootScope,  $state,  $filter,   $ionicPlatform, DeviceDataManagerChannel,   DeviceDataManagerService,  NodeResource,   DrupalHelperService,    bleScannerChannel) {
 		
 		var configurations = {};
 		
 		//
 		var scope = $rootScope.$new(),
 			measurementData = [],
-			NotificationChannelService = {
+			ScannLoggerService = {
 			start: start,
 			stop : stop,
 			save : save,
@@ -32,7 +24,7 @@
 			setConfig : setConfig
 		};
 		
-        return NotificationChannelService;
+        return ScannLoggerService;
 
         ////////////
       
@@ -58,28 +50,24 @@
         
         //this is used to update list after serverdata updated   	
     	function onFoundDeviceHandler(preparedDevice) { 
-    		var newDevice =  bleDeviceService.getKnownDevice(preparedDevice.bcmsBeaconKey);
+    		var newDevice =  DeviceDataManagerService.getKnownDevice(preparedDevice.bcmsBeaconKey);
     		console.log(newDevice.scanData.lastScan); 
     		//measurementData[newDevice.scanData.lastScan] = newDevice;
     	
 		};
-        
-       
         
         function stop() {
         	
         }
         
         function save() {
-        	console.log('we try to save now'); 
+        	//console.log('we try to save now'); 
         	
         	var newMeasurement = {
 					        		title : 'configurations.title',
 					        		type : 'messdaten',
 					        		body  : DrupalHelperService.structureField(measurementData, 'value')
 					        	};
-        	
-        	
         	
         	console.log(configurations);
         	

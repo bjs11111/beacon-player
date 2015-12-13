@@ -24,12 +24,19 @@
     <script src="app/commons/services/ble/ble-scanners.js"></script>
     <script src="app/commons/directives/ble-list-item/device-list-directives.js"></script>
     <script src="app/components/ble-devices/ble-devices-controllers.js"></script>
-    <script src="app/commons/services/deviceManagers-services.js"></script>
     
     <!-- should be good to reuse -->
     <script src="app/commons/directives/analyse-config/analyse-config-form.direcitve.js"></script>
     <script src="app/components/analyse/analyse.controller.js"></script>	
     <script src="app/commons/services/services.scannLogger.factory.js"></script>	
+    
+    <script src="app/commons/deviceDataManager/deviceDataManager.bundle.js"></script>
+    <script src="app/commons/deviceDataManager/deviceDataManagerChannel.constant.js"></script>
+    <script src="app/commons/deviceDataManager/deviceDataManager.channel.js"></script>
+    <script src="app/commons/deviceDataManager/deviceDataManager.service.js"></script>
+    <script src="app/commons/deviceDataManager/deviceDataManagerService.constant.js"></script>
+    
+    <script src="app/commons/commons.baseChannel.js"></script>
     
     
     <!-- bower components -->
@@ -46,9 +53,7 @@
     <script src="lib/ng-drupal-7-services/src/commons/commons.validationConstant.js"></script>
     <script src="lib/ng-drupal-7-services/src/commons/commons.baseChannel.js"></script>
     <script src="lib/ng-drupal-7-services/src/commons/commons.baseResource.js"></script>
-    
 
-    
     <script src="lib/ng-drupal-7-services/src/commons/http/http.configurations.js"></script>
     <script src="lib/ng-drupal-7-services/src/commons/http/http.requestAcceptIntercepter.js"></script>
     
@@ -91,6 +96,7 @@
 	
 	<!-- app components -->
 	<script src="app/app.controller.js"></script>	
+	<script src="app/components/deviceManagerLogicTest/deviceManagerLogicTest.controller.js"></script>	
 	<script src="app/components/login/login.controller.js"></script>	
 	<script src="app/components/profile/profile.controller.js"></script>
 	<script src="app/components/profile/profile.service.js"></script>	

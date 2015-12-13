@@ -1,9 +1,9 @@
 /* Services */
-var bcmsServices = angular.module('bcmsServices', ['bleServices']);
+var bcmsServices = angular.module('bcmsServices', ['bleServices', 'commons.deviceDataManagerService.constant', 'commons.deviceDataManager.service']);
 
 bcmsServices
 
-//Constants for the bleDeviceService
+//Constants for the deviceDataeManagerService
 //rename to general settings
 .constant("bcmsAjaxServiceConfig", {
 	//Events
@@ -56,8 +56,8 @@ bcmsServices
 }])
 
 //ajax calls
-.factory( 'bcmsAjaxService', ['$http', 'bcmsAjaxServiceConfig', 'bleDeviceServiceConfig', 'bleDeviceService', '$cordovaEvothingsBLE',
-                      function($http,   bcmsAjaxServiceConfig,   bleDeviceServiceConfig,   bleDeviceService,   $cordovaEvothingsBLE) {
+.factory( 'bcmsAjaxService', ['$http', 'bcmsAjaxServiceConfig', 'DeviceDataManagerServiceConstant', 'DeviceDataManagerService', '$cordovaEvothingsBLE',
+                      function($http,   bcmsAjaxServiceConfig,   DeviceDataManagerServiceConstant,   DeviceDataManagerService,   $cordovaEvothingsBLE) {
 
 	var refreshBeaconList = function() {
 		
@@ -70,7 +70,7 @@ bcmsServices
 					//add uuid to range
 					$cordovaEvothingsBLE.addIBeaconRange(value.iBeaconUuid);
 					
-					bleDeviceService.mapBeaconDataToKnownDevices(value, bleDeviceServiceConfig.mapTypeBcmsDevice); 
+					DeviceDataManagerService.mapBeaconDataToKnownDevices(value, DeviceDataManagerServiceConstant.mapTypeBcmsDevice); 
 				});	
 				return true;
         })

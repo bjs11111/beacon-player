@@ -9,7 +9,8 @@
                                               'drupalionicDemo.profile.controller',
                                               'drupalionicDemo.bleDevicesControllers',
                                               'drupalionicDemo.analyse.controller',
-                                       
+                                              'drupalionicDemo.deviceManagerLogicTest.controller',
+                                              
                                               'commons.services.ble.bleScanners.factory',
                                               
                                               ]) 
@@ -40,6 +41,17 @@
             templateUrl		: "app/app.view.html",
             controller		: 'AppController as app'
           })
+          
+          .state('app.deviceManagerLogicTest', {
+            url: '/deviceManagerLogicTest',
+            views : {
+            	'menuContent' : {
+            		 templateUrl	: 'app/components/deviceManagerLogicTest/deviceManagerLogicTest.view.html',
+                     controller		: 'DeviceManagerLogicTestController as dmlt',
+            	}
+            } 
+       })
+          
 	    
        .state('app.login', {
             url: '/login',

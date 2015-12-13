@@ -7,7 +7,7 @@ deviceManagers.constant( "bleDeviceChannelConfig", {
 	bleDevicesUpdates 	: 'bleDevicesUpdates',
 	
 	enteredTriggerArea 	: 'enteredTriggerArea',
-	exitTriggerArea 	: 'exitTriggerArea '
+	exitTriggerArea 	: 'exitTriggerArea'
 });
 
 //bleDeviceChannel 
@@ -87,18 +87,15 @@ function ($rootScope,   bleDeviceChannelConfig,  beaconAPIChannel) {
 	   pubExitTriggerArea 			: pubExitTriggerArea
 	   
    	};
+   	
 }]);
 
-deviceManagers.constant( "bleDeviceServiceConfig", {
-	mapTypeBleDevice	: 'scanData',
-	mapTypeAPIDevice	: 'bcmsBeacon',
-
-	triggerAreas : {
-		positive 		: 'Positive', 
-		negative 		: 'Negative', 
-		outOfRange 		: 'OutOfRange'
-	},
-	triggerZones: {
+var _triggerAreas 	= {
+						positive 		: 'Positive', 
+						negative 		: 'Negative', 
+						outOfRange 		: 'OutOfRange'
+					},
+	_triggerZones 	= {
 		//Notice Name is same as in bcmsBeaconData
 		noServerConfig  : {
 							name 					: 'NoServerConfig',
@@ -120,7 +117,31 @@ deviceManagers.constant( "bleDeviceServiceConfig", {
 							entryThresholdOffset 	: -10,
 							exitThresholdOffset 	: -40
 						  },
+	};
+
+deviceManagers.constant( "bleDeviceServiceConfig", {
+	//default data
+	defaultData : {
+			scanData 	: {
+					alreadyTriggered 	: false,
+					lastTriggerArea 	: _triggerAreas.outOfRange,
+					actualTriggerArea 	: _triggerAreas.outOfRange,
+					lastRssiValue		: -100,
+					rssi				: -100,
+					lastScan			: 0,
+			},
+			bcmsBeacon : {},
 	},
+	
+	mapTypeBleDevice	: 'scanData',
+	mapTypeAPIDevice	: 'bcmsBeacon',
+	//@TODO replace all bcmsBeacon strings with this constant
+	bcmsBeaconDataKey	: 'bcmsBeacon',
+	//@TODO replace all scanData strings with this constant
+	scanDataKey	: 'scanData',
+
+	triggerAreas : _triggerAreas,
+	triggerZones: _triggerZones,
 	
 });
 
@@ -146,7 +167,7 @@ function( $rootScope,   $q,   $filter,   bleDeviceServiceConfig,   bleDeviceChan
 					defaultData.scanData.lastScan	= 0;
 					
 					defaultData.bcmsBeacon = {};
-					defaultData.bcmsBeacon.alreadyTriggered 	= false;
+					//defaultData.bcmsBeacon.alreadyTriggered 	= false;
 					
          	  		//bcmsBeaconKeyToObj  = $filter('bcmsBeaconKeyToObj');
 
@@ -184,11 +205,11 @@ function( $rootScope,   $q,   $filter,   bleDeviceServiceConfig,   bleDeviceChan
                };
                
                //this function holds all logic for updating and interpreting data form scanner and server
+               //deviceData should be always a clean (copied reference to the data to prevent side effects)
                var mapBeaconDataToKnownDevices = function(deviceData, type) {
             	   	  type = (type)?type:false;
             	   	  
             	   	  //console.log('mapBeaconDataToKnownDevices:', type);
-	             	  
             	   	  var 	bcmsBeaconKey  = deviceData.iBeaconUuid+'.'+deviceData.major+'.'+deviceData.minor, 
 	             	  		oldItem = false,
 	             	  		updatedItem = false;
@@ -209,8 +230,15 @@ function( $rootScope,   $q,   $filter,   bleDeviceServiceConfig,   bleDeviceChan
 	             	  		
 	             	  	//device from ble scanner
 	             	  if ( type == bleDeviceServiceConfig.mapTypeBleDevice ) {
+	             		 
+	             		  
+	             		 //console.log(' deviceData.bcmsBeaconKey',  deviceData.bcmsBeaconKey); 
+	             		//deviceData.bcmsBeaconKey = '?????';
+	             		 //console.log(' deviceData',  deviceData); 
+	             		return;
+	             		 
 	             		  //just to make clear what to consider under deviceData
-	             		  var newScanData = deviceData;
+	             		  var newScanData = angular.copy(deviceData);
 	             		  
 	             		//console.log('o.r: '+ oldItem.bcmsBeaconKey, oldItem.scanData.rssi);
 	             		//console.log('o.a:', oldItem.scanData.actualTriggerArea);
@@ -235,6 +263,7 @@ function( $rootScope,   $q,   $filter,   bleDeviceServiceConfig,   bleDeviceChan
 	             	  } 
 	             	  //bcmsData
 	             	  else if (type == bleDeviceServiceConfig.mapTypeAPIDevice ) {
+	             		
 	             		 updatedItem.bcmsBeacon =  deviceData;
 	             	  } 
 	             	  else { 
@@ -255,7 +284,7 @@ function( $rootScope,   $q,   $filter,   bleDeviceServiceConfig,   bleDeviceChan
                
 
           		//this is used to update after serverdata updated   	
-              	var prepareTriggerData = function(oldItem, newScanData, bcmsBeaconKey)  {
+              	var prepareTriggerData = function(oldItem, newScanData)  {
               		
               			var updatedScanData = angular.copy(oldItem.scanData),
               			    triggerZone = bleDeviceServiceConfig.triggerZones.noServerConfig.name;
@@ -267,20 +296,19 @@ function( $rootScope,   $q,   $filter,   bleDeviceServiceConfig,   bleDeviceChan
    	    				//console.log(triggerZone);
    	    				updatedScanData.actualTriggerArea 		= calculateActualTriggerArea(oldItem, newScanData, triggerZone);
    	    				
+   	    				updatedScanData.lastTriggerArea 		= oldItem.scanData.actualTriggerArea;
+   	    				
    	    				updatedScanData.alreadyTriggered 		= oldItem.scanData.alreadyTriggered;
    	    				
-   	    				updatedScanData.lastTriggerArea 		= oldItem.scanData.actualTriggerArea;
+   	    				
 
    	   				 	updatedScanData.lastRssiValue			= oldItem.scanData.rssi;
    	   				 	
    	   				 	updatedScanData.rssi					= newScanData.rssi;
-   	   			
-   	   				 	
+   	   				
    	   				 	//console.log( 'oldItem.scanData.rssi', oldItem.scanData.rssi ); 
    	   			
    	   				 	//console.log( 'newScanData.rssi', newScanData.rssi ); 
-   	   				 	
-   	   				    
    	   				 	
    	   					return updatedScanData;
 
@@ -394,14 +422,14 @@ function( $rootScope,   $q,   $filter,   bleDeviceServiceConfig,   bleDeviceChan
          		 
          		//console.log('updatedBeaconKeys:', updatedBeaconKeys.length); 
          		
+         		
          		serverBeaconStore
+         			//getAllBeacons returns a clean (copied reference)
          			.getAllBeacons()
          				.then( 
 	         				function(bcmsBeacons) {
 	         					//console.log('bcmsBeacons', bcmsBeacons);
-	         					 angular.forEach(bcmsBeacons, function(bcmsBeacon) {
-	         					
-	         						//console.log('key,bcmsBeacon',bcmsBeacon); 
+	         					 angular.forEach(bcmsBeacons, function(bcmsBeacon) { 
 	         	         			mapBeaconDataToKnownDevices(bcmsBeacon, bleDeviceServiceConfig.mapTypeAPIDevice);  
 	         	         		 }); 
 	         				},function(error) {

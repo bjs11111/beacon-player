@@ -19,8 +19,6 @@ bleScanners.factory('androidBleScanner', [
        '$ionicPlatform',
 		function($q, $ionicPlatform) {
 
-    	   var allDevicesList = [];
-    	   
 			//start scanning for ble devices on Android
 			var startScanning = function(foundDeviceCallback) {
 				var defer = $q.defer();
@@ -29,6 +27,7 @@ bleScanners.factory('androidBleScanner', [
 					evothings.ble.startScan(function(rawDevice) {
 						
 						if(rawDevice.rssi != 0) {
+							//we return a new clean reference of the rawDevice data
 							foundDeviceCallback(rawDevice);
 						}
 						
@@ -257,7 +256,7 @@ bleScanners
 							//holds state of ble scanner
 							var bleScannerState = false,
 							//
-								scannedDevicesList = [],
+								scannedDevicesList = {},
 							//filter returns false if invalif iiud
 								iBeaconUuidToHex = $filter('iBeaconUuidToHex'),
 							//the toIsBrokenRawDevice filter
@@ -280,7 +279,7 @@ bleScanners
 								}
 							};
 							
-							// returns the array of knownDevices
+						   // returns the array of knownDevices
 			               var getScannedDevices = function() {
 			             	  return scannedDevicesList; 
 			               };
@@ -294,11 +293,18 @@ bleScanners
 							// sends notification that a device has been found
 							var foundDevice = function(rawDevice) { 
 								
+								//@TODO: move into separate service that handles ble scanning logic checks autostart 
 								devicesFoundCount++;
+								
+								//we receive a clean (copied reference of the data)
 								var preparedDevice = prepareDeviceData(rawDevice);
+								
 								if(preparedDevice !== false) {
 									scannedDevicesList[preparedDevice.bcmsBeaconKey] = preparedDevice;
-									bleScannerChannel.publishFoundDevice(preparedDevice);
+									
+									//we return a new clean reference of the rawDevice data
+									var cleanReferenceTopreparedDevice = angular.copy(preparedDevice);
+									bleScannerChannel.publishFoundDevice(cleanReferenceTopreparedDevice);
 								}
 							};
 
