@@ -231,26 +231,7 @@ bleScanners
 						'beaconAPIChannel',
 						
 						function($rootScope, $filter, sitBleScannerConfig, bleScannerChannel, androidBleScanner, iosBleScanner, beaconAPIChannel) {
-							
-							//@TODO: move into separate service that handles ble scanning logic checks autostart 
-							// Define a Supervision Timer to see if the Scanner stil receives some information
-							var scannerSupervisionTimer=setInterval(function () {clearSupervisionTimer()}, 2500);
-							var devicesFoundCount=0;
 
-							function clearSupervisionTimer() {
-								if(devicesFoundCount==0 && getBleScannerState()){
-									//Restart BLE Scanner
-									stopScanning();
-									setTimeout(function(){
-										startScanning();
-									},350)
-									
-								}
-								devicesFoundCount=0;
-							}
-							
-							
-							
 							var fakeScope = $rootScope.$new();
 							
 							//holds state of ble scanner
@@ -292,9 +273,6 @@ bleScanners
 
 							// sends notification that a device has been found
 							var foundDevice = function(rawDevice) { 
-								
-								//@TODO: move into separate service that handles ble scanning logic checks autostart 
-								devicesFoundCount++;
 								
 								//we receive a clean (copied reference of the data)
 								var preparedDevice = prepareDeviceData(rawDevice);

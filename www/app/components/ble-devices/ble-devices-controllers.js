@@ -10,8 +10,11 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 				[ '$scope', '$filter','$interval', 'DeviceDataManagerChannel','DeviceDataManagerService',
          function( $scope,   $filter,  $interval,   DeviceDataManagerChannel,  DeviceDataManagerService) {
 			
+			//var ngFilter = $filter('filter');
+			//var itemInLlist = ngFilter(vm.allDevicesList, {bcmsBeaconKey: newDevice.bcmsBeaconKey})[0];
+			
 			var vm = this;
-			vm.allDevicesList = {};	
+			vm.allDevicesList = [];	
 			vm.listLength = 0;
 					
 			var lastScanFilter =  $filter('lastScanFilter'),
@@ -21,9 +24,7 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 			//start interval for cleaning old devices
 			function startUpdateListInterval(interval) {
 				if(!updateListInterval) { 
-					
 					updateListInterval = setInterval(function() { 
-						updateListLength();
 						$scope.$digest();
 					}, interval);
 					
@@ -37,17 +38,6 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 					updateListInterval = undefined;
 				}
 			};
-			
-			//
-	      	function updateListLength() {
-	    		var i = 0;
-	    		for (key in vm.allDevicesList) {
-	    			i++; 
-	    		}
-	    		//used in view
-	    		vm.listLength = i;
-	    	};
-			
 
 			//start interval for cleaning old devices
 			function startcleaningOldDevicesinterval (interval, timeago) {
@@ -56,16 +46,18 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 				if(!cleaningOldDevicesInterval) {
 					cleaningOldDevicesInterval = $interval(function() {
 						//@TODO last ScanFilter is broken
+						//var filteredDevices = lastScanFilter(vm.allDevicesList, timeago, 'scanData');
 						
-						var filteredDevices = lastScanFilter(vm.allDevicesList, timeago, 'scanData');
+						//console.log('filteredDevices:', JSON.stringify(filteredDevices));
 						
-						// console.log('item.scanData:', JSON.stringify(filteredDevices));
-						
+			
+
 						angular.forEach(vm.allDevicesList, function(item, key) {
-							if(!filteredDevices[key]) {
-								//delete vm.allDevicesList[key];
-							}
+							if( item.scanData.lastScan < Date.now()-timeago) {
+								vm.allDevicesList.splice(key, 1);
+							}	
 						});	
+		
 						
 					}, interval);
 				}
@@ -77,47 +69,40 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 					$interval.cancel(cleaningOldDevicesInterval);
 					cleaningOldDevicesInterval = undefined;
 				}
-			};
+			}
 			
-	    	//this is used to update list after serverdata updated   	
-	    	function onFoundDeviceHandler(preparedDevice) { 
-	 
-	    		var newDevice =  DeviceDataManagerService.getKnownDevice(preparedDevice.bcmsBeaconKey);
-	    		/*{
-	    			bcmsBeaconKey	: preparedDevice.bcmsBeaconKey, 
-					bcmsBeacon 		: {},
-					scanData		: preparedDevice
-				};*/
-	    		
-	    		
-	    		
-	    		//console.log(newDevice); 
-	    		//vm.allDevicesList.push(preparedDevice);
-	    		vm.allDevicesList[newDevice.bcmsBeaconKey] = newDevice;
-	    		
-	    		//console.log('onFoundDeviceHandler newDevice:', newDevice); 
-	    		
-	    		//updateListLength();
-			};
-			
-			//receives an item with scan data, cms data and key
+			//receives an item with scan data, cms data and key 
 			function onDeviceUpdatedHandler(newDevice) {
-				console.log('onDeviceUpdatedHandler newDevice: ', newDevice); 
-				
-				//if('bcmsBeacon' in newDevice && 'bcmsBeaconKey' in newDevice.bcmsBeacon) {
-					//console.log('DASFDSF'); 
-					vm.allDevicesList[newDevice.bcmsBeaconKey] = newDevice;
-				//}
-				
-			
-				updateListLength();
+
+	    		if(newDevice.scanData.rssi && newDevice.bcmsBeacon.contentTitle) {
+	    			
+	    			var isNewItem = true;
+	    			for (var i = 0; i < vm.allDevicesList.length; i++) {
+	    		        if (vm.allDevicesList[i].bcmsBeaconKey == newDevice.bcmsBeaconKey) {
+	    		        	isNewItem = false;
+	    		        	vm.allDevicesList[i] = newDevice;
+	    		        } 
+	    		    }
+	    			
+	    			if(isNewItem) {
+	    				vm.allDevicesList.push(newDevice);
+	    			}
+	    			$scope.$digest();
+	    			
+	    			
+	    			
+	    			
+	    			
+	    			
+	    		}
+	    		
 			}
 			
 	      	//initial stuff 
 	      	function init() {
 	      		//console.log('init bleDevicesListCtrl'); 
 	      		startcleaningOldDevicesinterval(2*1000, 3000);
-	      		startUpdateListInterval(1000);
+	      		
 	      		
 	      		DeviceDataManagerChannel.subKnownDeviceUpdated($scope, onDeviceUpdatedHandler);
 	      		

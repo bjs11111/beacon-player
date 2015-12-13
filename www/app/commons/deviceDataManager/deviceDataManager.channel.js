@@ -47,7 +47,7 @@
         
         // publish knownDevices updated notification
         function pubKnownDeviceUpdated(knownDeviceKey) {
-        	BaseChannel.pubRootEmit(SystemChannelConstant.connectConfirmed, {knownDeviceKey : knownDeviceKey});
+        	BaseChannel.pubRootEmit(DeviceDataManagerChannelConstant.bleDeviceUpdates, {knownDeviceKey : knownDeviceKey});
         };
         // subscribe to knownDevices updated notification
         function subKnownDeviceUpdated($scope, scopeHandler) {

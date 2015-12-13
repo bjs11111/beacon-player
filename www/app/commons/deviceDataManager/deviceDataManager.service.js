@@ -161,7 +161,7 @@
    	
    			//skip if maptype not given
    			if(!type) { return; }
-   			console.log('mapType', type); 
+   			//console.log('mapType', type); 
    			
    			
    			//get matching item from knownDevicesList as clean (copied) reference 
@@ -179,14 +179,14 @@
    			var mergedItem = false;
    			if ( type == DeviceDataManagerServiceConstant.mapTypeBleDevice ) {
    				//this returns a clean reference
-   				var mergedItem1 = mapScanData(deviceData, oldItem);
+   				var mergedItem1 = angular.merge({}, oldItem, {scanData : deviceData});
    				//console.log('mergedItem1', mergedItem1); 
    				//mergedItem = mergedItem1;
    				//this returns a clean reference
    				mergedItem = prepareTriggerData(mergedItem1, oldItem);
    			} 
    			else if (type == DeviceDataManagerServiceConstant.mapTypeAPIDevice ) {
-   				mergedItem = mapBcmsData(deviceData, bcmsBeaconKey);
+   				mergedItem = angular.merge({}, oldItem, {bcmsBeacon : deviceData});
    			}
    			
    			
@@ -198,7 +198,7 @@
 
    	   		//tryPubTriggerEvent(updatedItem);
 
-   	   		//DeviceDataManagerChannel.pubKnownDeviceUpdated(updatedItem);
+   	   		DeviceDataManagerChannel.pubKnownDeviceUpdated(mergedItem);
 
        };
        
@@ -375,8 +375,8 @@
   		 * @return new item with scanData and bcmsData
   		 */
   		function getItemWithDefaultData(bcmsBeaconKey) {
-  			
-  			var prepatedItem = { //angular.copy(DeviceDataManagerServiceConstant.defaultData);
+
+  			var prepatedItem = {
   					bcmsBeacon : {},
   					scanData   : {}
   			};
@@ -385,7 +385,7 @@
   				prepatedItem.bcmsBeaconKey = bcmsBeaconKey;
   				prepatedItem.scanData.bcmsBeaconKey = bcmsBeaconKey;
   			}
-  			 
+
   			return prepatedItem;
   		}    	 
 	     

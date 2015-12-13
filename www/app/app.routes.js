@@ -30,7 +30,7 @@
 		$urlRouterProvider.deferIntercept();
 		
 		//routing configurations
-		$urlRouterProvider.otherwise('app/login');
+		$urlRouterProvider.otherwise('app/ble-devices');
 		
 		//set states
 	    $stateProvider
