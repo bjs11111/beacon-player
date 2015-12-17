@@ -32,8 +32,8 @@
           	   subEnteredTriggerArea 		: subEnteredTriggerArea,
           	   pubEnteredTriggerArea 		: pubEnteredTriggerArea,
           	   
-          	   subExitTriggerArea 			: subExitTriggerArea,
-          	   pubExitTriggerArea 			: pubExitTriggerArea
+          	   subExitedTriggerArea 			: subExitedTriggerArea,
+          	   pubExitedTriggerArea 			: pubExitedTriggerArea
           	   
     		
     		
@@ -76,13 +76,13 @@
         };
         
         // publish knownDevices updated notification
-        var pubExitTriggerArea = function (device) {
-     	   BaseChannel.pubRootEmit(DeviceDataManagerChannelConstant.exitTriggerArea, {device : device});
+        function pubExitedTriggerArea(device) {
+     	   BaseChannel.pubRootEmit(DeviceDataManagerChannelConstant.exitedTriggerArea, {device : device});
         };
         // subscribe to knownDevices updated notification
-        var subExitTriggerArea = function ($scope, scopeHandler) {
+        function subExitedTriggerArea($scope, scopeHandler) {
      	   //console.log('subExitedTriggerArea');
-     	   BaseChannel.subRootEmit(DeviceDataManagerChannelConstant.exitTriggerArea, $scope, scopeHandler, function(args) { return args.device; });
+     	   BaseChannel.subRootEmit(DeviceDataManagerChannelConstant.exitedTriggerArea, $scope, scopeHandler, function(args) { return args.device; });
         };
 
       

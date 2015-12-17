@@ -344,7 +344,7 @@
 			else if( 	newItem.scanData.lastTriggerArea 	=== DeviceDataManagerServiceConstant.triggerAreas.positive
 					&&	newItem.scanData.actualTriggerArea 	=== DeviceDataManagerServiceConstant.triggerAreas.negative  ) 
 			{ 
-				DeviceDataManagerChannel.pubExitTriggerArea(newItem);
+				DeviceDataManagerChannel.pubExitedTriggerArea(newItem);
 				return;
 			}
 

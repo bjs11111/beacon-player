@@ -14,7 +14,7 @@
     		bleDevicesUpdates 	: 'bleDevicesUpdates',
     		
     		enteredTriggerArea 	: 'enteredTriggerArea',
-    		exitTriggerArea 	: 'exitTriggerArea'
+    		exitedTriggerArea 	: 'exitedTriggerArea'
 	};
     
   	/**
