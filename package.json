@@ -1,6 +1,7 @@
 {
   "name": "beaconplayer",
   "version": "0.0.1",
+  "license": "MIT",
   "repository": {
     "url": "git@github.com:Tokencube/beacon-player.git"
   },
@@ -19,8 +20,8 @@
     "shelljs": "^0.3.0"
   },
   "cordovaPlugins": [
-    "com.ionic.keyboard",
-     {
+   
+    {
       "locator": "https://github.com/apache/cordova-plugin-whitelist.git",
       "id": "cordova-plugin-whitelist"
     },
@@ -40,14 +41,9 @@
       "locator": "https://github.com/petermetz/cordova-plugin-ibeacon.git",
       "id": "com.unarin.cordova.beacon"
     }
-
-  ],
-  "license": [
-    {
-      "type": "MIT"
-    }
   ],
   "cordovaPlatforms": [
-    "android"
+    "android",
+    "ios"
   ]
 }
