@@ -39,6 +39,7 @@ $ npm install -g ionic cordova bower
   ```bash
   $ npm install
   ```
+  
 3. Load bower lib's
   As all the thrid party libs are not in the repository we have to load them over bower
   ```bash
@@ -57,6 +58,16 @@ $ npm install -g ionic cordova bower
   ```bash
   $ ionic state restore
   ```
+  
+  **NOTICE:**
+  I'm not 100% chure for now but i think following:
+  If you do "ionic plugin add [plugin]" it will change you config.xml by adding the plugin references.
+  If you do "ionic state restore" it will not. 
+  
+  Consider this when installing, testing or removing cordova plugins
+  
+  
+  
   This will create the platforms folder and loads codrova android and ios platform.
   It also creates the plugins folder and loads the plugins defined in package.json  
   
@@ -65,6 +76,8 @@ $ npm install -g ionic cordova bower
     ```bash
      $ ionic resources
      ```
+     This will also change your config.xml by adding the platforms icon tags. 
+     
 2. run app on device
   To run the project on your mobile phone do following
   ```bash

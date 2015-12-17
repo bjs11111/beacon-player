@@ -25,7 +25,7 @@
   <engine name="android" spec="~4.1.1"/>
   <engine name="ios" spec="~3.9.2"/>
   
-
+  <plugin name="com.ionic.keyboard" spec="~1.0.4"/>
   <plugin name="cordova-plugin-whitelist" spec="~1.2.0"/>
   <plugin name="phonegap-plugin-barcodescanner" spec="https://github.com/wildabeast/BarcodeScanner.git"/>
   <plugin name="de.appplant.cordova.plugin.local-notification" spec="https://github.com/katzer/cordova-plugin-local-notifications.git"/>
