@@ -20,7 +20,6 @@
     "shelljs": "^0.3.0"
   },
   "cordovaPlugins": [
-   
     {
       "locator": "https://github.com/apache/cordova-plugin-whitelist.git",
       "id": "cordova-plugin-whitelist"
@@ -40,7 +39,8 @@
     {
       "locator": "https://github.com/petermetz/cordova-plugin-ibeacon.git",
       "id": "com.unarin.cordova.beacon"
-    }
+    },
+    "com.ionic.keyboard"
   ],
   "cordovaPlatforms": [
     "android",
