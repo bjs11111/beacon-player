@@ -51,18 +51,27 @@ $ npm install -g ionic cordova bower
   
 ###Setup project for mobile development
 
-To build your project for platforms or debugging over console setup codrova platforms and plugins.
-These are defined in the package.json file
-```bash
-$ ionic state restore
-```
-This will create the platforms folder and loads codrova android and ios platform.
-It also creates the plugins folder and loads the plugins defined in package.json
-
-To run the project on your mobile phone do following
-```bash
-$ ionic run android --device
-```
+1. setup cordova platforms and plugins
+  To build your project for platforms or debugging over console setup codrova platforms and plugins.
+  These are defined in the package.json file
+  ```bash
+  $ ionic state restore
+  ```
+  This will create the platforms folder and loads codrova android and ios platform.
+  It also creates the plugins folder and loads the plugins defined in package.json  
+  
+  - setup icons and splash screen
+    To generate all different versions of splash screens and app icons run following
+    ```bash
+     $ ionic resources
+     ```
+2. run app on device
+  To run the project on your mobile phone do following
+  ```bash
+  $ ionic run android --device
+  ```
+  
+  To change the images just replace the splash.png or icon.png file in the resources folder of the root directory
 
 
 ##View remote
