@@ -12,22 +12,25 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 			
 			//var ngFilter = $filter('filter');
 			//var itemInLlist = ngFilter(vm.allDevicesList, {bcmsBeaconKey: newDevice.bcmsBeaconKey})[0];
-			
-			var vm = this;
-			vm.allDevicesList = [];	
-			vm.listLength = 0;
-					
 			var lastScanFilter =  $filter('lastScanFilter'),
 				cleaningOldDevicesInterval = undefined,
 				updateListInterval = undefined;
 			
+			var vm = this;
+			
+				vm.allDevicesList = [];	
+				vm.listLength = 0;
+			
+			init();
+			
+			/////////////////////////////////////
+
 			//start interval for cleaning old devices
 			function startUpdateListInterval(interval) {
 				if(!updateListInterval) { 
 					updateListInterval = setInterval(function() { 
 						$scope.$digest();
 					}, interval);
-					
 				}
 			};
 			
@@ -47,11 +50,8 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 					cleaningOldDevicesInterval = $interval(function() {
 						//@TODO last ScanFilter is broken
 						//var filteredDevices = lastScanFilter(vm.allDevicesList, timeago, 'scanData');
-						
 						//console.log('filteredDevices:', JSON.stringify(filteredDevices));
 						
-			
-
 						angular.forEach(vm.allDevicesList, function(item, key) {
 							if( item.scanData.lastScan < Date.now()-timeago) {
 								vm.allDevicesList.splice(key, 1);
@@ -102,13 +102,10 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 	      	function init() {
 	      		//console.log('init bleDevicesListCtrl'); 
 	      		startcleaningOldDevicesinterval(2*1000, 3000);
-	      		
-	      		
 	      		DeviceDataManagerChannel.subKnownDeviceUpdated($scope, onDeviceUpdatedHandler);
-	      		
 	      		//bleScannerChannel.onFoundBleDevice($scope, onFoundDeviceHandler);
 	      	}
 
-	      	init();
+	      
 
 }]);
