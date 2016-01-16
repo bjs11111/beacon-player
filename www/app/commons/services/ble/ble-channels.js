@@ -24,6 +24,8 @@ bleChannels.factory('bleScannerChannel', ['$rootScope', 'bleScannerChannelConfig
 		$scope.$on('$destroy', function() {
 			unsubscopeHandler();
 		});
+		
+		return unsubscopeHandler;
 	};
 	
 	var _publish = function(event, args) {
@@ -48,7 +50,7 @@ bleChannels.factory('bleScannerChannel', ['$rootScope', 'bleScannerChannelConfig
     };
     //subscribe to found device notification
     var onFoundBleDevice = function($scope, scopeHandler) {
-    	_subscribe(bleScannerChannelConfig._FOUND_BLE_DEVICE_, $scope, scopeHandler, function(args) { return args.rawDevice; });
+    	return _subscribe(bleScannerChannelConfig._FOUND_BLE_DEVICE_, $scope, scopeHandler, function(args) { return args.rawDevice; });
     };
   
     // publish knownDevice updated notification

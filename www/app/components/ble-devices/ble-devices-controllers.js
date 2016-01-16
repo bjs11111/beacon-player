@@ -48,17 +48,12 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 			
 				if(!cleaningOldDevicesInterval) {
 					cleaningOldDevicesInterval = $interval(function() {
-						//@TODO last ScanFilter is broken
-						//var filteredDevices = lastScanFilter(vm.allDevicesList, timeago, 'scanData');
-						//console.log('filteredDevices:', JSON.stringify(filteredDevices));
-						
+						//@TODO lastScanFilter is broken
 						angular.forEach(vm.allDevicesList, function(item, key) {
 							if( item.scanData.lastScan < Date.now()-timeago) {
 								vm.allDevicesList.splice(key, 1);
 							}	
 						});	
-		
-						
 					}, interval);
 				}
 			}; 
@@ -73,7 +68,6 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 			
 			//receives an item with scan data, cms data and key 
 			function onDeviceUpdatedHandler(newDevice) {
-
 	    		if(newDevice.scanData.rssi && newDevice.bcmsBeacon.contentTitle) {
 	    			
 	    			var isNewItem = true;
@@ -84,18 +78,10 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 	    		        } 
 	    		    }
 	    			
-	    			if(isNewItem) {
-	    				vm.allDevicesList.push(newDevice);
-	    			}
+	    			if(isNewItem) { vm.allDevicesList.push(newDevice); }
+	    			
 	    			$scope.$digest();
-	    			
-	    			
-	    			
-	    			
-	    			
-	    			
 	    		}
-	    		
 			}
 			
 	      	//initial stuff 

@@ -35,26 +35,31 @@
 			    
 			    		$scope.cfd = {};
 			    		$scope.cfd.config = {};
+			    		$scope.cfd.packagesCount = ScannLogger.packagesCount;
 			    		$scope.cfd.saveConfig = saveConfig;
-			    		$scope.cfd.startAnalyse = startAnalyse;
-			    		$scope.cfd.saveData = saveData;
+			    		$scope.cfd.updateCount = updateCount;
+			    		$scope.cfd.startAnalyse = ScannLogger.start;
+			    		$scope.cfd.stopAnalyse = ScannLogger.stop;
+			    		$scope.cfd.saveData = ScannLogger.save;
 			    	
 			    		init();
-			    		
+			    
 			    		/////
 			    		
 			    		//listeners, 
 				    	function init() {
-				    		
 				    		var currentConfig = ScannLogger.getConfig();
-				    		
 				    		$scope.cfd.config.title = currentConfig.title;
 				    		$scope.cfd.config.withOS = currentConfig.withOS;
 				    		$scope.cfd.config.withOSVersion = currentConfig.withOSVersion;
 				    		$scope.cfd.config.withAppState = currentConfig.withAppState;
 				    		$scope.cfd.config.withGPSPosition = currentConfig.withGPSPosition;
-				    		
+
 				    	};
+				    	
+				    	function updateCount() {
+				    		$scope.cfd.packagesCount = ScannLogger.packagesCount;
+				    	}
 				    	
 				    	
 				    	/**
@@ -71,15 +76,6 @@
 				    		if(configForm.$valid) {
 				    			ScannLogger.setConfig(config);
 				    		}
-				    		
-				    	}
-				    	
-				    	function startAnalyse() {
-				    		ScannLogger.start();
-				    	}
-				    	
-				    	function saveData() {
-				    		ScannLogger.save();
 				    	}
 
 

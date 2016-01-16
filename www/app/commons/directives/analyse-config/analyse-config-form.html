@@ -25,9 +25,11 @@
 	
 		<button class="button button-positive button-clear padding-vertical button-center">Save settings</button>
 	</form>
+	<div>{{cfd.packagesCount}}</div>
+	<button ng-click="cfd.updateCount()" class="button button-positive button-clear padding-vertical button-center">update count</button>
 	
-	
-	<button ng-click="cfd.startAnalyse" class="button button-positive button-clear padding-vertical button-center">Start analysing</button>
+	<button ng-click="cfd.startAnalyse()" class="button button-positive button-clear padding-vertical button-center">Start</button>
+	<button ng-click="cfd.stopAnalyse()" class="button button-positive button-clear padding-vertical button-center">Stop</button>
 	
 	<button ng-click="cfd.saveData()" class="button button-positive button-clear padding-vertical button-center">Save</button>
 	
