@@ -117,9 +117,6 @@ bleScanners.factory('iosBleScanner', [
 					}
 				}
 			}
-			
-			
-
 
 			//start scanning for ble devices on IOS
             var startScanning = function(foundDeviceCallback) {
@@ -217,7 +214,7 @@ bleScanners.factory('iosBleScanner', [
 
 		} ]);
 
-/* ble scanner for hybride scanning*/
+/* ble scanner for hybrid scanning*/
 bleScanners
 		.factory(
 				'sitBleScanner',
@@ -412,13 +409,7 @@ bleScanners
 								return preparedDevice;
 							};
 							
-							var subGetAllBeaconsCallback =  function(beaconList)  {
-								if (ionic.Platform.isIOS()) {
-									angular.forEach(beaconList, function(beacon, key) {
-										//iosBleScanner.addIBeaconRange(beacon.iBeaconUuid); 
-									});	
-								}
-				           	};
+							
 				           	
 							/*
 							 * android section 
@@ -427,7 +418,7 @@ bleScanners
 							//decode scanRecond of device and extract data
 							//returns false or the device
 							var prepareAndroidDeviceData = function(rawDevice) {
-							
+								
 								var preparedDevice = angular.copy(rawDevice); 
 								
 								var hexToIBeaconUuid = $filter('hexToIBeaconUuid'), 
@@ -763,9 +754,9 @@ bleScanners
 							});
 
 							return {
-								getFakePlatform : getFakePlatform,
-								setFakePlatform : setFakePlatform,
-								getPlatformTypes : getPlatformTypes,
+								getFakePlatform 	: getFakePlatform,
+								setFakePlatform 	: setFakePlatform,
+								getPlatformTypes 	: getPlatformTypes,
 
 								rawAndroidScannData : rawAndroidScannData,
 								rawIOSScannData : rawIOSScannData,

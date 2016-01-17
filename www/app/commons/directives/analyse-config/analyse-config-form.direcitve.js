@@ -4,7 +4,8 @@
 	/**
 	 * analyseConforPannel Module
 	 */
-	var analyseConfigForm = angular.module('commons.directives.analyseConfigForm.directive', ['commons.services.scannLogger.factory'])
+	var analyseConfigForm = angular.module('commons.directives.analyseConfigForm.directive', ['commons.services.scannLogger.factory','services.scannLogger.saveProgress.directive'])
+	
 	.directive('analyseConfigForm', analyseConfigForm);
 
 	/**
@@ -18,7 +19,7 @@
 	 **/
 	/** @ngInject */
 	function analyseConfigForm(ScannLogger) {
-
+		
 		 return {
 			    restrict: 'E',
 			    replace:true,

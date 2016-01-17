@@ -355,7 +355,7 @@ bleFilters.filter('bcmsBeaconKeyToInt', ['$filter', function($filter) {
 		var iBeaconUuidToHexFilter = $filter('iBeaconUuidToHex');
 
     	var iBeaconObj = bcmsBeaconKeyToObjFilter(value);
-    	console.log('iBeaconObj', iBeaconObj); 
+    	
     	var iBeaconUuidAsHex = iBeaconUuidToHexFilter(iBeaconObj.iBeaconUuid);
 		var iBeaconUuidAsInt = parseInt(iBeaconUuidAsHex,16);
 		iBeaconUuidAsInt = iBeaconUuidAsInt/100000000000000000000000000000000000000;
