@@ -4,7 +4,7 @@
 	/**
 	 * analyseConforPannel Module
 	 */
-	var analyseConfigForm = angular.module('commons.directives.analyseConfigForm.directive', ['commons.services.scannLogger.factory','services.scannLogger.saveProgress.directive'])
+	var analyseConfigForm = angular.module('commons.directives.analyseConfigForm.directive', ['angular.filter','commons.services.scannLogger.factory', 'commons.services.scannLogger.channel', 'services.scannLogger.saveProgress.directive'])
 	
 	.directive('analyseConfigForm', analyseConfigForm);
 
@@ -12,73 +12,92 @@
 	 * Manually identify dependencies for minification-safe code
 	 * 
 	 **/
-	analyseConfigForm.$inject = ['ScannLogger'];
+	analyseConfigForm.$inject = ['ScannLogger', 'ScannLoggerChannel', '$timeout'];
 	
 	/**
 	 * analyseConforPannel
 	 **/
 	/** @ngInject */
-	function analyseConfigForm(ScannLogger) {
+	function analyseConfigForm(ScannLogger, ScannLoggerChannel, $timeout, $filter) {
+		
+		var buttonIcons = {
+				ready : 'ion-play',
+				recording : 'ion-stop',
+				finished : 'ion-upload'
+		};
 		
 		 return {
 			    restrict: 'E',
 			    replace:true,
 			    templateUrl: 'app/commons/directives/analyse-config/analyse-config-form.html',
-			    scope: {},
 			    controller: ['$scope',
 			        function( $scope) {
-			    	 ////////////
-			        
-			    	
-			    	//________________________________________________________________________________________________________________________________________
-			    	
-			    		//prepare
-			    
+			    		
 			    		$scope.cfd = {};
+			    		
 			    		$scope.cfd.config = {};
-			    		$scope.cfd.packagesCount = ScannLogger.packagesCount;
-			    		$scope.cfd.saveConfig = saveConfig;
-			    		$scope.cfd.updateCount = updateCount;
-			    		$scope.cfd.startAnalyse = ScannLogger.start;
-			    		$scope.cfd.stopAnalyse = ScannLogger.stop;
-			    		$scope.cfd.saveData = ScannLogger.save;
-			    	
+			    		$scope.cfd.packagesCount = undefined;
+			    		$scope.cfd.title = '';
+			    		$scope.cfd.isTitle = false;
+			    		$scope.cfd.saveTitle = saveTitle;
+			    		
+			    		$scope.cfd.mainButtonPress = mainButtonPress;
+
 			    		init();
 			    
-			    		/////
+			    		/////////////////////////////////////////
 			    		
 			    		//listeners, 
 				    	function init() {
-				    		var currentConfig = ScannLogger.getConfig();
-				    		$scope.cfd.config.title = currentConfig.title;
-				    		$scope.cfd.config.withOS = currentConfig.withOS;
-				    		$scope.cfd.config.withOSVersion = currentConfig.withOSVersion;
-				    		$scope.cfd.config.withAppState = currentConfig.withAppState;
-				    		$scope.cfd.config.withGPSPosition = currentConfig.withGPSPosition;
+
+				    		stateUpdatedHandler(ScannLogger.getState());
+				    		ScannLoggerChannel.subStateUpdated($scope, stateUpdatedHandler);
+				    		
+				    		countUpdatedHandler(ScannLogger.getCount());
+				    		ScannLoggerChannel.subCountUpdated($scope, countUpdatedHandler)
 
 				    	};
-				    	
-				    	function updateCount() {
-				    		$scope.cfd.packagesCount = ScannLogger.packagesCount;
+
+				    	function countUpdatedHandler(count) {
+				    		//@TODO this should work without timeout
+				    		$timeout(function() {
+				    			$scope.cfd.packagesCount = count; 
+				    		},0);
 				    	}
 				    	
-				    	
-				    	/**
-				    	 * saveConfig
-				    	 * 
-				    	 * validates and saves params form form into loggerService
-				    	 * 
-				    	 * @param configForm {ngForm} the form
-				    	 * @param config {Object} the config data
-				    	 * 
-				    	**/
-				    	function saveConfig(configForm, config) {
-				    			//console.log('saveConfig', configForm.$valid); 
-				    		if(configForm.$valid) {
-				    			ScannLogger.setConfig(config);
+				    	function stateUpdatedHandler(newState) {
+				    		$scope.cfd.mainBtnIcon = buttonIcons[newState];	
+				    		
+				    		if(newState === 'ready') {
+				    			$scope.cfd.title = '';
+					    		$scope.cfd.isTitle = false;
 				    		}
 				    	}
-
+				    	
+				    	function mainButtonPress() {
+				    	
+				    		var actualState = ScannLogger.getState();
+				    		
+				    		switch(actualState) {
+				    			case 'ready':
+				    				ScannLogger.start();
+				    				break;
+				    			case 'recording':
+				    				ScannLogger.stop();
+				    				break;
+				    			case 'finished':
+				    				ScannLogger.save();
+				    				break;
+				    		}
+				    	}
+				    	
+				    	function saveTitle(analyseForm, title) {
+				    		
+				    		if(analyseForm.$valid) {
+				    			ScannLogger.setTitle(title);
+				    			$scope.cfd.isTitle = true;
+				    		}
+				    	}
 
 			    }]
 			  

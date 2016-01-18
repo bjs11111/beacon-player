@@ -1,33 +1,52 @@
-<div id="analyse-config-form" scann-logger-save-progress container="z">
+<div id="analyse-config-form"  >
 
-	<form  name="analyseForm" ng-submit="cfd.saveConfig(analyseForm, cfd.config)" novalidate>
+	<form name="cfd.analyseForm" novalidate>
 
-       	<label class="item item-input item-floating-label" ng-class="{ 'has-error' : analyseForm.title.$invalid && analyseForm.$submitted, 'valid' : analyseForm.title.$valid && analyseForm.$submitted}">
-		   <span class="input-label">Title of measurement</span>
-		   <input type="text" placeholder="Title of measurement" name="title" ng-model="cfd.config.title" autocorrect="off" autocapitalize="off" spellcheck="false" required>
-		</label>
-       	<div class="form-errors"
-            ng-show="analyseForm.title.$invalid && analyseForm.$submitted"
-            ng-messages="analyseForm.title.$error">
-            <div class="form-error" ng-message="required">This field is required.</div>
-       	</div> 	
-       	
-        <div class="form-errors" ng-show="analyseForm.$submitted">
-          <div class="form-error" ng-bind-html="error" ng-repeat="error in loginServerErrors" ></div>
-        </div> 
 
-		<button class="button button-positive button-clear padding-vertical button-center">Save settings</button>
+		<div  class="list card">
+			
+			<div class="item item-input-inset" ng-show="!cfd.isTitle">
+	          	<label class="item-input-wrapper" ng-class="{ 'has-error' : analyseForm.title.$invalid && analyseForm.$submitted, 'valid' : analyseForm.title.$valid && analyseForm.$submitted}">
+		           	<input class="text-center"
+					type="text" placeholder="Name of Analyse" name="title" ng-model="cfd.title" autocorrect="off" autocapitalize="off" spellcheck="false" required>
+	          	</label>
+	            <button class="button button-clean button outlined button-small  button-icon icon ion-clipboard" ng-click="cfd.saveTitle(cfd.analyseForm, cfd.title)">
+			    </button> 
+			    <div class="form-errors"
+					ng-show="analyseForm.title.$invalid && analyseForm.$submitted"
+					ng-messages="analyseForm.title.$error">
+					<div class="form-error" ng-message="required">This field is
+						required.</div>
+				</div>
+
+				<div class="form-errors" ng-show="analyseForm.$submitted">
+					<div class="form-error" ng-bind-html="error"
+						ng-repeat="error in loginServerErrors"></div>
+				</div>
+		    </div>
+
+
+			<div scann-logger-save-progress></div>
+		    <div class="item text-center"  ng-show="cfd.isTitle">
+		    	<h2>{{cfd.title}}</h2>
+		    </div>
+		    
+		    
+			<div  class="item item-body" ng-show="cfd.isTitle">
+				 <p>
+				 <button ng-click="cfd.mainButtonPress()"
+					class="button button-positive button-clear padding-vertical button-center button-icon icon icon-xxl"
+					ng-class="cfd.mainBtnIcon"></button>
+					</p>
+				<p class="text-center">{{cfd.packagesCount}}/{{cfd.packagesCount*105 | byteFmt: 4 }}</p>
+			</div>
+			
+			
+
+		</div>
 	</form>
-	
-	<scann-logger-save-progress></scann-logger-save-progress>
-	
-	<div>{{cfd.packagesCount}}</div>
-	<button id="z" ng-click="cfd.updateCount()" class="button button-positive button-clear padding-vertical button-center">update count</button>
-	
-	<button ng-click="cfd.startAnalyse()" class="button button-positive button-clear padding-vertical button-center">Start</button>
-	<button ng-click="cfd.stopAnalyse()" class="button button-positive button-clear padding-vertical button-center">Stop</button>
-	
-	<button ng-click="cfd.saveData()" class="button button-positive button-clear padding-vertical button-center">Save</button>
-	
-	
+
+
+
+
 </div>

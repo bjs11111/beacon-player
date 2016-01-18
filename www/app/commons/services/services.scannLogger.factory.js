@@ -20,16 +20,20 @@
 			
 			scope = $rootScope.$new(),
 			unsubFoundDevice,
+			//ready, recording, finished 
+			serviceState = 'ready',
+			title = '',
 			measurementData = [],
 			packagesCount = 0;
 			
 		var	ScannLoggerService = {
+			setTitle : setTitle,
+			getTitle : getTitle,
+			getState : getState,
 			start: start,
 			stop : stop,
 			save : save,
-			packagesCount : packagesCount,
-			getConfig : getConfig,
-			setConfig : setConfig
+			getCount : getCount
 		};
 		
 		init();
@@ -57,37 +61,47 @@
      	     //$ionicPlatform.on('offline', function(event){offline = true;});
          };
          
+         function setState(state) {
+        	 
+        	 var states = ['ready', 'recording', 'finished'];
+        	 if(states.indexOf(state) != -1) {
+        		 serviceState = state;
+        		 console.log(ScannLoggerChannel); 
+        		 ScannLoggerChannel.pubStateUpdated(serviceState);
+        	 }
+         }
          
+			
+			
+			function setTitle(newTitle) {
+				title = newTitle;
+	         }
+	         
+	         function getTitle() {
+	        	 return title;
+	         }
+	         
+	         
+         function getState() {
+        	 return serviceState;
+         }
          
-      
-        /**
-         * setConfig
-         * @TODO extend with checks
-         * 
-         * @param data {Object} json with key and value of new measurement data
-         * 
-         * @return {Boolean}
-         */
-        function setConfig(settingsOrKey, value) {
-        	if(angular.isString(settingsOrKey)) {
-        		configurations[settingsOrKey] = value;
-        	}
-        	else {
-        		configurations	= settingsOrKey;
-        	}
-        }
-        
-        function getConfig(key) {
-        	if(key) {
-        		return configurations.key;
-        	}
-        	
-        	return configurations;
-        }
+         function getCount() {
+        	 return packagesCount;
+         }
+         
+         function updatePackageCounter(){
+        	 packagesCount++;
+        	 ScannLoggerChannel.pubCountUpdated(packagesCount);
+         }
 
+         
+         
         function start() {
-        	if(!unsubFoundDevice) {
+        	
+        	if(unsubFoundDevice === undefined) {
         		unsubFoundDevice = bleScannerChannel.onFoundBleDevice(scope, onFoundDeviceHandler);
+        		setState('recording');
         	}
 	      	
         }
@@ -103,7 +117,8 @@
     		blePackage.rs = preparedDevice.rssi;
     		blePackage.la = preparedDevice.lastScan;
 
-    		ScannLoggerService.packagesCount++;
+    		
+    		updatePackageCounter();
     		
     		var newData =  {};
     	
@@ -121,6 +136,8 @@
         function stop() {
         	if(unsubFoundDevice) {
         		unsubFoundDevice();
+        		unsubFoundDevice = undefined;
+        		setState('finished');
         	} 	
         }
         
@@ -129,11 +146,11 @@
         	
         	//@TODO devide array into chunks of 5000
         	//2 for the wrapper obj
-        	//each row hhas max 105 chars
+        	//each row has max 105 chars
         	//{"1441216420474":{"bg":0,"bl":{"ud":"E6C56DB5-DFFB-48D2-B088-40F5A81496EE","ma":0000,"mi":0000,"rs":-99}},}
         	var promises = chunk(measurementData, 5).map(function(arr) {
         		var newMeasurement = {
-		        		title 	: 'configurations.title',
+		        		title 	: title,
 		        		type 	: 'messdaten',
 		        		body  	: DrupalHelperService.structureField({ value : [JSON.stringify(arr)], format: "plain_text"})
 		        	};
@@ -141,20 +158,24 @@
         	});
 
         	ScannLoggerChannel.pubProgressStart(promises.length);
+        	
         	allWithProgress(promises, function(progress) {
         	    if(progress == 1) {
         	    	ScannLoggerChannel.pubProgressComplete(promises.length);
+        	    	measurementData = [];
+        	    	setState('ready');
         	    }
-        	    else {
+        	    else { 
         	    	ScannLoggerChannel.pubProgress(progress);
         	    }
         	   
         	})
         	.catch(function(error) {
-        	    console.log(error);
+    	    	ScannLoggerChannel.pubProgressComplete(promises.length);
         	});
         }
         
+        //@TODO replace with angular.filter
         function chunk(arr, n) {
     	    return arr.reduce(function(p, cur, i) {
     	        (p[i/n|0] = p[i/n|0] || []).push(cur);
@@ -162,6 +183,7 @@
     	    },[]);
     	}
         
+        //
         function allWithProgress(promises, progress) {
     	    var total = promises.length;
     	    var now = 0;

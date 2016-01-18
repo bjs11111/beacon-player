@@ -2,6 +2,9 @@
 	'use strict';
 	
     var	progressChannelConstant =  {
+    		 STATE_UPDATED		: 'STATE_UPDATED',
+    		 COUNT_UPDATED		: 'COUNT_UPDATED',
+    		
     		 PROGRESS_START 	: 'PROGRESS_START',
     		 PROGRESS 			: 'PROGRESS',
     		 PROGRESS_COMPLETE 	: 'PROGRESS_COMPLETE' 
@@ -17,20 +20,43 @@
 		//setup and return service            	
         var ScannLoggerChannel = {
         		
-        	   subProgressStart 	: subProgressStart,
-        	   pubProgressStart		: pubProgressStart,
-          	   
-        	   subProgress 			: subProgress,
-        	   pubProgress			: pubProgress,
-          	   
-        	   subProgressComplete 	: subProgressComplete,
-        	   pubProgressComplete 	: pubProgressComplete
+			subCountUpdated 	: subCountUpdated,
+			pubCountUpdated		: pubCountUpdated,
+				
+			subStateUpdated 	: subStateUpdated,
+			pubStateUpdated		: pubStateUpdated,
+				
+			subProgressStart 	: subProgressStart,
+			pubProgressStart	: pubProgressStart,
+			   
+			subProgress 		: subProgress,
+			pubProgress			: pubProgress,
+			   
+			subProgressComplete : subProgressComplete,
+			pubProgressComplete : pubProgressComplete
 
         };
         
         return ScannLoggerChannel;
 
         ////////////
+        
+        function pubCountUpdated(count) {
+        	BaseChannel.pubRootEmit(progressChannelConstant.COUNT_UPDATED, {count : count});
+        };
+        function subCountUpdated($scope, scopeHandler) {
+     	   BaseChannel.subRootEmit(progressChannelConstant.COUNT_UPDATED, $scope, scopeHandler, function(args) { return args.count; });
+        };
+        
+        
+        function pubStateUpdated(state) {
+        	BaseChannel.pubRootEmit(progressChannelConstant.STATE_UPDATED, {state : state});
+        };
+        function subStateUpdated($scope, scopeHandler) {
+     	   BaseChannel.subRootEmit(progressChannelConstant.STATE_UPDATED, $scope, scopeHandler, function(args) { return args.state; });
+        };
+        
+        
         function pubProgressStart(count) {
         	BaseChannel.pubRootEmit(progressChannelConstant.PROGRESS_START, {count : count});
         };

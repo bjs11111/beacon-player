@@ -10,3 +10,50 @@
 	margin:0 auto; 
 	display:block
 }
+
+
+.button-icon.icon.icon-xxl:before,
+.icon-xxl.icon {
+    padding: 0 0 1px 0;
+    font-size: 50px;
+    line-height: 50px;
+}
+
+.text-center {
+	text-align:center;  
+}
+				 
+#ngProgress {
+    margin: 0;
+    padding: 0;
+    z-index: 99998;
+    background-color: orange;
+    color: orange;
+    box-shadow: 0 0 10px 0; 
+    height: 2px;
+    opacity: 0; 
+
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+#ngProgress-container {
+    position: relative; 
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99999;
+}
+
+.ng-progress-top {
+ top: 0;
+}
+
+.ng-progress-bottom {
+ bottom: 0;
+}
+				 
