@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ionicframework.ionicheadlessdrupaldemo488727" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>Gewista - Analyse Tool</name>
-  <description>&#xD;&#xD;&#xD;
-        An Ionic Framework and Cordova project.&#xD;&#xD;&#xD;
-    </description>
-  <author email="klaus@starnberger.at" href="starnberger.at">&#xD;&#xD;&#xD;
-      Beacon Player Team&#xD;&#xD;&#xD;
+<widget id="com.starnberger.beaconplayer" version="1.0.11" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>Analyse Tool</name>
+  <description>
+    BeaconPlayer is a free and Open Source Platform and App for experimenting with beacons. This version is an analyse tool.
+  </description>
+  <author email="office@starnberger.at" href="www.starnberger.at">Starnberger Innovation und Technology
   </author>
   <content src="index.html"/>
   <access origin="*"/>
@@ -16,11 +15,12 @@
   <preference name="BackupWebStorage" value="none"/>
   <preference name="SplashScreen" value="screen"/>
   <preference name="SplashScreenDelay" value="3000"/>
+  <preference name="deployment-target" value="8.2"/>
   <feature name="StatusBar">
     <param name="ios-package" onload="true" value="CDVStatusBar"/>
   </feature>
   <engine name="android" spec="~4.1.1"/>
-  <engine name="ios" spec="~3.9.2"/>
+  <engine name="ios" spec="~3.8.2"/>
   <plugin name="com.ionic.keyboard" spec="~1.0.4"/>
   <plugin name="cordova-plugin-whitelist" spec="~1.2.0"/>
   <plugin name="phonegap-plugin-barcodescanner" spec="https://github.com/wildabeast/BarcodeScanner.git"/>
@@ -30,31 +30,31 @@
   <plugin name="com.unarin.cordova.beacon" spec="https://github.com/petermetz/cordova-plugin-ibeacon.git"/>
   <plugin name="cordova-plugin-vibration" spec="~2.0.0"/>
   <plugin name="cordova-plugin-inappbrowser" spec="~1.1.1"/>
-  <icon src="resources\android\icon\drawable-xhdpi-icon.png"/>
+  <icon src="resources/android/icon/drawable-xhdpi-icon.png"/>
   <platform name="android">
-    <icon src="resources\android\icon\drawable-ldpi-icon.png" density="ldpi"/>
-    <icon src="resources\android\icon\drawable-mdpi-icon.png" density="mdpi"/>
-    <icon src="resources\android\icon\drawable-hdpi-icon.png" density="hdpi"/>
-    <icon src="resources\android\icon\drawable-xhdpi-icon.png" density="xhdpi"/>
-    <icon src="resources\android\icon\drawable-xxhdpi-icon.png" density="xxhdpi"/>
-    <icon src="resources\android\icon\drawable-xxxhdpi-icon.png" density="xxxhdpi"/>
+    <icon src="resources/android/icon/drawable-ldpi-icon.png" density="ldpi"/>
+    <icon src="resources/android/icon/drawable-mdpi-icon.png" density="mdpi"/>
+    <icon src="resources/android/icon/drawable-hdpi-icon.png" density="hdpi"/>
+    <icon src="resources/android/icon/drawable-xhdpi-icon.png" density="xhdpi"/>
+    <icon src="resources/android/icon/drawable-xxhdpi-icon.png" density="xxhdpi"/>
+    <icon src="resources/android/icon/drawable-xxxhdpi-icon.png" density="xxxhdpi"/>
   </platform>
   <platform name="ios">
-    <icon src="resources\ios\icon\icon.png" width="57" height="57"/>
-    <icon src="resources\ios\icon\icon@2x.png" width="114" height="114"/>
-    <icon src="resources\ios\icon\icon-40.png" width="40" height="40"/>
-    <icon src="resources\ios\icon\icon-40@2x.png" width="80" height="80"/>
-    <icon src="resources\ios\icon\icon-50.png" width="50" height="50"/>
-    <icon src="resources\ios\icon\icon-50@2x.png" width="100" height="100"/>
-    <icon src="resources\ios\icon\icon-60.png" width="60" height="60"/>
-    <icon src="resources\ios\icon\icon-60@2x.png" width="120" height="120"/>
-    <icon src="resources\ios\icon\icon-60@3x.png" width="180" height="180"/>
-    <icon src="resources\ios\icon\icon-72.png" width="72" height="72"/>
-    <icon src="resources\ios\icon\icon-72@2x.png" width="144" height="144"/>
-    <icon src="resources\ios\icon\icon-76.png" width="76" height="76"/>
-    <icon src="resources\ios\icon\icon-76@2x.png" width="152" height="152"/>
-    <icon src="resources\ios\icon\icon-small.png" width="29" height="29"/>
-    <icon src="resources\ios\icon\icon-small@2x.png" width="58" height="58"/>
-    <icon src="resources\ios\icon\icon-small@3x.png" width="87" height="87"/>
+    <icon src="resources/ios/icon/icon.png" width="57" height="57"/>
+    <icon src="resources/ios/icon/icon@2x.png" width="114" height="114"/>
+    <icon src="resources/ios/icon/icon-40.png" width="40" height="40"/>
+    <icon src="resources/ios/icon/icon-40@2x.png" width="80" height="80"/>
+    <icon src="resources/ios/icon/icon-50.png" width="50" height="50"/>
+    <icon src="resources/ios/icon/icon-50@2x.png" width="100" height="100"/>
+    <icon src="resources/ios/icon/icon-60.png" width="60" height="60"/>
+    <icon src="resources/ios/icon/icon-60@2x.png" width="120" height="120"/>
+    <icon src="resources/ios/icon/icon-60@3x.png" width="180" height="180"/>
+    <icon src="resources/ios/icon/icon-72.png" width="72" height="72"/>
+    <icon src="resources/ios/icon/icon-72@2x.png" width="144" height="144"/>
+    <icon src="resources/ios/icon/icon-76.png" width="76" height="76"/>
+    <icon src="resources/ios/icon/icon-76@2x.png" width="152" height="152"/>
+    <icon src="resources/ios/icon/icon-small.png" width="29" height="29"/>
+    <icon src="resources/ios/icon/icon-small@2x.png" width="58" height="58"/>
+    <icon src="resources/ios/icon/icon-small@3x.png" width="87" height="87"/>
   </platform>
 </widget>

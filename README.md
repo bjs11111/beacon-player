@@ -60,7 +60,7 @@ $ npm install -g ionic cordova bower
   ```
   
   **NOTICE:**
-  I'm not 100% chure for now but i think following:
+  I'm not 100% shure for now but i think following:
   If you do "ionic plugin add [plugin]" it will change you config.xml by adding the plugin references.
   If you do "ionic state restore" it will not. 
   
@@ -87,30 +87,8 @@ $ npm install -g ionic cordova bower
   To change the images just replace the splash.png or icon.png file in the resources folder of the root directory
 
 
-##View remote
-
-To easily share project progress we use [ionic view](http://view.ionic.io/) view to accomplish this.
-You can view it over the ionic app_id located in ionic.project in the root folder.  
-app ID: *8CA49328*
 
 
-#Dummydata
-We generate our dummy data over [generatedata](http://www.generatedata.com/).
-
-The dummydata are located in
-
-Following fields keys are used:
-//@TODO setup datagenerator repo on private server to store settings
-- id => Data Type: GUID
-- commodity_name => Data Type: Custom List, Options: Exactly 1, "Qualitätsweizen|Normalerweizen|Schlechterweizen"
-- commodity_description => Data Type: Constant, Options: loop count 1, "inl. mind. 14,0% Prot., FZ 250, 80 kg/hl",
-- commodity_usancen => Data Type: Constant, Options: loop count 1, "Usancen Börse Wien",
-- quantity => Data Type: Number range, Options: mBetwen 76 and 255
-- quantity_unit  => Data Type: Constant, Options: loop count 1, "T"
-- quantity_unit_price => Data Type: Number range, Options: mBetwen 25 and 110
-- shipping_date => Data Type: Date, Options: From: 01.12.2015, To:  01.06.2016
-- shipping_location_from => Data Type: City,
-- shipping_type => Data Type: Custom List, Options: Exactly 1, "CFI|IFL"
 
 
 
