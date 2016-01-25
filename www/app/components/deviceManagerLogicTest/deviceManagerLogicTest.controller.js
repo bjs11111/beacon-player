@@ -1,10 +1,10 @@
 ;(function() {
 	'use strict';
-	   
+
 	angular
-		.module('drupalionicDemo.deviceManagerLogicTest.controller', ['commons.deviceDataManager'])
+		.module('bp.deviceManagerLogicTest.controller', ['commons.deviceDataManager'])
 		.controller('DeviceManagerLogicTestController', DeviceManagerLogicTestController);
-		
+
 	DeviceManagerLogicTestController.$inject= ['$scope','DeviceDataManagerServiceConstant', 'DeviceDataManagerService'];
 	function DeviceManagerLogicTestController($scope, DeviceDataManagerServiceConstant, DeviceDataManagerService) {
 
@@ -52,7 +52,7 @@
 								"contentType":"video",
 								"contentThumbnailUrl":"http:\/\/www.starnberger.at\/beaconplayer_analyse\/sites\/default\/files\/styles\/thumblail_cut_100_100\/public\/content\/video\/149\/149konzert-eszterhazy-palacekonzert.png?itok=NQycTW_3"
 						},
-						
+
 			dummyScanData1 = {
 				address: "0E:FA:EF:0C:22:24",
 				b0: "02",
@@ -141,7 +141,7 @@
 				secondBlockIdentifier: "ff",
 				secondBlockLenght: "1a"
 		};
-		
+
 		var knownDevicesList = {
 				//item with bcmsBeacon data only
 					"E6C56DB5-DFFB-48D2-B088-40F5A81496EE.2.1": {
@@ -149,7 +149,7 @@
 					bcmsBeacon : dummyBcmsData1,
 					scanData : {}
 				},
-				
+
 				//item with scanData data only
 				"699EBC80-E1F3-11E3-9A0F-0CF3EE3BC012.1.495": {
 							bcmsBeaconKey: "699EBC80-E1F3-11E3-9A0F-0CF3EE3BC012.1.495",
@@ -163,75 +163,75 @@
 							scanData : angular.merge({}, dummyScanData3)
 						}
 		};
-				
-		
-		// jshint validthis: true 
+
+
+		// jshint validthis: true
 		var vm = this;
-		
-		
-		
-		
-		console.log('initial knownDevicesList',angular.copy(knownDevicesList)); 
-		
+
+
+
+
+		console.log('initial knownDevicesList',angular.copy(knownDevicesList));
+
 		//new apidata as new device__________________________________________________________________________
 		//console.log('new apidata as new device__________________________________________________');
 		//mapBeaconDataToKnownDevices(dummyBcmsData4, DeviceDataManagerServiceConstant.mapTypeAPIDevice);
-		
-		
+
+
 		//new apidata as old device with bcmsData____________________________________________________________
 		//console.log('new apidata as old device with bcmsData__________________________________________________');
 		/*var updatedDummyBcmsData1 = angular.copy(dummyBcmsData1);
-		
+
 		updatedDummyBcmsData1.userId				= "new121";
 		updatedDummyBcmsData1.triggerZone			= "Far";
 		updatedDummyBcmsData1.whitelisted			= 0;
 		updatedDummyBcmsData1.contentTitle			= "new771 EM BLE Beacon";
 		updatedDummyBcmsData1.contentType			= "newbild";
 		updatedDummyBcmsData1.contentThumbnailUrl	= "newhttp:\/\/www.starnberger.at\/beaconplayer_analyse\/sites\/default\/files\/styles\/thumblail_cut_100_100\/public\/content\/bild\/108\/108771-em-ble-beaconblebeacon.jpg?itok=MqqPjhUF";
-		
+
 		mapBeaconDataToKnownDevices(updatedDummyBcmsData1, DeviceDataManagerServiceConstant.mapTypeAPIDevice);
 		*/
-		
-		
+
+
 		//new apidata as old device with scanData______________________________________________________________
 		/*console.log('apidata as old device with scanData__________________________________________________');
 		var updatedDummyBcmsData2 = angular.copy(dummyBcmsData2);
-		
+
 		updatedDummyBcmsData2.userId				= "2new117";
 		updatedDummyBcmsData2.triggerZone			= "Far";
 		updatedDummyBcmsData2.whitelisted			= 1;
 		updatedDummyBcmsData2.contentTitle			= "2newPLCD";
 		updatedDummyBcmsData2.contentType			= "2newbild";
 		updatedDummyBcmsData2.contentThumbnailUrl	= "2newhttp:\/\/www.starnberger.at\/beaconplayer_analyse\/sites\/default\/files\/styles\/thumblail_cut_100_100\/public\/content\/bild\/97\/97plcdplcd.jpg?itok=HP2me718";
-		
+
 		mapBeaconDataToKnownDevices(updatedDummyBcmsData2, DeviceDataManagerServiceConstant.mapTypeAPIDevice);
 		*/
-		
-		
-		
+
+
+
 		//new apidata as old device with bcmsData and scanData______________________________________________________________
 		/*
 		 console.log('new apidata as old device with bcmsData and scanData______________________________________________________________');
 		 var updatedDummyBcmsData3 = angular.copy(dummyBcmsData3);
-		
+
 		updatedDummyBcmsData3.userId				= "3new4117";
 		updatedDummyBcmsData3.triggerZone			= "Near";
 		updatedDummyBcmsData3.whitelisted			= 1;
 		updatedDummyBcmsData3.contentTitle			= "3newPLCD";
 		updatedDummyBcmsData3.contentType			= "3newbild";
 		updatedDummyBcmsData3.contentThumbnailUrl	= "3newhttp:\/\/www.starnberger.at\/beaconplayer_analyse\/sites\/default\/files\/styles\/thumblail_cut_100_100\/public\/content\/bild\/97\/97plcdplcd.jpg?itok=HP2me718";
-		
+
 		mapBeaconDataToKnownDevices(updatedDummyBcmsData3, DeviceDataManagerServiceConstant.mapTypeAPIDevice);
 		*/
-		
+
 		//new scandata as new device______________________________________________________________
-		console.log('new scandata as new device______________________________________________________________'); 
+		console.log('new scandata as new device______________________________________________________________');
 		//DeviceDataManagerService.mapBeaconDataToKnownDevices(dummyScanData4, DeviceDataManagerServiceConstant.mapTypeBleDevice);
-		
+
 		//new scandata as old device with bcmsData______________________________________________________________
 		/*console.log('new scandata as old device with bcmsData__________________________________________________');
 		var updatedDummyScanData1 = angular.copy(dummyScanData1);
-		
+
 		updatedDummyScanData1.address = "0E:FA:EF:0C:22:24";
 		updatedDummyScanData1.b0 = "02";
 		updatedDummyScanData1.b1 = "15";
@@ -247,16 +247,16 @@
 		updatedDummyScanData1.scanRecord = "AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gACAAGzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
 		updatedDummyScanData1.secondBlockIdentifier = "ff";
 		updatedDummyScanData1.secondBlockLenght = "1a";
-		
+
 		mapBeaconDataToKnownDevices(updatedDummyScanData1, DeviceDataManagerServiceConstant.mapTypeBleDevice);*/
-		
+
 		/*
 		//new scandata as old device with scanData______________________________________________________________
-			 
+
 		console.log('new scandata as old device with scanData__________________________________________________');
 		var updatedDummyScanData2 = angular.copy(dummyScanData2);
-		
-		
+
+
 		updatedDummyScanData2.address = "0E:FA:EF:0C:22:24";
 		updatedDummyScanData2.b0 = "02";
 		updatedDummyScanData2.b1 = "15";
@@ -273,15 +273,15 @@
 		updatedDummyScanData2.secondBlockIdentifier = "ff";
 		updatedDummyScanData2.secondBlockLenght = "1a";
 		updatedDummyScanData2.lastTriggerArea = "???";
-		 
+
 		mapBeaconDataToKnownDevices(updatedDummyScanData2, DeviceDataManagerServiceConstant.mapTypeBleDevice);
 	*/
-		
+
 		//new scandata as old device with bcmsData and scanData______________________________________________________________
 		/*
 		console.log('new scandata as old device with bcmsData and scanData______________________________________________________________');
 		var updatedDummyScanData3 = angular.copy(dummyScanData3);
-		
+
 		updatedDummyScanData3.address = "0E:FA:EF:0C:22:24";
 		updatedDummyScanData3.b0 = "02";
 		updatedDummyScanData3.b1 = "15";
@@ -296,18 +296,18 @@
 		updatedDummyScanData3.rssiOneMeterDistance = -77;
 		updatedDummyScanData3.scanRecord = "AgEEGv9MAAIV5sVttd/7SNKwiED1qBSW7gACAAGzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
 		updatedDummyScanData3.secondBlockIdentifier = "ff";
-		updatedDummyScanData3.secondBlockLenght = "1a";	
-		updatedDummyScanData3.lastTriggerArea = "???";	
-		
+		updatedDummyScanData3.secondBlockLenght = "1a";
+		updatedDummyScanData3.lastTriggerArea = "???";
+
 		mapBeaconDataToKnownDevices(updatedDummyScanData3, DeviceDataManagerServiceConstant.mapTypeBleDevice);
 		*/
-		
-		
-			    
+
+
+
 		///////////////
 
-	    
+
 	};
-	
-	
+
+
 })();

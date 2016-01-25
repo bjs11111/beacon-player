@@ -1,15 +1,15 @@
 ;(function() {
 	'use strict';
 
-	angular.module('drupalionicDemo.analyse.controller', ['commons.directives.analyseConfigForm.directive'])
+	angular.module('bp.analyse.controller', ['commons.directives.analyseConfigForm.directive',  'commons.services.gps.factory'])
 		   .controller('AnalyseController', AnalyseController);
 
-	//AnalyseController.$inject = [];
-	
-	function AnalyseController(   $scope) {
-		
+	AnalyseController.$inject = ['GpsService'];
+
+	function AnalyseController(   GpsService) {
+
 		var vm = this;
-		
+
 		////////////////
 
 	}

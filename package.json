@@ -40,7 +40,8 @@
       "locator": "https://github.com/petermetz/cordova-plugin-ibeacon.git",
       "id": "com.unarin.cordova.beacon"
     },
-    "com.ionic.keyboard"
+    "com.ionic.keyboard",
+    "cordova-plugin-geolocation"
   ],
   "cordovaPlatforms": [
     "android",

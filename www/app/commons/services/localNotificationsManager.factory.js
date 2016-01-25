@@ -181,8 +181,6 @@
 
 					var bcmsBeaconKeyAsInt = bcmsBeaconKeyToIntFilter(device.bcmsBeaconKey);
 
-          console.log('device.bcmsBeacon schedule', JSON.stringify(device.bcmsBeacon));
-
 					schedule({
 					    title : device.bcmsBeacon.contentTitle,
 					    text  : "uid: " + bcmsBeaconKeyAsInt,

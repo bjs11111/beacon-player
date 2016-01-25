@@ -1,16 +1,16 @@
 ;(function(){
 	'use strict'
-	
-	angular.module('drupalionicDemo.profile.controller', ['drupalionicDemo.profile.service'])
+
+	angular.module('bp.profile.controller', ['bp.profile.service'])
 		   .controller('ProfileController', ProfileController);
-	
+
 	ProfileController.$inject = ['$scope','ProfileService'];
 
 	function ProfileController(   $scope,  ProfileService) {
-		
+
 		var vm = this;
 			vm.isLoading = true;
-		
+
 		$scope.$on('$ionicView.enter', function() {
 			ProfileService
 				.getProfile()
@@ -19,9 +19,9 @@
 					})
 					.finally( function() { vm.isLoading = false; });;
 		})
-		
+
 		////////////////
 
 	}
-	
+
 })();

@@ -1,15 +1,15 @@
 ;(function() {
     'use strict';
 
-    angular.module('drupalionicDemo', ['ionic', 'drupalionicDemo.config', 'drupalionicDemo.routes'])
+    angular.module('bp', ['ionic', 'bp.config', 'bp.routes','commons.services.gps.factory'])
     .run(runFunction);
 
-    runFunction.$inject = ['$ionicPlatform'];
-    
-	/** @ngInject */
-	function runFunction($ionicPlatform) { 
-		
-		$ionicPlatform.ready(function() {
+    runFunction.$inject = ['$ionicPlatform','GpsService'];
+
+	  /** @ngInject */
+	  function runFunction($ionicPlatform, GpsService) {
+
+		  $ionicPlatform.ready(function() {
 		    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
 		    // for form inputs)
 		    if(window.cordova && window.cordova.plugins.Keyboard) {
@@ -18,8 +18,11 @@
 		    if(window.StatusBar) {
 		      StatusBar.styleDefault();
 		    }
-		});
-		
-	};
-	
+
+
+        GpsService.startWatchGeoCustom();
+		  });
+
+	  };
+
 })();
