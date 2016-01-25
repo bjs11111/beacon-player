@@ -37,7 +37,7 @@
 			    		$scope.cfd = {};
 
 			    		$scope.cfd.config = {};
-			    		$scope.cfd.packagesCount = undefined;
+			    		$scope.cfd.packagesCount = 0;
 			    		$scope.cfd.title = '';
 			    		$scope.cfd.isTitle = false;
 			    		$scope.cfd.saveTitle = saveTitle;
@@ -59,27 +59,31 @@
 				    		stateUpdatedHandler(ScannLogger.getState());
 				    		ScannLoggerChannel.subStateUpdated($scope, stateUpdatedHandler);
 
-				    		countUpdatedHandler(ScannLogger.getCount());
-				    		ScannLoggerChannel.subCountUpdated($scope, countUpdatedHandler);
+				    		//countUpdatedHandler(ScannLogger.getCount());
+				    		//ScannLoggerChannel.subCountUpdated($scope, countUpdatedHandler);
 
                 //ScannLoggerChannel.subProgressError($scope, progressErrorHandler);
 
 				    	};
 
 				    	function countUpdatedHandler(count) {
+                console.log('new count', count);
 				    		//@TODO this should work without timeout
+                //We use this here because the event is triggered out of angular
 				    		$timeout(function() {
 				    			$scope.cfd.packagesCount = count;
 				    		},0);
 				    	}
 
 				    	function stateUpdatedHandler(newState) {
+                console.log('new State in form dir', newState);
 				    		$scope.cfd.mainBtnIcon = buttonIcons[newState];
 
 				    		if(newState === 'ready') {
 				    			$scope.cfd.title = '';
 					    		$scope.cfd.isTitle = false;
 				    		}
+
 				    	}
 
                 function progressErrorHandler(error){

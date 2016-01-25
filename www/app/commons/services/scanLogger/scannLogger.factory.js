@@ -19,7 +19,7 @@
       isBackground 	  = 0,
 
       scope = $rootScope.$new(),
-      unsubFoundDevice,
+      unsubFoundDevice = undefined,
     //ready, recording, finished
       serviceState = 'ready',
       title = '',
@@ -87,14 +87,16 @@
       return packagesCount;
     }
 
+
     function updatePackageCounter(){
       packagesCount++;
       ScannLoggerChannel.pubCountUpdated(packagesCount);
     }
 
     function start() {
+      console.log('start');
       if(unsubFoundDevice === undefined) {
-       // unsubFoundDevice = bleScannerChannel.onFoundBleDevice(scope, onFoundDeviceHandler);
+        unsubFoundDevice = bleScannerChannel.onFoundBleDevice(scope, onFoundDeviceHandler);
         setState('recording');
       }
     }
@@ -165,6 +167,7 @@
       })
         .catch(function(error) {
           ScannLoggerChannel.pubProgressComplete(promises.length);
+          setState('ready');
         });
     }
 
