@@ -16,7 +16,7 @@
 			notifiedBeacons = {},
 			bcmsBeaconKeyToIntFilter = $filter('bcmsBeaconKeyToInt'),
 			appIsInBackground = false,
-      notifyOnlyWhenAppIsInBakground = false,
+      notifyOnlyWhenAppIsInBakground = true,
 			idCount = 0,
 			onClickAction = function() {
 				$state.go('app.list');

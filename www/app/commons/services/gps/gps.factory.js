@@ -103,9 +103,9 @@
 
     function startWatchGeoCustom() {
       watchGeoInterval = $interval(function(){
-
          geoGetPosition()
           .then(function(pos){
+            console.log('pos at ', $filter('date')(Date.now(),'HH:mm:ss'), pos);
             GpsServiceChannel.pubPositionUpdated(pos);
             actualGpsPosition = pos;
           });

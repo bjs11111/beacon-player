@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.starnberger.beaconplayer" version="1.0.11" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+
   <name>Analyse Tool</name>
-  <description>
-    BeaconPlayer is a free and Open Source Platform and App for experimenting with beacons. This version is an analyse tool.
+
+  <description>&#xD;
+    BeaconPlayer is a free and Open Source Platform and App for experimenting with beacons. This version is an analyse tool.&#xD;
   </description>
-  <author email="office@starnberger.at" href="www.starnberger.at">Starnberger Innovation und Technology
+
+  <author email="office@starnberger.at" href="www.starnberger.at">Starnberger Innovation und Technology&#xD;
   </author>
+
   <content src="index.html"/>
+
   <access origin="*"/>
+
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
@@ -16,11 +22,14 @@
   <preference name="SplashScreen" value="screen"/>
   <preference name="SplashScreenDelay" value="3000"/>
   <preference name="deployment-target" value="8.2"/>
+
   <feature name="StatusBar">
     <param name="ios-package" onload="true" value="CDVStatusBar"/>
   </feature>
+
   <engine name="android" spec="~4.1.1"/>
   <engine name="ios" spec="~3.8.2"/>
+
   <plugin name="com.ionic.keyboard" spec="~1.0.4"/>
   <plugin name="cordova-plugin-whitelist" spec="~1.2.0"/>
   <plugin name="phonegap-plugin-barcodescanner" spec="https://github.com/wildabeast/BarcodeScanner.git"/>
@@ -32,6 +41,7 @@
   <plugin name="cordova-plugin-inappbrowser" spec="~1.1.1"/>
   <plugin name="cordova-plugin-geolocation" spec="~2.1.0"/>
   <icon src="resources/android/icon/drawable-xhdpi-icon.png"/>
+
   <platform name="android">
     <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png"/>
     <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png"/>

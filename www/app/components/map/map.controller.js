@@ -9,6 +9,8 @@
 
 	function MapController($scope,    GpsServiceChannel,  GpsService, leafletData) {
 
+  var i = 0;
+
 		// jshint validthis: true
 		var vm = this;
 
@@ -75,14 +77,23 @@
 
     function updateMap(position) {
       if(angular.isObject(position) && ('coords' in position) ){
+        var lat = position.coords.latitude,
+            lng = position.coords.longitude;
         // update center
-        vm.center.lat = position.coords.latitude;
-        vm.center.lng = position.coords.longitude;
+        vm.center.lat = lat;
+        vm.center.lng = lng;
+
         //update point
-        vm.markers.actualPoint.lat = position.coords.latitude;
-        vm.markers.actualPoint.lng = position.coords.longitude;
+        vm.markers.actualPoint.lat = lat;
+        vm.markers.actualPoint.lng = lng;
+
+        vm.markers[i] = {};
+        vm.markers[i].lat = lat;
+        vm.markers[i].lng = lng;
+        i++;
+
         //update path
-        vm.paths.actualPath.latlngs.push({lat: position.coords.latitude, lng: position.coords.longitude});
+        vm.paths.actualPath.latlngs.push({lat:lat, lng: lng});
 
         leafletData.getMap().then(function(map) {
           setTimeout(function(){
