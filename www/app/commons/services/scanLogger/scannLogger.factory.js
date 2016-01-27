@@ -1,12 +1,12 @@
 ;(function() {
   'use strict';
 
-  angular.module('commons.services.scannLogger.factory', ['ngCordova', 'ngDrupal7Services-3_x.resources.node.resource', 'ngDrupal7Services-3_x.commons.helperService', 'commons.services.ble.bleChannels', 'commons.services.scannLogger.channel'])
+  angular.module('commons.services.scannLogger.factory', ['ngCordova', 'ngDrupal7Services-3_x.resources.node.resource', 'ngDrupal7Services-3_x.commons.helperService', 'commons.services.ble.bleChannels', 'commons.services.scannLogger.channel', 'commons.services.gps.channel'])
     .factory('ScannLogger', ScannLogger);
 
-  ScannLogger.$inject = ['$rootScope','$state','$q','$filter','$ionicPlatform','NodeResource','DrupalHelperService','bleScannerChannel','ScannLoggerChannel'];
+  ScannLogger.$inject = ['$rootScope','$state','$q','$filter','$ionicPlatform','NodeResource','DrupalHelperService','bleScannerChannel','ScannLoggerChannel','GpsServiceChannel'];
 
-  function ScannLogger(   $rootScope,  $state,  $q,  $filter,  $ionicPlatform,  NodeResource,  DrupalHelperService,  bleScannerChannel,  ScannLoggerChannel) {
+  function ScannLogger(   $rootScope,  $state,  $q,  $filter,  $ionicPlatform,  NodeResource,  DrupalHelperService,  bleScannerChannel,  ScannLoggerChannel,  GpsServiceChannel) {
 
     var configurations = {
         devideInformation		: true,
@@ -23,6 +23,7 @@
     //ready, recording, finished
       serviceState = 'ready',
       title = '',
+      gpsPosition = [],
       measurementData = [],
       packagesCount = 0;
 
@@ -30,9 +31,9 @@
       setTitle : setTitle,
       getTitle : getTitle,
       getState : getState,
-      start: start,
-      stop : stop,
-      save : save,
+      start    : start,
+      stop     : stop,
+      save     : save,
       getCount : getCount
     };
 
@@ -59,13 +60,18 @@
       //$ionicPlatform.on('volumedownbutton', function(event){volumedownbutton = true;});
       //$ionicPlatform.on('batterylow', function(event){batterylow = true;});
       //$ionicPlatform.on('offline', function(event){offline = true;});
+
+      GpsServiceChannel.subPositionUpdated(scope, positionUpdatedHandler);
+
     };
 
-    function setState(state) {
+    function positionUpdatedHandler(position){
+      gpsPosition = [position.coords.latitude, position.coords.longitude];
+    }
 
+    function setState(state) {
       var states = ['ready', 'recording', 'finished'];
       if(states.indexOf(state) !== -1 && serviceState !== state) {
-        console.log('state updated');
         serviceState = state;
         ScannLoggerChannel.pubStateUpdated(serviceState);
       }
@@ -87,14 +93,19 @@
       return packagesCount;
     }
 
+    function updatePackageCounter(newCount){
 
-    function updatePackageCounter(){
-      packagesCount++;
+      if(parseInt(newCount) === newCount){
+        packagesCount = newCount;
+      }
+      else {
+        packagesCount++;
+      }
+
       ScannLoggerChannel.pubCountUpdated(packagesCount);
     }
 
     function start() {
-      console.log('start');
       if(unsubFoundDevice === undefined) {
         unsubFoundDevice = bleScannerChannel.onFoundBleDevice(scope, onFoundDeviceHandler);
         setState('recording');
@@ -120,12 +131,11 @@
       //newData.deviceInformation = deviceInformation;
       //newData.isOffline = isOffline;
       newData.bg = isBackground;
-      //newData.po = gpsPosition;
+      newData.po = gpsPosition;
       newData.bl = blePackage;
 
       measurementData.push(newData);
 
-      //console.log(JSON.stringify(measurementData));
     };
 
     function stop() {
@@ -137,38 +147,42 @@
     }
 
     function save() {
-      //console.log('we try to save now');
 
-      //@TODO devide array into chunks of 5000
-      //2 for the wrapper obj
       //each row has max 105 chars
       //{"1441216420474":{"bg":0,"bl":{"ud":"E6C56DB5-DFFB-48D2-B088-40F5A81496EE","ma":0000,"mi":0000,"rs":-99}},}
+
+      //each row has max 105 chars
+      //{"1441216420474":{"bg":0,"bl":{"ud":"E6C56DB5-DFFB-48D2-B088-40F5A81496EE","ma":0000,"mi":0000,"rs":-99}}, }
+
+
       var promises = chunk(measurementData, 5000).map(function(arr) {
-        var newMeasurement = {
-          title 	: title,
-          type 	: 'messdaten',
-          body  	: DrupalHelperService.structureField({ value : [JSON.stringify(arr)], format: "plain_text"})
-        };
+        var defer = $q.defer(),
+            newMeasurement = {
+              title 	: title,
+              type 	  : 'messdaten',
+              body  	: DrupalHelperService.structureField({ value : [JSON.stringify(arr)], format: "plain_text"})
+            };
+
         return NodeResource.create(newMeasurement);
       });
 
       ScannLoggerChannel.pubProgressStart(promises.length);
 
       allWithProgress(promises, function(progress) {
-        if(progress == 1) {
-          ScannLoggerChannel.pubProgressComplete(promises.length);
-          measurementData = [];
-          setState('ready');
-        }
-        else {
-          ScannLoggerChannel.pubProgress(progress);
-        }
+          if(progress == 1) {
+            ScannLoggerChannel.pubProgressComplete(promises.length);
+            measurementData = [];
+            updatePackageCounter(0);
+            setState('ready');
+          }
+          else {
+            ScannLoggerChannel.pubProgress(progress);
+          }
 
-      })
-        .catch(function(error) {
+      }).catch(function(error) {
           ScannLoggerChannel.pubProgressComplete(promises.length);
           setState('ready');
-        });
+      });
     }
 
     //@TODO replace with angular.filter

@@ -1,16 +1,16 @@
 ;(function() {
 	'use strict';
 
-    var	progressChannelConstant =  {
+    var	gpsChannelConstant =  {
     		 POSITION_UPDATED		  : 'POSITION_UPDATED'
 	};
 
 	angular.module('commons.services.gps.channel', ['commons.baseChannel'])
-		 	   .constant("progressChannelConstant", progressChannelConstant)
+		 	   .constant("gpsChannelConstant", gpsChannelConstant)
 			   .factory('GpsServiceChannel', GpsServiceChannel);
 
-	GpsServiceChannel.$inject = [ 'BaseChannel', 'progressChannelConstant' ];
-	function GpsServiceChannel(BaseChannel, progressChannelConstant) {
+	GpsServiceChannel.$inject = [ 'BaseChannel', 'gpsChannelConstant' ];
+	function GpsServiceChannel(BaseChannel, gpsChannelConstant) {
 
 		//setup and return service
         var GpsServiceChannel = {
@@ -25,12 +25,11 @@
         ////////////
 
         function pubPositionUpdated(position) {
-        	BaseChannel.pubRootEmit(progressChannelConstant.POSITION_UPDATED, {position : position});
+        	BaseChannel.pubRootEmit(gpsChannelConstant.POSITION_UPDATED, {position : position});
         };
         function subPositionUpdated($scope, scopeHandler) {
-     	   BaseChannel.subRootEmit(progressChannelConstant.POSITION_UPDATED, $scope, scopeHandler, function(args) { return args.position; });
+     	   BaseChannel.subRootEmit(gpsChannelConstant.POSITION_UPDATED, $scope, scopeHandler, function(args) { return args.position; });
         };
-
 
 	};
 

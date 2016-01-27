@@ -59,15 +59,14 @@
 				    		stateUpdatedHandler(ScannLogger.getState());
 				    		ScannLoggerChannel.subStateUpdated($scope, stateUpdatedHandler);
 
-				    		//countUpdatedHandler(ScannLogger.getCount());
-				    		//ScannLoggerChannel.subCountUpdated($scope, countUpdatedHandler);
+				    		countUpdatedHandler(ScannLogger.getCount());
+				    		ScannLoggerChannel.subCountUpdated($scope, countUpdatedHandler);
 
-                //ScannLoggerChannel.subProgressError($scope, progressErrorHandler);
+                ScannLoggerChannel.subProgressError($scope, progressErrorHandler);
 
 				    	};
 
 				    	function countUpdatedHandler(count) {
-                console.log('new count', count);
 				    		//@TODO this should work without timeout
                 //We use this here because the event is triggered out of angular
 				    		$timeout(function() {
@@ -76,7 +75,6 @@
 				    	}
 
 				    	function stateUpdatedHandler(newState) {
-                console.log('new State in form dir', newState);
 				    		$scope.cfd.mainBtnIcon = buttonIcons[newState];
 
 				    		if(newState === 'ready') {
@@ -88,6 +86,7 @@
 
                 function progressErrorHandler(error){
                   console.log('error progressErrorHandler', error);
+
                 }
 
 				    	function mainButtonPress() {

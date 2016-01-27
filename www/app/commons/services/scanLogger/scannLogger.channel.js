@@ -33,8 +33,8 @@
       subProgress 		: subProgress,
       pubProgress			: pubProgress,
 
-     // subProgressError : subProgressError,
-     // pubProgressError : pubProgressError,
+      subProgressError : subProgressError,
+      pubProgressError : pubProgressError,
 
       subProgressComplete : subProgressComplete,
       pubProgressComplete : pubProgressComplete
@@ -46,22 +46,17 @@
     ////////////
 
     function pubCountUpdated(count) {
-      console.log('pubCountUpdated count',count);
       BaseChannel.pubRootEmit(progressChannelConstant.COUNT_UPDATED, {count : count});
     };
     function subCountUpdated($scope, scopeHandler) {
-      console.log('subCountUpdated');
       return BaseChannel.subRootEmit(progressChannelConstant.COUNT_UPDATED, $scope, scopeHandler, function(args) { return args.count; });
     };
 
 
     function pubStateUpdated(state) {
-      console.log('pubStateUpdated state',state);
       BaseChannel.pubRootEmit(progressChannelConstant.STATE_UPDATED, {state : state});
     };
     function subStateUpdated($scope, scopeHandler) {
-      console.log('subStateUpdated');
-
       return BaseChannel.subRootEmit(progressChannelConstant.STATE_UPDATED, $scope, scopeHandler, function(args) { return args.state; });
     };
 
@@ -74,19 +69,21 @@
     };
 
 
-    function pubProgress(count) {
+    function pubProgress(progress) {
       return BaseChannel.pubRootEmit(progressChannelConstant.PROGRESS, {progress : progress});
     };
     function subProgress($scope, scopeHandler) {
       BaseChannel.subRootEmit(progressChannelConstant.PROGRESS, $scope, scopeHandler, function(args) { return args.progress; });
     };
 
-    /*function pubProgressError(error) {
+
+    function pubProgressError(error) {
       BaseChannel.pubRootEmit(progressChannelConstant.PROGRESS_ERROR, {error : error});
     };
     function subProgressError($scope, scopeHandler) {
       return BaseChannel.subRootEmit(progressChannelConstant.PROGRESS_ERROR, $scope, scopeHandler, function(args) { return args.error; });
-    };*/
+    };
+
 
     function pubProgressComplete(count) {
       BaseChannel.pubRootEmit(progressChannelConstant.PROGRESS_COMPLETE, {count : count});
