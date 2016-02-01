@@ -21,7 +21,7 @@
       scope = $rootScope.$new(),
       unsubFoundDevice = undefined,
       activeMeasurementNid = 0,
-    //ready, recording, finished
+    //ready, recording, uploading, finished
       serviceState = 'ready',
       title = '',
       gpsPosition = [],
@@ -70,7 +70,7 @@
     }
 
     function setState(state) {
-      var states = ['ready', 'recording', 'finished'];
+      var states = ['ready', 'recording', 'finished', 'uploading'];
       if(states.indexOf(state) !== -1 && serviceState !== state) {
         serviceState = state;
         ScannLoggerChannel.pubStateUpdated(serviceState);
@@ -197,13 +197,12 @@
     }
 
     function save() {
-
       //each row has max 105 chars
       //{"1441216420474":{"bg":0,"bl":{"ud":"E6C56DB5-DFFB-48D2-B088-40F5A81496EE","ma":0000,"mi":0000,"rs":-99}},}
 
       //each row has max 105 chars
       //{"1441216420474":{"bg":0,"bl":{"ud":"E6C56DB5-DFFB-48D2-B088-40F5A81496EE","ma":0000,"mi":0000,"rs":-99}}, }
-
+      setState('uploading');
       var promises = chunk(measurementData, 5000).map(function(arr) {
         var defer = $q.defer(),
           measurementData = {};

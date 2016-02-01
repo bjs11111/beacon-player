@@ -36,8 +36,12 @@
 			<div  class="item item-body" ng-show="cfd.isTitle">
 				 <p>
 				 <button ng-click="cfd.mainButtonPress()"
-					class="button button-positive button-clear button-center button-icon icon icon-xxl"
-					ng-class="cfd.mainBtnIcon"></button>
+					class="button button-positive button-clear button-center button-icon icon-xxl"
+					>
+
+           <ion-spinner ng-if="cfd.isUploading"></ion-spinner>
+           <i ng-if="!cfd.isUploading" class="icon" ng-class="cfd.mainBtnIcon"></i>
+         </button>
 					</p>
 				<p class="text-center">{{cfd.packagesCount}}/{{cfd.packagesCount*105 | byteFmt: 4 }}</p>
 			</div>

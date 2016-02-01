@@ -77,11 +77,16 @@
 
 				    	function stateUpdatedHandler(newState) {
 				    		$scope.cfd.mainBtnIcon = buttonIcons[newState];
+                $scope.cfd.isUploading = false;
 
 				    		if(newState === 'ready') {
 				    			$scope.cfd.title = '';
 					    		$scope.cfd.isTitle = false;
 				    		}
+console.log('newState', newState);
+                if(newState === 'uploading'){
+                  $scope.cfd.isUploading = true;
+                }
 
 				    	}
 
