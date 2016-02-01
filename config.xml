@@ -6,7 +6,7 @@
   </description>
   <author email="office@starnberger.at" href="www.starnberger.at">Starnberger Innovation und Technology&#xD;
   </author>
-  <content src="index.html"/>
+  <content src="http://10.0.0.12:8100" original-src="index.html"/>
   <access origin="*"/>
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>

@@ -67,10 +67,11 @@ bleScanners.factory('androidBleScanner', [
 
 /* ble scanner for ios use-cases*/
 bleScanners.factory('iosBleScanner', [
-		'bleScannerChannel',
+	'$rootScope',
+  'bleScannerChannel',
 		'$filter', '$q',
 		'$ionicPlatform',
-		function(bleScannerChannel, $filter, $q, $ionicPlatform) {
+		function($rootScope, bleScannerChannel, $filter, $q, $ionicPlatform) {
 
 
 
@@ -148,6 +149,10 @@ bleScanners.factory('iosBleScanner', [
                                foundDeviceCallback(beacon);
                         }
                        };
+
+                  //delegate.didStartMonitoringForRegion = function(pluginResult) {
+                  //    console.log(':-) ??');
+                  //};
 
                        // Set the delegate object to use.
                        locationManager.setDelegate(delegate);
