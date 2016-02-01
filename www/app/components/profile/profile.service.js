@@ -1,8 +1,8 @@
 ;(function() {
 
 	 angular
-	 .module('bp.profile.service', ['ngDrupal7Services-3_x.commons.configurations','ngDrupal7Services-3_x.commons.helperService',
-	                                                'ngDrupal7Services-3_x.resources.user.resource', 'ngDrupal7Services-3_x.commons.authentication.service'])
+	 .module('bp.profile.service', ['d7-services.commons.configurations','d7-services.commons.helperService',
+	                                                'd7-services.resources.user.resource', 'd7-services.commons.authentication.service'])
 	.factory('ProfileService', ProfileService);
 
 	ProfileService.inject = ['$q','$filter','$rootScope','DrupalApiConstant','DrupalHelperService','UserResource','AuthenticationService','AuthenticationChannel' ]
@@ -42,7 +42,7 @@
 					.retrieve({ uid: currentUser.uid })
 						.success(function(data) {
 							saveProfileData(data);
-							console.log('before resolve', profile);
+
 							defer.resolve(profile);
 						})
 						.catch(function(error) {
@@ -58,9 +58,7 @@
 		function saveProfileData(newProfile) {
 			var preparedProfile = newProfile;
 			preparedProfile.pictureUrl = (preparedProfile.picture)?DrupalHelperService.getDrupalPath()+'sites/default/files/pictures/'+preparedProfile.picture.filename:false;
-			console.log('preparedProfile', preparedProfile);
 			profile = preparedProfile;
-
 		}
 
 

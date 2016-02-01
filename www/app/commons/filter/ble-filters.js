@@ -1,82 +1,82 @@
 /*
  * Docs
  * http://toddmotto.com/everything-about-custom-filters-in-angular-js/
- * 
+ *
  */
 var listFilters = angular.module('commons.filter.listFilters',[]);
 
 
 listFilters.filter('lastScanFilter', function() {
-	
+
 	// Filters only known Devices
 	return function(items, msTimeAgo, keyToLastScan) {
-		
-	
+
+
 		var recentlyScannedBaecons = {};
 
 		// Filter Only known Devices
 		angular.forEach(items, function(item, key) {
-			
-			
+
+
 				var lastscan = (keyToLastScan)?item[keyToLastScan].lastScan: item.lastScan;
-	
-				if( Date.now() - lastscan <= msTimeAgo){ 
+
+				if( Date.now() - lastscan <= msTimeAgo){
 					this[key]=item;
 				}
-	      	}, 
+	      	},
 	      	recentlyScannedBaecons
 	    );
-		
+
 		return recentlyScannedBaecons;
 	}
-	
+
 });
 
-listFilters.filter('knownBeaconsFilter', function() { 
-	
+listFilters.filter('knownBeaconsFilter', function() {
+
 	// Filters only known Devices
 	var filterKnownBeacons = function(items, serverBeacons){
-		
+
 		var onlyKnownDevicesList = {};
-		
+
 		// Filter Only known Devices
 		angular.forEach(items, function(item, key) {
 			 var tmpDevice= serverBeacons[key];
 				if(tmpDevice){
 					this[key]=tmpDevice;
 				}
-	      	}, 
+	      	},
 	      	onlyKnownDevicesList
 	    );
 
 		return onlyKnownDevicesList;
 	}
-	
+
 	return filterKnownBeacons;
-	
+
 });
 
 //@TODO optimize
 listFilters.filter('whitelistBeaconsFilter', function() {
-	
+
 	return function(items, serverBeacons) {
 		var whitelistDevicesList = {};
 		var whitelistBeacons = {};
-		
+
 		// Look if there are Whitelist Beacons and remember the user ids
-		for (var key in items) { 
+		for (var key in items) {
 			//TODO: universalize key format. Somewhere it is with "-" and sometimes without.
 			var tmpDevice = serverBeacons[key];
-			
+
 			if(tmpDevice.bcmsBeacon.whitelisted==1){
 				whitelistBeacons[key]=tmpDevice;
 			}
 		}
-		
+
 		// Only add Beacons that have the same user id as the whitelist beacons
 		for(var key in items){
 			var tmpDevice = serverBeacons[key];
-			
+
 			if(Object.keys(whitelistBeacons).length==0){
 				whitelistDevicesList[key]=tmpDevice; // If no Whitelist beacon is in the area, add it anyways to list
 			}
@@ -87,12 +87,12 @@ listFilters.filter('whitelistBeaconsFilter', function() {
 						whitelistDevicesList[key]=tmpDevice;
 				}
 			}
-			
+
 		}
-	
+
 		return whitelistDevicesList;
 	}
-	
+
 });
 
 
@@ -101,21 +101,21 @@ rangeFilters
 .filter('rangeFilter', function() {// register new filter
 
    return function( items, rangeInfo, key ) {// filter arguments
-        
+
 	   if(rangeInfo.state == false) {
         	return items;
         }
 	    var filtered = [];
         var min = parseInt(rangeInfo.min);
         var max = parseInt(rangeInfo.max);
-        
+
         angular.forEach(items, function(item) {
         	// If time is within the range
         	if( item.scanData[key] >= min && item.scanData[key] <= max ) {
                 filtered.push(item);
             }
         });
-        
+
         return filtered;
     };
 });
@@ -125,12 +125,12 @@ rangeFilters
 var bleFilters = angular.module('commons.filter.bleFilters', []);
 
 bleFilters
-.filter('oldDevicesFilter', function () {// register new filter => oldDevicesFilter 
+.filter('oldDevicesFilter', function () {// register new filter => oldDevicesFilter
 	return function (items, msBehidNow) {// filter arguments => basicOperation:itme.time
 		  angular.forEach(items, function(item, i) {
 			  if( item.scanData.lastScan < Date.now()-msBehidNow) {
 		        		delete items[i];
-		      }	
+		      }
 		  });
 		  return items;
 	  };
@@ -143,10 +143,10 @@ bleFilters
 	    var out = "";
 	    var firstPair=undefined;
 	    var secondPair=undefined;
-	    
+
 	    if (!pairs) {
 		    for (var i = 0; i < input.length; i++) {
-		    	  out = input.charAt(i)  + out;  
+		    	  out = input.charAt(i)  + out;
 		    }
 	    }
 	    else {
@@ -154,7 +154,7 @@ bleFilters
 	    	secondPair=input.substring(2,4);
 	    	out = secondPair + firstPair;
 	    }
-	  
+
 	    return out;
 	  };
 	});
@@ -162,141 +162,138 @@ bleFilters
 
 
 bleFilters.filter('toIsBrokenRawDevice', function() {
-	  
+
 	return function(device) {
-		
+
 		if (!device && typeof device !== "object" || device === null) {
-			console.log('toIsBrokenRawDevice returns false because the device is not a valis json object!');
+
 			return false;
         }
-		//@TODO rethink value
+
 		if (!(device.rssi <= 0)) {
-			console.log('toIsBrokenRawDevice returns false because the device.rssi is not <= 0!');
 			return false;
 		}
-		
+
 		return true;
   }
-  
+
 });
 
 /*
  * returns valid hex string or false
  */
 bleFilters.filter('toHexString', function() {
-	
+
 	return function(value) {
-		
+
 			//the hex value pattern
 		var hexPattern 		= new RegExp('^[A-Fa-f0-9]$'),
 			//array for invalid characters
 			invalidChars 	= [],
 			//char array of value
 			charArray 		= value.split('');
-    	
+
 		//filter invalid characters
  		angular.forEach(charArray, function(char) {
     		if (!hexPattern.test(char)) {
     			invalidChars.push(char);
 	        }
     	});
-    	
+
  		//chech if every character is hex value
     	if(invalidChars.length !== 0) {
-    		console.log( 'hexToIBeaconUuid returns false because characters "' + invalidChars.join(',') + '" are no valid hex values!' );
+
     		return false;
     	}
-    	
-    	return value; 
+
+    	return value;
 	};
-	
+
 });
 
 /*
  * returns valid hex string or false
  */
 bleFilters.filter('toHexString', function() {
-	
+
 	return function(value) {
-		
+
 			//the hex value pattern
 		var hexPattern 		= new RegExp('^[A-Fa-f0-9]$'),
 			//array for invalid characters
 			invalidChars 	= [],
 			//char array of value
 			charArray 		= value.split('');
-    	
+
 		//filter invalid characters
  		angular.forEach(charArray, function(char) {
     		if (!hexPattern.test(char)) {
     			invalidChars.push(char);
 	        }
     	});
-    	
+
  		//chech if every character is hex value
     	if(invalidChars.length !== 0) {
-    		console.log( 'hexToIBeaconUuid returns false because characters "' + invalidChars.join(',') + '" are no valid hex values!' );
+
     		return false;
     	}
-    	
-    	return value; 
+
+    	return value;
 	};
-	
+
 });
 
 
 /*
  * returns valid hex string or false
- */	
+ */
 bleFilters.filter('bcmsBeaconKeyToObj', ['$filter', function($filter) {
 	var tmp = undefined,
 		iBeaconUuid 		= undefined,
 		major 				= undefined,
 		minor 				= undefined;
 	    iBeaconUuidToHex 	= undefined;
-	
+
 	return function(value) {
-		
+
 		tmp = value.toString().split('.');
-		
- 		//check . seperation 
+
+ 		//check . seperation
     	if(tmp.length != 3) {
-    		console.log( 'Ivalid seperation. cmsBeaconKey has to be seperated in 3 groups with "." between.' );
-    		return false;
-    	}
-    	
-    	iBeaconUuid = tmp[0];
-    	iBeaconUuidToHex = $filter('iBeaconUuidToHex');
-    	
-    	//check valid iBeaconUUid 
-    	if(iBeaconUuidToHex(iBeaconUuid) === false) {
-    		console.log( 'Ivalid iBeaconUUid.' );
-    		return false;
-    	}
-    	    
-    	major 		= tmp[1];
-    	
-    	//check valid major 
-    	if (!(major >= 0)) {
-    		console.log(major);
-    		console.log( 'major is no int.' );
-    		return false;
-    	}
-    	
-		minor 		= tmp[2];
-		//check valid minor 
-		if (!(minor >= 0)) {
-    		console.log( 'minor is no int.' );
+
     		return false;
     	}
 
-    	return { 
+    	iBeaconUuid = tmp[0];
+    	iBeaconUuidToHex = $filter('iBeaconUuidToHex');
+
+    	//check valid iBeaconUUid
+    	if(iBeaconUuidToHex(iBeaconUuid) === false) {
+
+    		return false;
+    	}
+
+    	major 		= tmp[1];
+
+    	//check valid major
+    	if (!(major >= 0)) {
+    		return false;
+    	}
+
+		minor 		= tmp[2];
+		//check valid minor
+		if (!(minor >= 0)) {
+
+    		return false;
+    	}
+
+    	return {
     			iBeaconUuid : iBeaconUuid,
     			 major 		: major,
     			 minor 		: minor
-    		}; 
+    		};
 	};
-	
+
 }]);
 
 
@@ -304,13 +301,12 @@ bleFilters.filter('bcmsBeaconKeyToObj', ['$filter', function($filter) {
  *  returns a 36 char long string of iBeacon format or false
  */
 bleFilters.filter('hexToIBeaconUuid', ['$filter', function($filter) {
-  
+
 	return function(value) {
-		
+
 		//check string length == 32
-		if(value.length != 32) { 
-			console.log('hexToIBeaconUuid returns false because string.length is '+value.length+' and has to be 32!');
-			return false; 
+		if(value.length != 32) {
+			return false;
 		}
 	    	// filter
  		var toHexString = $filter('toHexString'),
@@ -322,13 +318,13 @@ bleFilters.filter('hexToIBeaconUuid', ['$filter', function($filter) {
  			part3_4Char		= undefined,
  			part4_4Char 	= undefined,
  			part5_12Char 	= undefined;
- 		
+
  		//check valid hex string
- 		value = toHexString(value); 
+ 		value = toHexString(value);
  		if( value === false) {
  			return false;
  		};
-	 		
+
     	//get blocks
     	part1_8Char = value.substr(0,8);
     	part2_4Char = value.substr(8,4);
@@ -339,31 +335,31 @@ bleFilters.filter('hexToIBeaconUuid', ['$filter', function($filter) {
     	//create formated iBeaconUuid
     	iBeaconUUID = [part1_8Char,part2_4Char, part3_4Char, part4_4Char, part5_12Char].join('-');
     	return iBeaconUUID.toUpperCase();
-	 
+
   };
-  
+
 }]);
 
 /*
  * returns valid hex string or false
- */	
+ */
 bleFilters.filter('bcmsBeaconKeyToInt', ['$filter', function($filter) {
-	
+
 	return function(value) {
-		
+
 		var bcmsBeaconKeyToObjFilter = $filter('bcmsBeaconKeyToObj');
 		var iBeaconUuidToHexFilter = $filter('iBeaconUuidToHex');
 
     	var iBeaconObj = bcmsBeaconKeyToObjFilter(value);
-    	
+
     	var iBeaconUuidAsHex = iBeaconUuidToHexFilter(iBeaconObj.iBeaconUuid);
 		var iBeaconUuidAsInt = parseInt(iBeaconUuidAsHex,16);
 		iBeaconUuidAsInt = iBeaconUuidAsInt/100000000000000000000000000000000000000;
 		var bcmsBeaconKeyAsInt = iBeaconUuidAsInt + parseInt(iBeaconObj.major) + parseInt(iBeaconObj.minor);
 
-    	return bcmsBeaconKeyAsInt; 
+    	return bcmsBeaconKeyAsInt;
 	};
-	
+
 }]);
 
 
@@ -374,35 +370,34 @@ bleFilters.filter('bcmsBeaconKeyToInt', ['$filter', function($filter) {
  *  returns a 32 long lowercase hex string or false
  */
 bleFilters.filter('iBeaconUuidToHex', ['$filter', function($filter) {
-  
+
 	return function(value) {
 		var toHexString = $filter('toHexString');
-		
+
 		 	//string.length have to be 36 => 32 chars hexvalue + 4 chars "-"
-		     if(value.length != 32+4) {  
-		    	 console.log('IBeaconUuidToHex returns false because the stringlength of "'+value+'" is not 36');
-		    	 return false; 
+		     if(value.length != 32+4) {
+
+		    	 return false;
 		     }
-		  
+
 		    //clean string from seperator
 		     var hexarray = value.split("-");
 		     var hexstring = hexarray.join('');
-		     
+
 		     if(hexstring.length != 32) {
-		    	console.log('IBeaconUuidToHex returns false because the converted strings length is not 32 => wrong seperator');
 		     	return false;
-		     } 
-		  	
+		     }
+
 		     hexstring = toHexString(hexstring);
 		     if( hexstring === false) {
 		 			return false;
 		 	 };
-		    
+
 
 		    return hexstring.toLowerCase();
 
   };
-  
+
 }])
 
 /*\
@@ -412,13 +407,13 @@ bleFilters.filter('iBeaconUuidToHex', ['$filter', function($filter) {
 |*|  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Base64_encoding_and_decoding
 |*|
 \*/
-/* Array of bytes to base64 string decoding 
+/* Array of bytes to base64 string decoding
  * returns a Unit6 string or 0
  */
 bleFilters.filter('b64ToUint6', function() {
-  
+
 	return function(nChr) {
-		
+
 		   return  nChr > 64 && nChr < 91 ?
 			       nChr - 65
 			     : nChr > 96 && nChr < 123 ?
@@ -433,18 +428,18 @@ bleFilters.filter('b64ToUint6', function() {
 			       0;
 
   }
-  
+
 });
 
 bleFilters.filter('base64DecToArr', ['$filter', function($filter) {
-  
+
 	return function(sBase64, nBlocksSize) {
 		var b64ToUint6 = $filter('b64ToUint6'),
-	     	sB64Enc = sBase64.replace(/[^A-Za-z0-9\+\/]/g, ""), 
+	     	sB64Enc = sBase64.replace(/[^A-Za-z0-9\+\/]/g, ""),
 	     	nInLen = sB64Enc.length,
-	     	nOutLen = nBlocksSize ? Math.ceil((nInLen * 3 + 1 >> 2) / nBlocksSize) * nBlocksSize : nInLen * 3 + 1 >> 2, 
+	     	nOutLen = nBlocksSize ? Math.ceil((nInLen * 3 + 1 >> 2) / nBlocksSize) * nBlocksSize : nInLen * 3 + 1 >> 2,
 	     	taBytes = new Uint8Array(nOutLen);
-	     	
+
 	   for (var nMod3, nMod4, nUint24 = 0, nOutIdx = 0, nInIdx = 0; nInIdx < nInLen; nInIdx++) {
 	     nMod4 = nInIdx & 3;
 	     nUint24 |= b64ToUint6(sB64Enc.charCodeAt(nInIdx)) << 18 - 6 * nMod4;
@@ -460,11 +455,11 @@ bleFilters.filter('base64DecToArr', ['$filter', function($filter) {
 	   return taBytes;
 
   };
-  
+
 }]);
 
  /* Base64 string to array encoding */
-bleFilters.filter('uint6ToB64', function() {	
+bleFilters.filter('uint6ToB64', function() {
 
 	return function  (nUint6) {
 
@@ -482,9 +477,9 @@ bleFilters.filter('uint6ToB64', function() {
 	       65;
 	 };
 });
-/* 
- * Base64 string to array encoding 
- */ 
+/*
+ * Base64 string to array encoding
+ */
 bleFilters.filter('base64EncArr', ['$filter', function($filter) {
  return function (aBytes) {
 
@@ -506,10 +501,10 @@ bleFilters.filter('base64EncArr', ['$filter', function($filter) {
 
  /* UTF-8 array to DOMString and vice versa */
 bleFilters.filter('UTF8ArrToStr', function() {
-	 
+
 	return function  (aBytes) {
 	   var sView = "";
-	   
+
 	   for (var nPart, nLen = aBytes.length, nIdx = 0; nIdx < nLen; nIdx++) {
 	     nPart = aBytes[nIdx];
 	     sView += String.fromCharCode(
@@ -533,10 +528,10 @@ bleFilters.filter('UTF8ArrToStr', function() {
 });
 
 /*
- * 
+ *
  */
 bleFilters.filter('strToUTF8Arr', function() {
-	 
+
 	return function(sDOMStr) {
 
 	   var aBytes, nChr, nStrLen = sDOMStr.length, nArrLen = 0;

@@ -1,17 +1,17 @@
 ;(function() {
 	'use strict';
 
-	angular.module('bp.analyse.controller', ['commons.directives.analyseConfigForm.directive',  'commons.services.gps.factory'])
+	angular.module('bp.analyse.controller', ['commons.directives.analyseConfigForm.directive', 'commons.directives.trackingMap.directive'])
 		   .controller('AnalyseController', AnalyseController);
 
-	AnalyseController.$inject = ['GpsService'];
+	AnalyseController.$inject = [];
 
-	function AnalyseController(   GpsService) {
+	function AnalyseController() {
 
-		var vm = this;
+    var vm = this;
 
-		////////////////
+    ////////////////
+  }
 
-	}
 
 })();

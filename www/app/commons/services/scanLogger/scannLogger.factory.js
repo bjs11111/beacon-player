@@ -1,12 +1,12 @@
 ;(function() {
   'use strict';
 
-  angular.module('commons.services.scannLogger.factory', ['ngCordova', 'ngDrupal7Services-3_x.resources.node.resource', 'ngDrupal7Services-3_x.commons.helperService', 'commons.services.ble.bleChannels', 'commons.services.scannLogger.channel', 'commons.services.gps.channel'])
+  angular.module('commons.services.scannLogger.factory', ['ngCordova', 'd7-services.resources','commons.resources.advertisingData', 'commons.services.ble.bleChannels', 'commons.services.scannLogger.channel', 'commons.services.gps.channel'])
     .factory('ScannLogger', ScannLogger);
 
-  ScannLogger.$inject = ['$rootScope','$state','$q','$filter','$ionicPlatform','NodeResource','DrupalHelperService','bleScannerChannel','ScannLoggerChannel','GpsServiceChannel'];
+  ScannLogger.$inject = ['$rootScope','$state','$q','$filter','$ionicPlatform','NodeResource','AdvertisingDataResource','DrupalHelperService','bleScannerChannel','ScannLoggerChannel','GpsServiceChannel'];
 
-  function ScannLogger(   $rootScope,  $state,  $q,  $filter,  $ionicPlatform,  NodeResource,  DrupalHelperService,  bleScannerChannel,  ScannLoggerChannel,  GpsServiceChannel) {
+  function ScannLogger(   $rootScope,  $state,  $q,  $filter,  $ionicPlatform,  NodeResource,  AdvertisingDataResource,  DrupalHelperService,  bleScannerChannel,  ScannLoggerChannel,  GpsServiceChannel) {
 
     var configurations = {
         devideInformation		: true,
@@ -20,6 +20,7 @@
 
       scope = $rootScope.$new(),
       unsubFoundDevice = undefined,
+      activeMeasurementNid = 0,
     //ready, recording, finished
       serviceState = 'ready',
       title = '',
@@ -28,7 +29,7 @@
       packagesCount = 0;
 
     var	ScannLoggerService = {
-      setTitle : setTitle,
+      setActiveMeasurement : setActiveMeasurement,
       getTitle : getTitle,
       getState : getState,
       start    : start,
@@ -48,21 +49,20 @@
       ionic.Platform.ready(function(){
         // will execute when device is ready, or immediately if the device is already ready.
         deviceInformation = ionic.Platform.device();
+
+        //online offline
+        $rootScope.$on('$cordovaNetwork:online', function(event, networkState){ isOffline = 0;});
+        $rootScope.$on('$cordovaNetwork:offline', function(event, networkState){ isOffline = 1;});
+
+        //open/background
+        $ionicPlatform.on('pause', function(event){ isBackground = 1;});
+        $ionicPlatform.on('resume', function(event){ isBackground = 0;});
+        //$ionicPlatform.on('volumedownbutton', function(event){volumedownbutton = true;});
+        //$ionicPlatform.on('batterylow', function(event){batterylow = true;});
+        //$ionicPlatform.on('offline', function(event){offline = true;});
+
+        GpsServiceChannel.subPositionUpdated(scope, positionUpdatedHandler);
       });
-
-      //online offline
-      $rootScope.$on('$cordovaNetwork:online', function(event, networkState){ isOffline = 0;});
-      $rootScope.$on('$cordovaNetwork:offline', function(event, networkState){ isOffline = 1;});
-
-      //open/background
-      $ionicPlatform.on('pause', function(event){ isBackground = 1;});
-      $ionicPlatform.on('resume', function(event){ isBackground = 0;});
-      //$ionicPlatform.on('volumedownbutton', function(event){volumedownbutton = true;});
-      //$ionicPlatform.on('batterylow', function(event){batterylow = true;});
-      //$ionicPlatform.on('offline', function(event){offline = true;});
-
-      GpsServiceChannel.subPositionUpdated(scope, positionUpdatedHandler);
-
     };
 
     function positionUpdatedHandler(position){
@@ -77,8 +77,23 @@
       }
     }
 
-    function setTitle(newTitle) {
+    function setActiveMeasurement(newTitle) {
+
       title = newTitle;
+
+      var defer = $q.defer(),
+        newMeasurement = {
+          title 	: newTitle,
+          type 	  : 'messdaten',
+          field_pending  	: DrupalHelperService.structureField({value:0})
+        };
+
+      NodeResource
+        .create(newMeasurement)
+        .then(function(response){ activeMeasurementNid = response.data.nid; })
+        .finally(function(){ defer.resolve();});
+
+      return defer.promise;
     }
 
     function getTitle() {
@@ -116,26 +131,61 @@
     //depending on config obj we add additional data to it
     function onFoundDeviceHandler(preparedDevice) {
 
-      var blePackage = {};
-      blePackage.ud = preparedDevice.iBeaconUuid;
-      blePackage.ma = preparedDevice.major;
-      blePackage.mi = preparedDevice.minor;
-      blePackage.rs = preparedDevice.rssi;
-      blePackage.la = preparedDevice.lastScan;
-
-
-      updatePackageCounter();
-
       var newData =  {};
 
-      //newData.deviceInformation = deviceInformation;
-      //newData.isOffline = isOffline;
-      newData.bg = isBackground;
-      newData.po = gpsPosition;
-      newData.bl = blePackage;
+      //Column name in Drupal
+      //DB only
+      //'apid'  //Primary key
+      //'created'
+      //'changed'
+      //'nid' //Foreign key
+      //----------------------------------------------------
+      //##DeviceInformation
+      //'device_cordova' => dc
+      newData.dc = deviceInformation.cordova;
+      //'device_model' => dm
+      newData.dm = deviceInformation.model;
+      //'device_platform' => dp
+      newData.dp = deviceInformation.platform;
+      //'device_uuid' => du
+      newData.du = deviceInformation.uuid;
+      //'device_version' => dv
+      newData.dv = deviceInformation.version;
+      //'device_manufacturer' => da
+      newData.da = deviceInformation.manufacturer;
+      //'device_isVirtual' => di
+      newData.di = (deviceInformation.isVirtual)?1:0;
+      //'device_serial' => ds
+      newData.ds = deviceInformation.serial;
+      //----------------------------------------------------
+      //##App information
+      //'isBackground' => ib
+      newData.ib = isBackground;
+      //'isOffline' => io
+      newData.io = isOffline;
+      //----------------------------------------------------
+      //##GPS information
+      //'geolat' => la
+      newData.la = gpsPosition[0];
+      //'geolng' => ln
+      newData.ln = gpsPosition[1];
+      //----------------------------------------------------
+      //##BLE advertising package information
+      //'scannTime' => st
+      newData.st = parseInt(preparedDevice.lastScan/1000);
+      //'iBeaconUUID' => iu
+      newData.iu = preparedDevice.iBeaconUuid;
+      //'major' => ma
+      newData.ma = preparedDevice.major;
+      //'minor' => mi
+      newData.mi = preparedDevice.minor;
+      //'rssi' => ri
+      newData.rs = preparedDevice.rssi;
+      //'rssiCalibrated' => rc
+      //newData.rs = preparedDevice.rssi;
 
       measurementData.push(newData);
-
+      updatePackageCounter();
     };
 
     function stop() {
@@ -154,16 +204,13 @@
       //each row has max 105 chars
       //{"1441216420474":{"bg":0,"bl":{"ud":"E6C56DB5-DFFB-48D2-B088-40F5A81496EE","ma":0000,"mi":0000,"rs":-99}}, }
 
-
       var promises = chunk(measurementData, 5000).map(function(arr) {
         var defer = $q.defer(),
-            newMeasurement = {
-              title 	: title,
-              type 	  : 'messdaten',
-              body  	: DrupalHelperService.structureField({ value : [JSON.stringify(arr)], format: "plain_text"})
-            };
+          measurementData = {};
 
-        return NodeResource.create(newMeasurement);
+        measurementData.nid = activeMeasurementNid;
+        measurementData.advertising_packages = arr;
+        return AdvertisingDataResource.create(measurementData);
       });
 
       ScannLoggerChannel.pubProgressStart(promises.length);

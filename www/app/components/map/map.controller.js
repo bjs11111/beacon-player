@@ -68,7 +68,7 @@
     function init(){
         GpsServiceChannel.subPositionUpdated($scope,updateMap);
 
-        leafletData.getMap().then(function(map) {
+        leafletData.getMap("map").then(function(map) {
           setTimeout(function(){
             map.invalidateSize();
           }, 200);

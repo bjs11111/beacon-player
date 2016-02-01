@@ -38,6 +38,7 @@
 
 			    		$scope.cfd.config = {};
 			    		$scope.cfd.packagesCount = 0;
+                $scope.cfd.isCreatingNode = false;
 			    		$scope.cfd.title = '';
 			    		$scope.cfd.isTitle = false;
 			    		$scope.cfd.saveTitle = saveTitle;
@@ -84,10 +85,7 @@
 
 				    	}
 
-                function progressErrorHandler(error){
-                  console.log('error progressErrorHandler', error);
-
-                }
+              function progressErrorHandler(error){    }
 
 				    	function mainButtonPress() {
 
@@ -109,9 +107,17 @@
 				    	function saveTitle(analyseForm, title) {
 
 				    		if(analyseForm.$valid) {
-				    			ScannLogger.setTitle(title);
-				    			$scope.cfd.isTitle = true;
-				    		}
+
+                  $scope.cfd.isCreatingNode = true;
+
+				    			var t = ScannLogger
+                    .setActiveMeasurement(title)
+                      .then(function(){
+                        $scope.cfd.isTitle = true;
+                        $scope.cfd.isCreatingNode = false;
+                      });
+
+                }
 				    	}
 
 			    }]

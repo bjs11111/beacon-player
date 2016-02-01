@@ -105,7 +105,6 @@
       watchGeoInterval = $interval(function(){
          geoGetPosition()
           .then(function(pos){
-            console.log('pos at ', $filter('date')(Date.now(),'HH:mm:ss'), pos);
             GpsServiceChannel.pubPositionUpdated(pos);
             actualGpsPosition = pos;
           });
@@ -116,9 +115,7 @@
 
     function geoWatch(){
       geoWatcher = navigator.geolocation.watchPosition(function(position) {
-        console.log('watch position',JSON.stringify(position));
       }, function(err) {
-        console.log('watch position err',JSON.stringify(err));
       }, geoOptions);
     }
 
@@ -161,8 +158,6 @@
       var lat    = coords.latitude;
       var lng    = coords.longitude;
 
-      console.log('location', location);
-
       // Simulate doing some extra work with a bogus setTimeout.  This could perhaps be an Ajax request to your server.
       // The point here is that you must execute bgGeo.finish after all asynchronous operations within the callback are complete.
       /*setTimeout(function() {
@@ -172,7 +167,7 @@
     };
 
     function failureFn(error) {
-      console.log('BackgroundGeoLocation error');
+
     }
 
 	};

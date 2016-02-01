@@ -22,18 +22,28 @@
 
 
     <!-- TO REFACTORE -->
-    <script src="app/commons/services/beaconAPI-services.js"></script>
     <script src="app/commons/filter/ble-filters.js"></script>
+
+    <script src="app/commons/directives/ble-list-item/device-list-directives.js"></script>
+
+    <script src="app/commons/services/beaconAPI-services.js"></script>
     <script src="app/commons/services/general-services.js"></script>
     <script src="app/commons/services/localNotificationsManager.factory.js"></script>
     <script src="app/commons/services/ble/ble-channels.js"></script>
     <script src="app/commons/services/ble/ble-scanners.js"></script>
-    <script src="app/commons/directives/ble-list-item/device-list-directives.js"></script>
+
     <script src="app/components/ble-devices/ble-devices-controllers.js"></script>
 
     <!-- should be good to reuse -->
+    <script src="app/commons/resources/advertisingData/advertisingData.bundle.js"></script>
+    <script src="app/commons/resources/advertisingData/advertisingData.channelConstant.js"></script>
+    <script src="app/commons/resources/advertisingData/advertisingData.channel.js"></script>
+    <script src="app/commons/resources/advertisingData/advertisingData.resourceConstant.js"></script>
+    <script src="app/commons/resources/advertisingData/advertisingData.resource.js"></script>
+
     <script src="app/commons/directives/analyse-config/analyse-config-form.direcitve.js"></script>
-    <script src="app/components/analyse/analyse.controller.js"></script>
+    <script src="app/commons/directives/map/tracking-map.direcitve.js"></script>
+
     <script src="app/commons/services/scanLogger/scannLogger.factory.js"></script>
     <script src="app/commons/services/scanLogger/scannLogger.channel.js"></script>
     <script src="app/commons/services/scanLogger/scannLogger.saveProgress.directive.js"></script>
@@ -51,6 +61,8 @@
 
     <script src="app/commons/commons.baseChannel.js"></script>
 
+    <script src="app/components/analyse/analyse.controller.js"></script>
+
     <!-- bower components -->
     <script src="lib/leaflet/dist/leaflet.js"></script>
     <script src="lib/angular-simple-logger/dist/index.js"></script>
@@ -62,56 +74,8 @@
     <script src="lib/ngstorage/ngStorage.js"></script>
     <script src="lib/angular-cookies/angular-cookies.js"></script>
 
-
-
     <!-- d7-services @TODO use bundle.min.js -->
-    <script src="lib/ng-drupal-7-services/src/commons/directives/directives.toggleByAccessLevel.js"></script>
-    <script src="lib/ng-drupal-7-services/src/commons/commons.drupalApiConfig.js"></script>
-
-    <script src="lib/ng-drupal-7-services/src/commons/commons.helperService.js"></script>
-    <script src="lib/ng-drupal-7-services/src/commons/commons.validationConstant.js"></script>
-    <script src="lib/ng-drupal-7-services/src/commons/commons.baseChannel.js"></script>
-    <script src="lib/ng-drupal-7-services/src/commons/commons.baseResource.js"></script>
-
-    <script src="lib/ng-drupal-7-services/src/commons/http/http.configurations.js"></script>
-    <script src="lib/ng-drupal-7-services/src/commons/http/http.requestAcceptIntercepter.js"></script>
-
-    <script src="lib/ng-drupal-7-services/src/commons/authentication/authentication.httpIntercepter.js"></script>
-    <script src="lib/ng-drupal-7-services/src/commons/authentication/authentication.channelConstant.js"></script>
-    <script src="lib/ng-drupal-7-services/src/commons/authentication/authentication.channel.js"></script>
-    <script src="lib/ng-drupal-7-services/src/commons/authentication/authentication.serviceConstant.js"></script>
-    <script src="lib/ng-drupal-7-services/src/commons/authentication/authentication.service.js"></script>
-    <script src="lib/ng-drupal-7-services/src/commons/authentication/authentication.bundle.js"></script>
-
-    <script src="lib/ng-drupal-7-services/src/resources/system/system.resourceConstant.js"></script>
-    <script src="lib/ng-drupal-7-services/src/resources/system/system.resource.js"></script>
-    <script src="lib/ng-drupal-7-services/src/resources/system/system.channelConstant.js"></script>
-    <script src="lib/ng-drupal-7-services/src/resources/system/system.channel.js"></script>
-
-    <script src="lib/ng-drupal-7-services/src/resources/user/user.resourceConstant.js"></script>
-    <script src="lib/ng-drupal-7-services/src/resources/user/user.resource.js"></script>
-    <script src="lib/ng-drupal-7-services/src/resources/user/user.channelConstant.js"></script>
-    <script src="lib/ng-drupal-7-services/src/resources/user/user.channel.js"></script>
-    <script src="lib/ng-drupal-7-services/src/resources/user/user.bundle.js"></script>
-
-    <script src="lib/ng-drupal-7-services/src/resources/node/node.resourceConstant.js"></script>
-    <script src="lib/ng-drupal-7-services/src/resources/node/node.resource.js"></script>
-    <script src="lib/ng-drupal-7-services/src/resources/node/node.channelConstant.js"></script>
-    <script src="lib/ng-drupal-7-services/src/resources/node/node.channel.js"></script>
-    <script src="lib/ng-drupal-7-services/src/resources/node/node.bundle.js"></script>
-
-    <script src="lib/ng-drupal-7-services/src/resources/file/file.resourceConstant.js"></script>
-    <script src="lib/ng-drupal-7-services/src/resources/file/file.resource.js"></script>
-    <script src="lib/ng-drupal-7-services/src/resources/file/file.channelConstant.js"></script>
-    <script src="lib/ng-drupal-7-services/src/resources/file/file.channel.js"></script>
-    <script src="lib/ng-drupal-7-services/src/resources/file/file.bundle.js"></script>
-
-    <script src="lib/ng-drupal-7-services/src/resources/views/views.resourceConstant.js"></script>
-    <script src="lib/ng-drupal-7-services/src/resources/views/views.resource.js"></script>
-    <script src="lib/ng-drupal-7-services/src/resources/views/views.channelConstant.js"></script>
-    <script src="lib/ng-drupal-7-services/src/resources/views/views.channel.js"></script>
-    <script src="lib/ng-drupal-7-services/src/resources/views/views.operatorsConstant.js"></script>
-    <script src="lib/ng-drupal-7-services/src/resources/views/views.bundle.js"></script>
+    <script src="lib/ng-drupal-7-services/dist/ng-drupal-7-services.js"></script>
 
 	<!-- app components -->
 	<script src="app/app.controller.js"></script>

@@ -4,14 +4,15 @@
 
 
 		<div  class="list card">
-			
+
 			<div class="item item-input-inset" ng-show="!cfd.isTitle">
 	          	<label class="item-input-wrapper" ng-class="{ 'has-error' : analyseForm.title.$invalid && analyseForm.$submitted, 'valid' : analyseForm.title.$valid && analyseForm.$submitted}">
-		           	<input class="text-center"
-					type="text" placeholder="Name of Analyse" name="title" ng-model="cfd.title" autocorrect="off" autocapitalize="off" spellcheck="false" required>
+		           	<input class="text-center" style="width:100%" type="text" placeholder="Name of Analyse" name="title" ng-model="cfd.title" autocorrect="off" autocapitalize="off" spellcheck="false" required>
 	          	</label>
-	            <button class="button button-clean button outlined button-small  button-icon icon ion-clipboard" ng-click="cfd.saveTitle(cfd.analyseForm, cfd.title)">
-			    </button> 
+	            <button class="button button-clean button outlined button-small button-spinner button-icon" ng-click="cfd.saveTitle(cfd.analyseForm, cfd.title)">
+                <ion-spinner ng-if="cfd.isCreatingNode"></ion-spinner>
+                <i ng-if="!cfd.isCreatingNode" class="icon ion-clipboard"></i>
+              </button>
 			    <div class="form-errors"
 					ng-show="analyseForm.title.$invalid && analyseForm.$submitted"
 					ng-messages="analyseForm.title.$error">
@@ -25,23 +26,23 @@
 				</div>
 		    </div>
 
-
 			<div scann-logger-save-progress></div>
-		    <div class="item text-center"  ng-show="cfd.isTitle">
-		    	<h2>{{cfd.title}}</h2>
-		    </div>
-		    
-		    
+
+      <div class="item item-xs text-center"  ng-show="cfd.isTitle">
+        <h2 style="">{{cfd.title}}</h2>
+      </div>
+
+
 			<div  class="item item-body" ng-show="cfd.isTitle">
 				 <p>
 				 <button ng-click="cfd.mainButtonPress()"
-					class="button button-positive button-clear padding-vertical button-center button-icon icon icon-xxl"
+					class="button button-positive button-clear button-center button-icon icon icon-xxl"
 					ng-class="cfd.mainBtnIcon"></button>
 					</p>
 				<p class="text-center">{{cfd.packagesCount}}/{{cfd.packagesCount*105 | byteFmt: 4 }}</p>
 			</div>
-			
-			
+
+
 
 		</div>
 	</form>

@@ -168,11 +168,6 @@
 		// jshint validthis: true
 		var vm = this;
 
-
-
-
-		console.log('initial knownDevicesList',angular.copy(knownDevicesList));
-
 		//new apidata as new device__________________________________________________________________________
 		//console.log('new apidata as new device__________________________________________________');
 		//mapBeaconDataToKnownDevices(dummyBcmsData4, DeviceDataManagerServiceConstant.mapTypeAPIDevice);
@@ -225,7 +220,7 @@
 		*/
 
 		//new scandata as new device______________________________________________________________
-		console.log('new scandata as new device______________________________________________________________');
+
 		//DeviceDataManagerService.mapBeaconDataToKnownDevices(dummyScanData4, DeviceDataManagerServiceConstant.mapTypeBleDevice);
 
 		//new scandata as old device with bcmsData______________________________________________________________

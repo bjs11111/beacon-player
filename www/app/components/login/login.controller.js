@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('bp.login.controller', ['ngDrupal7Services-3_x.commons.authentication'])
+		.module('bp.login.controller', ['d7-services.commons.authentication'])
 		.controller('LoginController', LoginController);
 
 	LoginController.$inject= ['$scope', 'AuthenticationService'];

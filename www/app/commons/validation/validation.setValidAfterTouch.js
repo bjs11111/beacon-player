@@ -19,11 +19,11 @@
             link: function(scope, ele, attrs, ngModelCtrl){
 
             	var flag = attrs.setValidAfterTouch;
-            	console.log(attrs); 
+
                 // add a parser that will process each time the value is
                 // parsed into the model when the user updates it.
                 ngModelCtrl.$parsers.unshift(function(value) {
-                	console.log(value);
+
                     /**
                      * The requests promise.then() set's validity for this field to false if error
                      *

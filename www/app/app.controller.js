@@ -3,7 +3,7 @@
 
 
 angular
-    .module('bp.app.controller', ['ngDrupal7Services-3_x.commons.authentication', 'ngDrupal7Services-3_x.commons.directives.toggleByAccesslevel', 'commons.services.generalServices.factory', 'commons.deviceDataManager.service'])
+    .module('bp.app.controller', ['d7-services.commons.authentication', 'd7-services.commons.directives.toggleByAccesslevel', 'commons.services.generalServices.factory', 'commons.deviceDataManager.service'])
     .controller('AppController', AppController);
 	//@TODO try to use $scope to listen on events instead of $rootScope
 	AppController.$inject = ['$rootScope','$state','$ionicSideMenuDelegate','AuthenticationServiceConstant','AuthenticationService','generalService','DeviceDataManagerService' ];

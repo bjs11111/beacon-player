@@ -74,7 +74,7 @@
 */
         $rootScope.$on('$cordovaLocalNotification:clear',
           function (event, notification, state) {
-            console.log('clear');
+
             //var decodedNotificationData = JSON.parse(notification.data);
 
             //if(notifiedBeacons[decodedNotificationData.bcmsBeaconKey]) {
@@ -86,7 +86,7 @@
         $rootScope.$on('$cordovaLocalNotification:cancel',
           function (event, notification, state) {
             //console.log('open: ',  JSON.stringify(JSON.decode(notification.data)) );
-            console.log('cancel klicked');
+
             //var decodedNotificationData = JSON.parse(notification.data);
             //if(notifiedBeacons[decodedNotificationData.bcmsBeaconKey]) {
             //  notifiedBeacons[decodedNotificationData.bcmsBeaconKey].canceledAt = Date.now();
@@ -95,7 +95,7 @@
 
         $rootScope.$on('$cordovaLocalNotification:click',
           function (event, notification, state) {
-            console.log('click klicked');
+
             var decodedNotificationData = JSON.parse(notification);
             if(notifiedBeacons[decodedNotificationData.bcmsBeaconKey]) {
               notifiedBeacons[decodedNotificationData.bcmsBeaconKey].openedAt = Date.now();

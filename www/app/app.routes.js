@@ -2,8 +2,8 @@
     'use strict';
 
     angular.module('bp.routes', ['ngStorage',
-                                              'ngDrupal7Services-3_x.commons.configurations',
-                                              'ngDrupal7Services-3_x.commons.authentication',
+                                              'd7-services.commons.configurations',
+                                              'd7-services.commons.authentication',
                                               'bp.app.controller',
                                               'bp.login.controller',
                                               'bp.profile.controller',
@@ -167,14 +167,13 @@
 		    	    );
 
 
-    	    console.log('serverBeaconStore.isInitialized');
     	    if (serverBeaconStore.isInitialized() === false) {
     	   	    // Prevent $urlRouter's default handler from firing
     	   	    e.preventDefault();
     	   	    $rootScope.$broadcast('loading:show', { loading_settings : {template:"<p><ion-spinner></ion-spinner><br/>Loading...</p>"} });
 
     	   	    // init or refresh Authentication service connection
-    	   	    console.log('load initial beacons from server in app.route');
+
     	   	    serverBeaconStore.updateBeaconList().then(
     	   	    	function() {
     	   	    		sitBleScanner.startScanning();
