@@ -47,8 +47,8 @@
     var actualGpsPosition = undefined;
 
     var geoOptions = {
-        frequency: 1000 * 60,
-        timeout : 1000 * 20,
+        //frequency: 2500,
+       // timeout : 2000,
         enableHighAccuracy: true
       },
       geoWatcher = undefined,
@@ -83,7 +83,6 @@
       var defer = $q.defer();
 
       ionic.Platform.ready(function(){
-
         return $cordovaGeolocation
           .getCurrentPosition(geoOptions)
           .then(function (position) {
@@ -99,7 +98,6 @@
 
       return defer.promise;
     }
-
 
     function startWatchGeoCustom() {
       watchGeoInterval = $interval(function(){

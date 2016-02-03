@@ -1,10 +1,10 @@
-.tracking-map {
-
+#gmap {
+  position: absolute;
 }
-
 .has-header {
-  .tracking-map {
-    top:-22px;
+  #gmap {
+
+    bottom:0px;
   }
 }
 

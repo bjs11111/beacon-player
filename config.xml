@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.starnberger.beaconplayer" version="1.0.11" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Analyse Tool</name>
-  <description>&#xD;
-    BeaconPlayer is a free and Open Source Platform and App for experimenting with beacons. This version is an analyse tool.&#xD;
+  <description>&#xD;&#xD;
+    BeaconPlayer is a free and Open Source Platform and App for experimenting with beacons. This version is an analyse tool.&#xD;&#xD;
   </description>
-  <author email="office@starnberger.at" href="www.starnberger.at">Starnberger Innovation und Technology&#xD;
+  <author email="office@starnberger.at" href="www.starnberger.at">Starnberger Innovation und Technology&#xD;&#xD;
   </author>
-  <content src="http://10.0.0.12:8100" original-src="index.html"/>
+  <content src="index.html"/>
   <access origin="*"/>
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>

@@ -9,8 +9,7 @@
                                               'bp.profile.controller',
                                               'bp.bleDevicesControllers',
                                               'bp.analyse.controller',
-                                              'bp.map.controller',
-
+      'bp.map2.controller',
                                               'commons.services.ble.bleScanners.factory',
 
                                               ])
@@ -76,15 +75,17 @@
 				}
 			})
 
-      .state('app.map', {
-        url : '/map',
-        views : {
-          'menuContent' : {
-            templateUrl : 'app/components/map/map.view.html',
-            controller 	: 'MapController as map'
+
+
+        .state('app.map2', {
+          url : '/map2',
+          views : {
+            'menuContent' : {
+              templateUrl : 'app/components/map2/map2.view.html',
+              controller 	: 'Map2Controller as map2'
+            }
           }
-        }
-      })
+        })
 
 		 .state('app.analyse', {
 				url : '/analyse',

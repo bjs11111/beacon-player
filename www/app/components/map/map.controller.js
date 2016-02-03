@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('bp.map.controller', ['commons.services.gps.channel','commons.services.gps.factory', 'leaflet-directive'])
+		.module('bp.map.controller', ['commons.services.gps.channel','commons.services.gps.factory'])
 		.controller('MapController', MapController);
 
 	MapController.$inject= ['$scope','GpsServiceChannel','GpsService','leafletData'];
