@@ -23,10 +23,6 @@
       {pos:[40.11, -75.21],name:'actualPosition'}
     ];
 
-    NgMap.getMap().then(function(map) {
-      vm.map = map;
-    });
-
     vm.currentIndex = 0;
 
     init();

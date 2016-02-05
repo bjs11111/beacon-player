@@ -106,7 +106,7 @@
             actualState = newState;
             switch(actualState){
               case'ready':
-                $scope.paths.actualPath = [];
+                $scope.paths.actualPath = [[]];
                 $scope.markers = [$scope.markers[0]];
                     break;
             }
