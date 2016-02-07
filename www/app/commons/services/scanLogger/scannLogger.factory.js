@@ -85,6 +85,14 @@
         newMeasurement = {
           title 	: newTitle,
           type 	  : 'messdaten',
+          field_cordova_version : DrupalHelperService.structureField({value:deviceInformation.cordova}),
+          field_model : DrupalHelperService.structureField({value:deviceInformation.model}),
+          field_platforms : DrupalHelperService.structureField({value:deviceInformation.platform}),
+          field_uuid : DrupalHelperService.structureField({value:deviceInformation.uuid}),
+          field_version : DrupalHelperService.structureField({value:deviceInformation.version}),
+          field_manufacturer : DrupalHelperService.structureField({value:deviceInformation.manufacturer}),
+          field_is_virtual : DrupalHelperService.structureField({value:(deviceInformation.isVirtual)?1:0}),
+          field_serial : DrupalHelperService.structureField({value:deviceInformation.serial}),
           field_pending  	: DrupalHelperService.structureField({value:0})
         };
 
@@ -140,7 +148,7 @@
       //'changed'
       //'nid' //Foreign key
       //----------------------------------------------------
-      //##DeviceInformation
+      /*//##DeviceInformation
       //'device_cordova' => dc
       newData.dc = deviceInformation.cordova;
       //'device_model' => dm
@@ -157,7 +165,7 @@
       newData.di = (deviceInformation.isVirtual)?1:0;
       //'device_serial' => ds
       newData.ds = deviceInformation.serial;
-      //----------------------------------------------------
+      //----------------------------------------------------*/
       //##App information
       //'isBackground' => ib
       newData.ib = isBackground;
@@ -172,7 +180,7 @@
       //----------------------------------------------------
       //##BLE advertising package information
       //'scannTime' => st
-      newData.st = parseInt(preparedDevice.lastScan/1000);
+      newData.st = parseInt(preparedDevice.lastScan);
       //'iBeaconUUID' => iu
       newData.iu = preparedDevice.iBeaconUuid;
       //'major' => ma
