@@ -24,7 +24,7 @@
     //ready, recording, uploading, finished
       serviceState = 'ready',
       title = '',
-      gpsPosition = [],
+      gpsPosition = {},
       measurementData = [],
       packagesCount = 0;
 
@@ -66,7 +66,7 @@
     };
 
     function positionUpdatedHandler(position){
-      gpsPosition = [position.coords.latitude, position.coords.longitude];
+      gpsPosition = position;
     }
 
     function setState(state) {
@@ -173,10 +173,22 @@
       newData.io = isOffline;
       //----------------------------------------------------
       //##GPS information
-      //'geolat' => la
-      newData.la = gpsPosition[0];
-      //'geolng' => ln
-      newData.ln = gpsPosition[1];
+      //'geoLat' => la
+      newData.la = gpsPosition.coords.latitude;
+      //'geoLng' => ln
+      newData.ln = gpsPosition.coords.longitude;
+      //'geoAltitude' => al
+      newData.al = gpsPosition.coords.altitude;
+      //'geoAccuracy' => ac
+      newData.ac = gpsPosition.coords.accuracy;
+      //'geoAltitudeAccuracy' => aa
+      newData.aa = gpsPosition.coords.altitudeAccuracy;
+      //'geoHeading' => ha
+      newData.ha = gpsPosition.coords.heading;
+      //'geoSpeed' => sp
+      newData.sp = gpsPosition.coords.speed;
+      //'geoTime' => gt
+      newData.gt = gpsPosition.timestamp;
       //----------------------------------------------------
       //##BLE advertising package information
       //'scannTime' => st
@@ -190,7 +202,7 @@
       //'rssi' => ri
       newData.rs = preparedDevice.rssi;
       //'rssiCalibrated' => rc
-      //newData.rs = preparedDevice.rssi;
+      newData.rc = preparedDevice.rssiOneMeterDistance;
 
       measurementData.push(newData);
       updatePackageCounter();

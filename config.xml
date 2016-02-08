@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.starnberger.beaconplayer" version="1.0.11" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Analyse Tool</name>
-  <description>&#xD;&#xD;
-    BeaconPlayer is a free and Open Source Platform and App for experimenting with beacons. This version is an analyse tool.&#xD;&#xD;
+  <description>&#xD;&#xD;&#xD;
+    BeaconPlayer is a free and Open Source Platform and App for experimenting with beacons. This version is an analyse tool.&#xD;&#xD;&#xD;
   </description>
-  <author email="office@starnberger.at" href="www.starnberger.at">Starnberger Innovation und Technology&#xD;&#xD;
+  <author email="office@starnberger.at" href="www.starnberger.at">Starnberger Innovation und Technology&#xD;&#xD;&#xD;
   </author>
   <content src="index.html"/>
   <access origin="*"/>
-
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
@@ -17,21 +16,17 @@
   <preference name="SplashScreen" value="screen"/>
   <preference name="SplashScreenDelay" value="3000"/>
   <preference name="deployment-target" value="8.2"/>
-
   <feature name="Geolocation">
-    <param name="android-package" value="org.apache.cordova.GeoBroker" />
+    <param name="android-package" value="org.apache.cordova.GeoBroker"/>
   </feature>
-
   <feature name="StatusBar">
     <param name="ios-package" onload="true" value="CDVStatusBar"/>
   </feature>
   <feature name="Geolocation">
-    <param name="ios-package" value="CDVLocation" />
+    <param name="ios-package" value="CDVLocation"/>
   </feature>
-
   <engine name="android" spec="~4.1.1"/>
   <engine name="ios" spec="~3.8.2"/>
-
   <plugin name="com.ionic.keyboard" spec="~1.0.4"/>
   <plugin name="cordova-plugin-whitelist" spec="~1.2.0"/>
   <plugin name="phonegap-plugin-barcodescanner" spec="https://github.com/wildabeast/BarcodeScanner.git"/>
@@ -42,9 +37,7 @@
   <plugin name="cordova-plugin-vibration" spec="~2.0.0"/>
   <plugin name="cordova-plugin-inappbrowser" spec="~1.1.1"/>
   <plugin name="cordova-plugin-geolocation" spec="~2.1.0"/>
-
   <icon src="resources/android/icon/drawable-xhdpi-icon.png"/>
-
   <platform name="android">
     <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png"/>
     <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png"/>
@@ -53,7 +46,6 @@
     <icon density="xxhdpi" src="resources/android/icon/drawable-xxhdpi-icon.png"/>
     <icon density="xxxhdpi" src="resources/android/icon/drawable-xxxhdpi-icon.png"/>
   </platform>
-
   <platform name="ios">
     <icon height="57" src="resources/ios/icon/icon.png" width="57"/>
     <icon height="114" src="resources/ios/icon/icon@2x.png" width="114"/>
@@ -72,5 +64,4 @@
     <icon height="58" src="resources/ios/icon/icon-small@2x.png" width="58"/>
     <icon height="87" src="resources/ios/icon/icon-small@3x.png" width="87"/>
   </platform>
-
 </widget>
