@@ -204,6 +204,8 @@
       //'rssiCalibrated' => rc
       newData.rc = preparedDevice.rssiOneMeterDistance;
 
+      console.log('newData: ',newData);
+
       measurementData.push(newData);
       updatePackageCounter();
     };
@@ -225,8 +227,7 @@
       setState('uploading');
       var promises = chunk(measurementData, 5000).map(function(arr) {
         var defer = $q.defer(),
-          measurementData = {};
-
+        measurementData = {};
         measurementData.nid = activeMeasurementNid;
         measurementData.advertising_packages = arr;
         return AdvertisingDataResource.create(measurementData);
