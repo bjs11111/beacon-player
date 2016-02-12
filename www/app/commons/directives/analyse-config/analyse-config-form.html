@@ -13,11 +13,8 @@
                 <ion-spinner ng-if="cfd.isCreatingNode"></ion-spinner>
                 <i ng-if="!cfd.isCreatingNode" class="icon ion-clipboard"></i>
               </button>
-			    <div class="form-errors"
-					ng-show="analyseForm.title.$invalid && analyseForm.$submitted"
-					ng-messages="analyseForm.title.$error">
-					<div class="form-error" ng-message="required">This field is
-						required.</div>
+			    <div class="form-errors" ng-show="analyseForm.title.$invalid && analyseForm.$submitted" ng-messages="analyseForm.title.$error">
+					<div class="form-error" ng-message="required">This field is required.</div>
 				</div>
 
 				<div class="form-errors" ng-show="analyseForm.$submitted">

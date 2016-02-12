@@ -24,8 +24,8 @@
 				ready : 'ion-play',
 				recording : 'ion-stop',
 				finished : 'ion-upload'
-      },
-      watchGeoInterval = undefined;
+    },
+    countInterval = undefined;
 
 		 return {
 			    restrict: 'E',
@@ -38,7 +38,7 @@
 
 			    		$scope.cfd.config = {};
 			    		$scope.cfd.packagesCount = 0;
-                $scope.cfd.isCreatingNode = false;
+              $scope.cfd.isCreatingNode = false;
 			    		$scope.cfd.title = '';
 			    		$scope.cfd.isTitle = false;
 			    		$scope.cfd.saveTitle = saveTitle;
@@ -52,20 +52,21 @@
 			    		//listeners,
 				    	function init() {
 
-
-                watchGeoInterval = $interval(function(){
-
-                });
+                countInterval = $interval(function(){
+                  countUpdatedHandler(ScannLogger.getCount());
+                }, 1000 * 1);
 
 				    		stateUpdatedHandler(ScannLogger.getState());
 				    		ScannLoggerChannel.subStateUpdated($scope, stateUpdatedHandler);
 
-				    		countUpdatedHandler(ScannLogger.getCount());
-				    		ScannLoggerChannel.subCountUpdated($scope, countUpdatedHandler);
+				    		//countUpdatedHandler(ScannLogger.getCount());
+				    		//ScannLoggerChannel.subCountUpdated($scope, countUpdatedHandler);
 
                 ScannLoggerChannel.subProgressError($scope, progressErrorHandler);
 
 				    	};
+
+
 
 				    	function countUpdatedHandler(count) {
 				    		//@TODO this should work without timeout

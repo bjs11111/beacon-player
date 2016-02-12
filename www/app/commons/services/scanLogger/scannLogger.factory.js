@@ -82,19 +82,19 @@
       title = newTitle;
 
       var defer = $q.defer(),
-        newMeasurement = {
-          title 	: newTitle,
-          type 	  : 'messdaten',
-          field_cordova_version : DrupalHelperService.structureField({value:deviceInformation.cordova}),
-          field_model : DrupalHelperService.structureField({value:deviceInformation.model}),
-          field_platforms : DrupalHelperService.structureField({value:deviceInformation.platform}),
-          field_uuid : DrupalHelperService.structureField({value:deviceInformation.uuid}),
-          field_version : DrupalHelperService.structureField({value:deviceInformation.version}),
-          field_manufacturer : DrupalHelperService.structureField({value:deviceInformation.manufacturer}),
-          field_is_virtual : DrupalHelperService.structureField({value:(deviceInformation.isVirtual)?1:0}),
-          field_serial : DrupalHelperService.structureField({value:deviceInformation.serial}),
-          field_pending  	: DrupalHelperService.structureField({value:0})
-        };
+      newMeasurement = {
+        title 	: newTitle,
+        type 	  : 'messdaten',
+        field_cordova_version : DrupalHelperService.structureField({value:deviceInformation.cordova}),
+        field_model : DrupalHelperService.structureField({value:deviceInformation.model}),
+        field_platforms : DrupalHelperService.structureField({value:deviceInformation.platform}),
+        field_uuid : DrupalHelperService.structureField({value:deviceInformation.uuid}),
+        field_version : DrupalHelperService.structureField({value:deviceInformation.version}),
+        field_manufacturer : DrupalHelperService.structureField({value:deviceInformation.manufacturer}),
+        field_is_virtual : DrupalHelperService.structureField({value:(deviceInformation.isVirtual)?1:0}),
+        field_serial : DrupalHelperService.structureField({value:deviceInformation.serial}),
+        field_pending  	: DrupalHelperService.structureField({value:0})
+      };
 
       NodeResource
         .create(newMeasurement)
@@ -173,22 +173,25 @@
       newData.io = isOffline;
       //----------------------------------------------------
       //##GPS information
-      //'geoLat' => la
-      newData.la = gpsPosition.coords.latitude;
-      //'geoLng' => ln
-      newData.ln = gpsPosition.coords.longitude;
-      //'geoAltitude' => al
-      newData.al = gpsPosition.coords.altitude;
-      //'geoAccuracy' => ac
-      newData.ac = gpsPosition.coords.accuracy;
-      //'geoAltitudeAccuracy' => aa
-      newData.aa = gpsPosition.coords.altitudeAccuracy;
-      //'geoHeading' => ha
-      newData.ha = gpsPosition.coords.heading;
-      //'geoSpeed' => sp
-      newData.sp = gpsPosition.coords.speed;
-      //'geoTime' => gt
-      newData.gt = gpsPosition.timestamp;
+      if( angular.isObject(gpsPosition) && 'coords' in gpsPosition ) {
+        //'geoLat' => la
+        newData.la = gpsPosition.coords.latitude;
+        //'geoLng' => ln
+        newData.ln = gpsPosition.coords.longitude;
+        //'geoAltitude' => al
+        newData.al = gpsPosition.coords.altitude;
+        //'geoAccuracy' => ac
+        newData.ac = gpsPosition.coords.accuracy;
+        //'geoAltitudeAccuracy' => aa
+        newData.aa = gpsPosition.coords.altitudeAccuracy;
+        //'geoHeading' => ha
+        newData.ha = gpsPosition.coords.heading;
+        //'geoSpeed' => sp
+        newData.sp = gpsPosition.coords.speed;
+        //'geoTime' => gt
+        newData.gt = gpsPosition.timestamp;
+      }
+
       //----------------------------------------------------
       //##BLE advertising package information
       //'scannTime' => st
@@ -204,7 +207,7 @@
       //'rssiCalibrated' => rc
       newData.rc = preparedDevice.rssiOneMeterDistance;
 
-      console.log('newData: ',newData);
+      //console.log('newData: ',newData);
 
       measurementData.push(newData);
       updatePackageCounter();
@@ -272,8 +275,6 @@
       })
       return $q.all(promises);
     }
-
-
 
   };
 

@@ -107,7 +107,7 @@
             actualGpsPosition = pos;
           });
 
-      }, 1000 * 10);
+      }, 1000 * 2);
     }
 
 
@@ -126,47 +126,6 @@
         });
     }
 
-
-    //BG-GEO
-    //_____________________________________________________
-
-    function initBgGeo() {
-      ionic.Platform.ready(function(){
-        // Get a reference to the plugin.
-        //var bgGeo = window.BackgroundGeolocation;
-
-        // BackgroundGeoLocation is highly configurable.
-        //bgGeo.configure(callbackFn, failureFn, bgGeoOptions);
-
-        // Turn ON the background-geolocation system.  The user will be tracked whenever they suspend the app.
-        //bgGeo.start();
-
-        // If you wish to turn OFF background-tracking, call the #stop method.
-        // bgGeo.stop()
-      });
-    }
-
-
-
-    /**
-     * This callback will be executed every time a geolocation is recorded in the background.
-     */
-    function callbackFn(location, taskId) {
-      var coords = location.coords;
-      var lat    = coords.latitude;
-      var lng    = coords.longitude;
-
-      // Simulate doing some extra work with a bogus setTimeout.  This could perhaps be an Ajax request to your server.
-      // The point here is that you must execute bgGeo.finish after all asynchronous operations within the callback are complete.
-      /*setTimeout(function() {
-        console.log('setTimeout');
-        bgGeo.finish(taskId); // <-- execute #finish when your work in callbackFn is complete
-      }, 1000);*/
-    };
-
-    function failureFn(error) {
-
-    }
 
 	};
 
