@@ -84,7 +84,7 @@
 				    			$scope.cfd.title = '';
 					    		$scope.cfd.isTitle = false;
 				    		}
-console.log('newState', newState);
+
                 if(newState === 'uploading'){
                   $scope.cfd.isUploading = true;
                 }
