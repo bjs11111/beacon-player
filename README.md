@@ -125,7 +125,7 @@ http://ionicframework.com/docs/guide/publishing.html
 HINT: dont foger to increment version number
 
 ionic build --release ios
-
+cd platforms/ios
 xcodebuild -scheme "Beacon Player" -configuration Release clean archive
 
 ##app
