@@ -1,42 +1,48 @@
 <ion-view id="scanningView">
-	
+
 	<ion-nav-title >
       {{ deviceList.allDevicesList.length}} Beacon<span ng-show="deviceList.allDevicesList.length!=1">s</span>
     </ion-nav-title>
- 
+
 	<ion-nav-buttons side="left">
 		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
 	</ion-nav-buttons>
-  
+
   	<ion-content class="has-header">
-  
-		<div class="card ble-info-card" ng-show="deviceList.allDevicesList.length == 0">    
-   		 	<img src="app\images\tour-icon.png"/>  
+
+		<div class="card ble-info-card" ng-show="deviceList.allDevicesList.length == 0">
+   		 	<img src="app\images\tour-icon.png"/>
             <h2 class="text-center positive padding-vertical" >Approach a beacon</h2>
- 			<p class="text-center padding-vertical">Please make sure your Bluetooth is enabled!</p>    
+ 			<p class="text-center padding-vertical">Please make sure your Bluetooth is enabled!</p>
  	</div>
 
- 	<ion-list>
- 		<!-- 
- 		<ion-item ng-repeat="device in deviceList.allDevicesList track by device.bcmsBeaconKey" href="#"> 
+
+      <pre ng-repeat="region in deviceList.monitoredRegions track by $index">
+        {{region.uuid}},
+        {{region.state}}
+      </pre>
+
+      <ion-list>
+ 		<!--
+ 		<ion-item ng-repeat="device in deviceList.allDevicesList track by device.bcmsBeaconKey" href="#">
 			<h2>{{device.scanData.iBeaconUuid}}</h2>
 			<p>
    				Major: {{device.scanData.major}} Minor: {{device.scanData.minor}} <span class="pull-right">dBm {{device.scanData.rssi}}</span>
 	   		</p>
  		</ion-item>
  		-->
- 		<ion-item ng-repeat="device in  deviceList.allDevicesList track by $index" 
-                  href="#" 
+ 		<ion-item ng-repeat="device in deviceList.allDevicesList track by $index"
+                  href="#"
                   class=" item-icon-right "
-                  ng-class="device.bcmsBeacon.contentThumbnailUrl?'item-avatar':'item-icon-left'"> 
-                  
+                  ng-class="device.bcmsBeacon.contentThumbnailUrl?'item-avatar':'item-icon-left'">
+
                   <img class="content-img" ng-show="device.bcmsBeacon.contentThumbnailUrl" ng-src="{{device.bcmsBeacon.contentThumbnailUrl}}">
-                 
+
 				  <h2>{{device.bcmsBeacon.content_title}}</h2>
- 				  <ng-ble-item ng-model="device" ng-click="openIAB(device.bcmsBeaconKey)"></ng-ble-item>  
+ 				  <ng-ble-item ng-model="device" ng-click="openIAB(device.bcmsBeaconKey)"></ng-ble-item>
  		</ion-item>
 	</ion-list>
 
   </ion-content>
-   
+
 </ion-view>

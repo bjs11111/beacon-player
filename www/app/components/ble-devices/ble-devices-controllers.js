@@ -7,8 +7,8 @@ bleDevicesControllers.constant("BackgroundProcessConfig", {
 });
 
 bleDevicesControllers.controller('bleDevicesListCtrl',
-				[ '$scope', '$filter','$interval', 'DeviceDataManagerChannel','DeviceDataManagerService',
-         function( $scope,   $filter,  $interval,   DeviceDataManagerChannel,  DeviceDataManagerService) {
+				[ '$scope', '$filter','$interval','$timeout','DeviceDataManagerChannel','DeviceDataManagerService','bleScannerChannel',
+         function( $scope,   $filter,  $interval, $timeout, DeviceDataManagerChannel,  DeviceDataManagerService, bleScannerChannel) {
 
 			//var ngFilter = $filter('filter');
 			//var itemInLlist = ngFilter(vm.allDevicesList, {bcmsBeaconKey: newDevice.bcmsBeaconKey})[0];
@@ -19,6 +19,8 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 			var vm = this;
 
 				vm.allDevicesList = [];
+        vm.monitoredRegions = [];
+
 				vm.listLength = 0;
 
 			init();
@@ -83,12 +85,20 @@ bleDevicesControllers.controller('bleDevicesListCtrl',
 	    		}
 			}
 
+           function onFoundDeviceHandler(beacon){
+             $timeout(function(){
+               if(beacon.monitored==1) {
+                 vm.monitoredRegions.push(beacon);
+               }
+             }, 0);
+           }
+
 	      	//initial stuff
 	      	function init() {
 	      		//console.log('init bleDevicesListCtrl');
 	      		startcleaningOldDevicesinterval(2*1000, 3000);
 	      		DeviceDataManagerChannel.subKnownDeviceUpdated($scope, onDeviceUpdatedHandler);
-	      		//bleScannerChannel.onFoundBleDevice($scope, onFoundDeviceHandler);
+            bleScannerChannel.onFoundBleDevice($scope, onFoundDeviceHandler);
 	      	}
 
 

@@ -70,8 +70,8 @@
 
 
   /* ble scanner for ios use-cases*/
-  iosBleScanner.$inject = ['$rootScope', 'bleScannerChannel', '$filter', '$q', '$ionicPlatform'];
-  function iosBleScanner($rootScope, bleScannerChannel, $filter, $q, $ionicPlatform) {
+  iosBleScanner.$inject = ['$filter', '$q', '$ionicPlatform'];
+  function iosBleScanner($filter, $q, $ionicPlatform) {
 
       //locationManager.Delegate()
       var delegate = undefined,
@@ -83,17 +83,102 @@
         ];
 
     var iosBleScanner = {
+      init : init,
+      createBeaconRegion : createBeaconRegion,
       setDelegate: setDelegate,
       getDelegate: getDelegate,
       addIBeaconRange: addIBeaconRange,
       getIBeaconRanges: getIBeaconRanges,
       startScanning: startScanning,
-      stopScanning: stopScanning
+      stopScanning: stopScanning,
+
     };
 
     return iosBleScanner
 
     /////////////////////
+
+    function init(foundDeviceCallback) {
+
+      console.log('in init');
+
+      $ionicPlatform.ready(function () {
+
+        var systemVersion = ionic.Platform.version(),
+        versionArray = systemVersion.toString().split('.');
+
+        delegate = new cordova.plugins.locationManager.Delegate();
+
+        // Called continuously when determine states of regions.
+        delegate.didDetermineStateForRegion = function (pluginResult) {
+          //console.log('didDetermineStateForRegion:' + JSON.stringify(pluginResult));
+          //cordova.plugins.locationManager.appendToDeviceLog('[DOM] didDetermineStateForRegion: ' + JSON.stringify(pluginResult));
+          var beacon = pluginResult.region;
+          beacon.major = 0;
+          beacon.minor = 0;
+          beacon.rssi = 0;
+          beacon.monitored = 1;
+          beacon.state = pluginResult.state;
+          beacon.lastScan = Date.now();
+
+          foundDeviceCallback(beacon);
+        };
+
+        // Called once when monitoring ist started for monitoring beacons regions.
+        delegate.didStartMonitoringForRegion = function (pluginResult) {
+          //console.log('didStartMonitoringForRegion:' + JSON.stringify(pluginResult));
+        };
+
+        // Called continuously when ranging beacons.
+        delegate.didRangeBeaconsInRegion = function (pluginResult) {
+          //console.log('[DOM] didRangeBeaconsInRegion: ' + JSON.stringify(pluginResult));
+          for (var i in pluginResult.beacons) {
+            // Insert beacon into table of found beacons.
+            var beacon = pluginResult.beacons[i];
+            //beacon.timeStamp = Date.now();
+            //var key = beacon.uuid + ':' + beacon.major + ':' + beacon.minor;
+            //console.log(':-) !!');
+            foundDeviceCallback(beacon);
+          }
+
+        };
+
+        cordova.plugins.locationManager.setDelegate(delegate);
+
+        if (parseInt(versionArray[0]) >= 8) {
+          // required in iOS 8+
+          //cordova.plugins.locationManager.requestWhenInUseAuthorization();
+          cordova.plugins.locationManager.requestAlwaysAuthorization();
+        }
+
+        console.log('in init end‚');
+
+      });
+    }
+
+    /**
+     * Function that creates a BeaconRegion data transfer object.
+     *
+     * @throws Error if the BeaconRegion parameters are not valid.
+     */
+    function createBeaconRegion(identifier, uuid, major, minor) {
+      var defer = $q.defer(),
+        notifyEntryStateOnDisplay = true;
+
+      $ionicPlatform.ready(function () {
+        try{
+          // throws an error if the parameters are not valid
+          var beaconRegion = new cordova.plugins.locationManager.BeaconRegion(identifier, uuid, major, minor);
+          defer.resolve(beaconRegion);
+        }
+        catch(e) {
+          defer.reject(e);
+        }
+      });
+
+      return defer.promise;
+    }
+
 
       function getIBeaconRanges() {
         return iBeaconRanges;
@@ -131,64 +216,27 @@
       }
 
       //start scanning for ble devices on IOS
-      function startScanning(foundDeviceCallback) {
+      //@TODO group createRegions promises with $q.all
+      function startScanning() {
 
         var defer = $q.defer();
 
         $ionicPlatform.ready(function () {
 
-
-          var systemVersion = ionic.Platform.version(),
-            versionArray = systemVersion.toString().split('.');
-
-          // Specify a shortcut for the location manager holding the iBeacon functions.
-          window.locationManager = cordova.plugins.locationManager;
-
-          // The delegate object holds the iBeacon callback functions
-          // specified below.
-          delegate = new locationManager.Delegate();
-
-          // Called continuously when ranging beacons.
-          delegate.didRangeBeaconsInRegion = function (pluginResult) {
-
-            for (var i in pluginResult.beacons) {
-              // Insert beacon into table of found beacons.
-              var beacon = pluginResult.beacons[i];
-              //beacon.timeStamp = Date.now();
-              //var key = beacon.uuid + ':' + beacon.major + ':' + beacon.minor;
-              //console.log(':-) !!');
-              foundDeviceCallback(beacon);
-            }
-          };
-
-          //delegate.didStartMonitoringForRegion = function(pluginResult) {
-          //    console.log(':-) ??');
-          //};
-
-          // Set the delegate object to use.
-          locationManager.setDelegate(delegate);
-
-          if (parseInt(versionArray[0]) >= 8) {
-            // Request permission from user to access location info.
-            // This is needed on iOS 8.
-            locationManager.requestAlwaysAuthorization();
-          }
-
           // Start monitoring and ranging beacons.
           for (var i in iBeaconRanges) {
-            var beaconRegion = new locationManager.BeaconRegion(i + 1, iBeaconRanges[i].uuid);
-            // Start ranging.
-            locationManager.startRangingBeaconsInRegion(beaconRegion)
-              .fail(console.log('error while startRangingBeaconsInRegion: ' + iBeaconRanges[i].uuid, JSON.stringify(beaconRegion)))
-              .done();
-            // Start monitoring.
-            // (Not used in this example, included as a reference.)
-            //@TODO $q.reject on fail
-            locationManager.startMonitoringForRegion(beaconRegion)
-              .fail(console.log('error while startMonitoringForRegion: ' + iBeaconRanges[i].uuid, JSON.stringify(beaconRegion)))
-              .done();
+            createBeaconRegion(i + 1, iBeaconRanges[i].uuid)
+              .then(function(beaconRegion) {
+                cordova.plugins.locationManager.startRangingBeaconsInRegion(beaconRegion)
+                  .fail(console.log('error while startRangingBeaconsInRegion: ' + iBeaconRanges[i].uuid, JSON.stringify(beaconRegion)))
+                  .done();
 
-            iBeaconRanges[i].registered = true;
+                cordova.plugins.locationManager.startMonitoringForRegion(beaconRegion)
+                  .fail(console.log('error while startRangingBeaconsInRegion: ' + iBeaconRanges[i].uuid, JSON.stringify(beaconRegion)))
+                  .done();
+
+                iBeaconRanges[i].registered = true;
+              });
           }
 
           defer.resolve(true);
@@ -199,17 +247,23 @@
       };
 
       //start scanning for ble devices on IOS
+      //@TODO group createRegions promises with $q.all
       function stopScanning() {
         var defer = $q.defer();
 
         for (var i in iBeaconRanges) {
+          createBeaconRegion(i + 1, iBeaconRanges[i].uuid)
+            .then(function(beaconRegion) {
+              cordova.plugins.locationManager.stopRangingBeaconsInRegion(beaconRegion)
+                .fail(console.log('error stopRangingBeaconsInRegion'))
+                .done();
 
-          var beaconRegion = new locationManager.BeaconRegion(i + 1, iBeaconRanges[i].uuid);
-          cordova.plugins.locationManager.stopRangingBeaconsInRegion(beaconRegion)
-            .fail(console.log('error stopRangingBeaconsInRegion'))
-            .done();
+              cordova.plugins.locationManager.stopMonitoringForRegion(beaconRegion)
+                .fail(console.log('error while startRangingBeaconsInRegion: ' + iBeaconRanges[i].uuid, JSON.stringify(beaconRegion)))
+                .done();
 
-          iBeaconRanges[i].registered = false;
+              iBeaconRanges[i].registered = false;
+            });
         }
         defer.resolve(true);
 
@@ -255,6 +309,7 @@
         function init() {
           if (ionic.Platform.isIOS()) {
             beaconAPIChannel.subUuidAdded(fakeScope, _regiserUuidForIosBleScanner);
+            iosBleScanner.init(foundDevice);
           }
         }
 
@@ -313,7 +368,7 @@
           //IOS
           if (ionic.Platform.isIOS()) {
 
-            iosBleScanner.startScanning(foundDevice).then(
+            iosBleScanner.startScanning().then(
               function (result) {
 
                 setBleScannerState(true);
