@@ -60,7 +60,7 @@
         //$ionicPlatform.on('volumedownbutton', function(event){volumedownbutton = true;});
         //$ionicPlatform.on('batterylow', function(event){batterylow = true;});
         //$ionicPlatform.on('offline', function(event){offline = true;});
-
+        //bleScannerChannel.onFoundBleDevice(scope, onFoundDeviceHandler);
         GpsServiceChannel.subPositionUpdated(scope, positionUpdatedHandler);
       });
     };
@@ -208,9 +208,8 @@
       newData.rc = preparedDevice.rssiOneMeterDistance;
       //was monitored
       newData.mo = ('monitored' in preparedDevice)?1:0;
-      newData.sa = ('state' in preparedDevice)?(preparedDevice.state == 'CLRegionStateOutside'?'OUT':'IN'):0;
-
-      //console.log('newData: ',newData);
+      //monitored as in or out
+      newData.sa = ('state' in preparedDevice)?(preparedDevice.state == 'CLRegionStateOutside'?0:1):undefined;
 
       measurementData.push(newData);
       updatePackageCounter();

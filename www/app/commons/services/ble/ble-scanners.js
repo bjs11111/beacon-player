@@ -118,7 +118,6 @@
           beacon.monitored = 1;
           beacon.state = pluginResult.state;
 
-
           foundDeviceCallback(beacon);
         };
 
