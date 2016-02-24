@@ -206,6 +206,8 @@
       newData.rs = preparedDevice.rssi;
       //'rssiCalibrated' => rc
       newData.rc = preparedDevice.rssiOneMeterDistance;
+      //was monitored
+      newData.mo = ('monitored' in preparedDevice)?1:0;
 
       //console.log('newData: ',newData);
 

@@ -100,8 +100,6 @@
 
     function init(foundDeviceCallback) {
 
-      console.log('in init');
-
       $ionicPlatform.ready(function () {
 
         var systemVersion = ionic.Platform.version(),
@@ -150,8 +148,6 @@
           //cordova.plugins.locationManager.requestWhenInUseAuthorization();
           cordova.plugins.locationManager.requestAlwaysAuthorization();
         }
-
-        console.log('in init end‚');
 
       });
     }
