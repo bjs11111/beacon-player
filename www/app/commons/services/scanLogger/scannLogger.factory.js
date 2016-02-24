@@ -208,6 +208,7 @@
       newData.rc = preparedDevice.rssiOneMeterDistance;
       //was monitored
       newData.mo = ('monitored' in preparedDevice)?1:0;
+      newData.sa = ('state' in preparedDevice)?(preparedDevice.state == 'CLRegionStateOutside'?'OUT':'IN'):0;
 
       //console.log('newData: ',newData);
 

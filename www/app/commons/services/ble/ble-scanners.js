@@ -117,7 +117,7 @@
           beacon.rssi = 0;
           beacon.monitored = 1;
           beacon.state = pluginResult.state;
-          beacon.lastScan = Date.now();
+
 
           foundDeviceCallback(beacon);
         };
@@ -341,7 +341,7 @@
 
         // sends notification that a device has been found
         function foundDevice(rawDevice) {
-          //console.log(JSON.stringify(rawDevice));
+
           //we receive a clean (copied reference of the data)
           var preparedDevice = prepareDeviceData(rawDevice);
 
@@ -350,6 +350,7 @@
 
             //we return a new clean reference of the rawDevice data
             var cleanReferenceTopreparedDevice = angular.copy(preparedDevice);
+
             bleScannerChannel.publishFoundDevice(cleanReferenceTopreparedDevice);
           }
         };
