@@ -3,13 +3,15 @@
 
 
 angular
-    .module('bp.app.controller', ['d7-services.commons.authentication', 'd7-services.commons.directives.toggleByAccesslevel', 'commons.services.generalServices.factory', 'commons.deviceDataManager.service', 'commons.services.cms.beaconAPIServices', 'commons.services.ble.bleScanners.factory'])
+    .module('bp.app.controller', [
+    'd7-services.commons.authentication',
+    'd7-services.commons.directives.toggleByAccesslevel',
+    'commons.services.glue.service',
+    'commons.offlineBar'])
     .controller('AppController', AppController);
-	//@TODO try to use $scope to listen on events instead of $rootScope
-	AppController.$inject = ['$rootScope','$state','$ionicSideMenuDelegate','AuthenticationServiceConstant','AuthenticationService','generalService','DeviceDataManagerService' ];
 
-	/** @ngInject */
-	function AppController(   $rootScope,  $state,  $ionicSideMenuDelegate,  AuthenticationServiceConstant,   AuthenticationService, generalService,  DeviceDataManagerService )
+	AppController.$inject = ['$ionicSideMenuDelegate','AuthenticationServiceConstant','AuthenticationService', 'GlueService'];
+	function AppController(   $ionicSideMenuDelegate,  AuthenticationServiceConstant,   AuthenticationService, GlueService )
 	{
 		// jshint validthis: true
 		var vm = this;
@@ -30,7 +32,7 @@ angular
 			 		.then(
 		 				function(data) {
 		 					$ionicSideMenuDelegate.toggleLeft();
-		 					$state.go('app.login');
+              GlueService.goToState('app.login');
 		 				}
 			 		)
 			 		.finally(

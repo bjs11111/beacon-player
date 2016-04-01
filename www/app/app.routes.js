@@ -152,11 +152,11 @@
   }
 
 
-  runFunction.$inject = ['$rootScope', 'UserStateService', 'AuthenticationService', 'serverBeaconStore', 'sitBleScanner', '$state', '$urlRouter', '$ionicLoading'];
+  runFunction.$inject = ['$rootScope', 'UserStateService', 'AuthenticationService','$state', '$urlRouter', '$ionicLoading'];
 
 
   /** @ngInject */
-  function runFunction($rootScope, UserStateService, AuthenticationService, serverBeaconStore, sitBleScanner, $state, $urlRouter, $ionicLoading) {
+  function runFunction($rootScope, UserStateService, AuthenticationService, $state, $urlRouter, $ionicLoading) {
 
     $rootScope.$on('loading:show', loadingShowCallback);
 
@@ -213,7 +213,7 @@
         );
 
 
-      if (serverBeaconStore.isInitialized() === false) {
+      /*if (serverBeaconStore.isInitialized() === false) {
         // Prevent $urlRouter's default handler from firing
         e.preventDefault();
         $rootScope.$broadcast('loading:show', {loading_settings: {template: "<p><ion-spinner></ion-spinner><br/>Loading...</p>"}});
@@ -234,7 +234,7 @@
           }
         );
 
-      }
+      }*/
 
       // Configures $urlRouter's listener *after* your custom listener
       $urlRouter.listen();

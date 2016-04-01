@@ -15,12 +15,32 @@
 
     <!-- third party libs -->
     <script src="http://maps.google.com/maps/api/js"></script>
-    <!-- ionic/angularjs js -->
+
+    <!-- bower components -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/ngmap/build/scripts/ng-map.min.js"></script>
+    <script src="lib/ngprogress/build/ngprogress.js"></script>
+    <script src="lib/angular-filter/dist/angular-filter.min.js"></script>
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+    <script src="lib/ngstorage/ngStorage.js"></script>
+    <script src="lib/angular-cookies/angular-cookies.js"></script>
+    <script src="lib/angular-messages/angular-messages.js"></script>
+    <script src="lib/ng-drupal-7-services/dist/ng-drupal-7-services.js"></script>
 
     <!-- CLEAN CODE -->
-    <script src="app/prioloc/diagnostic.service.js"></script>
+    <script src="app/prioloc/torefactore/diagnostic/diagnostic.service.js"></script>
+    <script src="app/prioloc/torefactore/diagnostic/diagnostic.channel.js"></script>
+    <script src="app/prioloc/torefactore/diagnostic/diagnosticChannel.constant.js"></script>
+    <script src="app/prioloc/torefactore/diagnostic/diagnostic.bundle.js"></script>
+
+
+    <script src="app/commons/offline-bar/offline-bar.directive.js"></script>
+
     <script src="app/components/diagnostic/diagnostic.controller.js"></script>
+
+    <script src="app/app.config.js"></script>
+    <script src="app/app.routes.js"></script>
+    <script src="app/app.js"></script>
 
 
     <!-- TO REFACTORE -->
@@ -35,25 +55,12 @@
     <script src="app/prioloc/torefactore/ble/ble-channels.js"></script>
     <script src="app/prioloc/torefactore/ble/ble-scanners.js"></script>
 
-    <script src="app/components/ble-devices/ble-devices-controllers.js"></script>
 
     <!-- should be good to reuse -->
 
     <script src="app/commons/services/userState.service.js"></script>
 
-    <!-- bower components -->
-    <script src="lib/ngmap/build/scripts/ng-map.min.js"></script>
 
-
-    <script src="lib/ngprogress/build/ngprogress.js"></script>
-    <script src="lib/angular-filter/dist/angular-filter.min.js"></script>
-    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
-    <script src="lib/ngstorage/ngStorage.js"></script>
-    <script src="lib/angular-cookies/angular-cookies.js"></script>
-    <script src="lib/angular-messages/angular-messages.js"></script>
-
-    <!-- d7-services @TODO use bundle.min.js -->
-    <script src="lib/ng-drupal-7-services/dist/ng-drupal-7-services.js"></script>
 
 
     <script src="app/commons/resources/advertisingData/advertisingData.bundle.js"></script>
@@ -75,7 +82,6 @@
     <script src="app/commons/gps/gps.channel.js"></script>
 
 
-    <script src="app/components/map2/map2.controller.js"></script>
 
     <script src="app/prioloc/torefactore/deviceDataManager/deviceDataManager.bundle.js"></script>
     <script src="app/prioloc/torefactore/deviceDataManager/deviceDataManagerChannel.constant.js"></script>
@@ -85,7 +91,6 @@
 
     <script src="app/commons/commons.baseChannel.js"></script>
 
-    <script src="app/components/analyse/analyse.controller.js"></script>
 
 	<!-- app components -->
 	<script src="app/app.controller.js"></script>
@@ -94,12 +99,6 @@
 	<script src="app/components/login/login.controller.js"></script>
 	<script src="app/components/profile/profile.controller.js"></script>
 	<script src="app/components/profile/profile.service.js"></script>
-
-
-    <!-- your app's js -->
-    <script src="app/app.config.js"></script>
-    <script src="app/app.routes.js"></script>
-    <script src="app/app.js"></script>
 
 
   </head>

@@ -41,10 +41,15 @@
       "id": "com.unarin.cordova.beacon"
     },
     "com.ionic.keyboard",
-    "cordova-plugin-geolocation"
+    "cordova-plugin-geolocation",
+    "cordova.plugins.diagnostic"
   ],
   "cordovaPlatforms": [
-    "android",
-    "ios"
+    "ios",
+    {
+      "platform": "android",
+      "version": "5.0.0",
+      "locator": "android@5.0.0"
+    }
   ]
 }

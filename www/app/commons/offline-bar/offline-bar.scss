@@ -1,6 +1,6 @@
  /*network connection state
 ===========================================================================*/
-.bar.bar-network {
+.bar.bar-offline {
   display: block;
   height: 29px;
   line-height: 18px;
@@ -13,19 +13,19 @@
 }
 
 //make loading bar slide up/down
-.bar-network.ng-enter,
-.bar-network.ng-leave.ng-leave-active {
-  height: 0; 
+.bar-offline.ng-enter,
+.bar-offline.ng-leave.ng-leave-active {
+  height: 0;
   border-width: 0px;
 }
 
-.bar-network.ng-enter.ng-enter-active,
-.bar-network.ng-leave {
+.bar-offline.ng-enter.ng-enter-active,
+.bar-offline.ng-leave {
   height: 24px;
   border-width: 1px;
 }
 
 /*ionc setensions*/
-.has-bar-network .scroll  {
+.has-bar-offline .scroll  {
 	padding-bottom:18px;
 }
