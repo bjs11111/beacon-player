@@ -1,0 +1,11 @@
+Components:
+ - SideMenu
+   ?- Tour => default if first visit
+   ?- Register => default if not first visit and not isRegistered, hidden if authenticated
+   ?- Login => default if not first visit and isRegistered, hidden if authenticated
+   ?- Profile =>default if authenticated, hidden if not authenticated
+   ?-
+ - Main View
+
+
+

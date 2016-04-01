@@ -3,7 +3,7 @@
 
 
 angular
-    .module('bp.app.controller', ['d7-services.commons.authentication', 'd7-services.commons.directives.toggleByAccesslevel', 'commons.services.generalServices.factory', 'commons.deviceDataManager.service'])
+    .module('bp.app.controller', ['d7-services.commons.authentication', 'd7-services.commons.directives.toggleByAccesslevel', 'commons.services.generalServices.factory', 'commons.deviceDataManager.service', 'commons.services.cms.beaconAPIServices', 'commons.services.ble.bleScanners.factory'])
     .controller('AppController', AppController);
 	//@TODO try to use $scope to listen on events instead of $rootScope
 	AppController.$inject = ['$rootScope','$state','$ionicSideMenuDelegate','AuthenticationServiceConstant','AuthenticationService','generalService','DeviceDataManagerService' ];
@@ -14,7 +14,6 @@ angular
 		// jshint validthis: true
 		var vm = this;
 
-		vm.$state = $state;
 		vm.accessLevels = AuthenticationServiceConstant.accessLevels;
 		vm.loggingOut = false;
 
@@ -54,7 +53,7 @@ angular
 			 		.then(
 		 				function(data) {
 		 					$ionicSideMenuDelegate.toggleLeft();
-		 					vm.$state.go('app.login');
+		 					$state.go('app.login');
 		 				}
 			 		)
 			 		.finally(

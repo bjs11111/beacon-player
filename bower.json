@@ -10,9 +10,11 @@
     "ngstorage": "~0.3.9",
     "ngprogress": "~1.1.2",
     "angular-filter": "~0.5.8",
-    "ngmap": "~1.16.7"
+    "ngmap": "~1.16.7",
+    "angular-messages": "^1.5.3",
+    "font-awesome": "fontawesome#^4.5.0"
   },
   "resolutions": {
-    "angular": "1.4.9"
+    "angular": "1.5.3"
   }
 }

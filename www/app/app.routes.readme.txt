@@ -1,0 +1,21 @@
+Routes:
+- app
+  - app.login
+    - access as anon
+  - app.register
+    - access as anon
+  - app.profile
+    - access as user
+  - app.basic-scanning
+
+Features:
+- $locationChangeStart
+  - init authentication state before init routing
+  - init beacons before init routing
+- $stateChangeStart
+  - on app.login || app.register as authed user redirect to profile
+  - on app.profile as anon user redirect to register or login if registered
+
+edge-cases:
+
+

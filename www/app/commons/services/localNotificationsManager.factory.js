@@ -7,7 +7,6 @@
 	angular.module('commons.services.localNotificationsManager.factory', ['ngCordova', 'commons.deviceDataManager.channel','commons.filter.bleFilters'])
 		   .factory('localNotificationsManager', localNotificationsManager);
 
-
 	localNotificationsManager.$inject = ['$rootScope','$state','$filter','$ionicPlatform','$cordovaLocalNotification','DeviceDataManagerChannel'];
 	function localNotificationsManager(   $rootScope,  $state,  $filter,  $ionicPlatform,  $cordovaLocalNotification,  DeviceDataManagerChannel) {
 

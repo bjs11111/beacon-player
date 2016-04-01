@@ -1,13 +1,11 @@
 ;(function() {
     'use strict';
 
-    angular.module('bp', ['ionic', 'bp.config', 'bp.routes','commons.services.gps.factory'])
-    .run(runFunction);
+    angular.module('bp', ['ionic', 'bp.config', 'bp.routes'])
+           .run(runFunction);
 
-    runFunction.$inject = ['$ionicPlatform','GpsService'];
-
-	  /** @ngInject */
-	  function runFunction($ionicPlatform, GpsService) {
+    runFunction.$inject = ['$ionicPlatform'];
+	  function runFunction($ionicPlatform) {
 
 		  $ionicPlatform.ready(function() {
 		    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -19,10 +17,8 @@
 		      StatusBar.styleDefault();
 		    }
 
+		  })
 
-        GpsService.startWatchGeoCustom();
-		  });
-
-	  };
+	  }
 
 })();

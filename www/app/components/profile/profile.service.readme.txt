@@ -1,0 +1,4 @@
+Features:
+- load user data
+  - prepare picture url
+

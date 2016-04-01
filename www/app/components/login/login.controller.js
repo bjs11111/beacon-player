@@ -1,59 +1,69 @@
-;(function() {
-	'use strict';
+;
+(function () {
+  'use strict';
 
-	angular
-		.module('bp.login.controller', ['d7-services.commons.authentication'])
-		.controller('LoginController', LoginController);
+  angular
+    .module('bp.login.controller', ['ngMessages', 'commons.validation.setValidAfterChange.directive', 'commons.services.glue.service'])
+    .controller('LoginController', LoginController)
 
-	LoginController.$inject= ['$scope', 'AuthenticationService'];
+  LoginController.$inject = ['$scope', 'AuthenticationService', 'GlueService'];
+  function LoginController($scope, AuthenticationService, GlueService) {
 
-	function LoginController($scope, AuthenticationService) {
+    // jshint validthis: true
+    var vm = this;
 
-		// jshint validthis: true
-		var vm = this;
+    vm.serverErrors = [];
 
-		vm.loginData = {
-			      username: '',
-			      password: ''
-			    };
-
-		vm.loginServerErrors = '';
-	    vm.loginIsPending = false;
-
-	    vm.doLogin = doLogin;
-
-		///////////////
-
-		function doLogin (form) {
+    //data for vm.loginForm
+    vm.loginData = {
+      username: '',
+      password: ''
+    };
 
 
-			      if (form.$valid) {
-			    	  vm.loginServerErrors = '';
-			        vm.loginIsPending = true;
-			        AuthenticationService.login(angular.copy(vm.loginData))
-			        .then(
-			    		function (data) {
-			    		  vm.loginIsPending = false;
+    vm.loginIsPending = false;
 
-				          //reste form
-				          form.$error = {};
-				          form.$pristine = true;
-				          form.$dirty = false;
-				          form.$valid = true;
-				          form.$invalid = false;
+    vm.doLogin = doLogin;
+    vm.goToRegister = goToRegister;
 
-				          $scope.app.$state.go('app.profile');
-				        },
-				        //error
-				        function (data) {
-				          vm.loginIsPending = false;
-				          vm.loginServerErrors = data;
-				        }
-				     );
-			      }
-		};
-	};
+    ///////////////
 
+    function goToRegister() {
+      GlueService.resetForm(vm.loginForm);
+      GlueService.goToState('app.register');
+    }
+
+    function doLogin() {
+      if (vm.loginForm.$valid) {
+        vm.serverErrors = [];
+        vm.loginIsPending = true;
+
+        AuthenticationService.login(vm.loginData)
+          .then(
+          function (data) {
+            vm.loginIsPending = false;
+            GlueService.resetForm(vm.loginForm);
+            vm.serverErrors = [];
+            GlueService.goToState('app.profile');
+          },
+          //error
+          function (errorResult) {
+            vm.loginIsPending = false;
+            console.log(errorResult);
+
+            if (errorResult.status >= 400 && errorResult.status < 500) {
+              vm.serverErrors.push(errorResult.statusText);
+            }
+
+            //vm.loginForm.username.$setValidity('inactive-or-blocked', false);
+          }
+        );
+
+      }
+
+    };
+
+  };
 
 
 })();

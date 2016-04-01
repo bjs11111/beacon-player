@@ -8,13 +8,13 @@ var rename = require('gulp-rename');
 var sh = require('shelljs');
 
 var paths = {
-  sass: ['scss/ionic.app.scss', 'www/app/**/scss/**/*.scss']
+  sass: ['scss/ionic.app.scss', 'www/app/**/*.scss']
 };
 
 gulp.task('default', ['sass']);
 
 gulp.task('sass', function(done) {
-	
+
   gulp.src(paths.sass)
     .pipe(sass({
       errLogToConsole: true
@@ -37,7 +37,7 @@ gulp.task('move-images', function() {
 	gulp.src(imgFrom)
      	.pipe(gulp.dest(imgTo))
      	.on('end', function(){  gutil.log(gutil.colors.green('moved image from '+imgFrom+' to '+imgTo)); });
-  
+
 });
 
 gulp.task('watch', function() {

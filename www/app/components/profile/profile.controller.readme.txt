@@ -1,0 +1,7 @@
+Access:
+- accessable only as authenticated user
+
+Features:
+- load user data on enter view
+
+
