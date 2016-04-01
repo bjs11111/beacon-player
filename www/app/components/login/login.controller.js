@@ -30,7 +30,7 @@
 			      if (form.$valid) {
 			    	  vm.loginServerErrors = '';
 			        vm.loginIsPending = true;
-			        AuthenticationService.login(vm.loginData)
+			        AuthenticationService.login(angular.copy(vm.loginData))
 			        .then(
 			    		function (data) {
 			    		  vm.loginIsPending = false;
