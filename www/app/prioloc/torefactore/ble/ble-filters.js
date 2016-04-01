@@ -1,8 +1,3 @@
-/*
- * Docs
- * http://toddmotto.com/everything-about-custom-filters-in-angular-js/
- *
- */
 var listFilters = angular.module('commons.filter.listFilters',[]);
 
 

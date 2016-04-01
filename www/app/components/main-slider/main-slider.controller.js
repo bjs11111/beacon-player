@@ -36,7 +36,6 @@
     function skipSlider() {
 
       if (!AuthenticationService.getConnectionState()) {
-
         if (UserStateService.getIsRegistered()) {
           GlueService.goToState('app.register');
         } else {

@@ -1,16 +1,5 @@
 <ion-view id="main-slider-view" title="Tour Slides">
 
-  <ion-nav-bar class="bar-dark">
-    <ion-nav-buttons side="left">
-    </ion-nav-buttons>
-
-    <ion-nav-buttons side="secondary">
-      <button id="skip" class="button button button-positive no-animation" ng-click="mainSlider.start()">
-        Skip
-      </button>
-    </ion-nav-buttons>
-  </ion-nav-bar>
-
   <ion-pane>
 
     <ion-slides drag-content="false" class="ion-slide-pages has-header" options="mainSlider.options"
@@ -18,7 +7,7 @@
       <!-- Beacon Player Help Page -->
       <ion-slide-page id="slide-beaconplayer">
         <div class="slide">
-          <img class="icon" src="./app/components/help/images/beaconplayer-icon.png"/>
+          <img class="icon" src="./app/components/main-slider/images/beaconplayer-icon.png"/>
 
           <h1>The Beacon Experimenting Tool</h1>
 
@@ -29,7 +18,7 @@
       <!-- Approach Beacon Description -->
       <ion-slide-page id="slide-tour">
         <div class="slide">
-          <img class="icon" src="./app/components/help/images/tour-icon.png"/>
+          <img class="icon" src="./app/components/main-slider/images/tour-icon.png"/>
 
           <h1>Approach a Beacon</h1>
 
@@ -51,7 +40,7 @@
       <!-- Bluetooth scanner -->
       <ion-slide-page id="slide-bluetooth">
         <div class="slide">
-          <img class="icon" src="./app/components/help/images/bluetooth-icon.png"/>
+          <img class="icon" src="./app/components/main-slider/images/bluetooth-icon.png"/>
 
           <h1>Bluetooth 4.0</h1>
 
@@ -62,7 +51,7 @@
       <!-- Manage Beacons Description -->
       <ion-slide-page id="slide-management">
         <div class="slide">
-          <img class="icon" src="./app/components/help/images/management-icon.png"/>
+          <img class="icon" src="./app/components/main-slider/images/management-icon.png"/>
 
           <h1>Easy Beacon Management</h1>
 
@@ -77,7 +66,7 @@
       <!-- Buy Beacons Description -->
       <ion-slide-page id="slide-shop">
         <div class="slide">
-          <img class="icon" src="./app/components/help/images/shop-icon.png"/>
+          <img class="icon" src="./app/components/main-slider/images/shop-icon.png"/>
 
           <h1>Buy more Beacons</h1>
 
@@ -89,6 +78,7 @@
       </ion-slide-page>
 
       <!-- Contribute Description -->
+      <!--
       <ion-slide-page id="slide-contribute">
         <div class="slide">
           <i class="fa fa-github"></i>
@@ -100,7 +90,7 @@
                onclick="window.open('https://github.com/Tokencube/beacon-player/', '_system', 'location=yes'); return false;">https://github.com/Tokencube/</a>
           </p>
         </div>
-      </ion-slide-page>
+      </ion-slide-page> -->
 
     </ion-slides>
 

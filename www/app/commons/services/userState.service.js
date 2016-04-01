@@ -30,11 +30,11 @@
     }
 
     function setFirstVisit(value) {
-      $localStorage.isFirstVisite = value;
+      $localStorage.isFirstVisit = value;
     }
 
     function getFirstVisit() {
-      return $localStorage.isFirstVisite;
+      return ($localStorage.isFirstVisit)?true:false;
     }
 
     function setIsRegistered(value) {
@@ -42,8 +42,7 @@
     }
 
     function getIsRegistered() {
-      console.log('getIsRegistered', $localStorage.isRegistered);
-      return $localStorage.isRegistered;
+      return ($localStorage.isRegistered)?true:false;
     }
 
   }

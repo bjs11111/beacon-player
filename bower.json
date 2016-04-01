@@ -2,7 +2,7 @@
   "name": "HelloIonic",
   "private": "true",
   "devDependencies": {
-    "ionic": "driftyco/ionic-bower#~1.2"
+    "ionic": "driftyco/ionic-bower#^1.2"
   },
   "dependencies": {
     "ng-drupal-7-services": "https://github.com/BioPhoton/ng-drupal-7-services.git",

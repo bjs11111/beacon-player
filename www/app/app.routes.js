@@ -104,6 +104,17 @@
           'access': AuthenticationServiceConstant.accessLevels.user
         }
       })
+
+      .state('app.diagnostic', {
+        url: '/diagnostic',
+        views: {
+          'menuContent': {
+            templateUrl: 'app/components/diagnostic/diagnostic.view.html',
+            controller: 'DiagnosticController as diagnostic'
+          }
+        }
+      })
+
       /*
        //@TODO refactor to controller as
        .state('app.list', {
@@ -115,8 +126,6 @@
        }
        }
        })
-
-
 
        .state('app.map2', {
        url : '/map2',
@@ -137,7 +146,6 @@
        }
 
        })*/
-
 
     ;
 
@@ -244,6 +252,7 @@
         }
       }
 
+
       //redirects for logged in user away from login or register and show its profile instead
       if (toState.name == 'app.login' || toState.name == 'app.register') {
         if (AuthenticationService.getConnectionState()) {
@@ -262,6 +271,7 @@
           $state.go('app.register');
         }
       }
+
     }
 
   }
