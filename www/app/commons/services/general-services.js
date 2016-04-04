@@ -185,7 +185,7 @@ generalServices.factory('generalService', ['$rootScope','$window','$timeout','$f
 			if( qrCodeUrlToBcmsBeaconKey(barcodeData.text) !== false ) {
 				openIAB(barcodeData.text);
 			} else {
-				//@TODO sleanup workaround for bug #66 (https://github.com/Tokencube/beacon-player/issues/66)
+				//@TODO cleanup workaround for bug #66 (https://github.com/Tokencube/beacon-player/issues/66)
 				$timeout(alertWrongUrl, 300)
 			}
 		}

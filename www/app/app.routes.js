@@ -14,7 +14,8 @@
     'bp.profile.controller',
 
     //testing prioloc
-    'bp.diagnostic.controller'
+    'bp.diagnostic.controller',
+    'bp.qr-scanner.controller'
     //'bp.bleDevicesControllers',
     //'bp.analyse.controller',
     //'bp.map2.controller',
@@ -111,6 +112,16 @@
           'menuContent': {
             templateUrl: 'app/components/diagnostic/diagnostic.view.html',
             controller: 'DiagnosticController as diagnostic'
+          }
+        }
+      })
+
+      .state('app.qr-scanner', {
+        url: '/qr-scanner',
+        views: {
+          'menuContent': {
+            templateUrl: 'app/components/qr-scanner/qr-scanner.view.html',
+            controller: 'QRScannerController as qrScanner'
           }
         }
       })

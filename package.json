@@ -42,14 +42,10 @@
     },
     "com.ionic.keyboard",
     "cordova-plugin-geolocation",
-    "cordova.plugins.diagnostic"
+    "cordova.plugins.diagnostic.api-22"
   ],
   "cordovaPlatforms": [
     "ios",
-    {
-      "platform": "android",
-      "version": "5.0.0",
-      "locator": "android@5.0.0"
-    }
+    "android"
   ]
 }
