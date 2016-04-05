@@ -42,7 +42,11 @@
     },
     "com.ionic.keyboard",
     "cordova-plugin-geolocation",
-    "cordova.plugins.diagnostic.api-22"
+    "cordova.plugins.diagnostic.api-22",
+    {
+      "locator": "https://github.com/Telerik-Verified-Plugins/NFC",
+      "id": "com.chariotsolutions.nfc.plugin"
+    }
   ],
   "cordovaPlatforms": [
     "ios",

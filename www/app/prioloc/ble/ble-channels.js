@@ -3,7 +3,7 @@ var bleChannels = angular.module('commons.services.ble.bleChannels', []);
 
 /*Events for the channel*/
 bleChannels.constant( "bleScannerChannelConfig", {
-	_BLE_SCANNER_STATE_UPDATED_ 	: '_BLE_SCANNER_STATE_UPDATED_',
+	  _BLE_SCANNER_STATE_UPDATED_ 	: '_BLE_SCANNER_STATE_UPDATED_',
     _FOUND_BLE_DEVICE_ 				: '_FOUND_BLE_DEVICE_',
     _KNOWN_DEVICES_UPDATED_			: '_KNOWN_DEVICES_UPDATED_',
     _KNOWN_DEVICES_UPDATED_ 		: '_KNOWN_DEVICES_UPDATED_',

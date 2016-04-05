@@ -15,7 +15,9 @@
 
     //testing prioloc
     'bp.diagnostic.controller',
-    'bp.qr-scanner.controller'
+    'bp.qrScanner.controller',
+    'bp.nfcScanner.controller',
+    'bp.bleScanner.controller'
     //'bp.bleDevicesControllers',
     //'bp.analyse.controller',
     //'bp.map2.controller',
@@ -59,7 +61,7 @@
         views: {
           'menuContent': {
             templateUrl: 'app/components/main-slider/main-slider.view.html?',
-            controller: 'MainSliderController as mainSlider',
+            controller: 'MainSliderController as mainSlider'
           }
         },
         data: {
@@ -72,7 +74,7 @@
         views: {
           'menuContent': {
             templateUrl: 'app/components/register/register.view.html',
-            controller: 'RegisterController as register',
+            controller: 'RegisterController as register'
           }
         },
         data: {
@@ -85,7 +87,7 @@
         views: {
           'menuContent': {
             templateUrl: 'app/components/login/login.view.html',
-            controller: 'LoginController as login',
+            controller: 'LoginController as login'
           }
         },
         data: {
@@ -122,6 +124,26 @@
           'menuContent': {
             templateUrl: 'app/components/qr-scanner/qr-scanner.view.html',
             controller: 'QRScannerController as qrScanner'
+          }
+        }
+      })
+
+      .state('app.nfc-scanner', {
+        url: '/nfc-scanner',
+        views: {
+          'menuContent': {
+            templateUrl: 'app/components/nfc-scanner/nfc-scanner.view.html',
+            controller: 'NFCScannerController as nfcScanner'
+          }
+        }
+      })
+
+      .state('app.ble-scanner', {
+        url: '/ble-scanner',
+        views: {
+          'menuContent': {
+            templateUrl: 'app/components/ble-scanner/ble-scanner.view.html',
+            controller: 'BLEScannerController as bleScanner'
           }
         }
       })

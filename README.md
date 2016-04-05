@@ -60,8 +60,7 @@ $ npm install -g ionic cordova bower
   ```
   
   **NOTICE:**
-  I'm not 100% shure for now but i think following:
-  If you do "ionic plugin add [plugin]" it will change you config.xml by adding the plugin references.
+  If you do "ionic plugin add [plugin] --save" it will change you config.xml by adding the plugin references.
   If you do "ionic state restore" it will not. 
   
   Consider this when installing, testing or removing cordova plugins

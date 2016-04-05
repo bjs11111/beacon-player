@@ -82,7 +82,7 @@
     return !!(network.isOffline);
   }
 
-  //Diagnostic plugin
+  //@TODO not working propperly check in test controller
   function isWifiEnabled() {
     console.log('wifi');
     var defered = $q.defer();
