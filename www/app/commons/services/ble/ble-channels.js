@@ -8,7 +8,7 @@ bleChannels.constant( "bleScannerChannelConfig", {
     _KNOWN_DEVICES_UPDATED_			: '_KNOWN_DEVICES_UPDATED_',
     _KNOWN_DEVICES_UPDATED_ 		: '_KNOWN_DEVICES_UPDATED_',
     _DEVICES_TRIGGERED_ 			: '_DEVICES_TRIGGERED_',
-    _BLE_START_SCANN_ERROR_			: '_BLE_START_SCANN_ERROR_',
+    _BLE_START_SCANN_ERROR_			: '_BLE_START_SCANN_ERROR_'
 });
 
 bleChannels.factory('bleScannerChannel', ['$rootScope', 'bleScannerChannelConfig',
