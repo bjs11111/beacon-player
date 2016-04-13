@@ -36,15 +36,11 @@
       "id": "de.appplant.cordova.plugin.local-notification"
     },
     "com.evothings.ble",
-    {
-      "locator": "https://github.com/petermetz/cordova-plugin-ibeacon.git",
-      "id": "com.unarin.cordova.beacon"
-    },
     "com.ionic.keyboard",
-    "cordova-plugin-geolocation"
+    "cordova-plugin-geolocation",
+    "com.unarin.cordova.beacon"
   ],
   "cordovaPlatforms": [
-    "android",
-    "ios"
+    "android"
   ]
 }
