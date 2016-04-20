@@ -67,7 +67,7 @@
                 vm.serverErrors.push("Service not available!");
               }
               //Not Acceptable
-              if (errorResult.status == 406) {
+              else if (errorResult.status == 406) {
                 //errors for specific fields
                 if (angular.isObject(errorResult.data) && 'form_errors' in errorResult.data) {
                   if (errorResult.data.form_errors.name) {
@@ -84,9 +84,11 @@
               }
               //400 - 500 default message
               else {
-                vm.serverErrors.push(errorResult.statusText);
+                vm.serverErrors.push(errorResult.data[0]);
               }
+
             }
+
           }
         )
           .finally(function () {

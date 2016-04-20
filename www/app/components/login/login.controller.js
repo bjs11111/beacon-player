@@ -14,13 +14,10 @@
 
     vm.serverErrors = [];
 
-    //data for vm.loginForm
     vm.loginData = {
       username: '',
       password: ''
     };
-
-
     vm.loginIsPending = false;
 
     vm.doLogin = doLogin;
@@ -41,29 +38,30 @@
         AuthenticationService.login(vm.loginData)
           .then(
           function (data) {
-            vm.loginIsPending = false;
             GlueService.resetForm(vm.loginForm);
             vm.serverErrors = [];
             GlueService.goToState('app.profile');
           },
           //error
           function (errorResult) {
-            vm.loginIsPending = false;
-            console.log(errorResult);
 
             if (errorResult.status >= 400 && errorResult.status < 500) {
+              vm.serverErrors.push(errorResult.data[0]);
+            }
+            else {
               vm.serverErrors.push(errorResult.statusText);
             }
 
-            //vm.loginForm.username.$setValidity('inactive-or-blocked', false);
           }
-        );
+        ).finally(function () {
+            vm.loginIsPending = false;
+          });
 
       }
 
-    };
+    }
 
-  };
+  }
 
 
 })();

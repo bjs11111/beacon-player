@@ -11,7 +11,7 @@ Features:
   - email email-taken
   - pass required
 - register request
-  !- 401 => Unauthorized (is this even possible?)
+  - 401 => Unauthorized (is this even possible?)
   - 404 => Not found : Could not find the controlle (custom message "Service not available")
   - 406 => Not Acceptable : 406 Not Acceptable
     - name-taken => The name test_registration_valid is already taken.
