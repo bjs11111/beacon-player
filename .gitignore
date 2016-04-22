@@ -5,9 +5,7 @@
 /.settings
 /.tern-project
 /npm-debug.log
-/platforms/
-/plugins/
+
+
 /log/
-/node_modules/
-/resources/android/
-/resources/ios/
+
