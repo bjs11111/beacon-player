@@ -1,23 +1,35 @@
-<ion-view title="Qr Scanner" id="qr-scanner-view">
+<ion-view title="NFC Scanner" id="nfc-scanner-view">
 
   <ion-content>
     <ion-list>
 
+      <ion-item class="item-devider">
+        NFC Scanner:
+        </ion-item>
+      <ion-item class="item-button-right">
+         Listening: <b>{{nfcScanner.isListening?'Yes':'No'}}</b>
+      </ion-item>
+      <div class="button-bar bar-stable ">
+        <button class="button button-positive icon ion-play"
+                ng-click="nfcScanner.startListening()"></i>
+        </button>
+        <button class="button button-positive icon ion-stop"
+                ng-click="nfcScanner.stopListening()"></i>
+        </button>
+      </div>
 
       <ion-item class="item-button-right">
-        QR Scanner: <b>{{qrScanner.isOpen?'Open':'Closed'}}</b>
-        <button class="button button-positive icon ion-gear-a" ng-click="qrScanner.scanCode()"></i></button>
+        Enabled: <b>{{nfcScanner.isEnabled?'Yes':'No'}}</b>
+        <button class="button button-positive icon ion-help-circled"
+                ng-click="nfcScanner.checkIsEnabled()"></i>
+        </button>
       </ion-item>
 
       <ion-item class="item-body">
-      {{qrScanner.code}}
+      {{nfcScanner.code}}
       </ion-item>
 
-
-
     </ion-list>
-
-
   </ion-content>
 
 </ion-view>

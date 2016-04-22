@@ -39,6 +39,8 @@
       getIsOffline: getIsOffline,
       //diagnostic
       switchToSettings : diagnosticPlugin.switchToSettings,
+      requestLocationAuthorization: diagnosticPlugin.requestLocationAuthorization,
+      getLocationAuthorizationStatus : diagnosticPlugin.getLocationAuthorizationStatus,
       isLocationEnabled: isLocationEnabled,
       switchToLocationSettings: diagnosticPlugin.switchToLocationSettings,
       isBluetoothEnabled: isBluetoothEnabled,
@@ -62,6 +64,10 @@
     watchCameraState();
     watchWifiState();
   }
+
+
+
+
 
   //Network-Information plugin
   function watchOfflineState() {

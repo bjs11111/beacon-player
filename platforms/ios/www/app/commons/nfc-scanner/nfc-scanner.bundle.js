@@ -2,11 +2,11 @@
     'use strict';
 
 	angular
-	    .module('commons.qr-scanner', [
-              'commons.qr-scannerChannel.constant',
-              'commons.qr-scanner.channel',
-              'commons.qr-scanner.service',
-              'commons.qr-scanner.iconButton.directive'
+	    .module('commons.nfcScanner', [
+              'commons.nfcScannerChannel.constant',
+              'commons.nfcScanner.channel',
+              'commons.nfcScannerService.constant',
+              'commons.nfcScanner.service'
       ]);
 
 })();

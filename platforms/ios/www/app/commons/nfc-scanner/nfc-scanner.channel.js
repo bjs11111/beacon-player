@@ -1,30 +1,29 @@
-;
-(function () {
+;(function () {
   'use strict';
 
-  angular.module('commons.qrScanner.channel', ['commons.qrScannerChannel.constant', 'commons.baseChannel'])
-    .factory('QRScannerChannel', QRScannerChannel);
+  angular.module('commons.nfcScanner.channel', ['commons.nfcScannerChannel.constant', 'commons.baseChannel'])
+    .factory('NFCScannerChannel', NFCScannerChannel);
 
-  QRScannerChannel.$inject = ['BaseChannel', 'QRScannerChannelConstant'];
-  function QRScannerChannel(BaseChannel, QRScannerChannelConstant) {
+  NFCScannerChannel.$inject = ['BaseChannel', 'NFCScannerChannelConstant'];
+  function NFCScannerChannel(BaseChannel, NFCScannerChannelConstant) {
 
     //setup and return service
     var diagnosticChannel = {
-      pubIsOpenChanged: pubIsOpenChanged,
-      subIsOpenChanged: subIsOpenChanged
+      pubIsListeningChanged: pubIsListeningChanged,
+      subIsListeningChanged: subIsListeningChanged
     };
 
     return diagnosticChannel;
 
     ////////////
 
-    function pubIsOpenChanged(isOpen) {
-      BaseChannel.pubRootEmit(QRScannerChannelConstant.isOpenChanged, {isOpen: isOpen});
+    function pubIsListeningChanged(isListening) {
+      BaseChannel.pubRootEmit(NFCScannerChannelConstant.isListeningChanged, {isListening: isListening});
     }
 
-    function subIsOpenChanged($scope, scopeHandler) {
-      BaseChannel.subRootEmit(QRScannerChannelConstant.isOpenChanged, $scope, scopeHandler, function (args) {
-        return args.isOpen;
+    function subIsListeningChanged($scope, scopeHandler) {
+      BaseChannel.subRootEmit(NFCScannerChannelConstant.isListeningChanged, $scope, scopeHandler, function (args) {
+        return args.isListening;
       });
     }
   }

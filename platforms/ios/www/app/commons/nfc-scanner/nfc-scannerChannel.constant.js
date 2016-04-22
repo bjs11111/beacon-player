@@ -2,12 +2,12 @@
   'use strict';
 
 
-  var QRScannerChannelConstant = {
-    isOpen: 'isOpen'
+  var NFCScannerChannelConstant = {
+    isListening: 'isListening'
   };
 
   angular
-    .module('commons.qrScannerChannel.constant', [])
-    .constant("QRScannerChannelConstant", QRScannerChannelConstant);
+    .module('commons.nfcScannerChannel.constant', [])
+    .constant("NFCScannerChannelConstant", NFCScannerChannelConstant);
 
 })();
