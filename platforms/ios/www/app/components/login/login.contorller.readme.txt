@@ -1,0 +1,17 @@
+Access:
+?- accessable only as anonymous user
+
+Features:
+- go to login page
+- form validation
+  - user required
+  - pass required
+- login request
+  - 401 => Unauthorized : Wrong username or password.
+  ?- 404 => Not found : Could not find the controlle (custom message here)
+  - 406 => Not Acceptable : Already logged in as admin.
+  - 403 => The username blocked_user has not been activated or is blocked.
+
+edge-cases:
+  - login when logged in
+

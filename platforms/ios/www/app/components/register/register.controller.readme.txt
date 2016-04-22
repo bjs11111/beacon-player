@@ -1,0 +1,29 @@
+Access:
+- accessable only as anonymous user
+
+Features:
+- go to register page
+- form validation
+  - user required
+  - user user-taken
+  - email required
+  - email valid email
+  - email email-taken
+  - pass required
+- register request
+  !- 401 => Unauthorized (is this even possible?)
+  - 404 => Not found : Could not find the controlle (custom message "Service not available")
+  - 406 => Not Acceptable : 406 Not Acceptable
+    - name-taken => The name test_registration_valid is already taken.
+    - email-taken => The e-mail address test_registration_valid@test.at is already registered. Have you forgotten your password?.
+  - 403 => Forbidden
+    - The username test_registration_valid has not been activated or is blocked.
+    - Access denied for user test (try register as logged in authed user)
+    x- redirect to Login and show error there
+
+edge-cases:
+- (For now disabled in backend) disable captcha on services request => https://www.drupal.org/node/2174269#comment-8490143
+- register when logged in as
+ - admin => creates the user as activated, throws 403
+ - authed user => dont creates user, throws 403
+

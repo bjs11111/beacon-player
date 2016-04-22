@@ -1,0 +1,90 @@
+#main-slider-view {
+
+  h1, h2, h3, h4, h5, h6,
+  .h1, .h2, .h3, .h4, .h5, .h6,
+  a {
+    color: #FF3E15;
+  }
+
+  p, i {
+    color: #002B4B;
+  }
+
+  h1, .h1 {
+    font-size: 28px;
+  }
+
+  p {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .skip {
+    position:absolute; right: 15px; bottom:90px; z-index:30000;  background-color: #FF3E15; color:white; border-color:#FF3E15;
+  }
+
+  .ion-slide-pages {
+    bottom: 0px;
+    position: absolute;
+
+    .swiper-slide {
+      padding-top: 60px;
+      text-align: center;
+      background: #eee;
+      height: 100%;
+      width: 100%;
+
+      &.bg-img {
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+      }
+
+      &#slide-beaconplayer {
+        /*background: url("../app/components/main-slider/images/beaconplayer-bg.jpg") no-repeat center center fixed; */
+      }
+
+      &#slide-bluetooth {
+        /*background: url("../app/components/main-slider/images/bluetooth-bg.jpg") no-repeat center center fixed; */
+      }
+
+      &#slide-qrscanner {
+        /*background: url("../app/components/main-slider/images/qrscanner-bg.jpg") no-repeat center center fixed; */
+      }
+
+      &#slide-tour {
+        /*background: url("../app/components/main-slider/images/tour-bg.jpg") no-repeat center center fixed; */
+      }
+
+      &#slide-management {
+        /*background: url("../app/components/main-slider/images/management-bg.jpg") no-repeat center center fixed; */
+      }
+
+      &#slide-shop {
+        /*background: url("../app/components/main-slider/images/shop-bg.jpg") no-repeat center center fixed; */
+      }
+
+      &#slide-contribute {
+        /*background: url("../app/components/main-slider/images/contribute-bg.jpg") no-repeat center center fixed; */
+      }
+
+      .icon {
+        width: 120px;
+      }
+
+      .fa,
+      .ion-radio-waves {
+        font-size: 9em;
+      }
+
+    }
+
+    .swiper-pagination {
+      position: absolute;
+      bottom: 90px;
+    }
+
+  }
+}
+

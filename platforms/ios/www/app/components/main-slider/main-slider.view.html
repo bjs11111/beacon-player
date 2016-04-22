@@ -1,0 +1,101 @@
+<ion-view id="main-slider-view" title="Tour Slides">
+
+  <ion-pane>
+
+    <ion-slides drag-content="false" class="ion-slide-pages has-header" options="mainSlider.options"
+                slider="mainSlider.data.slider">
+      <!-- Beacon Player Help Page -->
+      <ion-slide-page id="slide-beaconplayer">
+        <div class="slide">
+          <img class="icon" src="./app/components/main-slider/images/beaconplayer-icon.png"/>
+
+          <h1>The Beacon Experimenting Tool</h1>
+
+          <p>BeaconPlayer is a free Open Source Platform and App for experimenting with Beacons.</p>
+        </div>
+      </ion-slide-page>
+
+      <!-- Approach Beacon Description -->
+      <ion-slide-page id="slide-tour">
+        <div class="slide">
+          <img class="icon" src="./app/components/main-slider/images/tour-icon.png"/>
+
+          <h1>Approach a Beacon</h1>
+
+          <p>and the app will display related media content from the BeaconPlayer Platform</p>
+        </div>
+      </ion-slide-page>
+
+      <!-- QR Code Reader -->
+      <ion-slide-page id="slide-qrscanner">
+        <div class="slide">
+          <i class="fa fa-qrcode"></i>
+
+          <h1>QR Code Reader</h1>
+
+          <p>Manage your QR Codes the same way as you manage your Beacons.</p>
+        </div>
+      </ion-slide-page>
+
+      <!-- Bluetooth scanner -->
+      <ion-slide-page id="slide-bluetooth">
+        <div class="slide">
+          <img class="icon" src="./app/components/main-slider/images/bluetooth-icon.png"/>
+
+          <h1>Bluetooth 4.0</h1>
+
+          <p>Turn on Bluetooth in the system settings and restart the app.</p>
+        </div>
+      </ion-slide-page>
+
+      <!-- Manage Beacons Description -->
+      <ion-slide-page id="slide-management">
+        <div class="slide">
+          <img class="icon" src="./app/components/main-slider/images/management-icon.png"/>
+
+          <h1>Easy Beacon Management</h1>
+
+          <p>Visit the BeaconPlayer Platform, create a free account and register your beacons.</p>
+
+          <p><a href="#"
+                onclick="window.open('http://www.beacon-player.com', '_system', 'location=yes'); return false;">www.beacon-player.com</a>
+          </p>
+        </div>
+      </ion-slide-page>
+
+      <!-- Buy Beacons Description -->
+      <ion-slide-page id="slide-shop">
+        <div class="slide">
+          <img class="icon" src="./app/components/main-slider/images/shop-icon.png"/>
+
+          <h1>Buy more Beacons</h1>
+
+          <p>Please visit our online store:
+            <a href="#"
+               onclick="window.open('http://www.tokencube.com/shop.html', '_system', 'location=yes'); return false;">www.tokencube.com/shop</a>
+          </p>
+        </div>
+      </ion-slide-page>
+
+      <!-- Contribute Description -->
+      <!--
+      <ion-slide-page id="slide-contribute">
+        <div class="slide">
+          <i class="fa fa-github"></i>
+
+          <h1>Contribute</h1>
+
+          <p>Please contribute on Github! Drop us a note if you have new ideas or discoverd a bug.<br/>
+            <a href="#"
+               onclick="window.open('https://github.com/Tokencube/beacon-player/', '_system', 'location=yes'); return false;">https://github.com/Tokencube/</a>
+          </p>
+        </div>
+      </ion-slide-page> -->
+
+    </ion-slides>
+
+    <a class="skip button icon-right ion-chevron-right button-calm" ng-click="mainSlider.skipSlider()">Skip</a>
+
+  </ion-pane>
+
+</ion-view>

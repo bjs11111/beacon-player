@@ -1,0 +1,47 @@
+<div id="analyse-config-form"  >
+
+	<form name="cfd.analyseForm" novalidate>
+
+
+		<div  class="list card">
+
+			<div class="item item-input-inset" ng-show="!cfd.isTitle">
+	          	<label class="item-input-wrapper" ng-class="{ 'has-error' : analyseForm.title.$invalid && analyseForm.$submitted, 'valid' : analyseForm.title.$valid && analyseForm.$submitted}">
+		           	<input class="text-center" style="width:100%" type="text" placeholder="Name of Analyse" name="title" ng-model="cfd.title" autocorrect="off" autocapitalize="off" spellcheck="false" required>
+	          	</label>
+	            <button class="button button-clean button outlined button-small button-spinner button-icon" ng-click="cfd.saveTitle(cfd.analyseForm, cfd.title)">
+                <ion-spinner ng-if="cfd.isCreatingNode"></ion-spinner>
+                <i ng-if="!cfd.isCreatingNode" class="icon ion-clipboard"></i>
+              </button>
+			    <div class="form-errors" ng-show="analyseForm.title.$invalid && analyseForm.$submitted" ng-messages="analyseForm.title.$error">
+					<div class="form-error" ng-message="required">This field is required.</div>
+				</div>
+
+				<div class="form-errors" ng-show="analyseForm.$submitted">
+					<div class="form-error" ng-bind-html="error"
+						ng-repeat="error in loginServerErrors"></div>
+				</div>
+		    </div>
+
+			<div scann-logger-save-progress></div>
+
+      <div class="item item-xs text-center"  ng-show="cfd.isTitle">
+        <h2 style="">{{cfd.title}}</h2>
+      </div>
+
+
+			<div  class="item item-icon-right item-spinner-right" ng-show="cfd.isTitle">
+        <ion-spinner ng-if="cfd.isUploading"></ion-spinner>
+        <i ng-if="!cfd.isUploading" class="icon positive" ng-class="cfd.mainBtnIcon" ng-click="cfd.mainButtonPress()"></i>
+				<p class="text-center">{{cfd.packagesCount}}/{{cfd.packagesCount*327 | byteFmt: 2 }}</p>
+			</div>
+
+
+
+		</div>
+	</form>
+
+
+
+
+</div>

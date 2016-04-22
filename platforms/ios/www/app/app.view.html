@@ -1,0 +1,43 @@
+<ion-side-menus enable-menu-with-back-views="true">
+  <ion-side-menu-content>
+
+    <ion-nav-bar class="bar-dark">
+     <ion-nav-buttons side="left">
+       <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+  		</ion-nav-buttons>
+    </ion-nav-bar>
+
+    <offline-bar content="Offline Mode">??</offline-bar>
+
+    <ion-nav-view class="test" name="menuContent"></ion-nav-view>
+
+  </ion-side-menu-content>
+
+  <ion-side-menu side="left" drag-content="false">
+
+    <ion-header-bar class="bar-dark">
+      <h1 class="title">Menu</h1>
+    </ion-header-bar>
+
+    <ion-content class="" drag-content="true">
+
+      <ion-list class="list base-menu">
+
+	      <ion-item toggle-by-accesslevel="{{app.accessLevels.anon}}" 	nav-clear menu-close 	ui-sref="app.login">Login</ion-item>
+	  	  <ion-item toggle-by-accesslevel="{{app.accessLevels.user}}" 	nav-clear menu-close 	ui-sref="app.profile">Profile</ion-item>
+        <ion-item 	                                                  nav-clear menu-close 	ui-sref="app.main-slider">Info</ion-item>
+	      <ion-item toggle-by-accesslevel="{{app.accessLevels.user}}" 	nav-clear  				ng-click="app.doLogout()" class="item-spinner-right" >
+			    Logout
+	      	<ion-spinner ng-if="app.loggingOut"></ion-spinner>
+	      </ion-item>
+        <ion-item nav-clear menu-close	ui-sref="app.diagnostic" >Diagnostic</ion-item>
+        <ion-item nav-clear menu-close	ui-sref="app.qr-scanner" >QR-Scanner</ion-item>
+	      <!--<ion-item														nav-clear menu-close	ui-sref="app.list" >List</ion-item>
+        <ion-item														nav-clear menu-close	ui-sref="app.map2" >Gps check</ion-item>
+	      <ion-item toggle-by-accesslevel="{{app.accessLevels.user}}"	nav-clear menu-close 	ui-sref="app.analyse">Analyse</ion-item>-->
+		</ion-list>
+
+    </ion-content>
+
+  </ion-side-menu>
+</ion-side-menus>

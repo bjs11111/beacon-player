@@ -1,0 +1,31 @@
+ /*network connection state
+===========================================================================*/
+.bar.bar-offline {
+  display: block;
+  height: 29px;
+  line-height: 18px;
+  bottom: 0px;
+  text-transform: uppercase;
+  font-size:16px;
+  text-align: center;
+  padding : 6px;
+  -webkit-transition: 200ms all;
+}
+
+//make loading bar slide up/down
+.bar-offline.ng-enter,
+.bar-offline.ng-leave.ng-leave-active {
+  height: 0;
+  border-width: 0px;
+}
+
+.bar-offline.ng-enter.ng-enter-active,
+.bar-offline.ng-leave {
+  height: 24px;
+  border-width: 1px;
+}
+
+/*ionc setensions*/
+.has-bar-offline .scroll  {
+	padding-bottom:18px;
+}

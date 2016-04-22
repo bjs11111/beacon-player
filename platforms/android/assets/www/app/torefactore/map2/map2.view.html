@@ -1,0 +1,23 @@
+<ion-view class="map2-view" title="Gps check">
+  <ion-nav-buttons side="left">
+       <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+  </ion-nav-buttons>
+  <ion-content id="map-container">
+
+      <ng-map class="full-screen" center="{{map2.center}}"  >
+
+        <marker ng-repeat="p in map2.markers track by $index" position="{{p.pos}}"></marker>
+
+        <shape
+          name="polyline"
+          path="{{map2.paths.actualPath}}"
+          geodesic="true"
+          stroke-color="#FF0000"
+          stroke-opacity="1.0"
+          stroke-weight="2">
+        </shape>
+
+      </ng-map>
+
+  </ion-content>
+</ion-view>

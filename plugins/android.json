@@ -1,0 +1,54 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "com.ionic.keyboard": {
+            "PACKAGE_NAME": "com.starnberger.beaconplayer"
+        },
+        "com.unarin.cordova.beacon": {
+            "PACKAGE_NAME": "com.starnberger.beaconplayer"
+        },
+        "cordova-plugin-ble": {
+            "PACKAGE_NAME": "com.starnberger.beaconplayer"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.starnberger.beaconplayer"
+        },
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "com.starnberger.beaconplayer"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.starnberger.beaconplayer"
+        },
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "com.starnberger.beaconplayer"
+        },
+        "cordova-plugin-registerusernotificationsettings": {
+            "PACKAGE_NAME": "com.starnberger.beaconplayer"
+        },
+        "cordova-plugin-vibration": {
+            "PACKAGE_NAME": "com.starnberger.beaconplayer"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.starnberger.beaconplayer"
+        },
+        "de.appplant.cordova.plugin.local-notification": {
+            "PACKAGE_NAME": "com.starnberger.beaconplayer"
+        },
+        "phonegap-plugin-barcodescanner": {
+            "PACKAGE_NAME": "com.starnberger.beaconplayer"
+        },
+        "cordova.plugins.diagnostic.api-22": {
+            "PACKAGE_NAME": "com.starnberger.beaconplayer"
+        },
+        "com.chariotsolutions.nfc.plugin": {
+            "PACKAGE_NAME": "com.starnberger.beaconplayer"
+        }
+    },
+    "dependent_plugins": {}
+}

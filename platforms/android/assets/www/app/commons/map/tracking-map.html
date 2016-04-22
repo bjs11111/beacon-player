@@ -1,0 +1,25 @@
+<ng-map id="gmap" class="full-screen"
+        center="{{center}}"
+        zoom="zoom"
+        pan-control="true"
+        pan-control-options="{position:'TOP_RIGHT'}"
+        map-type-control="true"
+        map-type-control-options="{style:'HORIZONTAL_BAR', position:'BOTTOM_CENTER'}"
+        zoom-control="true"
+        zoom-control-options="{style:'LARGE', position:'LEFT_CENTER'}"
+        scale-control="true"
+        street-view-control="false"
+        street-view-control-options="{position:'LEFT_TOP'}">
+
+  <marker ng-repeat="p in markers track by $index" position="{{p.pos}}"></marker>
+
+  <shape
+    name="polyline"
+    path="{{paths.actualPath}}"
+    geodesic="true"
+    stroke-color="#FF0000"
+    stroke-opacity="1.0"
+    stroke-weight="2">
+  </shape>
+
+</ng-map>

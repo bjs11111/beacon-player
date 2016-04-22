@@ -1,0 +1,9 @@
+Access:
+- always => default on first visite
+
+Features:
+ - set first visit to true on init
+ - skip button to go to register/login or profile depending on user state
+
+edge-cases:
+

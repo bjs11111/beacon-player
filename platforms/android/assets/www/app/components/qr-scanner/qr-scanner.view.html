@@ -1,0 +1,24 @@
+<ion-view title="Qr Scanner" id="qr-scanner-view">
+
+  <ion-nav-buttons side="right">
+    <qr-button success-callback="qrScanner.successCallback" error-callback="qrScanner.errorCallback"></qr-button>
+  </ion-nav-buttons>
+
+  <ion-content>
+    <ion-list>
+
+      <ion-item class="item-button-right">
+        QR Scanner: <b>{{qrScanner.isOpen?'Open':'Closed'}}</b>
+        <button class="button button-positive icon ion-gear-a" ng-click="qrScanner.scanCode()"></i></button>
+      </ion-item>
+
+      <ion-item class="item-body">
+        Scanned Code:<br>
+        <pre>{{qrScanner.code | json}}</pre>
+      </ion-item>
+
+    </ion-list>
+
+  </ion-content>
+
+</ion-view>

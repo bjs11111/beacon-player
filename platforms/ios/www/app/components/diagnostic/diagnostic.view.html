@@ -1,0 +1,38 @@
+<ion-view title="Diagnostic" id="diagnostic-view">
+
+  <ion-content>
+    <ion-list>
+      <ion-item class="item">
+        Network Connection: <b>{{diagnostic.isOfflineState?'Offline':'Online'}}</b>
+      </ion-item>
+
+      <ion-item class="item-button-right">
+        Location: <b>{{diagnostic.isLocationEnabled?'Enabled':'Disabled'}}</b>
+        <button class="button button-positive icon ion-gear-a" ng-click="diagnostic.openLocationSettings()"></i></button>
+      </ion-item>
+
+      <ion-item class="item-button-right">
+        Bluetooth: <b>{{diagnostic.isBluetoothEnabled?'Enabled':'Disabled'}}</b>
+        <button class="button button-positive icon ion-gear-a" ng-click="diagnostic.openBluetoothSettings()"></i></button>
+      </ion-item>
+
+      <ion-item class="item-button-right">
+        Wifi: <b>{{diagnostic.isWifiEnabled==true?'Enabled':diagnostic.isWifiEnabled==false?'Disabled':'No permissions'}}</b>
+        <button class="button button-positive icon ion-gear-a" ng-click="diagnostic.openWifiSettings()"></i></button>
+      </ion-item>
+
+      <ion-item>
+        Camera: <b>{{diagnostic.isCameraEnabled?'Enabled':'Disabled'}}</b>
+      </ion-item>
+
+      <ion-item class="item-button-right">
+        MobileData:
+        <button class="button button-positive icon ion-gear-a" ng-click="diagnostic.openMobileDataSettings()"></button>
+      </ion-item>
+
+    </ion-list>
+
+
+  </ion-content>
+
+</ion-view>

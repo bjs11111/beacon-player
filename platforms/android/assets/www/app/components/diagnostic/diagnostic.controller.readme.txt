@@ -1,0 +1,11 @@
+Access:
+?- always => DiagnosticService tests
+
+Features:
+?- ble
+?- gps
+?- offline
+?- device
+?-
+
+
